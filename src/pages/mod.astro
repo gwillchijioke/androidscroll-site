@@ -60,7 +60,7 @@ for (const p of POSTS) postMap[p.id] = { u: p.url, t: p.title };
         <div class="mod-act-row">
           <button class="btn-deep" type="submit">Unlock</button>
         </div>
-        <p class="mod-meta" id="mod-lock-ver">desk v0.6.58</p>
+        <p class="mod-meta" id="mod-lock-ver">desk v0.6.59</p>
       </form>
 
       <p id="mod-toast" class="mod-toast" role="status" aria-live="polite"></p>
@@ -246,6 +246,11 @@ html[data-theme=dark] .mod-scoped .mod-seg button.is-on{background:var(--band-2)
 .mod-scoped .mod-item-head>*{min-width:0}
 .mod-scoped .mod-rec-name{font-family:var(--display);font-weight:800;font-size:16px;letter-spacing:-.01em;color:var(--ink);overflow-wrap:anywhere}
 .mod-scoped .mod-item>p.mod-meta{white-space:normal;overflow-wrap:anywhere}
+/* v0.6.59 (King: drill-down log lines still bleeding): the tapped-open log lives
+   one level deeper (.mod-item > div > p), where the child selector above cannot
+   reach — cage ALL funnel lines in the card, plus long target URLs in links. */
+.mod-scoped .mod-item p.mod-meta{white-space:normal;overflow-wrap:anywhere}
+.mod-scoped .mod-item .mod-meta a{overflow-wrap:anywhere;word-break:break-all}
 .mod-scoped .mod-name{font-family:var(--display);font-weight:800;font-size:16px;letter-spacing:-.01em;color:var(--ink)}
 .mod-scoped .mod-meta{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
 .mod-scoped .mod-meta a{color:var(--deep)}

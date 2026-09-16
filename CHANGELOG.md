@@ -1,3 +1,4 @@
+## v0.6.59 — 2026-09-16 — cage drill-down log lines + target URLs (King 2nd bleed shot): descendant selector reaches .mod-item div p; links break-all.
 ## v0.6.58 — 2026-09-16 — cage campaign text inside cards (King phone bleed): flex children min-width:0, title wrap, funnel line wraps.
 ## v0.6.57 — 2026-09-16 — flock geography INTEL-LEG1: worker v1.3.2 stamps country/region/city/timezone from request.cf at every (re)subscribe; /stats byCountry/byCity; deck Land/Town rows. Cage PASS (NG/Lagos). Report /tmp/bell-intel/INTEL-REPORT.md.
 ## v0.6.56 — 2026-09-16 — PUSH-tab lockout (King, the true catch): loadPush() was the only loader that never called setLocked(false) — unlocking while on PUSH (the King's home tab) fetched the deck fine but never lifted the lock form. One line; lock stamp v0.6.56.
