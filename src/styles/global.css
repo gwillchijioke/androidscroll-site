@@ -1026,11 +1026,13 @@ html[data-theme=dark] .as-install:hover{background:var(--band)}
 html[data-theme=dark] .as-install-note{background:var(--band-2);border-color:var(--line-2)}
 /* P17b push panel (bottom-sheet family, same skin as .as-pwa-card; monochrome, no new palette) */
 .as-push-card{position:relative;display:flex;flex-direction:column;gap:6px;background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:14px 16px;max-width:46ch;margin:10px 0 0;box-shadow:0 8px 28px rgba(0,0,0,.14)}
-.as-push-kicker{font-size:11px;letter-spacing:.14em;color:var(--muted);margin:0}
-.as-push-title{font-size:16px;font-weight:800;margin:0;color:var(--ink)}
-.as-push-copy{font-size:13px;line-height:1.6;margin:0;color:var(--ink-2)}
-/* P17b v0.6.43: the browser's own failure words, so a snag names itself. */
-.as-push-err{font-size:11px;line-height:1.55;margin:0;color:var(--muted);overflow-wrap:anywhere}
+/* P17b v0.6.48: the card lives inside .foot-brand, whose `p` rule (0,1,1)
+   beats bare panel text (0,1,0) — pale band-ink on the white card in light
+   theme. Re-pin under the card's own scope (0,2,0). */
+.as-push-card .as-push-kicker{font-size:11px;letter-spacing:.14em;color:var(--muted);margin:0}
+.as-push-card .as-push-title{font-size:16px;font-weight:800;margin:0;color:var(--ink)}
+.as-push-card .as-push-copy{font-size:13px;line-height:1.6;margin:0;color:var(--ink-2)}
+.as-push-card .as-push-err{font-size:11px;line-height:1.55;margin:0;color:var(--muted);overflow-wrap:anywhere}
 /* P17b v0.6.47: the working state — teal ring, rests when motion is unwelcome. */
 .as-push-acts .as-push-on:disabled{opacity:.75;cursor:wait}
 .as-push-spin{display:inline-block;width:12px;height:12px;margin-right:8px;border:2px solid currentColor;border-top-color:transparent;border-radius:50%;vertical-align:-2px;animation:as-spin .7s linear infinite}
