@@ -8,12 +8,12 @@
  *      never stacks on an open overlay — yields while the page is scroll-locked).
  *   3. Footer buttons: [data-install-app] native prompt; [data-install-ios] dashed
  *      inline Share-sheet guide (Apple exposes no install API). appinstalled hides all.
- * 0.6.44-c064006 is replaced at prebuild (scripts/stamp-pwa.mjs).
+ * 0.6.45-49da772 is replaced at prebuild (scripts/stamp-pwa.mjs).
  */
 (function () {
   'use strict';
 
-  var BUILD_ID = '0.6.44-c064006';
+  var BUILD_ID = '0.6.45-49da772';
   var KEY = '***';
   var DISMISS_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 
@@ -233,11 +233,11 @@
   var pushBusy = false;
   var pushTopics = ['posts'];
   var pushLastError = ''; // browser's own failure words, shown in the error panel
-  function pushNoteError(e) {
+  function pushNoteError(e, step) {
     try {
-      pushLastError = e ? ((e.name ? e.name + ': ' : '') + (e.message || 'no details')) : 'unknown failure';
+      pushLastError = (step ? step + ' — ' : '') + (e ? ((e.name ? e.name + ': ' : '') + (e.message || 'no details')) : 'unknown failure');
     } catch (_) { pushLastError = 'unknown failure'; }
-    try { console.warn('[push] failure', e); } catch (_) {}
+    try { console.warn('[push] failure' + (step ? ' @' + step : ''), e); } catch (_) {}
   }
   function escHtml(s) {
     return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -420,13 +420,31 @@
     }
     chain.then(function () {
       if (Notification.permission === 'denied') { pushState = PUSH_BLOCKED; renderPushPanel(); return; }
-      return pushReg().then(function (reg) {
+      // v0.6.45: reach the bell server FIRST — a dead route (VPN/ad-blocker/carrier)
+      // then names itself instead of masquerading as a subscribe failure.
+      return fetch(PUSH_BASE + '/health', { method: 'GET' }).then(function (r) {
+        if (!r.ok) throw new Error('bell server answered ' + r.status);
+        return pushReg();
+      }, function (e) {
+        throw new Error('bell server unreachable — connection, VPN, or ad-blocker may be stopping your phone from reaching it (' + (e && e.message ? e.message : 'no details') + ')');
+      }).then(function (reg) {
         return reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: urlBase64ToBytes(VAPID_KEY) });
-      }).then(function (sub) {
-        return pushPost('/subscribe', subJson(sub, pushTopics));
-      }).then(function () {
-        pushState = PUSH_SUB;
+      }, function (e) {
+        if (e && e.message && e.message.indexOf('bell server') === 0) throw e;
+        pushNoteError(e, 'asking Google for a bell (subscribe)');
+        pushState = PUSH_ERR;
         renderPushPanel();
+        return null;
+      }).then(function (sub) {
+        if (!sub) return null; // subscribe leg already reported
+        return pushPost('/subscribe', subJson(sub, pushTopics)).then(function () { return true; }, function (e) {
+          pushNoteError(e, 'telling the bell server (save)');
+          pushState = PUSH_ERR;
+          renderPushPanel();
+          return null;
+        });
+      }).then(function (ok) {
+        if (ok) { pushState = PUSH_SUB; renderPushPanel(); }
       });
     }).catch(function (e) {
       pushNoteError(e);
