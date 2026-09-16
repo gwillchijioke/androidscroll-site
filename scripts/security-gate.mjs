@@ -3,6 +3,7 @@
 // Fails loudly: pipeline compromise must break the build, not ship.
 // Backslash-free by design: string ops only, no regex literals.
 import { readdirSync, statSync, readFileSync, existsSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -91,9 +92,23 @@ else {
 // M5: self-hosted author photo ships with the build
 if (!existsSync(join(DIST, 'img', 'author.png'))) note('M5 dist img/author.png missing');
 
+// P28 (audit-02 fix-order-1): structural invariant — this gate only walks
+// dist/, so any *.html tracked OUTSIDE the publish dirs (dist/ built output +
+// public/ build-time assets) would be shipped by a root-based publish path
+// with the gate green. Zero tolerance: the gate must have run on everything
+// that gets published. Asserted against `git ls-files` (the index, not the
+// worktree) so a stale file cannot hide by being deleted but still tracked.
+const tracked = execFileSync('git', ['ls-files', '-z'], { cwd: ROOT, encoding: 'utf8' })
+  .split('\0').filter(Boolean);
+for (const p of tracked) {
+  if (p.slice(-5) !== '.html') continue;
+  if (p.slice(0, 5) === 'dist/' || p.slice(0, 7) === 'public/') continue;
+  note('P28 html tracked outside dist//public: ' + p);
+}
+
 if (bad.length) {
   console.error('security-gate: FAIL ' + bad.length);
   for (const b of bad) console.error(' - ' + b);
   process.exit(1);
 }
-console.log('security-gate: OK (' + htmlFiles.length + ' html, manifest, embeds, csp)');
+console.log('security-gate: OK (' + htmlFiles.length + ' html, manifest, embeds, csp, no stray root html)');

@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.6.35] — 2026-09-16
+### Removed — P28 the stale second copy of the site (audit-02 fix-order-1)
+- The repo root still tracked a full build output from v0.4.12 (commit
+  `4d8a5f4`): 69 paths — root `index.html`/`404.html`/`rss.xml`, every article
+  and category `index.html`, `_astro/*`, `manifest.webmanifest`, `fonts/`,
+  `icons/`, `img/`, `audio/` — all predating audit-01 (no CSP meta, unescaped
+  JSON). Any publish path aimed at the root would have shipped unhardened HTML
+  with `scripts/security-gate.mjs` green, because the gate only walks `dist/`.
+  All 69 are deleted; true source files (config, CHANGELOG, brand kit, probes)
+  stay. No serving impact: staging publishes from `dist/` only.
+- Root `.nojekyll` moved to `public/.nojekyll` so it lands in `dist/` on every
+  build instead of living only as a root straggle.
+- `security-gate.mjs` now ALSO fails if any `*.html` is tracked outside
+  `dist/`/`public/` (asserted against `git ls-files`, i.e. the index that gets
+  published) — the structural invariant "the gate ran on what gets published".
+
 ## [0.6.34] — 2026-09-16
 ### Fixed — P26 the desk reply button now takes the royal road
 - `mod.astro` `sendReply()` posted to the public `/comments` route with a bare
