@@ -1371,6 +1371,7 @@ function savePushTok(v: string) {
   try { v ? sessionStorage.setItem(PUSH_TOK_KEY, v) : sessionStorage.removeItem(PUSH_TOK_KEY); } catch { /* ok */ }
 }
 let pushTopic = 'posts';
+let pushRun = 0; // v0.6.52: stale openings stand down (double-tap race)
 interface PushStats {
   subs?: { total?: number; new7?: number; new30?: number; byOrigin?: Record<string, number>; byTopic?: Record<string, number> };
   campaigns?: { cid?: number; title?: string; sent?: number; pruned?: number; failed?: number; clicked?: number; dismissed?: number; when?: number; openRate?: number | null; dismissRate?: number | null }[];
@@ -1401,6 +1402,7 @@ async function loadPush(): Promise<void> {
   show(lock, !hasTok);
   show(body, hasTok);
   if (!hasTok) return;
+  const run = ++pushRun;
   const cards = $('push-cards');
   const mix = $('push-mix');
   const camps = $('push-camps');
@@ -1411,6 +1413,7 @@ async function loadPush(): Promise<void> {
   let res: Response;
   try { res = await pushApi('/stats'); }
   catch { setToast('Push API unreachable — retry.', true); return; }
+  if (run !== pushRun) return; // a newer opening owns the deck
   if (res.status === 401) {
     const msg = $('push-lock-msg');
     if (msg) msg.textContent = 'Desk key refused — sign out and sign in again.';
