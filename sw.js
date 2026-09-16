@@ -5,12 +5,12 @@
  * with a cached copy (then the offline shell) as fallback; content-hashed
  * /_astro/ chunks are immutable and served cache-first; everything else static
  * uses stale-while-revalidate. /api and Worker calls are NEVER intercepted.
- * 0.6.39-959ccce is stamped at prebuild (scripts/stamp-pwa.mjs) so every deploy
+ * 0.6.40-7193f97 is stamped at prebuild (scripts/stamp-pwa.mjs) so every deploy
  * ships fresh cache namespaces and activate purges the old ones.
  */
 
 /* eslint-disable no-restricted-globals */
-const VERSION = `andscroll-0.6.39-959ccce`;
+const VERSION = `andscroll-0.6.40-7193f97`;
 const SHELL = new URL('./', self.location).href; // site root in ANY base (apex or /androidscroll-site/)
 const ASSET_CACHE = `as-assets-${VERSION}`;
 const PAGE_CACHE = `as-pages-${VERSION}`;
