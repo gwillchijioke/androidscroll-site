@@ -106,17 +106,12 @@ for (const p of POSTS) postMap[p.id] = { u: p.url, t: p.title };
         </div>
 
         <!-- PUSH (P17b LEG4 — bell command deck over the push worker).
-             Own token (SEND_SECRET), session-only like the desk token. -->
+             v0.6.51: NO second form (King's law) — the desk session is the
+             only gate. No session: one calm line. Server still Bearer-locked. -->
         <div id="mod-view-push" class="mod-view" hidden>
-          <form id="push-lock" class="mod-card mod-lock" autocomplete="off" hidden>
-            <p class="mod-label" id="push-token-label">Push token</p>
-            <input id="push-token" class="mod-token" type="password" aria-labelledby="push-token-label"
-                   placeholder="Paste the push token" />
-            <p id="push-lock-msg" class="mod-result is-bad" role="status" aria-live="polite"></p>
-            <div class="mod-act-row">
-              <button class="btn-deep" type="submit">Unlock push</button>
-            </div>
-          </form>
+          <div id="push-lock" class="mod-card" hidden>
+            <p id="push-lock-msg" class="mod-result" role="status" aria-live="polite">Sign in to the desk first — the bell answers the desk key.</p>
+          </div>
           <div id="push-body" hidden>
             <div id="push-cards" class="mod-cards"></div>
             <p class="mod-label mod-top-head">Flocks &amp; origins</p>
@@ -1418,7 +1413,7 @@ async function loadPush(): Promise<void> {
   catch { setToast('Push API unreachable — retry.', true); return; }
   if (res.status === 401) {
     const msg = $('push-lock-msg');
-    if (msg) msg.textContent = 'Wrong push token';
+    if (msg) msg.textContent = 'Desk key refused — sign out and sign in again.';
     savePushTok('');
     show(lock, true); show(body, false);
     return;
@@ -1574,16 +1569,7 @@ signoutB?.addEventListener('click', () => {
   setLocked(true);
 });
 
-/* PUSH DECK wiring — own session token, topic seg, trial + armed broadcast */
-($('push-lock') as HTMLFormElement | null)?.addEventListener('submit', (ev) => {
-  ev.preventDefault();
-  const inp = $('push-token') as HTMLInputElement | null;
-  const msg = $('push-lock-msg');
-  if (msg) { msg.textContent = ''; msg.classList.remove('is-bad'); }
-  savePushTok((inp?.value || '').trim());
-  if (!pushToken) { if (msg) msg.textContent = 'Paste the push token first.'; return; }
-  void loadPush();
-});
+/* PUSH DECK wiring — topic seg, trial + armed broadcast (desk key only, no token form) */
 $('push-seg')?.addEventListener('click', (ev) => {
   const b = (ev.target as HTMLElement)?.closest?.('button[data-topic]') as HTMLElement | null;
   if (!b) return;

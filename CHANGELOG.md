@@ -1,3 +1,4 @@
+## v0.6.51 — 2026-09-16 — second form removed (King): Push tab has no token form; desk session is the only gate, server still Bearer-locked.
 ## v0.6.50 — 2026-09-16 — one gate hardened: Push deck re-adopts desk session on open (load-time storage hiccup proof).
 ## v0.6.49 — 2026-09-16 — one gate for the bell: Push deck adopts the desk session (worker v1.1.2 honours desk key); signout evicts both.
 ## v0.6.48 — 2026-09-16 — pale panel text in light theme: foot-brand p rule outranked bell words; re-pinned under card scope.
