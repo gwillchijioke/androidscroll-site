@@ -1,13 +1,14 @@
 """Generate a 1s placeholder tone (44.1kHz 16-bit mono sine 440Hz).
 ONE-SHOT: not wired to any npm script - output already committed at public/audio/kb-note.wav."""
 import math
+import os
 import struct
 import wave
 
 SR = 44100
 DUR = 1.0
 N = int(SR * DUR)
-path = '/home/ubuntu/androidscroll/build/public/audio/kb-note.wav'
+path = os.path.join(os.path.dirname(__file__), '..', 'public', 'audio', 'kb-note.wav')
 with wave.open(path, 'wb') as w:
     w.setnchannels(1)
     w.setsampwidth(2)

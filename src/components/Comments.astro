@@ -7,6 +7,7 @@
 //   footer row: reactions · Reply · Share · Report (D4/D9/D10), inline reply moves
 //   the form (D8), one thread rail + tightened rhythm (D5/D15), pending ghost row
 //   + structured skeleton (D13/D12). Sanitizer path untouched. No spinners.
+import { COMMENTS_API } from '../data/endpoints';
 interface Props {
   postId: number;            // REQUIRED - WP post id
   postSlug?: string;         // analytics/moderation context
@@ -21,7 +22,7 @@ const {
   authorName = '',
   initialCount,
   policyUrl = '/comments-policy',
-  apiBase = 'https://androidscroll-comments.gwill.workers.dev',
+  apiBase = COMMENTS_API,
 } = Astro.props;
 const hasCount = typeof initialCount === 'number' && initialCount > 0;
 ---

@@ -5,7 +5,8 @@ ONE-SHOT: not wired to any npm script - run manually only when the mark changes.
 from PIL import Image, ImageDraw
 import os
 
-OUT = "/home/ubuntu/androidscroll/build/public/icons"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+OUT = os.path.join(ROOT, 'public', 'icons')
 os.makedirs(OUT, exist_ok=True)
 TEAL = (0, 110, 94, 255)      # #006E5E - matches favicon rect fill
 WHITE = (255, 255, 255, 255)

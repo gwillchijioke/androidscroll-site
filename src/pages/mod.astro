@@ -60,7 +60,7 @@ for (const p of POSTS) postMap[p.id] = { u: p.url, t: p.title };
         <div class="mod-act-row">
           <button class="btn-deep" type="submit">Unlock</button>
         </div>
-        <p class="mod-meta" id="mod-lock-ver">desk v0.6.62</p>
+        <p class="mod-meta" id="mod-lock-ver">desk v0.6.63</p>
       </form>
 
       <p id="mod-toast" class="mod-toast" role="status" aria-live="polite"></p>
@@ -427,6 +427,7 @@ html[data-theme=dark] .mod-scoped .btn-danger.is-armed{background:#B4402F;border
 </style>
 
 <script>
+import { COMMENTS_API as PROD_API, PUSH_API as PUSH_RAIL } from '../data/endpoints';
 /* Console client - zero third-party. Bearer desk API: moderation/list,
    /reports, /stats, moderation/:id actions, public /comments reply.
    API base: absolute Worker rail in prod; on 127.0.0.1/localhost (dist e2e
@@ -455,7 +456,7 @@ interface Stats {
   comments_total?: number;
 }
 
-const PROD_API = 'https://androidscroll-comments.gwill.workers.dev';
+/* v0.6.63: rail moved to src/data/endpoints.ts (imported as PROD_API above). */
 const IS_LOCAL = ['127.0.0.1', 'localhost'].includes(location.hostname);
 const API = IS_LOCAL ? '/api' : PROD_API + '/api';
 
@@ -1389,7 +1390,8 @@ function reloadActive(): Promise<void> {
 }
 
 /* ---------- PUSH DECK (P17b LEG4 - over the push worker, desk key opens it) ---------- */
-const PUSH_API = 'https://androidscroll-push.gwill.workers.dev';
+/* v0.6.63: rail moved to src/data/endpoints.ts (imported as PUSH_RAIL above). */
+const PUSH_API = PUSH_RAIL;
 const PUSH_TOK_KEY = 'androidscroll:pushtok';
 let pushToken = '';
 // v0.6.49 one gate (King): a saved push token wins (old sessions);

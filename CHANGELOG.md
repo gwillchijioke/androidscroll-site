@@ -1,46 +1,51 @@
-## v0.6.59 — 2026-09-16 — cage drill-down log lines + target URLs (King 2nd bleed shot): descendant selector reaches .mod-item div p; links break-all.
-## v0.6.58 — 2026-09-16 — cage campaign text inside cards (King phone bleed): flex children min-width:0, title wrap, funnel line wraps.
-## v0.6.57 — 2026-09-16 — flock geography INTEL-LEG1: worker v1.3.2 stamps country/region/city/timezone from request.cf at every (re)subscribe; /stats byCountry/byCity; deck Land/Town rows. Cage PASS (NG/Lagos). Report /tmp/bell-intel/INTEL-REPORT.md.
-## v0.6.56 — 2026-09-16 — PUSH-tab lockout (King, the true catch): loadPush() was the only loader that never called setLocked(false) — unlocking while on PUSH (the King's home tab) fetched the deck fine but never lifted the lock form. One line; lock stamp v0.6.56.
-## v0.6.55 — 2026-09-16 — leave-and-return lockout (King): restored phone tabs wake with dead sessions and no reload — pageshow/visibility rehydrate re-reads the jars and walks straight in; lock card carries a visible desk version stamp so the King can read which bundle his phone runs.
-## v0.6.54 — 2026-09-16 — campaign drill-down + origin badges (P18b/P18c deck legs): tap any bell card -> full story from GET /campaigns/:cid (body/target/funnel/latest signals, fetched once, keyboard accessible); source pills Auto-peal/Trial/Rung by hand + flock chip. Worker v1.3.1: /stats rows carry topic+source; :events keys excluded from list.
-## v0.6.53 — 2026-09-16 — stay signed in (King locked out): desk token persists in localStorage (sessionStorage fallback); empty Unlock reuses saved token instead of wiping; sign-out still clears both.
-## v0.6.52 — 2026-09-16 — deck double-render race: stale Push openings stand down (run guard).
-## v0.6.51 — 2026-09-16 — second form removed (King): Push tab has no token form; desk session is the only gate, server still Bearer-locked.
-## v0.6.50 — 2026-09-16 — one gate hardened: Push deck re-adopts desk session on open (load-time storage hiccup proof).
-## v0.6.49 — 2026-09-16 — one gate for the bell: Push deck adopts the desk session (worker v1.1.2 honours desk key); signout evicts both.
-## v0.6.48 — 2026-09-16 — pale panel text in light theme: foot-brand p rule outranked bell words; re-pinned under card scope.
-## v0.6.47 — 2026-09-16 — bell speaks while working: Ringing…/Turning off… spinner, buttons rest, motion-safe, gate OK.
-## v0.6.46 — 2026-09-16 — THE SNAG: page CSP connect-src barred the push worker (address-bar worked, in-page fetch died — King proved the split). Push origin allowlisted, gate OK.
-## v0.6.45 — 2026-09-16 — bell diagnoses its own route: /health pre-check names dead server route (VPN/ad-blocker/carrier), subscribe vs save legs each name their failure, gate OK.
-## v0.6.44 — 2026-09-16 — footer buttons unglued: .foot-install is flex+gap+center (Install/Alerts fused borders + stepped baselines, King phone shot), bell svg locked, gate OK.
-## v0.6.43 — 2026-09-16 — P17b bell names its snag: error panel now prints the browser reason (AbortError/NetworkError/etc), fresh BUILD_ID stamp, gate OK.
-## v0.6.42 — 2026-09-16 — P17b PUSH SHIPPED: bell+panel+topics (pwa-install §4), rich SW (actions/image/beacons/close), footer bell, mod-desk Push tab (stats/campaigns/compose+test/broadcast), worker v1.1.0 (topics/fanout/cid/click/dismiss/stats/test), gate OK.
-## v0.6.41 — 2026-09-16 — MOD-DESK LAUGH SYNC: mod.astro carried the stale apex-up wedge eyes while Comments.astro shipped closed-eye arches (P30); grafted the fixed geometry verbatim, gate OK.
-## v0.6.40 — 2026-09-16 — P17a PWA install SHIPPED: manifest standalone + icons, sw offline shell, pwa-install card/dock/footer-buttons wired (Ultra drill WIRED), gate OK. No push (P17b later).
-## v0.6.39 — 2026-09-16 — P30 laugh closed-eyes: wedge triangles → squeezed-shut arch crescents (King: old slits read evil); monochrome+mass+tears+grin untouched, gate OK
-## v0.6.38 — 2026-09-16 — A3 astro 5.18.2→7.3.2: clean build first try, zero breakage, gate OK
+## v0.6.59 - 2026-09-16 - cage drill-down log lines + target URLs (King 2nd bleed shot): descendant selector reaches .mod-item div p; links break-all.
+## v0.6.58 - 2026-09-16 - cage campaign text inside cards (King phone bleed): flex children min-width:0, title wrap, funnel line wraps.
+## v0.6.57 - 2026-09-16 - flock geography INTEL-LEG1: worker v1.3.2 stamps country/region/city/timezone from request.cf at every (re)subscribe; /stats byCountry/byCity; deck Land/Town rows. Cage PASS (NG/Lagos). Report /tmp/bell-intel/INTEL-REPORT.md.
+## v0.6.56 - 2026-09-16 - PUSH-tab lockout (King, the true catch): loadPush() was the only loader that never called setLocked(false) - unlocking while on PUSH (the King's home tab) fetched the deck fine but never lifted the lock form. One line; lock stamp v0.6.56.
+## v0.6.55 - 2026-09-16 - leave-and-return lockout (King): restored phone tabs wake with dead sessions and no reload - pageshow/visibility rehydrate re-reads the jars and walks straight in; lock card carries a visible desk version stamp so the King can read which bundle his phone runs.
+## v0.6.54 - 2026-09-16 - campaign drill-down + origin badges (P18b/P18c deck legs): tap any bell card -> full story from GET /campaigns/:cid (body/target/funnel/latest signals, fetched once, keyboard accessible); source pills Auto-peal/Trial/Rung by hand + flock chip. Worker v1.3.1: /stats rows carry topic+source; :events keys excluded from list.
+## v0.6.53 - 2026-09-16 - stay signed in (King locked out): desk token persists in localStorage (sessionStorage fallback); empty Unlock reuses saved token instead of wiping; sign-out still clears both.
+## v0.6.52 - 2026-09-16 - deck double-render race: stale Push openings stand down (run guard).
+## v0.6.51 - 2026-09-16 - second form removed (King): Push tab has no token form; desk session is the only gate, server still Bearer-locked.
+## v0.6.50 - 2026-09-16 - one gate hardened: Push deck re-adopts desk session on open (load-time storage hiccup proof).
+## v0.6.49 - 2026-09-16 - one gate for the bell: Push deck adopts the desk session (worker v1.1.2 honours desk key); signout evicts both.
+## v0.6.48 - 2026-09-16 - pale panel text in light theme: foot-brand p rule outranked bell words; re-pinned under card scope.
+## v0.6.47 - 2026-09-16 - bell speaks while working: Ringing…/Turning off… spinner, buttons rest, motion-safe, gate OK.
+## v0.6.46 - 2026-09-16 - THE SNAG: page CSP connect-src barred the push worker (address-bar worked, in-page fetch died - King proved the split). Push origin allowlisted, gate OK.
+## v0.6.45 - 2026-09-16 - bell diagnoses its own route: /health pre-check names dead server route (VPN/ad-blocker/carrier), subscribe vs save legs each name their failure, gate OK.
+## v0.6.44 - 2026-09-16 - footer buttons unglued: .foot-install is flex+gap+center (Install/Alerts fused borders + stepped baselines, King phone shot), bell svg locked, gate OK.
+## v0.6.43 - 2026-09-16 - P17b bell names its snag: error panel now prints the browser reason (AbortError/NetworkError/etc), fresh BUILD_ID stamp, gate OK.
+## v0.6.42 - 2026-09-16 - P17b PUSH SHIPPED: bell+panel+topics (pwa-install §4), rich SW (actions/image/beacons/close), footer bell, mod-desk Push tab (stats/campaigns/compose+test/broadcast), worker v1.1.0 (topics/fanout/cid/click/dismiss/stats/test), gate OK.
+## v0.6.41 - 2026-09-16 - MOD-DESK LAUGH SYNC: mod.astro carried the stale apex-up wedge eyes while Comments.astro shipped closed-eye arches (P30); grafted the fixed geometry verbatim, gate OK.
+## v0.6.40 - 2026-09-16 - P17a PWA install SHIPPED: manifest standalone + icons, sw offline shell, pwa-install card/dock/footer-buttons wired (Ultra drill WIRED), gate OK. No push (P17b later).
+## v0.6.39 - 2026-09-16 - P30 laugh closed-eyes: wedge triangles → squeezed-shut arch crescents (King: old slits read evil); monochrome+mass+tears+grin untouched, gate OK
+## v0.6.38 - 2026-09-16 - A3 astro 5.18.2→7.3.2: clean build first try, zero breakage, gate OK
 # Changelog
 
-## v0.6.62 — FINGERPRINT fixes + em-dash purge (Sep 16)
+## v0.6.63 - PORTABILITY-1 fixes (Sep 16)
+- Worker rails centralized in src/data/endpoints.ts (PUBLIC_COMMENTS_API/PUBLIC_PUSH_API, live defaults); desk + Comments + CSP import it. Host moves need env, not code.
+- Python generators portable: scripts/requirements.txt added; all absolute /home/ubuntu paths resolved from script location (BRAND_V2 override kept).
+- README documents the three env vars.
+
+## v0.6.62 - FINGERPRINT fixes + em-dash purge (Sep 16)
 - Microcopy: you@example.com x2 -> you@phone.ng; desk empty-state speaks flock-voice.
 - Every em dash in source swept to a hyphen (pages, desk, styles, scripts, robots, kb illustrations). content.json already clean.
 - Score was 2/10; now lower still.
 
-## v0.6.61 — CLEANUP-1 fixes (Sep 16)
+## v0.6.61 - CLEANUP-1 fixes (Sep 16)
 - REMOVED playwright devDependency (zero references; ~150MB shed). Rebuild green.
 - All 6 generator scripts marked ONE-SHOT in their headers (were unwired, now say so).
 - KEPT with reason: 8 og posters (fixture poses one per provider card), kb-*.svg (live hero covers for all 13 posts via slug regex), kb-note.wav + audio-note.svg (fixture audio-row demo), tracked sw.js/pwa-install.js (Pages serves public/ directly, no CI to regenerate).
 
-## v0.6.60 — AUDIT-1 fixes ship (Sep 16)
+## v0.6.60 - AUDIT-1 fixes ship (Sep 16)
 - KEY SPLIT (audit LOW): desk key now READS (stats, drill-down); sounding needs the commander key, asked inline at compose and verified before ringing. Badge shows which key rides. A stolen desk jar can no longer peal. Worker v1.3.3 enforces the split (requireCommander on /send + /test, role in /stats).
-- BEACON BRAKE (audit MEDIUM): /click + /dismiss ride the 5/hr/IP rate limit — analytics can no longer be rewritten at will.
+- BEACON BRAKE (audit MEDIUM): /click + /dismiss ride the 5/hr/IP rate limit - analytics can no longer be rewritten at will.
 - SEND CAGE (audit LOW): /send + /test validate https + androidscroll.com/github.io hosts + length caps; desk pre-checks https target.
 - HEADERS (audit NICE-TO-HAVE): meta referrer + Permissions-Policy (camera/mic/geo/payment off).
 - Pin astro 7.3.2 exact (audit action).
 
-## [0.6.37] — 2026-09-16
-### Security — audit-02 leftovers: B4 storage key, N2 npm audit CI
+## [0.6.37] - 2026-09-16
+### Security - audit-02 leftovers: B4 storage key, N2 npm audit CI
 - **B4 (LOW, PARTIAL):** inspected the file's only recorded introduction commit
   (`f40dce4`) with one targeted `git show`; the storage key was already redacted
   as `***` in that commit, so the true literal remains indeterminable and was not
@@ -48,34 +53,34 @@
 - **N2 (LOW, FIXED):** added `.github/workflows/audit.yml` to audit production
   dependencies with `npm audit --omit=dev` and fail on high or critical findings.
 
-## [0.6.36] — 2026-09-16
-### Security — audit-02 leftovers: A1 mod clickjacking, B6 SEO hygiene, B2 SW purge scoping
-- **A1 (MEDIUM, fix-order-2):** the moderation desk could be framed — it is
+## [0.6.36] - 2026-09-16
+### Security - audit-02 leftovers: A1 mod clickjacking, B6 SEO hygiene, B2 SW purge scoping
+- **A1 (MEDIUM, fix-order-2):** the moderation desk could be framed - it is
   public, guessable, and carries one-click Approve/Spam/Trash. `mod.astro` now
   extends its CSP meta with `frame-ancestors 'none'` via a new page-level
   `cspExtra` prop (Base → Head); no second meta tag. Every other page renders
   its CSP byte-for-byte as before. Out of scope (per audit, not touched): Worker
-  `X-Frame-Options` on API responses — GET-only JSON, no session cookies.
+  `X-Frame-Options` on API responses - GET-only JSON, no session cookies.
 - **B6 (LOW):** added `public/robots.txt` (allow all + `Sitemap:` line) and
-  `public/sitemap.xml` (30 indexable routes of 46 built — the 15 pages carrying
+  `public/sitemap.xml` (30 indexable routes of 46 built - the 15 pages carrying
   robots noindex metas, including the unlisted `/mod/` desk, and the `/latest/`
   redirect stub are excluded). Hand-written rather than `@astrojs/sitemap`:
   no new deps without instruction. Staging canonical in the URLs; apex
   (androidscroll.com) swap is an open item for the King on media-crew cutover.
 - **B2 (LOW):** SW `activate` purged every cache on the origin that wasn't the
-  current namespace — and GH Pages serves the whole user site from one origin.
+  current namespace - and GH Pages serves the whole user site from one origin.
   The purge is now prefix-scoped to `as-assets-`/`as-pages-` (our namespaces
   only); fetch-handler behavior untouched. Effective change is one filter line.
 - `security-gate.mjs` unchanged (46-page sweep + P28 stray-root assertion apply
   as-is; the gate greps CSP directives generically, so the mod page's extended
   set passes without a new rule).
 
-## [0.6.35] — 2026-09-16
-### Removed — P28 the stale second copy of the site (audit-02 fix-order-1)
+## [0.6.35] - 2026-09-16
+### Removed - P28 the stale second copy of the site (audit-02 fix-order-1)
 - The repo root still tracked a full build output from v0.4.12 (commit
-  `4d8a5f4`): 69 paths — root `index.html`/`404.html`/`rss.xml`, every article
+  `4d8a5f4`): 69 paths - root `index.html`/`404.html`/`rss.xml`, every article
   and category `index.html`, `_astro/*`, `manifest.webmanifest`, `fonts/`,
-  `icons/`, `img/`, `audio/` — all predating audit-01 (no CSP meta, unescaped
+  `icons/`, `img/`, `audio/` - all predating audit-01 (no CSP meta, unescaped
   JSON). Any publish path aimed at the root would have shipped unhardened HTML
   with `scripts/security-gate.mjs` green, because the gate only walks `dist/`.
   All 69 are deleted; true source files (config, CHANGELOG, brand kit, probes)
@@ -84,45 +89,45 @@
   build instead of living only as a root straggle.
 - `security-gate.mjs` now ALSO fails if any `*.html` is tracked outside
   `dist/`/`public/` (asserted against `git ls-files`, i.e. the index that gets
-  published) — the structural invariant "the gate ran on what gets published".
+  published) - the structural invariant "the gate ran on what gets published".
 
-## [0.6.34] — 2026-09-16
-### Fixed — P26 the desk reply button now takes the royal road
+## [0.6.34] - 2026-09-16
+### Fixed - P26 the desk reply button now takes the royal road
 - `mod.astro` `sendReply()` posted to the public `/comments` route with a bare
   `content-type` header, so every author reply landed `pending` and had to be
   approved by hand. It now goes through the same Bearer-carrying `api()` helper
   the rest of the desk uses (Worker v0.1.9 auto-approves desk-Bearer posts) and
   sends `asAuthor:true`, which stamps the author avatar hash server-side. The
-  success line is now “Reply posted live as #N.” — no token is embedded in the
+  success line is now “Reply posted live as #N.” - no token is embedded in the
   page source, and no approve-it-below step remains.
 
-### Removed — P27 the Website field (a spam-link invitation)
+### Removed - P27 the Website field (a spam-link invitation)
 - The comment form no longer offers a Website input: label, field, the
   `http(s)://` validation, the `url|website` error-map branch and the
   author-name link render are all gone. Names render as plain text, always.
   Worker v0.1.9 ignores `body.url` for new rows (`author_url` binds NULL and the
   spam scorer no longer counts an "author URL" reason). Existing rows keep their
-  stored URL in the DB but render as plain names — no migration, no history loss.
+  stored URL in the DB but render as plain names - no migration, no history loss.
 
-## [0.6.33] — 2026-09-16
-### Added — P17c2 comment avatars via the Worker proxy (photos, zero gravatar)
+## [0.6.33] - 2026-09-16
+### Added - P17c2 comment avatars via the Worker proxy (photos, zero gravatar)
 - Commenter photos are back, served by our own Worker: `GET /avatar/<64-hex>`
   (`androidscroll-comments.gwill.workers.dev`) → 200 `image/*` cached 7 d when
   the hash has a photo, 404 when it has none, 400 on a malformed hash. Reader
-  browsers never contact gravatar.com — AUDIT-01 M5's privacy finding stays
+  browsers never contact gravatar.com - AUDIT-01 M5's privacy finding stays
   closed and no third-party image host is reintroduced.
 - `photoHashFor()` in `Comments.astro` is the gate: only a bare 64-hex-lowercase
   `email_hash` may reach the URL (null/short/uppercase/injection → monogram).
   The img is layered over the existing deterministic monogram in `.c-av-wrap`, so
-  the 404 `onerror="this.remove()"` simply reveals the initials — monogram stays
+  the 404 `onerror="this.remove()"` simply reveals the initials - monogram stays
   the default and fallback, zero CLS. The author's own comments use the same
   path with his API hash (no special-casing, no hardcoded hash).
 - CSP `img-src` gains only `https://androidscroll-comments.gwill.workers.dev`
   (same Worker origin already allowed for `connect-src`); gravatar.com appears
   in no src file and no CSP list.
 
-## [0.6.32] — 2026-09-16
-### Added — P17a PWA install: offline SW + beforeinstallprompt card + iOS guide
+## [0.6.32] - 2026-09-16
+### Added - P17a PWA install: offline SW + beforeinstallprompt card + iOS guide
 - Prebuild stamp (`scripts/stamp-pwa.mjs` in the `prebuild` hook): BUILD_ID =
   package version + git short SHA; stamps `public/sw.js` (cache namespaces per
   deploy, activate purges old ones) and `public/manifest.webmanifest` (fresh
@@ -131,26 +136,26 @@
   `/androidscroll-site/` serve from the same tree.
 - Install surfaces: `beforeinstallprompt` bottom-sheet card (teal primary /
   ghost secondary, both themes, reduced-motion safe) plus footer `Install app`
-  and dashed iOS `Add to Home Screen` buttons — both hidden until JS proves
+  and dashed iOS `Add to Home Screen` buttons - both hidden until JS proves
   support, `appinstalled` hides them again. Manifest gains categories +
   build_id; manifest/script URLs carry `?v=BUILD_ID` cache-busters.
 - Proven: stamp exit 0, build exit 0, dist/ carries the relative manifest,
   BUILD_ID, and as-install buttons.
 
-## [0.6.31] — 2026-09-16
-### Fixed — P24 COMMENTS-REGRESSION: restore avHash dropped by AUDIT-01 M5
+## [0.6.31] - 2026-09-16
+### Fixed - P24 COMMENTS-REGRESSION: restore avHash dropped by AUDIT-01 M5
 - Root cause: v0.6.29 (f649487) deleted the Gravatar block for initials-only
-  monograms but avHash() — the deterministic monogram-bg picker — went with it
+  monograms but avHash() - the deterministic monogram-bg picker - went with it
   while avatarBg() and the pending ghost row still called it. Every
   loadComments() render threw ReferenceError: avHash is not defined inside
   renderThread(); the catch-all then showed "Couldn't load comments" on every
-  article. Worker API was healthy throughout — a page-JS dead reference, not
+  article. Worker API was healthy throughout - a page-JS dead reference, not
   a network fault.
 - Fix: re-add the helper verbatim (same 31-multiply FNV hash → identical bg
   picks, zero behavior change beyond un-breaking the render).
 
-## [0.6.30] — 2026-09-15
-### Removed — P22 ADS-OUT: ad-slots system out, zero slots site-wide
+## [0.6.30] - 2026-09-15
+### Removed - P22 ADS-OUT: ad-slots system out, zero slots site-wide
 - LAW 8 settings UI gone: Browse-sheet `Slots`/`Placeholders` toggles + `off =
   zero height` note (Header), `Site-wide ad slots: ON/OFF` footer control +
   its sync script (Footer). No ad UI remains anywhere, including /mod/.
@@ -158,7 +163,7 @@
   `art-seam-1` (article template + style-test fixture) usages removed with
   their imports. All `.ad-slot`/`.slot-frame`/`.ad-toggle`/`.foot-ad` CSS and
   the `data-ads`/`data-ph` boot stamp (`Head`) + `as-ads`/`as-ph` keys removed.
-- End state: zero slots, zero ad requests (none ever existed — no AdSense or
+- End state: zero slots, zero ad requests (none ever existed - no AdSense or
   third-party ad host was ever wired; CSP unchanged and still ad-host-free),
   zero layout shift from ads (home §00→§01, article seam→related flow
   gap-free). Legal copy updated (cookie/privacy policies no longer mention ad
@@ -166,65 +171,65 @@
 - HOW ADS RETURN (reversible): restore `src/components/AdSlot.astro` from git
   history (`git show <pre-P22-sha>:src/components/AdSlot.astro`), re-add its
   `.ad-slot` CSS + `data-ads` boot default, re-import it at the seam points
-  above, and re-wire the toggles — then re-prove zero-CLS with reserved
+  above, and re-wire the toggles - then re-prove zero-CLS with reserved
   fixed-dimension containers before any ad script loads.
 
-## [0.6.29] — 2026-09-15
-### Fixed — P21 AUDIT-01: all 15 findings per fix-guidance prescriptions
-- **H1 (HIGH)** — comment-sanitizer href blocklist bypassable via tab/newline
+## [0.6.29] - 2026-09-15
+### Fixed - P21 AUDIT-01: all 15 findings per fix-guidance prescriptions
+- **H1 (HIGH)** - comment-sanitizer href blocklist bypassable via tab/newline
   entities. Replaced with an allowlist (`safeHttpUrl`: strip char codes 0-32,
   require http(s)) at the attr sink + hardened the post-pass (missing/failing
   href is removed, link text kept). Relative comment links now delink by design.
-- **M4** — desk token moved `localStorage` → `sessionStorage` (dies with the
+- **M4** - desk token moved `localStorage` → `sessionStorage` (dies with the
   tab), auto-fill deleted, 30-min idle auto-lock added. Worker-side short-lived
   tokens + revoke-all endpoint filed as a Worker follow-up (not this repo).
-- **M2** — all six inlined-JSON sites (`[...slug]` x2, `Header` x2, `search` x2)
+- **M2** - all six inlined-JSON sites (`[...slug]` x2, `Header` x2, `search` x2)
   escape `<` as U+003C (valid JSON, parses identically). Permanent ride-along:
   `scripts/security-gate.mjs` asserts every served JSON block parses + carries
   no literal close tag; `npm run gate` runs it (CI too).
-- **M3** — CSP baseline `<meta http-equiv>` in `Head.astro` (covers staging;
+- **M3** - CSP baseline `<meta http-equiv>` in `Head.astro` (covers staging;
   apex host headers incl. `frame-ancestors` remain the primary control, ops
   follow-up). Tightened post-M5: no gravatar host.
-- **M1** — author-URL render sink gated by the same `safeHttpUrl` helper (one
+- **M1** - author-URL render sink gated by the same `safeHttpUrl` helper (one
   definition, no drift); bad schemes render as plain names.
-- **M5** — Gravatar fully out: author photo self-hosted (`public/img/author.png`,
+- **M5** - Gravatar fully out: author photo self-hosted (`public/img/author.png`,
   wired into author box + byline + home trust cell + about + style-test),
   commenter faces initials-only (monogram fallback was already finished).
   Privacy copy ("no third-party trackers") is true again.
-- **L1** — TOC builder escapes heading ids (attr context, new `escA`) + heading
-  text (text context) — covers the hostile-`id` attribute breakout too.
-- **L2** — facade iframes get `sandbox="allow-scripts allow-same-origin
-  allow-presentation"` via `setAttribute` (not IDL assignment — the sandbox
+- **L1** - TOC builder escapes heading ids (attr context, new `escA`) + heading
+  text (text context) - covers the hostile-`id` attribute breakout too.
+- **L2** - facade iframes get `sandbox="allow-scripts allow-same-origin
+  allow-presentation"` via `setAttribute` (not IDL assignment - the sandbox
   DOMTokenList has no string setter on minimal engines; attribute is universal)
   + trimmed `allow`; never `allow-top-navigation`.
   Gate asserts every `data-src` host against the known-provider list.
-- **L3** — `noreferrer` added to all three share links (matches SocialRow).
-- **L4** — build fails loud on non-site-relative or `javascript:` post urls
+- **L3** - `noreferrer` added to all three share links (matches SocialRow).
+- **L4** - build fails loud on non-site-relative or `javascript:` post urls
   (`gen-content.mjs`); overlay + search rows escape `p.url` at interpolation.
-- **L5** — client friction (abuse-hygiene only, honest scope): 60 s comment
+- **L5** - client friction (abuse-hygiene only, honest scope): 60 s comment
   cooldown persisted in `localStorage` reusing `countdown()`, 5-min per-comment
   report cooldown. No CAPTCHA by design. Worker per-IP/per-comment limits on
   report + comment endpoints filed as a Worker follow-up.
-- **L6** — manifest already target-relative (prior partial kept); Head asset
+- **L6** - manifest already target-relative (prior partial kept); Head asset
   hrefs stay absolute in source because `relativize.mjs` rewrites them per page
-  with a LEAK gate — verified in served bytes, not changed.
-- **N1** — hardcoded WP post IDs deleted from the mod datalist (free-text kept).
-- **N2** — `.github/workflows/audit.yml`: `npm audit --omit=dev` on lockfile
+  with a LEAK gate - verified in served bytes, not changed.
+- **N1** - hardcoded WP post IDs deleted from the mod datalist (free-text kept).
+- **N2** - `.github/workflows/audit.yml`: `npm audit --omit=dev` on lockfile
   change + monthly (report-only: astro 5 advisories need breaking-major 7,
   deferred to a King-approved upgrade leg), plus build + `npm run gate`.
-- **N3** — global `class` allowance dropped from the comment sanitizer.
+- **N3** - global `class` allowance dropped from the comment sanitizer.
 - Files: Comments.astro, mod.astro, ArticleChrome.astro, Head.astro,
   Header.astro, search.astro, [...slug].astro, index/about/style-test-article,
   gen-content.mjs, security-gate.mjs (new), audit.yml (new), author.png (new),
   package.json, CHANGELOG.md. Gates: Obscura @390 both-themes gate21-*.
 
-## [0.6.28] — 2026-09-15
-### Fixed — P18 SEARCH-OVERLAY-CLIP: dvh-aware overlay fit, see-all footer never clipped
-- **Root cause** — `.search-box` had `overflow:hidden` with no max-height
+## [0.6.28] - 2026-09-15
+### Fixed - P18 SEARCH-OVERLAY-CLIP: dvh-aware overlay fit, see-all footer never clipped
+- **Root cause** - `.search-box` had `overflow:hidden` with no max-height
   while `.search-results` alone was capped at `52dvh`; field + rail +
   meta + results + see-all stacked past the viewport on phones, so the
   `See all N results` footer sat below the fold with no scroll path.
-- **Fix (CSS-only, brand tokens only)** — `.search-box` is now a flex
+- **Fix (CSS-only, brand tokens only)** - `.search-box` is now a flex
   column capped at `100dvh − header − margin` (`vh` fallback first,
   `dvh` wins where supported; desktop cap mirrors its `+12px` offset);
   `.search-results` is the shrinking scroller (`flex:1 1 auto`,
@@ -235,52 +240,52 @@
   Obscura @390 both-themes gates gate18-* (`battery`: full overlay +
   see-all visible, no clipping).
 
-## [0.6.27] — 2026-09-15
-### Added — P16 404 THEME-ADAPTIVE DOOR: Signal Board light / Night Terminal dark
-- **One page, two directions** — `src/pages/404.astro` rebuilt per digest
+## [0.6.27] - 2026-09-15
+### Added - P16 404 THEME-ADAPTIVE DOOR: Signal Board light / Night Terminal dark
+- **One page, two directions** - `src/pages/404.astro` rebuilt per digest
   `~/work/p16-patterns.md`: LIGHT wears Direction A "Signal Board" (paper
   hero card, giant Archivo 800 `404` in `--deep`, mono `ERROR 404 · LOGGED`
   strip, solid SEARCH + outline HOME); DARK wears Direction B "Night
   Terminal" (verdict hero card, teal numeral, `> route --404 · not found`
   prompt strip, solid teal SEARCH + teal outline HOME). Kicker language
   swaps CSS-only per `data-theme`; same family/weights both themes.
-- **Honest wayfinding kept** — `No guide lives here.`, 3 traffic magnets,
+- **Honest wayfinding kept** - `No guide lives here.`, 3 traffic magnets,
   pillar live counts, `Report a broken link →` all carried over below a
   hairline. SEARCH reuses the header's own `#search-trigger` click path
   (no new plumbing). No error-red (Raycast law), brand tokens only, zero
   JS animation (Lighthouse law).
-- **Dark contrast held** — dark hero sits on `--verdict`: numeral 7.00,
+- **Dark contrast held** - dark hero sits on `--verdict`: numeral 7.00,
   stand 13.51, log 7.00, muted 8.97, teal SEARCH 8.62 (all >= 3/4.5);
   light numeral/log 6.19, body 13.5+. Probed live @390 both themes.
 - Files: src/pages/404.astro, src/styles/global.css, package.json,
   CHANGELOG.md. Obscura @390 both-themes gates gate16-*.
 
-## [0.6.26] — 2026-09-15
-### Added — P15C SIBLING-TILES: leaf shelves show sibling tiles
-- **Leaf tiles** — populated leaf shelves (no children, e.g.
+## [0.6.26] - 2026-09-15
+### Added - P15C SIBLING-TILES: leaf shelves show sibling tiles
+- **Leaf tiles** - populated leaf shelves (no children, e.g.
   `guides-how-tos/basics-setup`) rendered zero tiles; now they show
   SIBLING tiles (parent's children minus self) in the v0.6.25
   Field-Manual Index language, reused untouched: bordered paper
   `.empty-tile`, mint count pills stocked / outline `opens soon` empty,
   Archivo names, 2-col @390. CSS-only, zero new rules; rows, empties,
   desk (7761/7762) untouched.
-- **Honest heading** — parents keep `Nearby sub-shelves`; leaves read
+- **Honest heading** - parents keep `Nearby sub-shelves`; leaves read
   `Nearby shelves` (siblings are not sub-shelves). Leaf intros already
-  carried no `sub-shelves as they stock up` suffix — unchanged.
+  carried no `sub-shelves as they stock up` suffix - unchanged.
   Root-leaf `troubleshooting-fixes` (no parent, no kids) correctly shows
   no section; State-B empties untouched (bridge guides + back link stay
   the exit path).
 - Files: src/pages/category/[...path].astro, package.json, CHANGELOG.md.
   Obscura @390 both-themes gates gate15c-* (leaf + parent regression).
 
-## [0.6.25] — 2026-09-15
-### Added — P15B-A FIELD-MANUAL INDEX: dressed sub-shelf tiles
-- **Tiles** — `Nearby sub-shelves` anchors graduate from naked links to bounded
+## [0.6.25] - 2026-09-15
+### Added - P15B-A FIELD-MANUAL INDEX: dressed sub-shelf tiles
+- **Tiles** - `Nearby sub-shelves` anchors graduate from naked links to bounded
   tiles per digest §1 (informed-by: linear.app feature-card/status-badge,
   notion count-as-property, mintlify green-for-state-only, uiplaybook one
   radius/padding token): paper surface, 1px hairline border (`--line-2`),
   house 2px radius, 16/14px padding, 2-col grid @390 → 4-col ≥760px.
-  Tile name in Archivo 800; count becomes a mono pill — mint-filled
+  Tile name in Archivo 800; count becomes a mono pill - mint-filled
   (`--mint` bg, `--verdict` ink, theme-invariant) when stocked (`2 guides`,
   `1 guide`), outline-gray (`--line-2` border, `--muted` ink) `opens soon`
   when empty. Hover lifts border to `--deep`, no underline. CSS-only;
@@ -289,61 +294,61 @@
   (tile block), package.json, CHANGELOG.md. Obscura @390 both-themes gates
   gate15b-*.
 
-## [0.6.24] — 2026-09-15
-### Fixed — P15A ARCHIVE RE-SHIP: crumb-zero ghost killed + copy fixes, fresh pages-dist carrying P14 gap
-- **Root cause** — root categories carry `"parent": 0` (content.json); the
+## [0.6.24] - 2026-09-15
+### Fixed - P15A ARCHIVE RE-SHIP: crumb-zero ghost killed + copy fixes, fresh pages-dist carrying P14 gap
+- **Root cause** - root categories carry `"parent": 0` (content.json); the
   crumb's `{c.parent && …}` short-circuit rendered the falsy `0` as a text
   node, so served crumbs read `Home › 0 Buying Guides…` in both themes.
-  Classic `{0 && …}` zero-render. Fix: ternary `{c.parent ? … : null}` —
+  Classic `{0 && …}` zero-render. Fix: ternary `{c.parent ? … : null}` -
   no `0` can ever print. Same-class hardening on the same template:
   `{p.read_min && …}` → ternary, `{line && <li>}` → ternary.
-- **Copy** — sub-shelf tiles had no singular: `1 guides` → `1 guide`
+- **Copy** - sub-shelf tiles had no singular: `1 guides` → `1 guide`
   (populated headers already guarded). Empty-state `planned` lines append
-  `.` only when missing — `rubric..` double period gone.
-- **Re-ship** — staging was behind (served lacked P14 `gap:8px`); fresh
+  `.` only when missing - `rubric..` double period gone.
+- **Re-ship** - staging was behind (served lacked P14 `gap:8px`); fresh
   dist rebuilt from main so pages-dist carries it. Obscura @390
   both-themes gates gate15a-*.
 - Files: src/pages/category/[...path].astro, package.json, CHANGELOG.md.
 
-## [0.6.23] — 2026-09-15
-### Fixed — P14 BREADCRUMB-SPACING: gap for ol-less .crumb trails
-- **Root cause** — ol-less `.crumb` markup (`search.astro`, `latest.astro`,
+## [0.6.23] - 2026-09-15
+### Fixed - P14 BREADCRUMB-SPACING: gap for ol-less .crumb trails
+- **Root cause** - ol-less `.crumb` markup (`search.astro`, `latest.astro`,
   `StaticPage.astro`, `category/[...path].astro`: `<a>Home</a> <span>›</span>
   <span>…</span>`) sat in a flex `.crumb` with NO gap, so separators kissed
   the text (`Home›Search`, 0px both themes @390). Blog post `[...slug].astro`
   uses `ol>li` with `gap:8px` and looked right.
-- **Fix** — one line in global.css: `gap:8px` on `.crumb`, matching the
+- **Fix** - one line in global.css: `gap:8px` on `.crumb`, matching the
   `ol>li` trail rhythm. No-op on single-child `ol` pages. All four ol-less
   pages fixed by the one rule; zero markup touched.
 - Files: src/styles/global.css (1 line). Obscura @390 before/after both
   themes: 0px → 8px (gates gate14-*).
 
-## [0.6.22] — 2026-09-15
-### Fixed — P13 SEARCH-BRAND-A: honest query-scoped filter chips + mint-slab marks + mobile × close, dead clear-all gone
-- **Query-scoped chips (Direction A)** — `/search/?q=` chips are now live filter
+## [0.6.22] - 2026-09-15
+### Fixed - P13 SEARCH-BRAND-A: honest query-scoped filter chips + mint-slab marks + mobile × close, dead clear-all gone
+- **Query-scoped chips (Direction A)** - `/search/?q=` chips are now live filter
   buttons, not shelf links: counts come from the matched set via new
   `countByCat()` in search-core.js (same core as the scorer, exposed on
   `globalThis.SearchCore`), so chips always sum to the result length; tapping a
   chip filters the painted list for real (`All (n)` reset, `aria-pressed`
   active state in mint). Idle / zero-state keeps the server shelf links.
-- **Mint-slab marks, both themes** — `<mark>` in overlay results + empty state
+- **Mint-slab marks, both themes** - `<mark>` in overlay results + empty state
   + `/search` list is now a real mint slab (`--mint` bg, bold) instead of the
   pale underline wash; dark theme gets the translucent-teal slab. `/search`
-  marks previously had NO rule (browser-yellow default) — now covered.
-- **Mobile × close** — the overlay close button shows a 44px × target on phone;
+  marks previously had NO rule (browser-yellow default) - now covered.
+- **Mobile × close** - the overlay close button shows a 44px × target on phone;
   the `Esc to close` hint is desktop-only (≥900px).
-- **Dead clear-all gone** — the RECENT `clear all` button is removed (markup +
+- **Dead clear-all gone** - the RECENT `clear all` button is removed (markup +
   JS + CSS); per-chip × deletes stay. Each recent already deletes itself, so
   the global clear was dead weight.
 - Files: search.astro (chips), search-core.js (countByCat), Header.astro
   (× close, clear-all removal), global.css (slabs, chip buttons, × switch).
 
-## [0.6.21] — 2026-09-15
-### Fixed — P11 SEARCH-ROBUST: intrinsic width/height on all icon SVGs (unstyled-degradation fix)
-- **Root cause** — header/menu/chevron/share/social/reaction icon SVGs carried
+## [0.6.21] - 2026-09-15
+### Fixed - P11 SEARCH-ROBUST: intrinsic width/height on all icon SVGs (unstyled-degradation fix)
+- **Root cause** - header/menu/chevron/share/social/reaction icon SVGs carried
   viewBox but NO width/height, so a zero-CSS render (mid-deploy propagation,
   King's phone) blew them up to giant full-width black monsters.
-- **Fix** — intrinsic dims on every icon-only inline SVG site-wide, matching
+- **Fix** - intrinsic dims on every icon-only inline SVG site-wide, matching
   the styled sizes exactly (attributes are fallback only; CSS still wins when
   applied): header browse/search/theme glyphs 20px, theme-menu + browse-close
   16px, share + social + reaction glyphs 16px, facade badges 14px, mod sparkline
@@ -353,88 +358,88 @@
 - Files: Header, ArticleChrome, SocialRow, Comments (reactIcon), mod desk
   (mix glyph + sparkline), style-test badges.
 
-## [0.6.20] — 2026-09-15
-### Fixed — P10 DESK SELECT-STYLE: custom checkboxes + dark bulk bar (King phone verdict)
-- **Custom Desk checkboxes** — row + select-all `.mod-cbx` native inputs stay
+## [0.6.20] - 2026-09-15
+### Fixed - P10 DESK SELECT-STYLE: custom checkboxes + dark bulk bar (King phone verdict)
+- **Custom Desk checkboxes** - row + select-all `.mod-cbx` native inputs stay
   in the DOM (change events, data-sel, :checked/:indeterminate untouched)
   but render hidden; new `span.mod-cbx-box` sibling paints the box: 24px
   rounded, subtle line-2 border, brand #00E9B0 tick on dark verdict fill
   when on, indeterminate dash, --focus ring on keyboard focus, 44px touch
   target on the label wrap. Dark + light identical language.
-- **Dark floating bulk bar** — `#mod-bulkbar` keeps dark verdict fill in BOTH
+- **Dark floating bulk bar** - `#mod-bulkbar` keeps dark verdict fill in BOTH
   themes, count in #00E9B0, Approve = mint slab / Spam-Trash-Clear =
   mint-outline ghosts, danger keeps red language. Same button labels,
   same show/hide, no behavior change.
 - Selected-row rail now #00E9B0 (was pale --mint).
 
-## [0.6.19] — 2026-09-15
-### Added — P8 AUTO-COUNTS: build-time comment/category counts, zero hard-coded numbers
-- **scripts/gen-content.mjs + `prebuild` hook** — regenerates src/data/content.json
+## [0.6.19] - 2026-09-15
+### Added - P8 AUTO-COUNTS: build-time comment/category counts, zero hard-coded numbers
+- **scripts/gen-content.mjs + `prebuild` hook** - regenerates src/data/content.json
   counts at build time: per-post + total comments from the Worker PUBLIC API
   (GET /api/comments/count?post=, sequential, 5s timeout x3 tries), posts /
   categories / empty-category math derived from the posts array (direct-post
   semantics, matching WP count); stamps generated + source line. Never breaks
   the build: any fetch failure keeps the previous value, stamps stale:true,
   exits 0 always.
-- **Footer derivation** — category `.cnt` badges + 'Latest N guides' render from
+- **Footer derivation** - category `.cnt` badges + 'Latest N guides' render from
   TOTALS/postsDirect, so staged bytes always match content.json.
 - Counts this build: 13 posts / 19 categories / 52 approved-visible comments
   (NOT the 54 desk total) / 12 empty shelves, stale=false.
 
-## [0.6.18] — 2026-09-15
-### Added — Search 2026 Direction A 'The Desk' (overlay + /search + scorer)
-- **OVERLAY TOP-SHEET** — oversized Archivo 26px field, RECENT rail (localStorage
+## [0.6.18] - 2026-09-15
+### Added - Search 2026 Direction A 'The Desk' (overlay + /search + scorer)
+- **OVERLAY TOP-SHEET** - oversized Archivo 26px field, RECENT rail (localStorage
   `as-search-recent`, max 6, per-chip × + clear-all) + TRENDING 3 (top-commented,
   build-time) + scope line pre-typing, live prefix completions, rank numerals,
   category chip + read time per row, 'See all N results for q →' footer → /search?q=.
   `/` hotkey, tap-outside, focus + scroll-lock + combobox/listbox ARIA laws kept;
   Enter with no row focused routes overlay → page. Mint-underline `mark`, teal
   inset active row, 220ms sheet + 24ms row stagger (reduced-motion = instant).
-- **/search PAGE** — ?q= addressable shell + embedded index, same scorer hydrate,
+- **/search PAGE** - ?q= addressable shell + embedded index, same scorer hydrate,
   display-scale restated query heading, category chips, canonical /search/,
   JS-injected noindex on q-views, no-JS fallback = full shelf server-rendered.
-- **NO-RESULTS** — backlog headline verbatim, Did-you-mean (fuzzy, index-only),
+- **NO-RESULTS** - backlog headline verbatim, Did-you-mean (fuzzy, index-only),
   relaxed-OR retry chip, category browse fallback, 3 newest, Tell-us carrying q.
-- **SCORER** — src/lib/search-core.js single source (?raw inline; Node suite
+- **SCORER** - src/lib/search-core.js single source (?raw inline; Node suite
   imports the SAME file): lede +4, phrase proximity +18/+8 (replaces flat +4),
   position-in-title ×1.15, build-time data-driven synonym map → #search-syn JSON,
   IDF cap on >half-corpus terms, AND rank + OR retry, completions + did-you-mean.
 
-## [0.6.17] — 2026-09-15
-### Added — Mod desk: delete-forever, bulk select, title links (King ledger; pairs worker v0.1.7)
-- **DELETE FOREVER (A)** — trash rows get a red 'Delete forever' button: inline two-tap arm
+## [0.6.17] - 2026-09-15
+### Added - Mod desk: delete-forever, bulk select, title links (King ledger; pairs worker v0.1.7)
+- **DELETE FOREVER (A)** - trash rows get a red 'Delete forever' button: inline two-tap arm
   ('Tap again to confirm', 4s auto-disarm, never native confirm) → `DELETE
   /api/moderation/comments/:id` (guard: only status=trash purges) → row gone, stats refresh,
   failures toast. Report cards' on-the-comment row gets it too.
-- **BULK SELECT (B)** — 44px touch checkbox per row in Queue + All Comments, header 'Select all'
+- **BULK SELECT (B)** - 44px touch checkbox per row in Queue + All Comments, header 'Select all'
   scoped to the visible filtered page, floating action bar: 'N selected' + Approve/Spam/Trash +
   Delete-forever (only when ALL selected are trash) → one `POST /api/moderation/bulk` with
-  per-id honesty ('x/y applied — failed: #id code'). Selection clears on tab/filter/page change.
+  per-id honesty ('x/y applied - failed: #id code'). Selection clears on tab/filter/page change.
   Reports tab has no checkboxes (Dismiss/Resolve is its own lifecycle).
-- **TAB-WHITENESS (F — King 16:5x)** — dark-theme active tab/pill never reads
+- **TAB-WHITENESS (F - King 16:5x)** - dark-theme active tab/pill never reads
   pure-white: active tab gets brand-mint #00E9B0 text + underline; status pills
   get a dark fill + mint accent border + mint text (no pale --mint slab).
 ### Fixed
-- **Tab-rail ghost scrollbar (C — King: "revert the vertical scroll bar in the tab menu")** —
+- **Tab-rail ghost scrollbar (C - King: "revert the vertical scroll bar in the tab menu")** -
   measured on staged v0.6.16: `overflow-x:auto` forces computed `overflow-y:auto`, and the
   tab row's fractional line-height (17.325px) + `margin-bottom:-1px` bled 1px past the rail
   clientHeight → a teal vertical thumb painted at the strip's right edge on fractional-DPR
   phones. Fix: tabs get `line-height:1`, `margin-bottom:0`, rail pinned to exactly 47px with
   `align-items:flex-start`, and `overflow-y:hidden`→`clip` (progressive). Every rail element
   asserts scrollHeight ≤ clientHeight @390 + 1280, both themes.
-- **Reaction mix double glyphs (D)** — rows no longer print the word + emoji character + count
+- **Reaction mix double glyphs (D)** - rows no longer print the word + emoji character + count
   ('fire 🔥 17' King-rejected). The leading mark is now the EXACT brand SVG copied from the
   comment summary bubbles (same paths, currentColor, r7.9s laugh geometry, 16px), sr-only label
   keeps the accessible name, then the count.
-- **POST TITLES over ids (E)** — 'POST 8720' chips become the post TITLE as the link text
+- **POST TITLES over ids (E)** - 'POST 8720' chips become the post TITLE as the link text
   (content map extended id→{url,title} at build), 1-line ellipsis on mobile, raw id demoted to
   a tiny muted '#8720' suffix. Applies to comment-row meta, Top guides and report cards.
 
-## [0.6.16] — 2026-09-15
-### Added — Moderation desk overhaul (King ledger 10:20–11:17, pairs worker v0.1.6)
-- **Overview is now the FIRST and DEFAULT tab** — tab order Overview|Queue|All Comments|Reports;
+## [0.6.16] - 2026-09-15
+### Added - Moderation desk overhaul (King ledger 10:20–11:17, pairs worker v0.1.6)
+- **Overview is now the FIRST and DEFAULT tab** - tab order Overview|Queue|All Comments|Reports;
   no `?tab=` and no hash lands on Overview (legacy `?tab=` still honoured, hash wins).
-- **Overview expansion, real data only** — TOP GUIDES (base-aware links, same trace map as the
+- **Overview expansion, real data only** - TOP GUIDES (base-aware links, same trace map as the
   fix below), ACTION REQUIRED tiles (pending + open reports; calm when 0, accent when >0, click
   jumps to the tab), 7-DAY TREND inline SVG sparkline (derived from list `created_at`, bespoke
   monoline, no chart lib), RECENT ACTIVITY last-5 from the list payload, REACTION MIX aggregated
@@ -442,330 +447,330 @@
 - **The 4 status tiles are buttons** (King 11:17): PENDING → Queue; APPROVED/SPAM/TRASH → All
   Comments pre-filtered through the existing status segment. Full button semantics: type=button,
   aria-label, focus-visible ring, hover/press states, chevron 'View' affordance.
-- **REPORTS tab redesign** (King 10:20): a report no longer wears the comment-card costume — alert
+- **REPORTS tab redesign** (King 10:20): a report no longer wears the comment-card costume - alert
   treatment (6px deep rail + band wash), header = 'Report received' + REASON chip + reporter hash
   chip + timestamp, the flagged comment is a dimmed QUOTE (context), and the report gets its OWN
-  actions: **Dismiss report / Resolve — keep** via worker v0.1.6
+  actions: **Dismiss report / Resolve - keep** via worker v0.1.6
   `POST /api/moderation/reports/:id/resolve` (sets reports.resolved_at; comment untouched). The
   comment-level Approve/Spam/Trash row sits below, labelled 'On the comment'. Go-to-post kept.
 ### Fixed
-- **Trace links are base-aware** — `withBase()` derives the site root from the live `/mod/` path
+- **Trace links are base-aware** - `withBase()` derives the site root from the live `/mod/` path
   (absolute slugs 404'd under the staging base) and links now carry the `#comment-<id>` anchor.
-- **Approve-matrix per status** — approved rows no longer show an Approve button (nor Spam/Trash
+- **Approve-matrix per status** - approved rows no longer show an Approve button (nor Spam/Trash
   on spam/trash rows); restore stays where legal.
-- **Ghost vertical scrollbar in tab panels** — `.mod-view` pinned to natural height
+- **Ghost vertical scrollbar in tab panels** - `.mod-view` pinned to natural height
   (`max-height:none;overflow:visible`); DOM-asserted scrollHeight<=clientHeight per panel at
   390px + desktop in both signed-in/empty states.
 
-## [0.6.15] — 2026-09-15
+## [0.6.15] - 2026-09-15
 ### Fixed
 - **Share-bar Telegram glyph is now the PLANE ALONE (King screenshot 12:29 + follow-up: "Telegram
-  SVG looks odd with the circle compared to others — I like the others, let Telegram match their
-  type design")** — the v0.6.13 Simple-Icons `telegram` path is a compound: first sub-path is the
+  SVG looks odd with the circle compared to others - I like the others, let Telegram match their
+  type design")** - the v0.6.13 Simple-Icons `telegram` path is a compound: first sub-path is the
   brand disc, plane rendered as negative cutout inside it; on monochrome currentColor tiles that
   read as a dark circle with a plane-shaped hole. Circle sub-path stripped; plane kept as a single
   SOLID filled silhouette (relative `m` anchor baked to absolute `M16.906 7.224`, rest verbatim).
-  Even-odd fold slits A/B-tested at 16px — collapse to speckle noise at tile size, rejected;
+  Even-odd fold slits A/B-tested at 16px - collapse to speckle noise at tile size, rejected;
   clean solid ships. Re-centered on plane ink-bbox center, scale(1.67): trio lab @16px both themes
   TG ink 15x13 vs X/WA 14x14 = w1.071 h0.929, inside ±10% law, centered [8,8]; blind cold-read
   names "X / WhatsApp / Telegram", TG = solid plane, same family as X, no disc. aria-label/href/
   tile/viewBox identical; X/WA/Copy bytes untouched.
 
-## [0.6.14] — 2026-09-15
+## [0.6.14] - 2026-09-15
 ### Fixed
-- **Gravatar fallback now covers the King's legal display name (decisive email_hash probe)** —
+- **Gravatar fallback now covers the King's legal display name (decisive email_hash probe)** -
   his newest real row (7761, post 12251, 'Godswill Udedibia', 2026-09-13) predates worker v0.1.3,
   carries `email_hash: NULL`, and its salted `author_email_hash` verifies as
-  sha256("androidscroll-comments/v1|godschi10@gmail.com") — he DID supply his email, but the
+  sha256("androidscroll-comments/v1|godschi10@gmail.com") - he DID supply his email, but the
   unsalted hash is unrecoverable (one-way). The v0.6.11 name-fallback matched only
   'G-will Chijioke', so that row rendered initials: the exact 'gravatar doesn't work' sighting.
   AUTHOR_NAME_RE now routes 'Godswill Udedibia' to his pinned hash too (exact-anchored,
   display-name only; visitor rows with real hashes are untouched; worker 0.1.5 auto-approves
   desk-Bearer replies at insert so future author replies need no approve click).
 
-## [0.6.13] — 2026-09-15
+## [0.6.13] - 2026-09-15
 ### Fixed
 - **Share-bar Telegram glyph is now the real brand mark (King phone screenshot, 10:10 UTC:
-  "the telegram logo in social share section looks wrong")** — the v0.6.5/6.7 TG icon was an
+  "the telegram logo in social share section looks wrong")** - the v0.6.5/6.7 TG icon was an
   angular custom paper-plane (2 stroke paths), not Telegram's current mark. Rebuilt like
-  WhatsApp in v0.6.7: the authentic Simple-Icons `telegram` path — modern rounded plane with
+  WhatsApp in v0.6.7: the authentic Simple-Icons `telegram` path - modern rounded plane with
   curved tail, curved underside sweep and center fold, punched as negative space inside the
-  brand disc — used VERBATIM from cdn.simpleicons.org, filled `currentColor` to join the
+  brand disc - used VERBATIM from cdn.simpleicons.org, filled `currentColor` to join the
   filled X + WA pair. Transform-only resize `scale(0.84)` about (12,12): cairosvg trio lab
-  at the true 16px device size, both themes, puts TG's ink bbox at 14×14 — identical class to
+  at the true 16px device size, both themes, puts TG's ink bbox at 14×14 - identical class to
   X 14×14 and WA 14×14 (v0.6.7 final metrics preserved), inside the ±10% law; blind cold-read
   names all three icons correctly on light and dark. aria-label/sr-only/href unchanged.
 
-## [0.6.12] — 2026-09-15
+## [0.6.12] - 2026-09-15
 ### Fixed
-- **reaction rate-limit UX: honest copy + computed retry-after (worker v0.1.4)** —
+- **reaction rate-limit UX: honest copy + computed retry-after (worker v0.1.4)** -
   a tripped reaction limiter used to collapse into the generic "Couldn't save that
-  reaction — tap to retry." toast with no hint of what really happened. The react
+  reaction - tap to retry." toast with no hint of what really happened. The react
   fetch now reads the worker's `code:'rate_limited'` body and surfaces it verbatim
   (`message` + ` Try again in <retryAfter>s.`), and that retry-after is genuinely
   computed from the tripped bucket's reset in the Worker (v0.1.4) instead of the
   hardcoded 60 that lied whenever the hourly tier tripped. Every other failure path
   keeps its existing copy.
 
-## [0.6.11] — 2026-09-15
+## [0.6.11] - 2026-09-15
 ### Fixed
-- **Share row cohesion (King phone-review, primary)** — v0.6.9's right-hand group
+- **Share row cohesion (King phone-review, primary)** - v0.6.9's right-hand group
   (`margin-left:auto` + internal `justify-content:flex-end`) broke the approved
   default row: the cluster drifted off the SHARE label and Copy link read as a
   stretched banner. Base row restored to the v0.6.8 geometry: label flush-left,
   buttons left-aligned on the SAME rail, Copy link content-sized (icon + text +
-  tile padding) as a 4th peer. Tiles are now exactly 44×44 (was 46×44 — padding
+  tile padding) as a 4th peer. Tiles are now exactly 44×44 (was 46×44 - padding
   beat min-width). `flex-end` inside the group stays for the narrow-wrap fallback
   only (≤300px: Copy link stacks under the icon column, never under the label).
   Tile borders + glyph ink one step stronger both themes (a11y: visible boundaries).
-- **Comment footer spacing at phone width** — in nested cards the action row
+- **Comment footer spacing at phone width** - in nested cards the action row
   (Reply/Share/Report) wrapped to a second line AND floated right
   (`margin-left:auto`), leaving the reaction pill alone with dead space beside it
   (King: "didn't fix the spacing issue"). Below 640px actions now stay on the
   left rail (flush with pill + body text) with tightened row gap. Desktop keeps
   pill-left / actions-right.
 ### Added
-- **Gravatar coverage** — every remaining monogram-avatar element now carries the
+- **Gravatar coverage** - every remaining monogram-avatar element now carries the
   author's photo (same sha256 URL): post-meta byline chip (both article layouts),
   home trust cell, about-page author block. Legacy comment rows (null email_hash)
-  whose name is the desk author route to his gravatar via `photoHashFor()` — his
+  whose name is the desk author route to his gravatar via `photoHashFor()` - his
   own replies show his face; other null-hash rows keep initials.
-- **Retina gravatar sizes (sprint-3 catch)** — dead leg's last vision read flagged
+- **Retina gravatar sizes (sprint-3 catch)** - dead leg's last vision read flagged
   the byline face as "4-pixel image upscaled → heavy blocky artifacts": it was
   served `?s=64` and, on King's 2×-DPR phone, the 200%-zoom crop left no real detail
-  (source cap ≈ 64 CSS px). Rule now applied across the board — request ≥ 2× display
+  (source cap ≈ 64 CSS px). Rule now applied across the board - request ≥ 2× display
   px: byline 32px → `s=96`, home trust cell 40px → `s=96`, author box on about 48px →
   `s=96`, comment photos 36px → `s=96`, ArticleChrome author-box stays `s=128`
   (already ≥ 2×48). Verified against live Gravatar: exact sizes served, bogus hash
   still 404s at the new `s` values so the `onerror` initials fallback survives.
 
-## [0.6.10] — 2026-09-14
+## [0.6.10] - 2026-09-14
 ### Added
-- **Brand social row (footer + header sheet)** — nine accounts as inline simple-icons
+- **Brand social row (footer + header sheet)** - nine accounts as inline simple-icons
   SVG buttons (X, YouTube, Instagram, Threads, TikTok, Facebook, Telegram, WhatsApp,
   Pinterest), each aria-labelled, rel=noopener, 40px targets. No <img>, no third-party
   embeds. YouTube href keeps the required trailing dot (no dot = different channel).
   OPTICAL LAW: per-icon <g> scale normalizes ink max-dims to ~19.8u/24u (set spread
-  ±5%, within the ±10% law) measured from alpha rasters — YouTube wide bar and the
+  ±5%, within the ±10% law) measured from alpha rasters - YouTube wide bar and the
   heavy facebook/telegram discs scale down, sparse x scales up.
-- **Author box photo + personal row** — the 'G' monogram becomes the real Gravatar
+- **Author box photo + personal row** - the 'G' monogram becomes the real Gravatar
   (raw sha256 URL, s=128, d=retro safety) in the same 48px slot with brand ring;
-  five personal icon buttons (X @GwillChijioke, Instagram gwillchijioke — no
+  five personal icon buttons (X @GwillChijioke, Instagram gwillchijioke - no
   underscore, LinkedIn, GitHub godschi10, GitLab godschi10).
-- **Commenter gravatars** — when a comment carries email_hash, a 36px gravatar
+- **Commenter gravatars** - when a comment carries email_hash, a 36px gravatar
   (d=404) overlays the monogram; 404 removes the img and the existing initials
   show through, so every v0.1.3-era row (null hash) renders exactly as before.
   Zero CLS in both states.
 
-## 0.6.9 — 2026-09-14 — reaction stack is TRUE Facebook order (most-reacted first/left and painted on top) + crescent-compacted pill; search icon toggles the overlay closed; consent required-star hugs the full stop; authentic X mark; share row wraps as one right-hand group
-- **Reaction stack order inverted (Comments.astro):** the King's fresh phone screenshot (post 578 'Thanks bro', heart1+fire1+laugh2) showed v0.6.6's reading was backwards — we put the most-reacted bubble LAST in the DOM (rightmost, on top). "The most that's in the front should be on top most" = Facebook semantics: **highest count FIRST (leftmost) AND visually on top**, later/lesser bubbles tuck behind it. Sort flipped to `counts[b]-counts[a]` + `.slice(0,3)` (ties keep canonical REACTIONS order like,heart,fire,laugh via stable sort); paint order inverted with `.rx-bub{position:relative}` + `.rx-stack .rx-bub:nth-child(1/2/3){z-index:3/2/1}` so earlier siblings cover later ones. Negative `margin-left:-7px` stays on non-first bubbles — the overlap is now UNDER the front bubble. VERIFICATION UPGRADE (the law this leg): `elementFromPoint` at BOTH junctions must return the LEFT bubble, plus a PIL pixel check that the most-reacted glyph's ring is unbroken.
-- **Search icon toggles closed (Header.astro):** King order — "Search icon should also be able to close the search overlay". Mirror of the v0.6.8 hamburger diff: `#search-trigger` click is now `if (searchLayer.hidden) openSearch(); else closeSearch()`; trigger carries `aria-expanded` (false→true→false) and its `aria-label` flips Search guides↔Close search on the same open/close paths. Esc, × button, scrim and tap-outside close paths untouched; counter-based scroll lock runs through the same idempotent pair.
-- **Consent required-star tightened (Comments.astro):** King addendum from the same screenshot leg — `... comments policy</a>. <span class="c-req">*</span>` had literal spaces before the period and before the asterisk, so the star sat visibly detached. First fix (markup only: drop both spaces) still measured a 20px star gap live — root cause: `.c-check label` is `inline-flex; gap:8px`, so the bare trailing text ran as an anonymous flex item and the flex gap re-glued nothing. Final fix (this leg) wraps the whole trailing sentence — "I agree to the comments policy." plus the star — in ONE inline `<span>`: flex gap now applies only input↔span, and a DOM-range probe of the period glyph box measures the star flush against it (gap −5.8px = ink overlap, passes the <2px rule); no whitespace text node remains between period and star. The noscript variant reads `policy</a>.` with no star, untouched.
-- **X share glyph = authentic brand silhouette (ArticleChrome.astro):** King addendum — "X logo is actually wrong". The custom monoline path (`M3.2 3.6h4.4L12 9.7…`, high junction, thin outlined arms) replaced with the official Simple-Icons x.com path VERBATIM (`M18.244 2.25h3.308l-7.227 8.26…`, `fill:currentColor;stroke:none`) — bold solid, flat horizontal top/bottom cuts, the signature asymmetric crossing of the real splash mark (King's reference screenshot read). Same law that saved WhatsApp in v0.6.7. Sizing: raw path at 16px device raster measures 14.3x13.0 ink bbox in BOTH themes (cairosvg probe) — inside ±10% of the WA/TG 14x14 trio footprint; scale(1.00), no wrapper transform, viewBox untouched. Old path bytes fully removed (grep 0 in src).
-- **Share row wraps as ONE right-hand group (ArticleChrome.astro, global.css):** King addendum — on a narrow screen the Copy link button must stack UNDER the icon column, never orphaned under the SHARE label. The three share links + Copy are wrapped in `<span class="share-grp">` inside `.share-row` (label + group = the two flex children); `.share-grp{display:inline-flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:10px;margin-left:auto}`. When the icons cannot share a line with Copy, the GROUP wraps internally: icon row, then Copy link right-aligned under it, x-overlapping the icon column (never under the label). Wide screens: one line, desktop layout unchanged.
-- **Reaction-pill crescent compaction (Comments.astro):** King addendum — the 3-type stack read too wide next to the meta text at 390px (58px). Non-first `.rx-bub` `margin-left` tightened -7 → **-11px**: 24px bubbles stay full-size, each tucks 11px under its left neighbor leaving a 13px crescent sliver (Facebook idiom), stack offsetWidth 24+13+13=**50px**, and the reaction row holds a SINGLE line on the "Thanks bro" comment at 390px both themes. The z-index ladder above makes the deeper overlap read clearly: leftmost (most-reacted) stays on top.
-- **Verified:** Obscura 390px served-dist gates both themes on post-578 'Thanks bro' (planted heart1+fire1+laugh2 via in-page fetch mock): DOM chain = [laugh, heart/fire] desc; `elementFromPoint` at both overlap junctions returns the LEFT bubble; PIL ring check — front glyph's border unbroken; blind vision verdict "most-reacted is first/left and on top"; search: two real `.click()` taps on `#search-trigger` = open→closed (`aria-expanded` false, `#search-layer.hidden` true) both themes; consent crop blind read "star belongs to the sentence, no odd gap"; share-row at 390px: `.share-grp` present, on wrap Copy link sits below + x-overlapping the icon column, right-aligned, never under the SHARE label; crescent: rx-stack offsetWidth 50px (≤ ~50 target) with `.c-foot` single-line at 390px; three-glyph blind read sheet: X/WhatsApp/Telegram named cold + equal-weight verdict. `npm run build` = 45 pages exit 0; `node --check` PASS on emitted Comments + Header lang JS.
+## 0.6.9 - 2026-09-14 - reaction stack is TRUE Facebook order (most-reacted first/left and painted on top) + crescent-compacted pill; search icon toggles the overlay closed; consent required-star hugs the full stop; authentic X mark; share row wraps as one right-hand group
+- **Reaction stack order inverted (Comments.astro):** the King's fresh phone screenshot (post 578 'Thanks bro', heart1+fire1+laugh2) showed v0.6.6's reading was backwards - we put the most-reacted bubble LAST in the DOM (rightmost, on top). "The most that's in the front should be on top most" = Facebook semantics: **highest count FIRST (leftmost) AND visually on top**, later/lesser bubbles tuck behind it. Sort flipped to `counts[b]-counts[a]` + `.slice(0,3)` (ties keep canonical REACTIONS order like,heart,fire,laugh via stable sort); paint order inverted with `.rx-bub{position:relative}` + `.rx-stack .rx-bub:nth-child(1/2/3){z-index:3/2/1}` so earlier siblings cover later ones. Negative `margin-left:-7px` stays on non-first bubbles - the overlap is now UNDER the front bubble. VERIFICATION UPGRADE (the law this leg): `elementFromPoint` at BOTH junctions must return the LEFT bubble, plus a PIL pixel check that the most-reacted glyph's ring is unbroken.
+- **Search icon toggles closed (Header.astro):** King order - "Search icon should also be able to close the search overlay". Mirror of the v0.6.8 hamburger diff: `#search-trigger` click is now `if (searchLayer.hidden) openSearch(); else closeSearch()`; trigger carries `aria-expanded` (false→true→false) and its `aria-label` flips Search guides↔Close search on the same open/close paths. Esc, × button, scrim and tap-outside close paths untouched; counter-based scroll lock runs through the same idempotent pair.
+- **Consent required-star tightened (Comments.astro):** King addendum from the same screenshot leg - `... comments policy</a>. <span class="c-req">*</span>` had literal spaces before the period and before the asterisk, so the star sat visibly detached. First fix (markup only: drop both spaces) still measured a 20px star gap live - root cause: `.c-check label` is `inline-flex; gap:8px`, so the bare trailing text ran as an anonymous flex item and the flex gap re-glued nothing. Final fix (this leg) wraps the whole trailing sentence - "I agree to the comments policy." plus the star - in ONE inline `<span>`: flex gap now applies only input↔span, and a DOM-range probe of the period glyph box measures the star flush against it (gap −5.8px = ink overlap, passes the <2px rule); no whitespace text node remains between period and star. The noscript variant reads `policy</a>.` with no star, untouched.
+- **X share glyph = authentic brand silhouette (ArticleChrome.astro):** King addendum - "X logo is actually wrong". The custom monoline path (`M3.2 3.6h4.4L12 9.7…`, high junction, thin outlined arms) replaced with the official Simple-Icons x.com path VERBATIM (`M18.244 2.25h3.308l-7.227 8.26…`, `fill:currentColor;stroke:none`) - bold solid, flat horizontal top/bottom cuts, the signature asymmetric crossing of the real splash mark (King's reference screenshot read). Same law that saved WhatsApp in v0.6.7. Sizing: raw path at 16px device raster measures 14.3x13.0 ink bbox in BOTH themes (cairosvg probe) - inside ±10% of the WA/TG 14x14 trio footprint; scale(1.00), no wrapper transform, viewBox untouched. Old path bytes fully removed (grep 0 in src).
+- **Share row wraps as ONE right-hand group (ArticleChrome.astro, global.css):** King addendum - on a narrow screen the Copy link button must stack UNDER the icon column, never orphaned under the SHARE label. The three share links + Copy are wrapped in `<span class="share-grp">` inside `.share-row` (label + group = the two flex children); `.share-grp{display:inline-flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:10px;margin-left:auto}`. When the icons cannot share a line with Copy, the GROUP wraps internally: icon row, then Copy link right-aligned under it, x-overlapping the icon column (never under the label). Wide screens: one line, desktop layout unchanged.
+- **Reaction-pill crescent compaction (Comments.astro):** King addendum - the 3-type stack read too wide next to the meta text at 390px (58px). Non-first `.rx-bub` `margin-left` tightened -7 → **-11px**: 24px bubbles stay full-size, each tucks 11px under its left neighbor leaving a 13px crescent sliver (Facebook idiom), stack offsetWidth 24+13+13=**50px**, and the reaction row holds a SINGLE line on the "Thanks bro" comment at 390px both themes. The z-index ladder above makes the deeper overlap read clearly: leftmost (most-reacted) stays on top.
+- **Verified:** Obscura 390px served-dist gates both themes on post-578 'Thanks bro' (planted heart1+fire1+laugh2 via in-page fetch mock): DOM chain = [laugh, heart/fire] desc; `elementFromPoint` at both overlap junctions returns the LEFT bubble; PIL ring check - front glyph's border unbroken; blind vision verdict "most-reacted is first/left and on top"; search: two real `.click()` taps on `#search-trigger` = open→closed (`aria-expanded` false, `#search-layer.hidden` true) both themes; consent crop blind read "star belongs to the sentence, no odd gap"; share-row at 390px: `.share-grp` present, on wrap Copy link sits below + x-overlapping the icon column, right-aligned, never under the SHARE label; crescent: rx-stack offsetWidth 50px (≤ ~50 target) with `.c-foot` single-line at 390px; three-glyph blind read sheet: X/WhatsApp/Telegram named cold + equal-weight verdict. `npm run build` = 45 pages exit 0; `node --check` PASS on emitted Comments + Header lang JS.
 
-## 0.6.8 — 2026-09-14 — dark form fields stop being white slabs (mint-as-bg debt retired, --field token derived); hamburger toggle now closes the drawer too
-- **Dark fields = a real sunken well, not a white slab (global.css, Comments.astro):** root cause of the King's screenshots (comment form 4 fields + textarea blazing white on the dark card; newsletter email field white on the dark band) is v3.3 design debt — `html[data-theme=dark]` field rules painted `background:var(--mint)` = **#D9F2E8 = rgb(217,242,232), a near-white** (live served-bytes probe read form bg rgb(217,242,232) color rgb(16,35,31)); --mint was born as INK on the --verdict bands, never a surface. Fix defines a dark-only field family **derived from existing tokens, zero alien hex**: `--field:var(--band-2)` **#123430** (deep green family), `--field-line:var(--line-2)` #285047, `--field-ink:var(--ink)` #E8F5EF, `--field-ph:var(--muted)` #B6CCC6. Repainted controls: `.comments #comment-form input[type=text/email/url] + textarea` (+ textarea placeholder rule that never existed), `.c-rep-sel` report select (:995 was mint-as-bg too), `.notify input[type=email]` (global.css :425). **Placeholder/accent re-derivation:** the old `#2C4640` placeholder ink was derived for a LIGHT (mint) surface — wrong the moment fields go dark — now --muted (7.98:1 on field, ≥3:1 target); text ink 12.01:1 (≥4.5); border --line-2 vs card 1.81:1 (≥1.5); field vs card 1.21:1 reads as a well. Focus stays **border-lift only** — existing `:focus-visible` outline --focus #5EEAD4 untouched. Checkbox accents (`accent-color:var(--deep)`) lift to --teal on dark for the checked fill. **Light mode untouched** — every rule is `html[data-theme=dark]`-scoped; --mint keeps its correct ink-on-verdict role everywhere else (verified: 0 remaining `background:var(--mint)` under data-theme=dark).
-- **Hamburger toggles the drawer (Header.astro):** King order — "Hamburger menu should be able to close the menu too not just open it". The ☰ `#browse-trigger` listener was `addEventListener('click', openSheet)` (open-only; second tap was a no-op behind the scrim). Now `if (sheet.hidden) openSheet(); else closeSheet()` — tap while open closes. `aria-expanded` flips true/false on the same paths, and `aria-label` swaps Open↔Close browse menu so the icon's announced purpose matches state. Existing × (`#browse-close`), scrim/outside-click and Escape close paths kept verbatim; the counter-based scroll lock runs through the same openSheet/closeSheet pair, so no double-unlock. Light-mode behavior identical (toggle is theme-agnostic).
-- **Verified:** Obscura 390px served-dist dark gates before/after — comment-form card `/tmp/darkforms/gate-{before,after}-comment-dark.png`, newsletter band `/tmp/darkforms/gate-{before,after}-newsletter-dark.png`, drawer open→hamburger-tap-closed `/tmp/darkforms/gate-after-drawer-{open,closed}-dark.png` + light `/tmp/darkforms/gate-after-drawer-{open,closed}-light.png`; DOM asserts live: dark field bg **rgb(18,52,48)** (was rgb(217,242,232)), ink rgb(232,245,239), placeholder rgb(182,204,198), select + notify field same; hamburger: aria-expanded false→true→false with `#browse-sheet.hidden` true→false→true after two real `.click()` taps. Blind vision verdicts: after-shots "no white blocks, fields blend"; drawer-closed shots "menu is closed". `npm run build` exit 0; `node --check` PASS on emitted `Header.astro_…_lang.*.js` containing the toggle branch.
+## 0.6.8 - 2026-09-14 - dark form fields stop being white slabs (mint-as-bg debt retired, --field token derived); hamburger toggle now closes the drawer too
+- **Dark fields = a real sunken well, not a white slab (global.css, Comments.astro):** root cause of the King's screenshots (comment form 4 fields + textarea blazing white on the dark card; newsletter email field white on the dark band) is v3.3 design debt - `html[data-theme=dark]` field rules painted `background:var(--mint)` = **#D9F2E8 = rgb(217,242,232), a near-white** (live served-bytes probe read form bg rgb(217,242,232) color rgb(16,35,31)); --mint was born as INK on the --verdict bands, never a surface. Fix defines a dark-only field family **derived from existing tokens, zero alien hex**: `--field:var(--band-2)` **#123430** (deep green family), `--field-line:var(--line-2)` #285047, `--field-ink:var(--ink)` #E8F5EF, `--field-ph:var(--muted)` #B6CCC6. Repainted controls: `.comments #comment-form input[type=text/email/url] + textarea` (+ textarea placeholder rule that never existed), `.c-rep-sel` report select (:995 was mint-as-bg too), `.notify input[type=email]` (global.css :425). **Placeholder/accent re-derivation:** the old `#2C4640` placeholder ink was derived for a LIGHT (mint) surface - wrong the moment fields go dark - now --muted (7.98:1 on field, ≥3:1 target); text ink 12.01:1 (≥4.5); border --line-2 vs card 1.81:1 (≥1.5); field vs card 1.21:1 reads as a well. Focus stays **border-lift only** - existing `:focus-visible` outline --focus #5EEAD4 untouched. Checkbox accents (`accent-color:var(--deep)`) lift to --teal on dark for the checked fill. **Light mode untouched** - every rule is `html[data-theme=dark]`-scoped; --mint keeps its correct ink-on-verdict role everywhere else (verified: 0 remaining `background:var(--mint)` under data-theme=dark).
+- **Hamburger toggles the drawer (Header.astro):** King order - "Hamburger menu should be able to close the menu too not just open it". The ☰ `#browse-trigger` listener was `addEventListener('click', openSheet)` (open-only; second tap was a no-op behind the scrim). Now `if (sheet.hidden) openSheet(); else closeSheet()` - tap while open closes. `aria-expanded` flips true/false on the same paths, and `aria-label` swaps Open↔Close browse menu so the icon's announced purpose matches state. Existing × (`#browse-close`), scrim/outside-click and Escape close paths kept verbatim; the counter-based scroll lock runs through the same openSheet/closeSheet pair, so no double-unlock. Light-mode behavior identical (toggle is theme-agnostic).
+- **Verified:** Obscura 390px served-dist dark gates before/after - comment-form card `/tmp/darkforms/gate-{before,after}-comment-dark.png`, newsletter band `/tmp/darkforms/gate-{before,after}-newsletter-dark.png`, drawer open→hamburger-tap-closed `/tmp/darkforms/gate-after-drawer-{open,closed}-dark.png` + light `/tmp/darkforms/gate-after-drawer-{open,closed}-light.png`; DOM asserts live: dark field bg **rgb(18,52,48)** (was rgb(217,242,232)), ink rgb(232,245,239), placeholder rgb(182,204,198), select + notify field same; hamburger: aria-expanded false→true→false with `#browse-sheet.hidden` true→false→true after two real `.click()` taps. Blind vision verdicts: after-shots "no white blocks, fields blend"; drawer-closed shots "menu is closed". `npm run build` exit 0; `node --check` PASS on emitted `Header.astro_…_lang.*.js` containing the toggle branch.
 
-## 0.6.7 — 2026-09-14 — share-bar glyphs optically resized to X footprint; WhatsApp glyph rebuilt with the authentic brand-mark fill
-- **WhatsApp share glyph = brand mark (ArticleChrome.astro):** the King's cold read rejected the v0.6.5 stroke bubble at 16px ("prohibited sign" — ring + slash, handset bulbs read as dots), so per the King addendum the WA slot was REBUILT as the authentic brand silhouette: official Simple-Icons WhatsApp path (verbatim bytes, `/tmp/share067/wa_d.txt`), `fill:currentColor; stroke:none` — the handset is punched by the path's own sub-paths. Resized **uniform scale(0.86) about (12,12)** via a wrapper `<g>` (transform-only; viewBox/aria/sr-only/hrefs untouched). Finish-leg iteration (2 of cap 4): the dead leg's 0.745 rastered a **12x12px** ink bbox at the true 16px phone size vs X's **14x14** (ratio 0.857 — outside ±10%), and 0.877 overshot the stroke-inclusive 480px-lab ratio (h 1.116); **0.86 is the fit** — 16px device raster 14x14 both themes (w/h/area ratios vs X all 1.00; lab w 0.907 h 1.046), ink mass 106 vs X 118 — same weight line as the monoline siblings. Blind cold-read PASS light + dark: "rounded speech bubble with a tail enclosing a telephone handset — WhatsApp".
-- **Telegram share glyph optical resize:** approved v2 plane geometry untouched (2 paths, miter + square caps, non-scaling 1.6 strokes); resize-only `scale(0.95 1.10)` about (12,12) — fixes the v0.6.6 height deficit (was 18.6x14.6u; now stroke-free geom 17.6x16.0u, inside the 15.7–19.2u band). The dead leg's applied 0.92/1.16 rastered h-ratio 1.124 vs X at 480px (band-out, lopsided 418x409); 0.95/1.10 lands 16px device raster 14x14 (ratio 1.00 both axes) + lab 1.033/1.066. Blind cold-read PASS both themes: "paper airplane / send — Telegram".
+## 0.6.7 - 2026-09-14 - share-bar glyphs optically resized to X footprint; WhatsApp glyph rebuilt with the authentic brand-mark fill
+- **WhatsApp share glyph = brand mark (ArticleChrome.astro):** the King's cold read rejected the v0.6.5 stroke bubble at 16px ("prohibited sign" - ring + slash, handset bulbs read as dots), so per the King addendum the WA slot was REBUILT as the authentic brand silhouette: official Simple-Icons WhatsApp path (verbatim bytes, `/tmp/share067/wa_d.txt`), `fill:currentColor; stroke:none` - the handset is punched by the path's own sub-paths. Resized **uniform scale(0.86) about (12,12)** via a wrapper `<g>` (transform-only; viewBox/aria/sr-only/hrefs untouched). Finish-leg iteration (2 of cap 4): the dead leg's 0.745 rastered a **12x12px** ink bbox at the true 16px phone size vs X's **14x14** (ratio 0.857 - outside ±10%), and 0.877 overshot the stroke-inclusive 480px-lab ratio (h 1.116); **0.86 is the fit** - 16px device raster 14x14 both themes (w/h/area ratios vs X all 1.00; lab w 0.907 h 1.046), ink mass 106 vs X 118 - same weight line as the monoline siblings. Blind cold-read PASS light + dark: "rounded speech bubble with a tail enclosing a telephone handset - WhatsApp".
+- **Telegram share glyph optical resize:** approved v2 plane geometry untouched (2 paths, miter + square caps, non-scaling 1.6 strokes); resize-only `scale(0.95 1.10)` about (12,12) - fixes the v0.6.6 height deficit (was 18.6x14.6u; now stroke-free geom 17.6x16.0u, inside the 15.7–19.2u band). The dead leg's applied 0.92/1.16 rastered h-ratio 1.124 vs X at 480px (band-out, lopsided 418x409); 0.95/1.10 lands 16px device raster 14x14 (ratio 1.00 both axes) + lab 1.033/1.066. Blind cold-read PASS both themes: "paper airplane / send - Telegram".
 - **X untouched:** the `M3.2 3.6` path bytes are byte-identical (single X path in git diff: none); Copy-link untouched. All ratios vs the X footprint within ±10%.
-- **Verified:** cairosvg raster gate @16px true phone size, light #f6f8f8 + dark #0B1F1A (finish-raster.py): X 14x14 ink118/116, WA 14x14 ink106/106, TG 14x14 ink72/71 — equal bounding boxes both themes; blind vision_analyze names all three apps cold on both light and dark sheets. Obscura 390px served-dist gate PASS light+dark (`/tmp/share067/gate-sharebar-{light,dark}.png`): DOM assert all three share svgs computed 16x16px equal (`data-theme` verified per pass); on-crop vision reads: all brand marks legible, containers equal, no clipping/glitches (dark/light reads flag TG as lighter MASS — the inherent monoline-vs-fill construction, size class confirmed equal). `npm run build` = 45 pages exit 0; `node --check` PASS on emitted `ArticleChrome.astro_…_lang.Bbxqlrrn.js`.
+- **Verified:** cairosvg raster gate @16px true phone size, light #f6f8f8 + dark #0B1F1A (finish-raster.py): X 14x14 ink118/116, WA 14x14 ink106/106, TG 14x14 ink72/71 - equal bounding boxes both themes; blind vision_analyze names all three apps cold on both light and dark sheets. Obscura 390px served-dist gate PASS light+dark (`/tmp/share067/gate-sharebar-{light,dark}.png`): DOM assert all three share svgs computed 16x16px equal (`data-theme` verified per pass); on-crop vision reads: all brand marks legible, containers equal, no clipping/glitches (dark/light reads flag TG as lighter MASS - the inherent monoline-vs-fill construction, size class confirmed equal). `npm run build` = 45 pages exit 0; `node --check` PASS on emitted `ArticleChrome.astro_…_lang.Bbxqlrrn.js`.
 
-- **style-test-article internal QA fixture (`src/pages/style-test-article.astro`):** kitchen-sink page rewritten as an honest fixture — title "Style Test — AndroidScroll", desc "internal style QA fixture", `noindex, nofollow`, zero debug copy. Unlisted by construction (absent from `content.json` → homepage/latest/search/categories/tags/RSS; build grep: 0 refs anywhere in `dist/` except its own file). Gates: `npm run build` = 45 pages exit 0; served :8099 curl fixture 200 + noindex meta in served HTML + homepage 200; Obscura render shot `/tmp/styletest/gate-fixture.png`.
+- **style-test-article internal QA fixture (`src/pages/style-test-article.astro`):** kitchen-sink page rewritten as an honest fixture - title "Style Test - AndroidScroll", desc "internal style QA fixture", `noindex, nofollow`, zero debug copy. Unlisted by construction (absent from `content.json` → homepage/latest/search/categories/tags/RSS; build grep: 0 refs anywhere in `dist/` except its own file). Gates: `npm run build` = 45 pages exit 0; served :8099 curl fixture 200 + noindex meta in served HTML + homepage 200; Obscura render shot `/tmp/styletest/gate-fixture.png`.
 
-## 0.6.6 — 2026-09-14 — laugh glyph optical size matched to siblings; reaction summary stack ascending — most-reacted on top (Facebook-style)
-- **Laugh optical balance (Comments.astro `REACT_SVG.laugh`):** at the equal 21px CSS box the 😂 face disc spanned only 13.2u of the 24 grid vs siblings' ~16-18u and read SMALLER than like/heart/fire. Geometry fix, CSS untouched. Obscura picker-crop vision gate (both themes) iterated the face disc r6.6→7.4→7.6s→8.8s→**7.9s** (3-iteration cap): r7.4/r7.6s still read small/compact, r8.8s matched size but the dark-theme read flagged its ink mass (192) as glaringly heavy vs the monoline siblings. Ships r7.9s — disc r7.9 scaled about centre (wedge eyes + grin proportional, same 68% mouth:face opening, evenodd knock-out structure of the approved v0.6.3 face untouched); teardrops translated along their radial axis to cusp tips (3.073,8.75)/(20.927,8.75) = radius 9.5 = R+1.6 → glyph-lab 1.6u tip-gutter law holds EXACTLY; bulbs slimmed 0.80 about the tip (r1.7→1.36) so the widest fill x[0.042,23.885] stays inside the viewBox (unscaled large-r variants clip — the "stubby handles" reject). Raster gate (cairosvg @21px picker + @16px pill, light #f6f8f8/#52635F + dark #0B241D/#B6CCC6): laugh 21x15 ink171 both themes — inside the sibling band (heart 17x16 ink118/120, like 19x18 ink153/154, fire 17x20 ink175/178); @16: 16x12 ink104/106 vs heart 182 / fire 210-224 area. Final picker crops: light vision PASS "same visual weight line … neither shrinking beside them nor bloating"; dark read objected to the fill-vs-outline construction (the King-approved v0.6.3 knock-out face, unchanged since) NOT to size; on-crop pixel audit: laugh ink within +6.8%/+4.7% of fire (heaviest sibling).
-- **Reaction summary stack ascending (Comments.astro `rx-stack`):** `.sort(counts desc).slice(0,3)` → `.sort((a,b)=>counts[a]-counts[b]).slice(-3)` — the three bubbles keep left→right = low→high count, and because paint order is DOM order (no z-index on `.rx-bub`), the MOST-reacted bubble now overlaps the chain from the top (Facebook-style). Gate: post-578 'Thanks bro' thread, planted heart1+fire1+laugh2 — DOM assert chain = [heart, fire, laugh] both themes; `elementFromPoint` hit-test at each overlap junction: heart/fire junction top=fire, fire/laugh junction top=laugh — light and dark identical.
+## 0.6.6 - 2026-09-14 - laugh glyph optical size matched to siblings; reaction summary stack ascending - most-reacted on top (Facebook-style)
+- **Laugh optical balance (Comments.astro `REACT_SVG.laugh`):** at the equal 21px CSS box the 😂 face disc spanned only 13.2u of the 24 grid vs siblings' ~16-18u and read SMALLER than like/heart/fire. Geometry fix, CSS untouched. Obscura picker-crop vision gate (both themes) iterated the face disc r6.6→7.4→7.6s→8.8s→**7.9s** (3-iteration cap): r7.4/r7.6s still read small/compact, r8.8s matched size but the dark-theme read flagged its ink mass (192) as glaringly heavy vs the monoline siblings. Ships r7.9s - disc r7.9 scaled about centre (wedge eyes + grin proportional, same 68% mouth:face opening, evenodd knock-out structure of the approved v0.6.3 face untouched); teardrops translated along their radial axis to cusp tips (3.073,8.75)/(20.927,8.75) = radius 9.5 = R+1.6 → glyph-lab 1.6u tip-gutter law holds EXACTLY; bulbs slimmed 0.80 about the tip (r1.7→1.36) so the widest fill x[0.042,23.885] stays inside the viewBox (unscaled large-r variants clip - the "stubby handles" reject). Raster gate (cairosvg @21px picker + @16px pill, light #f6f8f8/#52635F + dark #0B241D/#B6CCC6): laugh 21x15 ink171 both themes - inside the sibling band (heart 17x16 ink118/120, like 19x18 ink153/154, fire 17x20 ink175/178); @16: 16x12 ink104/106 vs heart 182 / fire 210-224 area. Final picker crops: light vision PASS "same visual weight line … neither shrinking beside them nor bloating"; dark read objected to the fill-vs-outline construction (the King-approved v0.6.3 knock-out face, unchanged since) NOT to size; on-crop pixel audit: laugh ink within +6.8%/+4.7% of fire (heaviest sibling).
+- **Reaction summary stack ascending (Comments.astro `rx-stack`):** `.sort(counts desc).slice(0,3)` → `.sort((a,b)=>counts[a]-counts[b]).slice(-3)` - the three bubbles keep left→right = low→high count, and because paint order is DOM order (no z-index on `.rx-bub`), the MOST-reacted bubble now overlaps the chain from the top (Facebook-style). Gate: post-578 'Thanks bro' thread, planted heart1+fire1+laugh2 - DOM assert chain = [heart, fire, laugh] both themes; `elementFromPoint` hit-test at each overlap junction: heart/fire junction top=fire, fire/laugh junction top=laugh - light and dark identical.
 - **Verified:** Obscura 390px served-dist gate PASS light+dark (picker svg 21px; screenshots `/tmp/v066/gate-{stack,laugh}-{light,dark}.png`); `npm run build` = 45 pages exit 0; `node --check` PASS on emitted `Comments.astro_…_lang.GGB62qRA.js` containing the r7.9 face and the ascending `slice(-3)` sort.
 
-## 0.6.5 — 2026-09-14 — picker closes on choice; single-highlight reaction state; WhatsApp + Telegram share glyphs redrawn; reaction icons 18→21px (King: laugh approved, too small)
-- **Picker closes on choice (Comments.astro):** tapping a picker option now calls `closePickers()` the instant the optimistic reaction is painted — the popup can no longer linger after a choice (King: "popup must vanish after choosing"). Escape and outside-click closes were already wired and re-verified in the live gate.
+## 0.6.5 - 2026-09-14 - picker closes on choice; single-highlight reaction state; WhatsApp + Telegram share glyphs redrawn; reaction icons 18→21px (King: laugh approved, too small)
+- **Picker closes on choice (Comments.astro):** tapping a picker option now calls `closePickers()` the instant the optimistic reaction is painted - the popup can no longer linger after a choice (King: "popup must vanish after choosing"). Escape and outside-click closes were already wired and re-verified in the live gate.
 - **Single-highlight reaction state (King bug #2):** a tap REPLACES my reaction instead of stacking. Optimistic path sets `st.mine` to an empty Set (tap-off of the current key) or `new Set([emoji])` (switch/tap-on); server confirm adopts the authoritative `counts` and sets `mine = {tapped}` when `data.active` else clears only the tapped key; rollback restores the full prior snapshot (mine + counts). All four buttons repaint through the one `renderRx`/sync path on every transition so no stale `aria-pressed` survives a switch.
 - **localStorage mirror v2:** `androidscroll:rx:{postId}` now stores ONE emoji key per comment (string) or deletes the entry; old array values migrate on read (last valid key wins) and are rewritten in the new shape; invalid/stale entries are pruned.
-- **Reaction icons 18→21px (King mid-leg add):** "Laughing SVG is now looking awesome… TOO SMALL at 18px" — picker/comment reaction glyphs bumped uniformly to 21px across ALL four glyphs (approved laugh path bytes untouched — size only), 1.6px non-scaling strokes kept, tap targets ≥44px (34→44 min-height); summary-pill bubbles scaled proportionally (svg 14→16px, container 22→24px, overlap −6→−7px) so pill→picker still reads.
-- **WhatsApp share glyph v3 (ArticleChrome.astro):** the King's live verdict on v0.6.3 was "tilted map pin, handset ends welded into bubble walls" — root cause found: the v0.6.3 bubble arc used flags `0 1 1`, which cairosvg/Chrome render as the REFLECTED circle. v3 = ONE continuous path with the verified major-arc `0 1 0`: r7.0 circle c(12,11.2) + SHORT integrated lower-left stub tail (max reach y≈18.6 < 19, no long sweep, rounded tip via one Q); handset = bowed bar + two bulb circles r0.85 with ends at r3.2 from centre → ≥2.5 units clear of the wall everywhere (never touching). Raster lab (cairosvg 16/18/36px, light #f2f5f3 + real dark card #0B241D): blind-read PASS — "circular speech bubble with a small pointed tail… WhatsApp".
-- **Telegram share glyph v2:** King verdict on v0.6.2: "double-pointed glitched nose, wings too narrow, fold misaligned". v2 = wide balanced plane, nose ONE corner (21.2,4.8), left tail corner at the King's anchor (2.6,12.4), small notch mid-tail, bottom wing corner (12.8,19.4); stroke-linejoin miter + square caps; the fold line runs tail-centre→nose but stops 1.4u short of the tip so the square cap can never double-overlap into a second point; 2 paths max. Blind-read PASS — "paper airplane… Telegram… Send". X + Copy-link bytes untouched.
-- **Verified (Obscura 390px, both themes, served dist + local react proxy so the worker's Origin allow-list is exercised for real):** flagship post-10630 thread — open picker → tap heart → picker hidden + ONLY heart `aria-pressed="true"` (DOM query); tap fire on the same comment → only fire pressed, heart cleared; reload → mirror = exactly one single-key entry `{7722:"fire"}` and fire sole-pressed; computed sizes asserted 21px react / 16px pill svg / ≥44px targets on BOTH the flagship and the post-578 (read-deleted-whatsapp-messages) reference thread. Screenshots `/tmp/v065/gate-{size,closed,switch,persist,share}-{light,dark}.png`; vision-QA PASS on picker-open (all four equal-rhythm 21px, laugh reads face+tears) and share zoom (WA bubble not pin; TG single clean nose).
+- **Reaction icons 18→21px (King mid-leg add):** "Laughing SVG is now looking awesome… TOO SMALL at 18px" - picker/comment reaction glyphs bumped uniformly to 21px across ALL four glyphs (approved laugh path bytes untouched - size only), 1.6px non-scaling strokes kept, tap targets ≥44px (34→44 min-height); summary-pill bubbles scaled proportionally (svg 14→16px, container 22→24px, overlap −6→−7px) so pill→picker still reads.
+- **WhatsApp share glyph v3 (ArticleChrome.astro):** the King's live verdict on v0.6.3 was "tilted map pin, handset ends welded into bubble walls" - root cause found: the v0.6.3 bubble arc used flags `0 1 1`, which cairosvg/Chrome render as the REFLECTED circle. v3 = ONE continuous path with the verified major-arc `0 1 0`: r7.0 circle c(12,11.2) + SHORT integrated lower-left stub tail (max reach y≈18.6 < 19, no long sweep, rounded tip via one Q); handset = bowed bar + two bulb circles r0.85 with ends at r3.2 from centre → ≥2.5 units clear of the wall everywhere (never touching). Raster lab (cairosvg 16/18/36px, light #f2f5f3 + real dark card #0B241D): blind-read PASS - "circular speech bubble with a small pointed tail… WhatsApp".
+- **Telegram share glyph v2:** King verdict on v0.6.2: "double-pointed glitched nose, wings too narrow, fold misaligned". v2 = wide balanced plane, nose ONE corner (21.2,4.8), left tail corner at the King's anchor (2.6,12.4), small notch mid-tail, bottom wing corner (12.8,19.4); stroke-linejoin miter + square caps; the fold line runs tail-centre→nose but stops 1.4u short of the tip so the square cap can never double-overlap into a second point; 2 paths max. Blind-read PASS - "paper airplane… Telegram… Send". X + Copy-link bytes untouched.
+- **Verified (Obscura 390px, both themes, served dist + local react proxy so the worker's Origin allow-list is exercised for real):** flagship post-10630 thread - open picker → tap heart → picker hidden + ONLY heart `aria-pressed="true"` (DOM query); tap fire on the same comment → only fire pressed, heart cleared; reload → mirror = exactly one single-key entry `{7722:"fire"}` and fire sole-pressed; computed sizes asserted 21px react / 16px pill svg / ≥44px targets on BOTH the flagship and the post-578 (read-deleted-whatsapp-messages) reference thread. Screenshots `/tmp/v065/gate-{size,closed,switch,persist,share}-{light,dark}.png`; vision-QA PASS on picker-open (all four equal-rhythm 21px, laugh reads face+tears) and share zoom (WA bubble not pin; TG single clean nose).
 - **Ship gates:** `npm run build` = 45 pages exit 0; `node --check` PASS on the emitted `Comments.astro_…_lang.C1S1ZChR.js`; minified JS verified to contain the replace-set optimistic path and the closePickers call after renderRx.
 
-## 0.6.4 — 2026-09-14 — moderation console v2: four tabs (Queue / All comments with status+post filters & pagination / Reports inbox / Overview stats) over the v0.1.2 desk API; token gate, skeletons, toasts, both themes
+## 0.6.4 - 2026-09-14 - moderation console v2: four tabs (Queue / All comments with status+post filters & pagination / Reports inbox / Overview stats) over the v0.1.2 desk API; token gate, skeletons, toasts, both themes
 - **Console v2 (`src/pages/mod.astro`, 746 lines):** the v0.6.0 single-desk `/mod/` page is replaced by a four-tab console over the Worker v0.1.2 desk API (`/api/moderation/list|stats|reports` + approve/spam/trash/reply actions): **Queue** (pending-first working list), **All comments** (status chips + post filter + page pagination, 25/page), **Reports** (open-report inbox), **Overview** (KPI stats + top posts). Tab + filters live in the URL hash (`#/mod/all?status=approved&post=56&page=2`) so any console view is shareable and back/forward work.
 - **Token gate + UX:** Bearer gate against `/api/moderation/stats` (wrong token = red-inline, no data ever rendered unsanitized); skeleton rows while fetching; toast confirmations on every moderation action; author-reply flow from the console posts as the site author; light + dark themes both covered.
-- **Verified E2E on the built console (Obscura, served dist on :8099):** gate + wrong-token; queue shows a live pending row pre-approve; All-tab approved+post=56 = 18 rows with pagination page-2 boundary check; reports shows the 1 real open row; overview KPIs match `/api/moderation/stats`; nested-reply E2E — created comment 7763 on post 10630 via the console, approved it, replied-as-author (7764), confirmed it renders nested in the public thread. E2E residue (7763/7764 + their moderation_log rows) deleted from D1 and KV `thread:10630` purged afterwards; public thread back to the 4 originals, desk total back to 52.
+- **Verified E2E on the built console (Obscura, served dist on :8099):** gate + wrong-token; queue shows a live pending row pre-approve; All-tab approved+post=56 = 18 rows with pagination page-2 boundary check; reports shows the 1 real open row; overview KPIs match `/api/moderation/stats`; nested-reply E2E - created comment 7763 on post 10630 via the console, approved it, replied-as-author (7764), confirmed it renders nested in the public thread. E2E residue (7763/7764 + their moderation_log rows) deleted from D1 and KV `thread:10630` purged afterwards; public thread back to the 4 originals, desk total back to 52.
 - **Ship gates:** `npm run build` = 45 pages exit 0; `node --check` PASS on the emitted `mod.astro_…_lang.4-djOEmA.js`; `noindex` meta present in `dist/mod/index.html`.
 
-## 0.6.3 — 2026-09-14 — laugh glyph v3 (detached teardrops of joy, wedge eyes, wide grin — shelter lab candidate B, blind-read PASS) + WhatsApp share glyph redrawn to true bubble+handset silhouette
-- **Laugh v3 = shelter candidate B (Comments.astro `REACT_SVG.laugh`):** the `/tmp/laughv3-freebuff` parametric lab rendered six tears-of-joy candidates (disc r6.6 + flat-based wedge-eye knock-outs + wide grin bowl + DETACHED teardrops outside the rim); manager blind-reads PASSed only B — "two tiny detached blobs… best interpreted as TEARS / DROPLETS OF JOY flying out from the corners of the eyes… big open laughing mouth". v0.6.2's rim-welded drops failed that read. Ship-leg regeneration re-rasterised B from `lab.py`+`candidates.json` at 18px light+dark with **0/324 px diff** vs the lab's `cand-B-18-{light,dark}.png` and re-passed every lab gate (G1 3 ink components both themes, G2 3 knock-out holes at 180px, G3 gutters/widths, G4 family ink band). Like/heart/fire bytes untouched.
-- **WhatsApp share glyph redrawn (ArticleChrome.astro):** the King's screenshot zoom caught v0.6.2 drawing a plain circle-ring + detached triangle tail + squiggle. Now the true WhatsApp silhouette — ONE continuous path: r8.3 bubble whose lower-left flows into an INTEGRATED teardrop tail (tangent A(4.138,10.305) → tail tip (3.1,21.1) → B(13.791,19.283), concave-quadratic edges, no separate triangle) + a real handset: curved bar bulging lower-left with two perpendicular end bulbs at ~45°, orientation measured off the brand glyph. Same family stroke (1.6 non-scaling, currentColor, square caps). X/Telegram/Copy-link bytes untouched; aria-labels/sr-only/data attrs preserved.
+## 0.6.3 - 2026-09-14 - laugh glyph v3 (detached teardrops of joy, wedge eyes, wide grin - shelter lab candidate B, blind-read PASS) + WhatsApp share glyph redrawn to true bubble+handset silhouette
+- **Laugh v3 = shelter candidate B (Comments.astro `REACT_SVG.laugh`):** the `/tmp/laughv3-freebuff` parametric lab rendered six tears-of-joy candidates (disc r6.6 + flat-based wedge-eye knock-outs + wide grin bowl + DETACHED teardrops outside the rim); manager blind-reads PASSed only B - "two tiny detached blobs… best interpreted as TEARS / DROPLETS OF JOY flying out from the corners of the eyes… big open laughing mouth". v0.6.2's rim-welded drops failed that read. Ship-leg regeneration re-rasterised B from `lab.py`+`candidates.json` at 18px light+dark with **0/324 px diff** vs the lab's `cand-B-18-{light,dark}.png` and re-passed every lab gate (G1 3 ink components both themes, G2 3 knock-out holes at 180px, G3 gutters/widths, G4 family ink band). Like/heart/fire bytes untouched.
+- **WhatsApp share glyph redrawn (ArticleChrome.astro):** the King's screenshot zoom caught v0.6.2 drawing a plain circle-ring + detached triangle tail + squiggle. Now the true WhatsApp silhouette - ONE continuous path: r8.3 bubble whose lower-left flows into an INTEGRATED teardrop tail (tangent A(4.138,10.305) → tail tip (3.1,21.1) → B(13.791,19.283), concave-quadratic edges, no separate triangle) + a real handset: curved bar bulging lower-left with two perpendicular end bulbs at ~45°, orientation measured off the brand glyph. Same family stroke (1.6 non-scaling, currentColor, square caps). X/Telegram/Copy-link bytes untouched; aria-labels/sr-only/data attrs preserved.
 - **Evidence:** `/tmp/v063ship/wa-family.png` (16+18px, both themes next to X/TG), `/tmp/v063ship/gate-{light,dark}-laugh.png` + `gate-{light,dark}-share.png` (390px Obscura, live-served dist, comments opened / share row), regeneration diff + gate re-run in `/tmp/v063ship/REPORT.md`.
 
-## 0.6.2 — 2026-09-13 — laugh teardrops anchored to the face rim + parent/sub breadcrumbs + dark footer edge matches the scrollbar; solid-fill tears-of-joy laugh + strengthened flame; brand SVG share glyphs; header persists under overlays; FAQ disclosure chevrons
-- **Tears-of-joy laugh — teardrops anchored to face rim (Comments.astro `REACT_SVG.laugh`):** the v0.6.1 hairline ring + drops failed the Manager's 18px vision gate ("flat line, tears = faint ticks") and the v064 solid pass still failed it again ("side marks are four-pointed sparkles, not teardrops; face reads ambiguous at native size"). The knock-out FACE is kept exactly as approved — ONE `fill-rule="evenodd"` `currentColor` path, solid disc r 7.4 c(12,12) (a 12×12px mass that survives AA) with two THICK SQUINT-EYE CHEVRON holes (2×2px each) and a WIDE OPEN-GRIN BOWL hole (6×3px) knocked out. What changed is the two side drops: the old 2.9u diamonds floated at x 0.4–3.3 / 20.7–23.6 (y 5.6–8.4), clear of the rim — that float is what read as a sparkle. Each drop is now a real teardrop ANCHORED to the rim: TIP sits exactly ON the r 7.4 ring at eye height (5.00, 9.60 — rim x = 12 − √(7.4²−2.4²) = 5.000), with the round BULB (r 1.65, wider than the 2.1px eye holes) hanging down-and-out on a 22° axis; total tip-to-bulb 5.65u (4.2 device px at 18px). Mirrored about x=12.
-- **Laugh raster evidence:** cairosvg at EXACTLY 18px + 24px + 36px + a 180px reference on `#f2f5f3` and `#101816`; PIL 8-connected component audit of the 18px ink = ONE connected component at threshold <200 AND <128 (disc + both tears welded at the rim — no floating mark anywhere), identical geometry light+dark; the 18px coverage map shows the tip at the outer-eye row widening down-out into the bulb; 180px reads laughing face + droplet tears (not sparkle/star). Brand monochrome `currentColor`; no dark-mode colour change.
-- **Breadcrumbs — parent + sub category ([...slug].astro):** posts sub-filed in `content.json` carry `root_name`/`root_slug` plus the sub `cat_path` (`/category/root/sub/`), but the trail only ever showed the sub. Two-segment posts now render Home › root › sub › title (root href `/category/{root_slug}/`, sub href `cat.path`); single-segment posts keep the exact 2-step trail. Trail and `BreadcrumbList` are built from ONE crumb list, so positions cannot drift (root pos 2, sub pos 3, title pos 4; the 1-step-uncategorised case still yields pos 2).
-- **Fire glyph core, solid + larger (Comments.astro `REACT_SVG.fire`):** the hollow diamond core read as a droplet/leaf at 18px — the core is now always-filled (no `.fl` state, `fill="currentColor" stroke="none"`) and grown to a 6×7px solid mass, so the flame silhouette (pointed tip → split side licks → solid core → rounded base) wins at a glance. Raster-gated at 18/24/36px in both themes.
-- **Like + heart untouched** — King approved both in v0.6.0; no geometry or colour edits.
-- **Brand inline-SVG share glyphs (ArticleChrome.astro + global.css):** the plain-text `X / WA / TG` abbreviations and the `Copy link` label are now brand-drawn inline SVGs (24 viewBox, 1.6 hairline `currentColor` stroke, square caps — the reaction-icon stroke family, zero third-party assets/CDN). X, WhatsApp and Telegram keep their `aria-label` and get `sh-btn--icon`; the copy button keeps its exact `data-copy-link` contract and pairs the chain glyph with the visible `Copy link` text. `.sr-only` utility added site-wide.
+## 0.6.2 - 2026-09-13 - laugh teardrops anchored to the face rim + parent/sub breadcrumbs + dark footer edge matches the scrollbar; solid-fill tears-of-joy laugh + strengthened flame; brand SVG share glyphs; header persists under overlays; FAQ disclosure chevrons
+- **Tears-of-joy laugh - teardrops anchored to face rim (Comments.astro `REACT_SVG.laugh`):** the v0.6.1 hairline ring + drops failed the Manager's 18px vision gate ("flat line, tears = faint ticks") and the v064 solid pass still failed it again ("side marks are four-pointed sparkles, not teardrops; face reads ambiguous at native size"). The knock-out FACE is kept exactly as approved - ONE `fill-rule="evenodd"` `currentColor` path, solid disc r 7.4 c(12,12) (a 12×12px mass that survives AA) with two THICK SQUINT-EYE CHEVRON holes (2×2px each) and a WIDE OPEN-GRIN BOWL hole (6×3px) knocked out. What changed is the two side drops: the old 2.9u diamonds floated at x 0.4–3.3 / 20.7–23.6 (y 5.6–8.4), clear of the rim - that float is what read as a sparkle. Each drop is now a real teardrop ANCHORED to the rim: TIP sits exactly ON the r 7.4 ring at eye height (5.00, 9.60 - rim x = 12 − √(7.4²−2.4²) = 5.000), with the round BULB (r 1.65, wider than the 2.1px eye holes) hanging down-and-out on a 22° axis; total tip-to-bulb 5.65u (4.2 device px at 18px). Mirrored about x=12.
+- **Laugh raster evidence:** cairosvg at EXACTLY 18px + 24px + 36px + a 180px reference on `#f2f5f3` and `#101816`; PIL 8-connected component audit of the 18px ink = ONE connected component at threshold <200 AND <128 (disc + both tears welded at the rim - no floating mark anywhere), identical geometry light+dark; the 18px coverage map shows the tip at the outer-eye row widening down-out into the bulb; 180px reads laughing face + droplet tears (not sparkle/star). Brand monochrome `currentColor`; no dark-mode colour change.
+- **Breadcrumbs - parent + sub category ([...slug].astro):** posts sub-filed in `content.json` carry `root_name`/`root_slug` plus the sub `cat_path` (`/category/root/sub/`), but the trail only ever showed the sub. Two-segment posts now render Home › root › sub › title (root href `/category/{root_slug}/`, sub href `cat.path`); single-segment posts keep the exact 2-step trail. Trail and `BreadcrumbList` are built from ONE crumb list, so positions cannot drift (root pos 2, sub pos 3, title pos 4; the 1-step-uncategorised case still yields pos 2).
+- **Fire glyph core, solid + larger (Comments.astro `REACT_SVG.fire`):** the hollow diamond core read as a droplet/leaf at 18px - the core is now always-filled (no `.fl` state, `fill="currentColor" stroke="none"`) and grown to a 6×7px solid mass, so the flame silhouette (pointed tip → split side licks → solid core → rounded base) wins at a glance. Raster-gated at 18/24/36px in both themes.
+- **Like + heart untouched** - King approved both in v0.6.0; no geometry or colour edits.
+- **Brand inline-SVG share glyphs (ArticleChrome.astro + global.css):** the plain-text `X / WA / TG` abbreviations and the `Copy link` label are now brand-drawn inline SVGs (24 viewBox, 1.6 hairline `currentColor` stroke, square caps - the reaction-icon stroke family, zero third-party assets/CDN). X, WhatsApp and Telegram keep their `aria-label` and get `sh-btn--icon`; the copy button keeps its exact `data-copy-link` contract and pairs the chain glyph with the visible `Copy link` text. `.sr-only` utility added site-wide.
 - **Header persists under overlays (global.css):** with `body.frozen` the document scroll box is inert, so `position:sticky` could no longer stick and the header rode the pinned body off-screen behind the hamburger sheet / search overlay. `html.locked .site-header{position:fixed;top:0;left:0;right:0;z-index:75}` pins it to the viewport above scrim(50)/sheet(60)/search-layer(70), still below toast(80)/`.gl-overlay`(90); `html.locked body.frozen{padding-top:var(--header-h,54px)}` refills the slot the fixed header leaves so the frozen snapshot does not jump. Close still restores the exact scrollY.
-- **FAQ disclosure chevrons (global.css):** `.prose details summary` now carries the house `.toc-mobile` cue — ▾ right-aligned in `--muted` via `margin-left:auto`, `rotate(180deg)` when `[open]`, `--deep` on hover, native marker suppressed — so click-to-open boxes look openable.
-- **Footer edge matches the scrollbar in dark (global.css):** in dark the footer's `border-top` painted `--teal` #00C896 while the scrollbar thumb paints `--deep` #00A88F — two greens for one brand line. `html[data-theme=dark] .site-footer{border-top-color:var(--deep)}` pins the dark seam to the scrollbar thumb (PIL-sampled: both #00A88F). Light mode is unchanged and keeps its bright `--teal` #00A88F top edge.
-- **Ships together with the v0.6.1 steers (same train):** the single **mobile seam rule** above Comments (`.comments .rule-s` border-top killed under 640px, desktop seam kept), the stray meta **dot kill** inside 'N comments' (`.meta-facts .lc span::before{content:none}`), and the comment **count anchor** — the meta count is now `<a class="lc" href="#comments-section">` that scrolls to the Comments heading under the sticky header (`scroll-margin-top`).
+- **FAQ disclosure chevrons (global.css):** `.prose details summary` now carries the house `.toc-mobile` cue - ▾ right-aligned in `--muted` via `margin-left:auto`, `rotate(180deg)` when `[open]`, `--deep` on hover, native marker suppressed - so click-to-open boxes look openable.
+- **Footer edge matches the scrollbar in dark (global.css):** in dark the footer's `border-top` painted `--teal` #00C896 while the scrollbar thumb paints `--deep` #00A88F - two greens for one brand line. `html[data-theme=dark] .site-footer{border-top-color:var(--deep)}` pins the dark seam to the scrollbar thumb (PIL-sampled: both #00A88F). Light mode is unchanged and keeps its bright `--teal` #00A88F top edge.
+- **Ships together with the v0.6.1 steers (same train):** the single **mobile seam rule** above Comments (`.comments .rule-s` border-top killed under 640px, desktop seam kept), the stray meta **dot kill** inside 'N comments' (`.meta-facts .lc span::before{content:none}`), and the comment **count anchor** - the meta count is now `<a class="lc" href="#comments-section">` that scrolls to the Comments heading under the sticky header (`scroll-margin-top`).
 - Evidence: /tmp/commentsux-freebuff/v064-{light,dark}-react.png, v064-share-{light,dark}.png, v064-faq-{closed,open}.png (390px Obscura, served dist, both themes); /tmp/v063-freebuff/V063-SHIP.md.
 
-## 0.6.1 — 2026-09-13 — King's five v0.6.0 steers: bigger reaction icons + tears-of-joy laugh + single rule above Comments + stray meta dot kill + comment count links to the thread
-- **Reaction icon size (Comments.astro):** picker glyphs `15px → 18px` (`.c-react svg`), summary-bubble glyphs `12px → 14px` with the container `18px → 22px` (`.rx-bub` overlap kept) — glyphs must read at a glance.
-- **Tears-of-joy laugh (Comments.astro `REACT_SVG.laugh`):** option-A redesign — face circle shrunk r 8.6→6.2 with chevron eyes + filled grin scaled inward 0.79×, and two always-filled `currentColor` teardrops (rounded bulb top, tail tapering to an outward-leaning point) float CLEAR of the ring at the eye corners (left x 0.8–3.8, right 20.2–23.2, y 7.0–12.4). The old drops rode ON the non-scaling-stroke rim and welded into a 1px sliver at 18px (Manager vision-gate fail); v0.6.1 passes a cairosvg 18px raster gate in BOTH themes (ring + two isolated 9px droplet components, ≥1 device-px background gap) and a vision YES on separation + droplet silhouette + 😂-read, light + dark. Brand monochrome; **dark idle colors KEPT per King**.
-- **Single rule above Comments heading on mobile, desktop seam kept (Comments.astro):** the related-articles block already ends with its own bottom divider, so at tight mobile widths `.rule-s`'s border-top stacked a SECOND line above 'Comments'. Mobile-only scoped kill — `@media (max-width:639px){.comments .rule-s{border-top:0;padding-top:0}}`; on wide viewports the top border stays as an intentional section seam (global `.rule-s` untouched; other sections keep their border).
-- **Stray dot removed from 'N comments' (global.css):** the live count became `<a class="lc">` — the `span + span` middot rule matched INSIDE the group ("3 · comments"). `.meta-facts .lc span::before{content:none !important}` kills inner dots; the sibling separator moves to `span + a.lc::before` (desktop 10px, mobile 7px rhythm).
-- **Comment count links to comments section ([...slug].astro + Comments.astro + global.css):** the meta count is now `<a class="lc lc-link" href="#comments-section">` — tap scrolls to the Comments heading (single rule above it); `.comments` gains `scroll-margin-top:calc(var(--header-h)+12px)` so the heading lands below the sticky header; hover/focus-visible states + word-space `gap:3px` on the inline-flex link; live-count JS patching (`data-live-count`/`.lc-n`/`.lc-l`) unchanged.
-- Evidence: /tmp/commentsux-freebuff/v061-{light,dark}-react.png (390px Obscura, both themes — tears visible, icons clearly bigger, 'N comments' dot-free, count tap lands under header).
+## 0.6.1 - 2026-09-13 - King's five v0.6.0 steers: bigger reaction icons + tears-of-joy laugh + single rule above Comments + stray meta dot kill + comment count links to the thread
+- **Reaction icon size (Comments.astro):** picker glyphs `15px → 18px` (`.c-react svg`), summary-bubble glyphs `12px → 14px` with the container `18px → 22px` (`.rx-bub` overlap kept) - glyphs must read at a glance.
+- **Tears-of-joy laugh (Comments.astro `REACT_SVG.laugh`):** option-A redesign - face circle shrunk r 8.6→6.2 with chevron eyes + filled grin scaled inward 0.79×, and two always-filled `currentColor` teardrops (rounded bulb top, tail tapering to an outward-leaning point) float CLEAR of the ring at the eye corners (left x 0.8–3.8, right 20.2–23.2, y 7.0–12.4). The old drops rode ON the non-scaling-stroke rim and welded into a 1px sliver at 18px (Manager vision-gate fail); v0.6.1 passes a cairosvg 18px raster gate in BOTH themes (ring + two isolated 9px droplet components, ≥1 device-px background gap) and a vision YES on separation + droplet silhouette + 😂-read, light + dark. Brand monochrome; **dark idle colors KEPT per King**.
+- **Single rule above Comments heading on mobile, desktop seam kept (Comments.astro):** the related-articles block already ends with its own bottom divider, so at tight mobile widths `.rule-s`'s border-top stacked a SECOND line above 'Comments'. Mobile-only scoped kill - `@media (max-width:639px){.comments .rule-s{border-top:0;padding-top:0}}`; on wide viewports the top border stays as an intentional section seam (global `.rule-s` untouched; other sections keep their border).
+- **Stray dot removed from 'N comments' (global.css):** the live count became `<a class="lc">` - the `span + span` middot rule matched INSIDE the group ("3 · comments"). `.meta-facts .lc span::before{content:none !important}` kills inner dots; the sibling separator moves to `span + a.lc::before` (desktop 10px, mobile 7px rhythm).
+- **Comment count links to comments section ([...slug].astro + Comments.astro + global.css):** the meta count is now `<a class="lc lc-link" href="#comments-section">` - tap scrolls to the Comments heading (single rule above it); `.comments` gains `scroll-margin-top:calc(var(--header-h)+12px)` so the heading lands below the sticky header; hover/focus-visible states + word-space `gap:3px` on the inline-flex link; live-count JS patching (`data-live-count`/`.lc-n`/`.lc-l`) unchanged.
+- Evidence: /tmp/commentsux-freebuff/v061-{light,dark}-react.png (390px Obscura, both themes - tears visible, icons clearly bigger, 'N comments' dot-free, count tap lands under header).
 
-## 0.6.0 — 2026-09-13 — 2026 comments rebuild (optimistic reactions, true heart glyph, summary-pill picker, moving inline reply, relative timestamps, live counts, pending ghost, footer Reply/Share/Report, one-rail rhythm) + token-gated /mod/ desk + mobile pill margin fix + Worker v0.1.1 react-chain speed
-- **Leg A+B (COMMENTSUX-BRIEF Part 6):** full `Comments.astro` rebuild — optimistic reaction state machine with 240 ms pulse + inline revert note; heart redrawn as the true symmetric classic silhouette (`M12 20.8C12 20.8 …`, non-scaling stroke, fill on active); ONE summary pill → inline picker with per-type glyph+counts (zero-state = single dashed `+ React`); single action footer row (Reactions · Reply · Share · Report); inline reply moves the form under the comment (same DOM node — focus/values survive), Cancel returns it; relative timestamps with 60 s refresh + absolute in `title`; live count probe (IntersectionObserver → `/api/comments/count`) patches meta-bar + button (post 12251: live 4, not build-time 3); localStorage own-reaction mirror; pending ghost row + `AWAITING REVIEW` chip; one thread rail replaces per-card rails (author card = the only solid rail). Evidence: /tmp/commentsux-freebuff/BUILD-AB.md (10 items → file:line; heart + picker vision-verified by Manager, v060-{light,dark}-react.png).
-- **Moderation desk (`/mod/`, new):** token-gated unlisted page — `noindex,nofollow`, Bearer queue with Approve/Spam/Trash rows, reply-from-desk, `Nothing waiting.` empty state, token remembered in localStorage (never in repo/logs), Sign-out toolbar with nowrap fix. Zero third-party JS, brand tokens only. Evidence: /tmp/commentsux-freebuff/MOD-DESK.md (v060-mod-{light,dark}.png vision-verified).
-- **Mobile pill margin fix (global.css 639px):** `.upd` leads the meta line on phones once `.f-pub` hides — its 10px desktop separation became an orphan indent; `margin-left:0` now applies when the pill leads.
-- **Worker v0.1.1 (deployed, live at 0.1.1-src):** react-chain reduction — counts+mine folded into one GROUP BY batch; react warm TTFB 0.208 s vs 0.53–0.88 s.
+## 0.6.0 - 2026-09-13 - 2026 comments rebuild (optimistic reactions, true heart glyph, summary-pill picker, moving inline reply, relative timestamps, live counts, pending ghost, footer Reply/Share/Report, one-rail rhythm) + token-gated /mod/ desk + mobile pill margin fix + Worker v0.1.1 react-chain speed
+- **Leg A+B (COMMENTSUX-BRIEF Part 6):** full `Comments.astro` rebuild - optimistic reaction state machine with 240 ms pulse + inline revert note; heart redrawn as the true symmetric classic silhouette (`M12 20.8C12 20.8 …`, non-scaling stroke, fill on active); ONE summary pill → inline picker with per-type glyph+counts (zero-state = single dashed `+ React`); single action footer row (Reactions · Reply · Share · Report); inline reply moves the form under the comment (same DOM node - focus/values survive), Cancel returns it; relative timestamps with 60 s refresh + absolute in `title`; live count probe (IntersectionObserver → `/api/comments/count`) patches meta-bar + button (post 12251: live 4, not build-time 3); localStorage own-reaction mirror; pending ghost row + `AWAITING REVIEW` chip; one thread rail replaces per-card rails (author card = the only solid rail). Evidence: /tmp/commentsux-freebuff/BUILD-AB.md (10 items → file:line; heart + picker vision-verified by Manager, v060-{light,dark}-react.png).
+- **Moderation desk (`/mod/`, new):** token-gated unlisted page - `noindex,nofollow`, Bearer queue with Approve/Spam/Trash rows, reply-from-desk, `Nothing waiting.` empty state, token remembered in localStorage (never in repo/logs), Sign-out toolbar with nowrap fix. Zero third-party JS, brand tokens only. Evidence: /tmp/commentsux-freebuff/MOD-DESK.md (v060-mod-{light,dark}.png vision-verified).
+- **Mobile pill margin fix (global.css 639px):** `.upd` leads the meta line on phones once `.f-pub` hides - its 10px desktop separation became an orphan indent; `margin-left:0` now applies when the pill leads.
+- **Worker v0.1.1 (deployed, live at 0.1.1-src):** react-chain reduction - counts+mine folded into one GROUP BY batch; react warm TTFB 0.208 s vs 0.53–0.88 s.
 
-## 0.5.2 — 2026-09-13 — reaction icon redraws + reply-flow banner + mobile UPDATED pill fix
-- **Heart/laugh reaction icon redraw (Comments.astro `REACT_SVG`):** the faceted heart and slit-eye laugh read muddy at 13–14px pill size. Heart is now the classic symmetric silhouette — two semicircular arcs (r=6.3) meeting in a top cleft and a sharp bottom point, same stroke weight as like/fire. Laugh is now a grinning face — squint-eye chevrons (∧ ∧, the laughing read) plus a wide filled open-grin; fewer strokes than the slit-eyes version = crisper at pill size.
-- **Comment reply flow (Comments.astro):** the reply indicator moves out of the form bottom to a `role="status"` **"Replying to {name}" banner above the fields** — the context is visible the instant Reply is tapped, and the banner + textarea stay in view together (focus law). Cancel gets an explicit `Cancel ×` label; tapping it (or a successful post) clears the parent and returns focus to the originating Reply button (WCAG 2.4.3). No-double-submit: the submit button is disabled from the first guarded submit and only re-enabled in `finally` when no 429 countdown owns it. The old in-form indicator block is deleted — it duplicated the banner IDs so `getElementById` always hit the banner first and the block was dead markup.
-- **Mobile UPDATED pill spacing fix (global.css, King bug #4):** the `:not(.upd)` middot guard from v0.5.1 existed only on the desktop rule — inside the 639px media query the separator re-applied unscoped and the "·" was trapped against the UPDATED pill on phones again. The mobile `span + span::before` now carries the same `:not(.upd)` guard; `.upd`'s `margin-left:10px` carries separation on phones.
+## 0.5.2 - 2026-09-13 - reaction icon redraws + reply-flow banner + mobile UPDATED pill fix
+- **Heart/laugh reaction icon redraw (Comments.astro `REACT_SVG`):** the faceted heart and slit-eye laugh read muddy at 13–14px pill size. Heart is now the classic symmetric silhouette - two semicircular arcs (r=6.3) meeting in a top cleft and a sharp bottom point, same stroke weight as like/fire. Laugh is now a grinning face - squint-eye chevrons (∧ ∧, the laughing read) plus a wide filled open-grin; fewer strokes than the slit-eyes version = crisper at pill size.
+- **Comment reply flow (Comments.astro):** the reply indicator moves out of the form bottom to a `role="status"` **"Replying to {name}" banner above the fields** - the context is visible the instant Reply is tapped, and the banner + textarea stay in view together (focus law). Cancel gets an explicit `Cancel ×` label; tapping it (or a successful post) clears the parent and returns focus to the originating Reply button (WCAG 2.4.3). No-double-submit: the submit button is disabled from the first guarded submit and only re-enabled in `finally` when no 429 countdown owns it. The old in-form indicator block is deleted - it duplicated the banner IDs so `getElementById` always hit the banner first and the block was dead markup.
+- **Mobile UPDATED pill spacing fix (global.css, King bug #4):** the `:not(.upd)` middot guard from v0.5.1 existed only on the desktop rule - inside the 639px media query the separator re-applied unscoped and the "·" was trapped against the UPDATED pill on phones again. The mobile `span + span::before` now carries the same `:not(.upd)` guard; `.upd`'s `margin-left:10px` carries separation on phones.
 
-## 0.5.1 — 2026-09-13 — comments blend + entity data-fix + UPDATED pill + premium hero SVGs
-- **Data fix (D1 `androidscroll-comments`):** double-encoded entities from the WP backfill repaired at the source — `content_html` `&amp;#`→`&#`, `&amp;amp;#038;`→`&#8` on ids 7753, 7722, 2, 220, 724, 1418, 6548, 6550, 6584 (9 rows, `changes: 9`); full-table scan afterwards: 0 rows still containing `&amp;#`. KV thread caches purged (`thread:56`, `thread:10630`, `thread:12251`) and the live Worker API now returns `Don&#8217;t` cleanly for post 12251. The `sanitizeCommentHtml` template round-trip (XSS boundary) is untouched. 2 pending test comments (Design/Prod Tester, ids 7759/7760) deleted.
-- **Comments.astro full redesign (DESIGN-RESEARCH PART 4):** mounts as `<section class="comments col">` with the house `.rule-s` divider (`§ COMMENTS` + mono side note) instead of the floating `#comments-section`. The entire alien-token `is:global` block is dead — every selector is namespaced under `.comments` and uses only live brand tokens. Comment cards take `.qa-box` anatomy (paper + 4px left rule → deep on hover; author cards verdict-rule + band bg); monogram avatars adopt `.t-mono-av` at 36px with 1–2 initials and deterministic bg among the 4 brand greens (author fixed to `--deep`); meta row = Archivo 800 name + `.upd`-anatomy `★ AUTHOR` chip (kills the Twitter-blue check SVG) + mono date; 1-level threading with left rail + `↳ re: name` mono marker; reaction pills on the `.post-tags` skeleton with `aria-pressed` mint fill (teal-on-dark variant) and **bespoke inline SVG glyphs** for like/heart/fire/laugh — house square-cap line geometry, `currentColor`, zero emoji chrome and zero third-party icon DNA. Form lives in a qa-box card: `.notify` field styling verbatim (mint fields in dark mode per v3.3 King rule), `.st-kicker` labels, deep required star, `btn-deep` submit (visible fill + teal top border, 44px), consent drops the `required` attr so the JS guard's inline `.c-err` message always owns feedback (Safari bubble no longer eats submit), success lands as a `.term` strip that names the moderation hold. Skeleton = `.slot-frame` dashed rows; empty = `.sheet-note` voice; error = `.term` + `.btn-ghost` retry; 44px touch law on pills/reply at `(hover:none)`.
+## 0.5.1 - 2026-09-13 - comments blend + entity data-fix + UPDATED pill + premium hero SVGs
+- **Data fix (D1 `androidscroll-comments`):** double-encoded entities from the WP backfill repaired at the source - `content_html` `&amp;#`→`&#`, `&amp;amp;#038;`→`&#8` on ids 7753, 7722, 2, 220, 724, 1418, 6548, 6550, 6584 (9 rows, `changes: 9`); full-table scan afterwards: 0 rows still containing `&amp;#`. KV thread caches purged (`thread:56`, `thread:10630`, `thread:12251`) and the live Worker API now returns `Don&#8217;t` cleanly for post 12251. The `sanitizeCommentHtml` template round-trip (XSS boundary) is untouched. 2 pending test comments (Design/Prod Tester, ids 7759/7760) deleted.
+- **Comments.astro full redesign (DESIGN-RESEARCH PART 4):** mounts as `<section class="comments col">` with the house `.rule-s` divider (`§ COMMENTS` + mono side note) instead of the floating `#comments-section`. The entire alien-token `is:global` block is dead - every selector is namespaced under `.comments` and uses only live brand tokens. Comment cards take `.qa-box` anatomy (paper + 4px left rule → deep on hover; author cards verdict-rule + band bg); monogram avatars adopt `.t-mono-av` at 36px with 1–2 initials and deterministic bg among the 4 brand greens (author fixed to `--deep`); meta row = Archivo 800 name + `.upd`-anatomy `★ AUTHOR` chip (kills the Twitter-blue check SVG) + mono date; 1-level threading with left rail + `↳ re: name` mono marker; reaction pills on the `.post-tags` skeleton with `aria-pressed` mint fill (teal-on-dark variant) and **bespoke inline SVG glyphs** for like/heart/fire/laugh - house square-cap line geometry, `currentColor`, zero emoji chrome and zero third-party icon DNA. Form lives in a qa-box card: `.notify` field styling verbatim (mint fields in dark mode per v3.3 King rule), `.st-kicker` labels, deep required star, `btn-deep` submit (visible fill + teal top border, 44px), consent drops the `required` attr so the JS guard's inline `.c-err` message always owns feedback (Safari bubble no longer eats submit), success lands as a `.term` strip that names the moderation hold. Skeleton = `.slot-frame` dashed rows; empty = `.sheet-note` voice; error = `.term` + `.btn-ghost` retry; 44px touch law on pills/reply at `(hover:none)`.
 - **UPDATED pill fix (global.css, King report):** `.meta-facts span + span::before` middot painted *inside* the `.upd` pill border (trapped "· UPDATED" dot) and the pill sat flush against the year. Separator now `span + span:not(.upd)::before`; `.upd` gains `margin-left:10px` for clean separation on desktop (after the date) and mobile (first element).
 - **Premium hero SVG redraws (public/img/kb-*.svg, King report):** all five knowledge-base heroes were tiny-centered-content placeholders with debug-note copy ("App installed. / Done. Green install."). Redrawn as full-bleed field-manual compositions in brand tokens: `kb-success` = adb install terminal + progress ticks + diagnostic PASS panel + VERIFIED badge; `kb-hero` (kept 1200×675) = logcat failure window + "WHY IT FAILS" cause panel + clean-retry arrow/exit-0 badge; `kb-storage` = storage screen with used-bar breakdown + FIELD READING notes panel; `kb-toast` = package-installer + alert mock + numbered three-causes annotation; `kb-unknown` = per-app permission dialog with toggle rows + SAFETY CHECKLIST panel. Every composition fills the canvas edge-to-edge, meaningful aria-labels, zero external requests.
 - `comments-policy` meta desc corrected: monogram, never a Gravatar (honest-messaging law).
 
-## 0.5.0 — 2026-09-13 — comments system (first-party: component + Worker + D1)
-- **`src/components/Comments.astro` (new, 438 lines):** click-to-load comment thread, zero third-party JS. States idle → loading (skeleton) → empty | list | error (retry). Submit form (name required, email optional for reply notices, website optional), nested reply rendering, reaction rail (like/heart/fire/laugh), and the author badge (`is_author`, display-only — matches the post author's name passed as `authorName`). API base is a single `apiBase` prop → one-line rollback.
+## 0.5.0 - 2026-09-13 - comments system (first-party: component + Worker + D1)
+- **`src/components/Comments.astro` (new, 438 lines):** click-to-load comment thread, zero third-party JS. States idle → loading (skeleton) → empty | list | error (retry). Submit form (name required, email optional for reply notices, website optional), nested reply rendering, reaction rail (like/heart/fire/laugh), and the author badge (`is_author`, display-only - matches the post author's name passed as `authorName`). API base is a single `apiBase` prop → one-line rollback.
 - **Mount (`src/pages/[...slug].astro`):** `<Comments postId postSlug initialCount authorName="G-will Chijioke" />` inside the article shell after the related-posts section; build-time WP comment count seeds the button label.
-- **Worker rail:** `androidscroll-comments` live at `androidscroll-comments.gwill.workers.dev` — GET `/api/comments?post=`, POST submit (rate-limited, write-time sanitization via hand-rolled tokenizer allowlist, `AUTO_APPROVE=false` → everything holds for moderation), POST `/api/comments/:id/react` (toggle, ip_hash identity), reports + moderation Bearer/HMAC rails, KV thread cache with ETag, cron retention sweep.
-- **D1 store:** `androidscroll-comments` (id 8d0e1e48-…) — comments / reactions / moderation_log / rate_limits / reports per brief §3.3. Raw email and IP never stored (sha256 hashes only).
+- **Worker rail:** `androidscroll-comments` live at `androidscroll-comments.gwill.workers.dev` - GET `/api/comments?post=`, POST submit (rate-limited, write-time sanitization via hand-rolled tokenizer allowlist, `AUTO_APPROVE=false` → everything holds for moderation), POST `/api/comments/:id/react` (toggle, ip_hash identity), reports + moderation Bearer/HMAC rails, KV thread cache with ETag, cron retention sweep.
+- **D1 store:** `androidscroll-comments` (id 8d0e1e48-…) - comments / reactions / moderation_log / rate_limits / reports per brief §3.3. Raw email and IP never stored (sha256 hashes only).
 - **Backfill:** all 52 real WP comments imported with WP ids preserved as comment ids, `parent_id` from WP parent, `status='approved'`, `created_at` = WP `date_gmt`, `content_raw` = WP rendered HTML tag-stripped to text, `content_html` = Worker sanitizer output, `ip_hash=NULL`, `email_hash=NULL` (REST exposes no emails). The 54-vs-52 delta reconciled: `x-wp-total: 54` counts 2 ping/trackback entries the public REST list filters out (`type=ping` forbidden unauthenticated; per-post probes across all 21 published posts+pages sum to exactly 52). Only real comments imported.
 
-## 0.4.32 — 2026-09-13 — embed persistence + Spotify clip cleanup
-- **Embed persistence (ArticleChrome.astro):** removed `ifr.loading = 'lazy'` set at play-time in the facade→iframe swap. A lazy iframe that is already offscreen when created can be deferred by the browser until it scrolls into view — for a card the user *just* tapped, that reads as a dead/blank player (embed never loads = "lost persistence"). The iframe is built on explicit user action and inserted in-viewport; eager loading is the correct default. Nothing else in the swap path changed.
-- **Spotify radius removal (global.css):** dropped the leftover `border-radius:6px` on `.facade-card.fc-live-spotify iframe` (v0.4.31 add-back). v0.4.30 established the law: **one clip path, on the card** — `.fc-live` has `border-radius:6px;overflow:hidden` and the iframe fills it square. The iframe's own second radius re-created the box-within-a-box white-tip artifact the card clip exists to prevent; the `#121212` iframe background stays (transparent-canvas backing), only the radius goes.
+## 0.4.32 - 2026-09-13 - embed persistence + Spotify clip cleanup
+- **Embed persistence (ArticleChrome.astro):** removed `ifr.loading = 'lazy'` set at play-time in the facade→iframe swap. A lazy iframe that is already offscreen when created can be deferred by the browser until it scrolls into view - for a card the user *just* tapped, that reads as a dead/blank player (embed never loads = "lost persistence"). The iframe is built on explicit user action and inserted in-viewport; eager loading is the correct default. Nothing else in the swap path changed.
+- **Spotify radius removal (global.css):** dropped the leftover `border-radius:6px` on `.facade-card.fc-live-spotify iframe` (v0.4.31 add-back). v0.4.30 established the law: **one clip path, on the card** - `.fc-live` has `border-radius:6px;overflow:hidden` and the iframe fills it square. The iframe's own second radius re-created the box-within-a-box white-tip artifact the card clip exists to prevent; the `#121212` iframe background stays (transparent-canvas backing), only the radius goes.
 - Version sync: package.json catches up 0.4.28→0.4.32 (0.4.29–0.4.31 shipped as commit-only entries); CHANGELOG carries the combined 0.4.32 note.
 
-## 0.4.28 — 2026-09-12 — embed cards: added X (Twitter) embed
-- 8th provider on the style-test article: X (Twitter) facade card after YouTube Music. Embed URL `https://platform.twitter.com/embed/Tweet.html?id=20` — jack's "just setting up my twttr", the most famous public tweet; oEmbed (publish.x.com) confirms it's live; the embed endpoint returns 200 (curl, mobile UA) and is the exact frame `widgets.js` uses, so zero third-party JS until play is preserved.
+## 0.4.28 - 2026-09-12 - embed cards: added X (Twitter) embed
+- 8th provider on the style-test article: X (Twitter) facade card after YouTube Music. Embed URL `https://platform.twitter.com/embed/Tweet.html?id=20` - jack's "just setting up my twttr", the most famous public tweet; oEmbed (publish.x.com) confirms it's live; the embed endpoint returns 200 (curl, mobile UA) and is the exact frame `widgets.js` uses, so zero third-party JS until play is preserved.
 - `data-embed-ratio="16/9"` per brief (landscape card shell; the tweet frame itself centers inside).
 - `public/img/og-x.jpg`: 1200×675 poster, X brand blue `#1DA1F2` with the official white X glyph (real 24×24 logo path), rendered via `scripts/gen-x-poster.py` (SVG→cairosvg→PIL, ink-bbox auto-centering recipe from v0.4.25).
-- Badge carries the official X logo SVG; label/title follow the card discipline (`just setting up my twttr — @jack` / `Post · X embed`).
+- Badge carries the official X logo SVG; label/title follow the card discipline (`just setting up my twttr - @jack` / `Post · X embed`).
 - Also carries the uncommitted v0.4.27 working-tree change: explicit `data-embed-ratio="16/9"` on the YouTube/Vimeo/YouTube-Music cards so all three video cards declare their ratio the way TikTok declares 9/16.
 
-## 0.4.26 — 2026-09-12 — audio player: centered music-note background illustration
+## 0.4.26 - 2026-09-12 - audio player: centered music-note background illustration
 - King's ask: the self-hosted audio row (`field note` player) should carry a subtle music-note illustration centered behind the player, like an engraved watermark on the card.
-- `public/img/audio-note.svg`: beamed eighth notes over five faint staff lines, mint `#D9F2E8` at 0.18 opacity — colors baked as literals (CSS `var()`/`currentColor` don't cascade into `background-image` SVGs; the first cut rendered black-on-black). Ink recentered in the viewBox (`translate(4 23)`) so the note sits dead-center when the image is placed `center`.
-- Wired on `.audio-fig .fc-audio-row` as `background-image: url('/img/audio-note.svg')` + `center/120px no-repeat` longhands — the single `background:` shorthand left `background-image` unparsed in Obscura (CSSOM had the rule, pixels had none); longhands render correctly on the King's acceptance browser.
+- `public/img/audio-note.svg`: beamed eighth notes over five faint staff lines, mint `#D9F2E8` at 0.18 opacity - colors baked as literals (CSS `var()`/`currentColor` don't cascade into `background-image` SVGs; the first cut rendered black-on-black). Ink recentered in the viewBox (`translate(4 23)`) so the note sits dead-center when the image is placed `center`.
+- Wired on `.audio-fig .fc-audio-row` as `background-image: url('/img/audio-note.svg')` + `center/120px no-repeat` longhands - the single `background:` shorthand left `background-image` unparsed in Obscura (CSSOM had the rule, pixels had none); longhands render correctly on the King's acceptance browser.
 - Proof (Obscura, 390px, dark theme): note ink + staff pixels measured centered at (178,30) vs row center (179,31); zoomed crop shows the note fully inside the row's visible band, no clipping.
 - Also ships the v0.4.25 TikTok poster fix (regenerated, auto-centered `og-tiktok.jpg` + `scripts/gen-tiktok-poster.py`) whose CHANGELOG entry was left uncommitted; version bumped 0.4.25→0.4.26 with it.
 
-## 0.4.25 — 2026-09-12 — TikTok poster: properly drawn, centered music-note art
-- King's shot: the TikTok card (ADB quick tip) background showed an off-center, malformed gray note — stems sliced behind the play button, heads clipped at the card bottom, nothing that read as music. Root cause: the v0.4.21 brand-blank `og-tiktok.jpg` was hand-drawn with the glyph ink-center ~165px right of canvas center (measured: bbox x 540–990 of 1200) and unequal noteheads.
-- Fix: `scripts/gen-tiktok-poster.py` regenerates the poster deterministically — clean engraving geometry (two equal 95×70 tilted-ellipse heads, vertical stems fused into one slanted beam), TikTok chromatic split (cyan lower-left / red upper-right behind white) for platform context, and measure→translate→re-render auto-centering verified in pixels (final ink center 601,600 of 1200×1200, symmetric 322px margins). Replaces the old jpg in place — no markup change needed; `fc-poster` object-fit:cover keeps it centered on the card.
+## 0.4.25 - 2026-09-12 - TikTok poster: properly drawn, centered music-note art
+- King's shot: the TikTok card (ADB quick tip) background showed an off-center, malformed gray note - stems sliced behind the play button, heads clipped at the card bottom, nothing that read as music. Root cause: the v0.4.21 brand-blank `og-tiktok.jpg` was hand-drawn with the glyph ink-center ~165px right of canvas center (measured: bbox x 540–990 of 1200) and unequal noteheads.
+- Fix: `scripts/gen-tiktok-poster.py` regenerates the poster deterministically - clean engraving geometry (two equal 95×70 tilted-ellipse heads, vertical stems fused into one slanted beam), TikTok chromatic split (cyan lower-left / red upper-right behind white) for platform context, and measure→translate→re-render auto-centering verified in pixels (final ink center 601,600 of 1200×1200, symmetric 322px margins). Replaces the old jpg in place - no markup change needed; `fc-poster` object-fit:cover keeps it centered on the card.
 
-## 0.4.24 — 2026-09-12 — self-hosted audio figure: dropped the oversized facade-card wrapper
-- King's call: the field-note audio row was buried inside a hollow `.facade-card` (min-height 200px, 28px padding, flex-centered) whose poster/scrim/play/title children don't exist for self-hosted audio — a big stretched empty box around one slim row.
-- Fix: removed the wrapper in `style-test-article.astro` — `figure.audio-fig` now contains just `.fc-audio-row` + `figcaption`. Re-scoped the row's CSS from `.facade-card .fc-audio-row` to `.audio-fig .fc-audio-row` (margin-top 14→0 — no more padded parent to clear) and gave `.audio-fig .fc-badge` the same static-badge look it had via the old `.facade-card .fc-badge`+`position:static` override. The row's own border/background/radius is now the visible card; `figure` keeps `.prose figure` spacing.
+## 0.4.24 - 2026-09-12 - self-hosted audio figure: dropped the oversized facade-card wrapper
+- King's call: the field-note audio row was buried inside a hollow `.facade-card` (min-height 200px, 28px padding, flex-centered) whose poster/scrim/play/title children don't exist for self-hosted audio - a big stretched empty box around one slim row.
+- Fix: removed the wrapper in `style-test-article.astro` - `figure.audio-fig` now contains just `.fc-audio-row` + `figcaption`. Re-scoped the row's CSS from `.facade-card .fc-audio-row` to `.audio-fig .fc-audio-row` (margin-top 14→0 - no more padded parent to clear) and gave `.audio-fig .fc-badge` the same static-badge look it had via the old `.facade-card .fc-badge`+`position:static` override. The row's own border/background/radius is now the visible card; `figure` keeps `.prose figure` spacing.
 
-## 0.4.23 — 2026-09-12 — embed cards: no excessive space after play
-- King's shot: after clicking play, the card kept its poster min-height/padding while the live iframe (e.g. Spotify's 152px audio player) sat inside — leaving a big empty band under the player.
-- Fix: on play, `ArticleChrome` marks the card `.fc-live`; CSS sheds the poster box (`min-height:0`, padding `0`) and the iframe flows in normal layout sized to the **provider's intrinsic box** — `data-embed-height` px for audio players (Spotify 152, Apple Music 270, Audiomack 252), `data-embed-ratio` for portrait video (TikTok 9/16), CSS default 16/9 for plain video. Cards now shrink to fit the live player; no dead space below.
+## 0.4.23 - 2026-09-12 - embed cards: no excessive space after play
+- King's shot: after clicking play, the card kept its poster min-height/padding while the live iframe (e.g. Spotify's 152px audio player) sat inside - leaving a big empty band under the player.
+- Fix: on play, `ArticleChrome` marks the card `.fc-live`; CSS sheds the poster box (`min-height:0`, padding `0`) and the iframe flows in normal layout sized to the **provider's intrinsic box** - `data-embed-height` px for audio players (Spotify 152, Apple Music 270, Audiomack 252), `data-embed-ratio` for portrait video (TikTok 9/16), CSS default 16/9 for plain video. Cards now shrink to fit the live player; no dead space below.
 
-## 0.4.21 — 2026-09-12 — embed posters: REAL platform OG art, self-hosted
+## 0.4.21 - 2026-09-12 - embed posters: REAL platform OG art, self-hosted
 - King's call: prefer each platform's **real cover/OG art** over hand-made SVGs; brand-color blanks only where no art exists. Fetched and self-hosted (no hotlinking) into `public/img/` as `og-*.jpg`: **YouTube** (aqz-KE-bpKQ maxresdefault 1280×720), **YouTube Music** (4NRXx6U8ABQ maxresdefault), **Spotify** (Blinding Lights album cover via scdn 300×300), **Apple Music** (Never Gonna Give You Up artwork via iTunes lookup API, 600×600 upscaled URL), **Audiomack** (Got It On Me og:image from the song page, 1200×1200 webp → jpg). **Real art: 5 of 7.**
-- Brand-color blanks (no usable art source): **Vimeo** — oEmbed for 76979871 returns 404 (video has no public embed art), plain `#1AB7EA` 1200×675; **TikTok** — no oEmbed artwork available, black 1200×1200 with white music-note glyphs.
-- `style-test-article.astro` fc-poster srcs repointed to the 7 jpgs (Vimeo/Audiomack/YouTube-Music swapped off leftover `kb-*` placeholders too). The 7 hand-made `og-*.svg` are retired — not committed, deleted from the tree (they were never in git).
+- Brand-color blanks (no usable art source): **Vimeo** - oEmbed for 76979871 returns 404 (video has no public embed art), plain `#1AB7EA` 1200×675; **TikTok** - no oEmbed artwork available, black 1200×1200 with white music-note glyphs.
+- `style-test-article.astro` fc-poster srcs repointed to the 7 jpgs (Vimeo/Audiomack/YouTube-Music swapped off leftover `kb-*` placeholders too). The 7 hand-made `og-*.svg` are retired - not committed, deleted from the tree (they were never in git).
 
-## 0.4.18 — 2026-09-12 — embed cards: right-edge bleed fix
-- King's shot: YouTube/Vimeo cards bled to the right screen edge (cut-off corners) while TikTok stayed fine. Root cause, proven in-DOM: `aspect-ratio:16/9` + `min-height:200px` makes the engine compute card width as 200×16/9 = **356px** regardless of container — fits at 390 (358) but overflows 360/320 viewports. Worse: phone engines **ignore `max-width` against ratio-transferred width** (even an inline `288px` didn't clamp it). Fix: dropped `aspect-ratio` from the cards (min-height + vertical padding carry the frame; poster is `cover` so nothing distorts) — width is always the container now. Verified: 320 → all cards 16-304, 360 → 16-344, docW clean at every width; vision-confirmed equal gutters + rounded corners both sides. Standing law: never pair `aspect-ratio` with `min-height` on full-bleed-width elements — and never trust `max-width` to save it.
+## 0.4.18 - 2026-09-12 - embed cards: right-edge bleed fix
+- King's shot: YouTube/Vimeo cards bled to the right screen edge (cut-off corners) while TikTok stayed fine. Root cause, proven in-DOM: `aspect-ratio:16/9` + `min-height:200px` makes the engine compute card width as 200×16/9 = **356px** regardless of container - fits at 390 (358) but overflows 360/320 viewports. Worse: phone engines **ignore `max-width` against ratio-transferred width** (even an inline `288px` didn't clamp it). Fix: dropped `aspect-ratio` from the cards (min-height + vertical padding carry the frame; poster is `cover` so nothing distorts) - width is always the container now. Verified: 320 → all cards 16-304, 360 → 16-344, docW clean at every width; vision-confirmed equal gutters + rounded corners both sides. Standing law: never pair `aspect-ratio` with `min-height` on full-bleed-width elements - and never trust `max-width` to save it.
 
-## 0.4.17 — 2026-09-12 — media embeds: styled facade cards for 6 providers
-- King's shot: video placeholder + audio player read as "not styled or working" — a bare `▶` text line in an empty dark box, and a stock native audio widget.
-- Replaced with a full embed system, privacy-first (zero third-party JS until play): styled facade cards — poster art, scrim, provider badge with brand icon, round teal play button (64px, hover scale), title + caption. Click swaps the provider iframe into the card shell. Providers wired: **YouTube** (nocookie), **Vimeo**, **TikTok** (portrait 9/16 card), **Spotify**, **Apple Music**. All embed endpoints verified 200 live before wiring.
+## 0.4.17 - 2026-09-12 - media embeds: styled facade cards for 6 providers
+- King's shot: video placeholder + audio player read as "not styled or working" - a bare `▶` text line in an empty dark box, and a stock native audio widget.
+- Replaced with a full embed system, privacy-first (zero third-party JS until play): styled facade cards - poster art, scrim, provider badge with brand icon, round teal play button (64px, hover scale), title + caption. Click swaps the provider iframe into the card shell. Providers wired: **YouTube** (nocookie), **Vimeo**, **TikTok** (portrait 9/16 card), **Spotify**, **Apple Music**. All embed endpoints verified 200 live before wiring.
 - Self-hosted audio: styled field-note row (badge + native control, brand-tinted) instead of a floating bare widget.
 - Card discipline: min-height fallback where aspect-ratio drops (200px 16/9, 400px 9/16); play button owns its flex row so it never clips. Verified at 390: all 6 badges render, 5 cards, swap works (iframe replaces innards, shell keeps frame), card 1 vision-passed complete circle + badge + no clipping.
 
-## 0.4.16 — 2026-09-12 — ol pill-to-text breathing room
-- King's shot: pills sat too close to the text. Measured: 6px gap (pill right edge nearly touching the first character). Gutter widened 36→44px with the pill offset tracking it — now 14px breathing room, matching the bullet-list rhythm. Proven at 390: pill right 46 → text left 60 = 14px clean; vision-confirmed "comfortable breathing room, not cramped, not touching." Vertical centering from v0.4.15 preserved.
+## 0.4.16 - 2026-09-12 - ol pill-to-text breathing room
+- King's shot: pills sat too close to the text. Measured: 6px gap (pill right edge nearly touching the first character). Gutter widened 36→44px with the pill offset tracking it - now 14px breathing room, matching the bullet-list rhythm. Proven at 390: pill right 46 → text left 60 = 14px clean; vision-confirmed "comfortable breathing room, not cramped, not touching." Vertical centering from v0.4.15 preserved.
 
-## 0.4.15 — 2026-09-12 — ol number pills: optical centering
-- King's shot: numbered-list pills floated ABOVE the text line. Root cause chain: (1) `top:.15em` anchored the pill to the li box top, not the text band; (2) my first fix used the `1lh` unit, which phone-class engines drop as invalid — the pill never moved (two identical pixel measurements exposed it). Final: `top:calc(.875em - 5px)` — em-based, engine-safe, pixel-measured at 390 to land the pill center within 1.5px of the first line's glyph band center; vision-confirmed "centered on the first line." Lesson recorded: never use `1lh` in this codebase.
+## 0.4.15 - 2026-09-12 - ol number pills: optical centering
+- King's shot: numbered-list pills floated ABOVE the text line. Root cause chain: (1) `top:.15em` anchored the pill to the li box top, not the text band; (2) my first fix used the `1lh` unit, which phone-class engines drop as invalid - the pill never moved (two identical pixel measurements exposed it). Final: `top:calc(.875em - 5px)` - em-based, engine-safe, pixel-measured at 390 to land the pill center within 1.5px of the first line's glyph band center; vision-confirmed "centered on the first line." Lesson recorded: never use `1lh` in this codebase.
 
-## 0.4.14 — 2026-09-12 — article hero discipline: breadcrumbs + author row
-- King's shot: hero is beautiful but messy — breadcrumbs wrapped with a dangling `›` onto line two, and the author hung loose beside the 40px avatar.
-- Breadcrumbs: single line, never wraps; long current-page title truncates with ellipsis (Home + section always visible). Root cause of the wrap + misalignment was the `li+li::before` pseudo-element separator — its glyph line-metrics doubled li height in phone engines (35px vs 17px). Replaced with REAL `<span class="sep">›</span>` markup — no pseudo-metric quirks in any engine. Verified: 390 + 768 + 1280 all single-line, all items top-aligned (96/96/96, heights 18/18/18), arrows visible.
-- Author row: avatar + "By" + name now one centered inline-flex row (32px hero avatar, down from the 40px author-box block) — no more hanging author.
+## 0.4.14 - 2026-09-12 - article hero discipline: breadcrumbs + author row
+- King's shot: hero is beautiful but messy - breadcrumbs wrapped with a dangling `›` onto line two, and the author hung loose beside the 40px avatar.
+- Breadcrumbs: single line, never wraps; long current-page title truncates with ellipsis (Home + section always visible). Root cause of the wrap + misalignment was the `li+li::before` pseudo-element separator - its glyph line-metrics doubled li height in phone engines (35px vs 17px). Replaced with REAL `<span class="sep">›</span>` markup - no pseudo-metric quirks in any engine. Verified: 390 + 768 + 1280 all single-line, all items top-aligned (96/96/96, heights 18/18/18), arrows visible.
+- Author row: avatar + "By" + name now one centered inline-flex row (32px hero avatar, down from the 40px author-box block) - no more hanging author.
 
-## 0.4.13 — 2026-09-12 — lightbox: scope + blank-image fix
-- King's shot: dialog opened (X, arrows, `2 / 5`, caption all live) but the enlarged image painted zero pixels on his phone. Root: `.gl-image{width:auto}` inside a shrink-to-fit flex wrap — circular sizing that collapses to nothing on phone browsers. Fix: wrap is definite-width (`width:100%`, `min-height:40px`) + image is `display:block;width:100%;height:auto;object-fit:contain` — always nonzero, correct aspect. Proven: mobile 390 renders 358×201, desktop all 5 open at wrap-full width.
-- Scope (shipped same cycle): lightbox now watches `figure img, .gallery img, .art-hero img, .qa-box img` across the whole article, not just `.prose` descendants — hero + gallery + qa all zoomable. Plus a src guard: never hand the dialog an empty `src` (paints zero px with no broken icon); falls back to resolving the `src` attribute against the document base.
+## 0.4.13 - 2026-09-12 - lightbox: scope + blank-image fix
+- King's shot: dialog opened (X, arrows, `2 / 5`, caption all live) but the enlarged image painted zero pixels on his phone. Root: `.gl-image{width:auto}` inside a shrink-to-fit flex wrap - circular sizing that collapses to nothing on phone browsers. Fix: wrap is definite-width (`width:100%`, `min-height:40px`) + image is `display:block;width:100%;height:auto;object-fit:contain` - always nonzero, correct aspect. Proven: mobile 390 renders 358×201, desktop all 5 open at wrap-full width.
+- Scope (shipped same cycle): lightbox now watches `figure img, .gallery img, .art-hero img, .qa-box img` across the whole article, not just `.prose` descendants - hero + gallery + qa all zoomable. Plus a src guard: never hand the dialog an empty `src` (paints zero px with no broken icon); falls back to resolving the `src` attribute against the document base.
 
-## 0.4.12 — 2026-09-12 — no Copy button on poems
-- King found a second Copy button and asked what it was: the decorative `.verse` stanza ("The toast says nothing...") in the kitchen-sink was caught by the copy-button loop that targeted ALL `pre` blocks. Poems are not code — verse now skips button, wrapper, and lang chip. Exactly one Copy per page region: the bash block.
+## 0.4.12 - 2026-09-12 - no Copy button on poems
+- King found a second Copy button and asked what it was: the decorative `.verse` stanza ("The toast says nothing...") in the kitchen-sink was caught by the copy-button loop that targeted ALL `pre` blocks. Poems are not code - verse now skips button, wrapper, and lang chip. Exactly one Copy per page region: the bash block.
 
-## 0.4.11 — 2026-09-12 — bash block mobile wrap
-- King's shot: long command lines were clipped at the right edge on mobile (half-visible `adb install app-release…`). Touch widths now wrap code (pre-wrap + break-word, measured scrollW 358/358 — nothing truncated); desktop ≥1024 keeps the terminal x-scroll. Top padding reserved so lines clear the BASH chip.
+## 0.4.11 - 2026-09-12 - bash block mobile wrap
+- King's shot: long command lines were clipped at the right edge on mobile (half-visible `adb install app-release…`). Touch widths now wrap code (pre-wrap + break-word, measured scrollW 358/358 - nothing truncated); desktop ≥1024 keeps the terminal x-scroll. Top padding reserved so lines clear the BASH chip.
 
-## 0.4.10 — 2026-09-12 — copy button: real button + no code overlap
+## 0.4.10 - 2026-09-12 - copy button: real button + no code overlap
 - King's shot: the Copy control was a transparent ghost AND covered the tail of every code line. Restyled solid teal fill + dark text (clear affordance) and reserved a bottom band in the code block so the button always sits below the code, never on it (verified: 14px clear).
 
-## 0.4.9 — 2026-09-12 — code blocks: highlighting + scroll-anchor fix
-- Code blocks had no syntax highlighting and multiple bugs. Added: a dependency-free bash micro-tokenizer (commands teal, flags/numbers/strings/comments tinted — no Prism, no jQuery) applied to `language-bash/sh/shell/console` blocks.
-- Copy button + language chip were absolutely positioned INSIDE the x-scrolling `<pre>`, so they slid off-screen with long code — moved to a non-scrolling `.code-wrap` wrapper (verified: button stays at right=366 while code scrolls 40px).
-- Table inline `INSTALL_FAILED_*` tokens were breaking mid-word — now `white-space:nowrap` in cells (table scrolls, tokens stay whole).
+## 0.4.9 - 2026-09-12 - code blocks: highlighting + scroll-anchor fix
+- Code blocks had no syntax highlighting and multiple bugs. Added: a dependency-free bash micro-tokenizer (commands teal, flags/numbers/strings/comments tinted - no Prism, no jQuery) applied to `language-bash/sh/shell/console` blocks.
+- Copy button + language chip were absolutely positioned INSIDE the x-scrolling `<pre>`, so they slid off-screen with long code - moved to a non-scrolling `.code-wrap` wrapper (verified: button stays at right=366 while code scrolls 40px).
+- Table inline `INSTALL_FAILED_*` tokens were breaking mid-word - now `white-space:nowrap` in cells (table scrolls, tokens stay whole).
 
-## 0.4.8 — 2026-09-12 — list marker breathing room
-- Ol step-pill (26px box) sat in a 24px gutter — touching the text on every numbered step (King's shot). Gutter now 36px both list types, pill at -36: 16px clean gap (measured: pill 16→36, text at 52). Ul diamond re-synced to the shared indent; nested lists align. Zero overflow held @390.
+## 0.4.8 - 2026-09-12 - list marker breathing room
+- Ol step-pill (26px box) sat in a 24px gutter - touching the text on every numbered step (King's shot). Gutter now 36px both list types, pill at -36: 16px clean gap (measured: pill 16→36, text at 52). Ul diamond re-synced to the shared indent; nested lists align. Zero overflow held @390.
 
-## 0.4.7 — 2026-09-11 — TOC clarity
+## 0.4.7 - 2026-09-11 - TOC clarity
 - Mobile TOC read as a bare grey bar the user couldn't identify. Now a labeled disclosure card: "In this guide (N)" with § marker + rotating chevron, paper bg + deep left rule, distinct from body.
-- Widget TOC (`.toc-side`) hard-hidden below 1024 via CSS `display:none` — JS can no longer leak a stray aside onto mobile; desktop sticky aside keeps `display:block` at ≥1024.
+- Widget TOC (`.toc-side`) hard-hidden below 1024 via CSS `display:none` - JS can no longer leak a stray aside onto mobile; desktop sticky aside keeps `display:block` at ≥1024.
 
-## 0.4.6 — 2026-09-11 — real hero art, placeholder band killed
-- The hero placeholder band (bordered box + accent bar + centered caps) read as a dead CTA to the King and two vision passes — frame tweaks couldn't save it. Deleted: all 13 articles now carry real field-manual SVG hero illustrations mapped per topic (storage/unknown-sources/toast/success/terminal), eager + captioned. Device shots replace them with the body port.
+## 0.4.6 - 2026-09-11 - real hero art, placeholder band killed
+- The hero placeholder band (bordered box + accent bar + centered caps) read as a dead CTA to the King and two vision passes - frame tweaks couldn't save it. Deleted: all 13 articles now carry real field-manual SVG hero illustrations mapped per topic (storage/unknown-sources/toast/success/terminal), eager + captioned. Device shots replace them with the body port.
 
-## 0.4.5 — 2026-09-11 — meta landscape + test-page parity
-- Landscape/tablet (640–899px) got the desktop row but not the width — wrapped ragged. Column discipline now runs to 899px; full labels kept (diet stays mobile-only).
-- style-test-article carried a stale hardcoded copy of the old meta (the "didn't change" the King saw) — mirrored to meta-facts/diet markup. Lesson: test route mirrors the template, always.
+## 0.4.5 - 2026-09-11 - meta landscape + test-page parity
+- Landscape/tablet (640–899px) got the desktop row but not the width - wrapped ragged. Column discipline now runs to 899px; full labels kept (diet stays mobile-only).
+- style-test-article carried a stale hardcoded copy of the old meta (the "didn't change" the King saw) - mirrored to meta-facts/diet markup. Lesson: test route mirrors the template, always.
 
-## 0.4.4 — 2026-09-11 — meta facts diet
+## 0.4.4 - 2026-09-11 - meta facts diet
 - Mobile facts were 2 lines with an orphaned "· 0 comments" (the "too long" the King saw). Labels abbreviated on mobile ("Published"/" read" hidden), and when the Updated pill exists the published date rests (desktop + JSON-LD keep it). Facts now one line @390: pill · min · comments.
 
-## 0.4.3 — 2026-09-11 — article meta two-line discipline
+## 0.4.3 - 2026-09-11 - article meta two-line discipline
 - `.meta-bar` flex-wrap shattered into 3 ragged lines @390 (author @420, orphaned date @440, rest @486). Facts now grouped in `.meta-facts` with middot separators; mobile stacks two deliberate lines (author, facts). Desktop untouched.
 
-## 0.4.2 — 2026-09-11 — verdict-band score stat
-- `.vb-score` was a baseline row: giant 0 with the label hanging off its 110px baseline (the "didn't move an inch" the King saw — my v0.4.1 fixed the CATEGORY zero, this is the HOMEPAGE money-tree one). Stacked stat now: number over label, left-aligned with band content (x=36/36 @390).
-- Standing clarity: two zeroes exist — category empty-hero count vs homepage verdict score. Name them in reports.
+## 0.4.2 - 2026-09-11 - verdict-band score stat
+- `.vb-score` was a baseline row: giant 0 with the label hanging off its 110px baseline (the "didn't move an inch" the King saw - my v0.4.1 fixed the CATEGORY zero, this is the HOMEPAGE money-tree one). Stacked stat now: number over label, left-aligned with band content (x=36/36 @390).
+- Standing clarity: two zeroes exist - category empty-hero count vs homepage verdict score. Name them in reports.
 
-## 0.4.1 — 2026-09-11 — empty-shelf count alignment
-- Category `.cat-hero` had the same zero-side padding shorthand (gutters dead, giant "0" at x=0) — longhand now; empty-state composed centered (tabular-nums zero + centered launch pill), deliberate at any future count.
-- Probe note: `file://` hangs Obscura on island module scripts — article/category probes serve dist over local HTTP.
+## 0.4.1 - 2026-09-11 - empty-shelf count alignment
+- Category `.cat-hero` had the same zero-side padding shorthand (gutters dead, giant "0" at x=0) - longhand now; empty-state composed centered (tabular-nums zero + centered launch pill), deliberate at any future count.
+- Probe note: `file://` hangs Obscura on island module scripts - article/category probes serve dist over local HTTP.
 
-## 0.4.0 — 2026-09-11 — homepage FRONT PAGE + C-FULL article
+## 0.4.0 - 2026-09-11 - homepage FRONT PAGE + C-FULL article
 - Homepage v3 (H1 front page, H2 voice): hero strip (H1 halved, one-sentence stand, hairline meta), status TICKER above fold (swipeable 1-line), full ledger moved below LATEST, Top fixes first (first guide ~1000px → 482px), LATEST §01, tiles 1/2/4 cols, terminal compressed, WP-database lie killed ("counts read straight off the build").
-- v3.2 bleed fix: `.sec`/`.notify`/`.hero` padding shorthands had zeroed `.wrap` side gutters site-wide since v0.2 — longhands now; article/category layouts swept; pixel proof 0 text rows inside 12px gutters @390. Standing law: no zero-side padding shorthands, ever.
+- v3.2 bleed fix: `.sec`/`.notify`/`.hero` padding shorthands had zeroed `.wrap` side gutters site-wide since v0.2 - longhands now; article/category layouts swept; pixel proof 0 text rows inside 12px gutters @390. Standing law: no zero-side padding shorthands, ever.
 - v3.3 notify contrast (dark): email field 1.14:1 → mint field 15.8:1; button text ink-on-verdict → mint 12.85:1 AAA. Light untouched.
-- Header v2.9: compact state no longer changes header height (54→48 delta was the article "dance" reflow loop) — hairline + shadow only, zero layout shift; hysteresis kept.
+- Header v2.9: compact state no longer changes header height (54→48 delta was the article "dance" reflow loop) - hairline + shadow only, zero layout shift; hysteresis kept.
 - Article C-FULL: breadcrumb `<ol>` + BreadcrumbList/BlogPosting JSON-LD, meta row (avatar/time/updated/read/comments), hero-band placeholder, QUICK-ANSWER box (King's voice), mobile `<details>` TOC + desktop sticky spy TOC island, `.prose` body, vanilla lightbox island, video/audio facades, callouts, tags, share (X/WhatsApp/Telegram/copy-link), author bio, related-with-fallback, prev/next, ONE newsletter slot, scaleX progress bar, kitchen-sink style-test route (`/style-test-article/`, noindex).
 - PWA: `short_name` "Scroll" → "AndroidScroll" (one word, together).
 - Footer v2.7: paper = grid sibling, true 2×2 mobile, one-row desktop. Brand C1 v2.8: seamless single-path robot, real C1 favicon set wired.
 - Header/meta chain: v1.2 Scroll DEEP #006E5E (dark remap #00C896) + round eyes; v1.3 single dynamic `#tc-base` (first-match fix); v2.1 edge-to-edge `html` canvas bg + safe-area; v2.3B reverted `viewport-fit=cover` (covered meta strip in tabs).
 
-## 0.1.0 — 2026-09-10
+## 0.1.0 - 2026-09-10
 - First clickable Astro prototype: Header (masthead band + sticky compact state, Browse sheet with real 19-shelf tree + honest counts, search overlay, theme toggle, Law-8 ad toggles), Homepage (wireframe §01 spine: dateline hero "Master your Android.", flagship FIX-rail, pillar map, quick answers, money-tree verdict band, latest + most-read rail, EEAT trust band, notify stub), Footer (sitemap columns, notify stub, legal, Matomo consent note, site-wide ad toggle OFF state).
-- Fonts self-hosted: Fraunces (variable), Manrope (variable), IBM Plex Mono 400/500/600 — latin woff2, font-display swap, zero external requests.
+- Fonts self-hosted: Fraunces (variable), Manrope (variable), IBM Plex Mono 400/500/600 - latin woff2, font-display swap, zero external requests.
 - Thin stubs so every link resolves: 13 article pages (canonical slugs), 19 category pages (12 empty = designed noindex state), 8 static pages, latest, 404.
 - `scripts/relativize.mjs` post-process rewrites hrefs/src/url() relative → unzipped dist is clickable from file://.
 - GitHub Pages workflow (`deploy-pages`) publishes CI-built `dist`.

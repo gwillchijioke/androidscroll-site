@@ -6,9 +6,10 @@ import os
 import cairosvg
 from PIL import Image
 
-V2 = '/home/ubuntu/androidscroll/brand/v2'
-OUT = '/home/ubuntu/androidscroll/build/public/icons'
-FAV = '/home/ubuntu/androidscroll/build/public'
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+V2 = os.environ.get('BRAND_V2', os.path.join(ROOT, '..', 'brand', 'v2'))
+OUT = os.path.join(ROOT, 'public', 'icons')
+FAV = os.path.join(ROOT, 'public')
 os.makedirs(OUT, exist_ok=True)
 
 svg = open(f'{V2}/concept1-mark.svg').read()  # tile + robot already in the SVG

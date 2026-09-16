@@ -10,6 +10,7 @@ Reproducible: python3 scripts/gen-tiktok-poster.py
 ONE-SHOT: not wired to any npm script - output already committed at public/img/og-tiktok.jpg.
 """
 import io
+import os
 import cairosvg
 from PIL import Image
 
@@ -67,6 +68,6 @@ cx, cy, box = ink_center(im)
 print(f"pass2 ink center ({cx:.1f},{cy:.1f}) bbox {box} err=({SIZE/2-cx:+.1f},{SIZE/2-cy:+.1f})")
 assert abs(SIZE / 2 - cx) <= 2 and abs(SIZE / 2 - cy) <= 2, "glyph not centered"
 
-out = "/home/ubuntu/androidscroll/build/public/img/og-tiktok.jpg"
+out = os.path.join(os.path.dirname(__file__), "..", "public", "img", "og-tiktok.jpg")
 im.save(out, "JPEG", quality=90, subsampling=0)
 print("wrote", out)
