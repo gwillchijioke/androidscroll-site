@@ -60,7 +60,7 @@ for (const p of POSTS) postMap[p.id] = { u: p.url, t: p.title };
         <div class="mod-act-row">
           <button class="btn-deep" type="submit">Unlock</button>
         </div>
-        <p class="mod-meta" id="mod-lock-ver">desk v0.6.56</p>
+        <p class="mod-meta" id="mod-lock-ver">desk v0.6.57</p>
       </form>
 
       <p id="mod-toast" class="mod-toast" role="status" aria-live="polite"></p>
@@ -1382,7 +1382,7 @@ function savePushTok(v: string) {
 let pushTopic = 'posts';
 let pushRun = 0; // v0.6.52: stale openings stand down (double-tap race)
 interface PushStats {
-  subs?: { total?: number; new7?: number; new30?: number; byOrigin?: Record<string, number>; byTopic?: Record<string, number> };
+  subs?: { total?: number; new7?: number; new30?: number; byOrigin?: Record<string, number>; byTopic?: Record<string, number>; byCountry?: Record<string, number>; byCity?: Record<string, number> };
   campaigns?: { cid?: number; title?: string; sent?: number; pruned?: number; failed?: number; clicked?: number; dismissed?: number; when?: number; openRate?: number | null; dismissRate?: number | null; topic?: string | null; source?: string | null }[];
   health?: { version?: string; now?: number };
 }
@@ -1453,6 +1453,9 @@ async function loadPush(): Promise<void> {
     };
     for (const [t, v] of Object.entries(subs.byTopic || {})) mk('Flock · ' + t, Number(v));
     for (const [o, v] of Object.entries(subs.byOrigin || {})) mk('Origin · ' + o, Number(v));
+    // INTEL-LEG1: where the flock roosts — edge geo, never GPS.
+    for (const [cc, v] of Object.entries(subs.byCountry || {})) mk('Land · ' + cc, Number(v));
+    for (const [ct, v] of Object.entries(subs.byCity || {})) mk('Town · ' + ct, Number(v));
     if (!Object.keys(subs.byTopic || {}).length && !Object.keys(subs.byOrigin || {}).length) {
       const p = el('p', 'mod-empty'); p.textContent = 'No subscribers yet.';
       mix.appendChild(p);
