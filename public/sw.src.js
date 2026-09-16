@@ -129,7 +129,10 @@ self.addEventListener('fetch', event => {
   // Everything else: default network (never cached).
 });
 
-// ── 4. push (dormant until P17b ships the send path) ────────────────────────
+// ── 4. push (P17b — richer than the tech/finance bells) ───────────────────
+// Action buttons (Read / Later), large image, per-URL tag dedupe, renotify,
+// vibrate, and the campaign id (cid) the click/dismiss beacons report back.
+// A missing/garbled payload still rings a generic bell — never silent.
 self.addEventListener('push', event => {
   let data = null;
   try {
@@ -137,29 +140,72 @@ self.addEventListener('push', event => {
   } catch {
     /* non-JSON payload */
   }
-  if (!data || !data.title) return;
+  const title = (data && data.title) || 'New on AndroidScroll';
+  const rawUrl = (data && data.url) || '';
+  let target = self.location.href;
+  try {
+    const u = new URL(rawUrl, self.location.href);
+    // same-origin always; plus the known homes (apex, staging) for cross-leg links
+    if (u.protocol === 'https:' && (u.origin === self.location.origin ||
+        /(^|\.)androidscroll\.com$/.test(u.hostname) || /(^|\.)github\.io$/.test(u.hostname))) target = u.href;
+  } catch { /* keep default */ }
+  const opts = {
+    body: (data && data.body) || 'Fresh from the desk — tap to read.',
+    icon: (data && data.icon) || 'icons/icon-192.png',
+    badge: (data && data.badge) || 'icons/icon-192.png',
+    data: { url: target, cid: (data && data.cid) || 0 },
+    tag: 'andscroll-' + target.replace(/[^a-z0-9_-]/gi, '-').slice(0, 64),
+    renotify: true,
+    vibrate: [120, 80, 120],
+    actions: [
+      { action: 'read', title: 'Read' },
+      { action: 'later', title: 'Later' },
+    ],
+  };
+  if (data && data.image) opts.image = data.image;
+  event.waitUntil(self.registration.showNotification(title, opts));
+});
+
+const PUSH_BASE = 'https://androidscroll-push.gwill.workers.dev';
+function pushBeacon(path, cid) {
+  if (!cid) return Promise.resolve();
+  try {
+    return fetch(PUSH_BASE + path, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ cid }),
+      keepalive: true,
+    }).catch(() => {});
+  } catch {
+    return Promise.resolve();
+  }
+}
+
+// ── 5. notificationclick: beacon the open, then focus-or-open the post ─────
+self.addEventListener('notificationclick', event => {
+  const note = event.notification;
+  const cid = (note.data && note.data.cid) || 0;
+  note.close();
+  // "Later" = a counted dismiss, no navigation.
+  if (event.action === 'later') {
+    event.waitUntil(pushBeacon('/dismiss', cid));
+    return;
+  }
+  const target = (note.data && note.data.url) || self.location.href;
   event.waitUntil(
-    self.registration.showNotification(data.title, {
-      body: data.body || '',
-      icon: data.icon || 'icons/icon-192.png',
-      badge: data.badge || 'icons/icon-192.png',
-      data: { url: data.url || self.location.href },
-      tag: 'andscroll-' + String(data.url || '').replace(/[^a-z0-9_-]/gi, '-'),
-      vibrate: [120, 80, 120],
-    })
+    pushBeacon('/click', cid).then(() =>
+      self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clients => {
+        for (const c of clients) {
+          if ('focus' in c) return c.focus().then(() => 'navigate' in c && c.navigate(target));
+        }
+        return self.clients.openWindow(target);
+      })
+    )
   );
 });
 
-// ── 5. notificationclick: focus-or-open the post ────────────────────────────
-self.addEventListener('notificationclick', event => {
-  event.notification.close();
-  const target = (event.notification.data && event.notification.data.url) || self.location.href;
-  event.waitUntil(
-    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clients => {
-      for (const c of clients) {
-        if ('focus' in c) return c.focus().then(() => 'navigate' in c && c.navigate(target));
-      }
-      return self.clients.openWindow(target);
-    })
-  );
+// ── 6. notificationclose: a swiped-away bell still counts as seen-and-ignored
+self.addEventListener('notificationclose', event => {
+  const cid = (event.notification.data && event.notification.data.cid) || 0;
+  event.waitUntil(pushBeacon('/dismiss', cid));
 });

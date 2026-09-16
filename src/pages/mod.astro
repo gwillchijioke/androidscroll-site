@@ -46,6 +46,7 @@ for (const p of POSTS) postMap[p.id] = { u: p.url, t: p.title };
           <button type="button" class="mod-tab" data-tab="queue">Queue</button>
           <button type="button" class="mod-tab" data-tab="all">All comments</button>
           <button type="button" class="mod-tab" data-tab="reports">Reports</button>
+          <button type="button" class="mod-tab" data-tab="push">Push</button>
         </nav>
       </div>
     </section>
@@ -102,6 +103,51 @@ for (const p of POSTS) postMap[p.id] = { u: p.url, t: p.title };
         <div id="mod-view-reports" class="mod-view" hidden>
           <div id="mod-rep-list" class="mod-rows"></div>
           <p id="mod-rep-empty" class="mod-empty" hidden>No open reports.</p>
+        </div>
+
+        <!-- PUSH (P17b LEG4 — bell command deck over the push worker).
+             Own token (SEND_SECRET), session-only like the desk token. -->
+        <div id="mod-view-push" class="mod-view" hidden>
+          <form id="push-lock" class="mod-card mod-lock" autocomplete="off" hidden>
+            <p class="mod-label" id="push-token-label">Push token</p>
+            <input id="push-token" class="mod-token" type="password" aria-labelledby="push-token-label"
+                   placeholder="Paste the push token" />
+            <p id="push-lock-msg" class="mod-result is-bad" role="status" aria-live="polite"></p>
+            <div class="mod-act-row">
+              <button class="btn-deep" type="submit">Unlock push</button>
+            </div>
+          </form>
+          <div id="push-body" hidden>
+            <div id="push-cards" class="mod-cards"></div>
+            <p class="mod-label mod-top-head">Flocks &amp; origins</p>
+            <div id="push-mix" class="mod-rows"></div>
+            <p class="mod-label mod-top-head">Compose</p>
+            <form id="push-compose" class="mod-card" autocomplete="off">
+              <p class="mod-label" for="push-title">Title</p>
+              <input id="push-title" class="mod-token" type="text" maxlength="80" placeholder="Battery king under ₦150k" />
+              <p class="mod-label" for="push-body-in">Message</p>
+              <textarea id="push-body-in" class="mod-ta" maxlength="200" placeholder="The full verdict just landed — tap to read."></textarea>
+              <p class="mod-label" for="push-url">Target page</p>
+              <input id="push-url" class="mod-token" type="url" inputmode="url" placeholder="https://androidscroll.com/…" />
+              <p class="mod-label" for="push-image">Picture (optional)</p>
+              <input id="push-image" class="mod-token" type="url" inputmode="url" placeholder="https://…/cover.jpg" />
+              <div class="mod-filterbar">
+                <div class="mod-seg" id="push-seg" role="group" aria-label="Flock">
+                  <button type="button" data-topic="posts" class="is-on">Posts</button>
+                  <button type="button" data-topic="deals">Deals</button>
+                  <button type="button" data-topic="news">News</button>
+                </div>
+              </div>
+              <p id="push-compose-msg" class="mod-result" role="status" aria-live="polite"></p>
+              <div class="mod-act-row">
+                <button id="push-test" class="btn-ghost" type="button">Ring my flock first</button>
+                <button id="push-fire" class="btn-deep" type="button">Sound the full peal</button>
+              </div>
+            </form>
+            <p class="mod-label mod-top-head">Campaigns</p>
+            <div id="push-camps" class="mod-rows"></div>
+            <p id="push-camps-empty" class="mod-empty" hidden>No bells rung yet.</p>
+          </div>
         </div>
 
         <!-- v0.6.17 BULK BAR — floats over Queue + All Comments (sticky at
@@ -168,6 +214,11 @@ html[data-theme=dark] .mod-scoped .mod-seg button.is-on{background:var(--band-2)
 @media (prefers-color-scheme:dark){html:not([data-theme=light]) .mod-scoped .mod-tab.is-on{color:#00E9B0;border-bottom-color:#00E9B0}html:not([data-theme=light]) .mod-scoped .mod-seg button.is-on{background:var(--band-2);border-color:#00E9B0;color:#00E9B0}}
 
 .mod-scoped .mod-label{margin:0 0 8px;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+/* P17b push compose — stacked fields breathe; seg reuses the All-comments skin. */
+.mod-scoped #push-compose .mod-label{margin-top:14px}
+.mod-scoped #push-compose .mod-label:first-of-type{margin-top:0}
+.mod-scoped #push-compose .mod-token{margin-top:0}
+.mod-scoped #push-compose .mod-filterbar{margin-top:14px}
 .mod-scoped .mod-label-inline{margin:0 8px 0 0}
 .mod-scoped .mod-card{background:var(--paper);border:1px solid var(--line-2);border-left:4px solid var(--verdict);border-radius:4px;margin-top:16px;padding:16px 18px}
 
@@ -435,6 +486,7 @@ const views: Record<string, HTMLElement | null> = {
   all:      $('mod-view-all'),
   reports:  $('mod-view-reports'),
   overview: $('mod-view-overview'),
+  push:     $('mod-view-push'),
 };
 const queueList = $('mod-queue-list');
 const queueEmpty = $('mod-queue-empty');
@@ -459,7 +511,7 @@ const topEmpty  = $('mod-top-empty');
    overview. */
 type State = { tab: string; status: string; post: string; page: number };
 const state: State = { tab: 'overview', status: 'approved', post: '', page: 1 };
-const TABS = ['overview', 'queue', 'all', 'reports'];
+const TABS = ['overview', 'queue', 'all', 'reports', 'push'];
 const TAB_QUERY = (new URLSearchParams(location.search).get('tab') || '').trim();
 
 function hashOf(s: State): string {
@@ -472,7 +524,7 @@ function hashOf(s: State): string {
   return '#/mod/' + s.tab;
 }
 function readHash(): boolean {
-  const m = (location.hash || '').match(/^#\/mod\/(queue|all|reports|overview)(?:\?(.*))?$/);
+  const m = (location.hash || '').match(/^#\/mod\/(queue|all|reports|overview|push)(?:\?(.*))?$/);
   if (!m) return false;
   state.tab = m[1];
   const p = new URLSearchParams(m[2] || '');
@@ -496,6 +548,7 @@ function setTab(tab: string) {
   if (tab === 'queue') void loadQueue();
   else if (tab === 'all') void loadAll();
   else if (tab === 'reports') void loadReports();
+  else if (tab === 'push') void loadPush();
   else void loadOverview();
 }
 function paintTabs() {
@@ -1307,7 +1360,156 @@ function reloadActive(): Promise<void> {
   if (state.tab === 'queue') return loadQueue();
   if (state.tab === 'all') return loadAll();
   if (state.tab === 'reports') return loadReports();
+  if (state.tab === 'push') return loadPush();
   return loadOverview();
+}
+
+/* ---------- PUSH DECK (P17b LEG4 — over the push worker, own token) ---------- */
+const PUSH_API = 'https://androidscroll-push.gwill.workers.dev';
+const PUSH_TOK_KEY = 'androidscroll:pushtok';
+let pushToken = '';
+try { pushToken = sessionStorage.getItem(PUSH_TOK_KEY) || ''; } catch { /* private mode */ }
+function savePushTok(v: string) {
+  pushToken = v;
+  try { v ? sessionStorage.setItem(PUSH_TOK_KEY, v) : sessionStorage.removeItem(PUSH_TOK_KEY); } catch { /* ok */ }
+}
+let pushTopic = 'posts';
+interface PushStats {
+  subs?: { total?: number; new7?: number; new30?: number; byOrigin?: Record<string, number>; byTopic?: Record<string, number> };
+  campaigns?: { cid?: number; title?: string; sent?: number; pruned?: number; failed?: number; clicked?: number; dismissed?: number; when?: number; openRate?: number | null; dismissRate?: number | null }[];
+  health?: { version?: string; now?: number };
+}
+async function pushApi(path: string, opts: RequestInit = {}): Promise<Response> {
+  const headers = new Headers(opts.headers || {});
+  headers.set('authorization', 'Bearer ' + pushToken);
+  if (opts.body && !headers.has('content-type')) headers.set('content-type', 'application/json');
+  return fetch(PUSH_API + path, { ...opts, headers });
+}
+function pushKpi(host: HTMLElement | null, val: string, label: string): void {
+  if (!host) return;
+  const k = el('div', 'mod-kpi'); k.dataset.kpi = label.toLowerCase().replace(/[^a-z0-9]+/g, '');
+  const b = el('b'); b.textContent = val;
+  const sp = el('span'); sp.textContent = label;
+  k.append(b, sp);
+  host.appendChild(k);
+}
+async function loadPush(): Promise<void> {
+  const lock = $('push-lock') as HTMLFormElement | null;
+  const body = $('push-body');
+  const hasTok = pushToken.length > 0;
+  show(lock, !hasTok);
+  show(body, hasTok);
+  if (!hasTok) return;
+  const cards = $('push-cards');
+  const mix = $('push-mix');
+  const camps = $('push-camps');
+  const campsEmpty = $('push-camps-empty');
+  if (cards) cards.textContent = '';
+  if (mix) mix.textContent = '';
+  if (camps) camps.textContent = '';
+  let res: Response;
+  try { res = await pushApi('/stats'); }
+  catch { setToast('Push API unreachable — retry.', true); return; }
+  if (res.status === 401) {
+    const msg = $('push-lock-msg');
+    if (msg) msg.textContent = 'Wrong push token';
+    savePushTok('');
+    show(lock, true); show(body, false);
+    return;
+  }
+  if (!res.ok) { setToast('Push stats error — HTTP ' + res.status, true); return; }
+  let s: PushStats; try { s = await res.json(); } catch { setToast('Push stats unreadable.', true); return; }
+  const subs = s.subs || {};
+  const n = (v: unknown) => (Number.isFinite(Number(v)) ? String(Number(v)) : '0');
+  pushKpi(cards, n(subs.total), 'Subscribers');
+  pushKpi(cards, n(subs.new7), 'New 7 days');
+  pushKpi(cards, n(subs.new30), 'New 30 days');
+  const campList = s.campaigns || [];
+  let sent = 0, clicked = 0, dismissed = 0;
+  for (const c of campList) { sent += c.sent || 0; clicked += c.clicked || 0; dismissed += c.dismissed || 0; }
+  pushKpi(cards, String(sent), 'Bells sent');
+  pushKpi(cards, String(clicked), 'Opens');
+  pushKpi(cards, String(dismissed), 'Ignored');
+  if (mix) {
+    const mk = (label: string, count: number) => {
+      const rowE = el('div', 'mod-card mod-mix-row');
+      const g = el('span'); g.textContent = label;
+      const c = el('span', 'mod-mix-n'); c.textContent = String(count);
+      rowE.append(g, c);
+      mix.appendChild(rowE);
+    };
+    for (const [t, v] of Object.entries(subs.byTopic || {})) mk('Flock · ' + t, Number(v));
+    for (const [o, v] of Object.entries(subs.byOrigin || {})) mk('Origin · ' + o, Number(v));
+    if (!Object.keys(subs.byTopic || {}).length && !Object.keys(subs.byOrigin || {}).length) {
+      const p = el('p', 'mod-empty'); p.textContent = 'No subscribers yet.';
+      mix.appendChild(p);
+    }
+  }
+  show(campsEmpty, campList.length === 0);
+  if (camps) {
+    for (const c of campList) {
+      const box = el('article', 'mod-card mod-item');
+      const head = el('div', 'mod-item-head');
+      const name = el('span', 'mod-rec-name'); name.textContent = c.title || ('Campaign ' + c.cid);
+      const time = el('span', 'mod-meta');
+      time.textContent = c.when ? timeAgo(new Date(c.when).toISOString()) : '';
+      head.append(name, time);
+      box.appendChild(head);
+      const meta = el('p', 'mod-meta');
+      const or = c.openRate == null ? '—' : (c.openRate * 100).toFixed(1) + '%';
+      const dr = c.dismissRate == null ? '—' : (c.dismissRate * 100).toFixed(1) + '%';
+      meta.textContent = 'sent ' + (c.sent ?? 0) + ' · opened ' + (c.clicked ?? 0) + ' (' + or + ') · ignored ' + (c.dismissed ?? 0) + ' (' + dr + ') · pruned ' + (c.pruned ?? 0) + ' · failed ' + (c.failed ?? 0);
+      box.appendChild(meta);
+      camps.appendChild(box);
+    }
+  }
+  setToast('Push deck live — ' + n(subs.total) + ' subscribers.');
+}
+function pushComposePayload(): Record<string, string> | null {
+  const msg = $('push-compose-msg');
+  const title = (($('push-title') as HTMLInputElement | null)?.value || '').trim();
+  const pbody = (($('push-body-in') as HTMLTextAreaElement | null)?.value || '').trim();
+  const url = (($('push-url') as HTMLInputElement | null)?.value || '').trim();
+  const image = (($('push-image') as HTMLInputElement | null)?.value || '').trim();
+  if (!title || !pbody || !url) {
+    if (msg) msg.textContent = 'Title, message and target page first.';
+    return null;
+  }
+  if (!/^https:\/\//.test(url)) {
+    if (msg) msg.textContent = 'Target page must be an https URL.';
+    return null;
+  }
+  if (msg) msg.textContent = '';
+  const out: Record<string, string> = { title, body: pbody, url, topic: pushTopic };
+  if (image) out.image = image;
+  return out;
+}
+async function pushFire(path: string, okWord: string, btn: HTMLButtonElement): Promise<void> {
+  const msg = $('push-compose-msg');
+  const payload = pushComposePayload();
+  if (!payload) return;
+  btn.disabled = true;
+  try {
+    const res = await pushApi(path, { method: 'POST', body: JSON.stringify(payload) });
+    const data = await res.json().catch(() => ({} as Record<string, unknown>));
+    if (res.status === 401) {
+      if (msg) msg.textContent = 'Push token rejected — paste it again.';
+      savePushTok('');
+      show($('push-lock'), true); show($('push-body'), false);
+      return;
+    }
+    if (res.ok) {
+      if (msg) msg.textContent = okWord + ' — sent ' + String((data as { sent?: number }).sent ?? 0) + '.';
+      setToast('Push ' + okWord.toLowerCase() + ' — sent ' + String((data as { sent?: number }).sent ?? 0) + '.');
+      await loadPush();
+    } else {
+      if (msg) msg.textContent = 'Failed — HTTP ' + res.status + '.';
+    }
+  } catch {
+    if (msg) msg.textContent = 'Could not reach the push API — retry.';
+  } finally {
+    btn.disabled = false;
+  }
 }
 
 /* ---------- wiring ---------- */
@@ -1363,6 +1565,31 @@ signoutB?.addEventListener('click', () => {
   if (tokInp) tokInp.value = '';
   if (lockMsg) { lockMsg.textContent = 'Signed out.'; lockMsg.classList.remove('is-bad'); }
   setLocked(true);
+});
+
+/* PUSH DECK wiring — own session token, topic seg, trial + armed broadcast */
+($('push-lock') as HTMLFormElement | null)?.addEventListener('submit', (ev) => {
+  ev.preventDefault();
+  const inp = $('push-token') as HTMLInputElement | null;
+  const msg = $('push-lock-msg');
+  if (msg) { msg.textContent = ''; msg.classList.remove('is-bad'); }
+  savePushTok((inp?.value || '').trim());
+  if (!pushToken) { if (msg) msg.textContent = 'Paste the push token first.'; return; }
+  void loadPush();
+});
+$('push-seg')?.addEventListener('click', (ev) => {
+  const b = (ev.target as HTMLElement)?.closest?.('button[data-topic]') as HTMLElement | null;
+  if (!b) return;
+  pushTopic = b.getAttribute('data-topic') || 'posts';
+  for (const x of Array.from(document.querySelectorAll('#push-seg button')))
+    (x as HTMLElement).classList.toggle('is-on', x === b);
+});
+$('push-test')?.addEventListener('click', (ev) => {
+  void pushFire('/test', 'Trial rung', ev.currentTarget as HTMLButtonElement);
+});
+$('push-fire')?.addEventListener('click', (ev) => {
+  const btn = ev.currentTarget as HTMLButtonElement;
+  armTwoTap(btn, 'Sound the full peal', () => void pushFire('/send', 'Peal sounded', btn));
 });
 
 window.addEventListener('hashchange', () => {

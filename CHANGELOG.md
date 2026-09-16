@@ -1,3 +1,4 @@
+## v0.6.42 — 2026-09-16 — P17b PUSH SHIPPED: bell+panel+topics (pwa-install §4), rich SW (actions/image/beacons/close), footer bell, mod-desk Push tab (stats/campaigns/compose+test/broadcast), worker v1.1.0 (topics/fanout/cid/click/dismiss/stats/test), gate OK.
 ## v0.6.41 — 2026-09-16 — MOD-DESK LAUGH SYNC: mod.astro carried the stale apex-up wedge eyes while Comments.astro shipped closed-eye arches (P30); grafted the fixed geometry verbatim, gate OK.
 ## v0.6.40 — 2026-09-16 — P17a PWA install SHIPPED: manifest standalone + icons, sw offline shell, pwa-install card/dock/footer-buttons wired (Ultra drill WIRED), gate OK. No push (P17b later).
 ## v0.6.39 — 2026-09-16 — P30 laugh closed-eyes: wedge triangles → squeezed-shut arch crescents (King: old slits read evil); monochrome+mass+tears+grin untouched, gate OK

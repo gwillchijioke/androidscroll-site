@@ -215,4 +215,271 @@
       });
     }
   });
+
+  // ── 4. Push bell (P17b — status panel, never a blind toggle) ─────────────
+  // Beats the tech/finance bells: action buttons in the SW, dismiss beacons,
+  // and per-topic choice (posts / deals / news) instead of all-or-nothing.
+  // VAPID public key is stamped at ship (manager); unconfigured → error state.
+  var PUSH_BASE = 'https://androidscroll-push.gwill.workers.dev';
+  var VAPID_KEY = 'BEBDTPXuCqGrs6lpNqSVdcDGXBd71YZQlvlllBB-uD08sIJ2LjXs-GWIWAP26UltzBaSs2H2dZO14QGHoG6uCvQ';
+  var TOPICS = [
+    { id: 'posts', label: 'New posts' },
+    { id: 'deals', label: 'Deals' },
+    { id: 'news', label: 'News' },
+  ];
+  var PUSH_UNSET = 0, PUSH_SUB = 1, PUSH_BLOCKED = 2, PUSH_ERR = 3, PUSH_NOSUP = 4;
+  var pushState = PUSH_UNSET;
+  var pushPanel = null;
+  var pushBusy = false;
+  var pushTopics = ['posts'];
+
+  function pushSupported() {
+    return ('Notification' in window) && ('serviceWorker' in navigator) &&
+      ('PushManager' in window) && !!window.isSecureContext;
+  }
+  function pushConfigured() {
+    return VAPID_KEY && VAPID_KEY.indexOf('__') !== 0 && VAPID_KEY.length > 40;
+  }
+  // keys arrive base64url from PushManager; the worker takes padded or not.
+  function urlBase64ToBytes(b64) {
+    var s = b64.replace(/-/g, '+').replace(/_/g, '/');
+    while (s.length % 4) s += '=';
+    var bin = atob(s);
+    var out = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+    return out;
+  }
+  function pushPost(path, payload) {
+    return fetch(PUSH_BASE + path, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload || {}),
+    }).then(function (r) { return r.json(); });
+  }
+  function pushReg() {
+    return navigator.serviceWorker.ready;
+  }
+  function pushBrowser() {
+    var u = ua();
+    if (/SamsungBrowser/i.test(u)) return 'samsung';
+    if (/OPR\/|Opera/i.test(u)) return 'opera';
+    if (/Edg\//i.test(u)) return 'edge';
+    if (/Firefox/i.test(u)) return 'firefox';
+    if (/Safari/i.test(u) && !/Chrome/i.test(u)) return 'safari';
+    return 'chrome';
+  }
+  function pushUnblockSteps() {
+    switch (pushBrowser()) {
+      case 'firefox': return 'Tap the padlock left of the address bar → Connection Secure → More Information → Permissions → Notifications → Allow, then Check again.';
+      case 'samsung': return 'Tap ⋮ → Settings → Sites and downloads → Notifications → make sure AndroidScroll is allowed, then Check again.';
+      case 'edge': return 'Tap the padlock → Permissions → Notifications → Allow, then Check again.';
+      case 'opera': return 'Tap the padlock → Site settings → Notifications → Allow, then Check again.';
+      case 'safari': return 'On iPhone: install the app first (Share → Add to Home Screen), then allow in Settings → Notifications. On Mac: Safari → Settings → Websites → Notifications → Allow.';
+      default: return 'Tap the tune/padlock icon left of the address bar → Permissions → Notifications → Allow, then Check again.';
+    }
+  }
+
+  function closePushPanel(returnFocus) {
+    if (!pushPanel) return;
+    var opener = pushPanel.getAttribute('data-opener');
+    if (pushPanel.parentNode) pushPanel.parentNode.removeChild(pushPanel);
+    pushPanel = null;
+    if (returnFocus !== false && opener === '1') {
+      var bell = document.querySelector('[data-push-toggle]');
+      if (bell && bell.focus) { try { bell.focus(); } catch (e) {} }
+    }
+    document.removeEventListener('keydown', pushEsc, true);
+  }
+  function pushEsc(e) {
+    if (e.key === 'Escape') closePushPanel(true);
+  }
+  function renderPushPanel() {
+    closePushPanel(false);
+    var bell = document.querySelector('[data-push-toggle]');
+    var panel = document.createElement('div');
+    panel.className = 'as-push';
+    panel.setAttribute('role', 'dialog');
+    panel.setAttribute('aria-label', 'Notification settings');
+    panel.setAttribute('data-opener', '1');
+    var inner = '';
+    if (pushState === PUSH_SUB) {
+      inner = '<p class="as-push-kicker mono">NOTIFICATIONS</p>' +
+        '<p class="as-push-title">You\'re subscribed</p>' +
+        '<p class="as-push-copy">Fresh guides ring your phone the moment they publish.</p>' +
+        pushTopicsHtml() +
+        '<div class="as-push-acts"><button type="button" class="as-push-off" data-as-push="off">Turn off</button></div>';
+    } else if (pushState === PUSH_BLOCKED) {
+      inner = '<p class="as-push-kicker mono">NOTIFICATIONS</p>' +
+        '<p class="as-push-title">Alerts are blocked</p>' +
+        '<p class="as-push-copy">' + pushUnblockSteps() + '</p>' +
+        '<div class="as-push-acts"><button type="button" class="as-push-on" data-as-push="check">Check again</button></div>';
+    } else if (pushState === PUSH_NOSUP) {
+      inner = '<p class="as-push-kicker mono">NOTIFICATIONS</p>' +
+        '<p class="as-push-title">This browser can\'t ring</p>' +
+        '<p class="as-push-copy">Alerts need Chrome, Edge, Firefox, Opera, Samsung Internet, or Safari 16+ (iPhone: installed app, iOS 16.4+).</p>';
+    } else if (pushState === PUSH_ERR) {
+      inner = '<p class="as-push-kicker mono">NOTIFICATIONS</p>' +
+        '<p class="as-push-title">Something snagged</p>' +
+        '<p class="as-push-copy">The bell rope slipped. Try again — nothing changed on your side.</p>' +
+        '<div class="as-push-acts"><button type="button" class="as-push-on" data-as-push="on">Try again</button></div>';
+    } else {
+      inner = '<p class="as-push-kicker mono">NOTIFICATIONS</p>' +
+        '<p class="as-push-title">Never miss a guide</p>' +
+        '<p class="as-push-copy">One tap and breaking battery, display and deal news rings your phone.</p>' +
+        pushTopicsHtml() +
+        '<div class="as-push-acts"><button type="button" class="as-push-on" data-as-push="on">Enable alerts</button></div>';
+    }
+    panel.innerHTML = '<div class="as-push-card"><button type="button" class="as-push-x" data-as-push="x" aria-label="Close">×</button>' + inner + '</div>';
+    // after the footer paragraph, never inside it (a div in a <p> is invalid)
+    var anchor = bell && bell.closest('.foot-install');
+    if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(panel, anchor.nextSibling);
+    else document.body.appendChild(panel);
+    pushPanel = panel;
+    document.addEventListener('keydown', pushEsc, true);
+    panel.addEventListener('click', function (e) {
+      var t = e.target;
+      if (t === panel) { closePushPanel(true); return; }
+      var btn = t.closest ? t.closest('[data-as-push]') : null;
+      if (!btn) return;
+      var act = btn.getAttribute('data-as-push');
+      if (act === 'x') closePushPanel(true);
+      else if (act === 'on') pushEnable();
+      else if (act === 'check') pushRefresh();
+      else if (act === 'off') pushDisable();
+    });
+    var boxes = panel.querySelectorAll('[data-topic]');
+    Array.prototype.forEach.call(boxes, function (box) {
+      box.addEventListener('change', pushRetopics);
+    });
+    var first = panel.querySelector('.as-push-acts button');
+    if (first && first.focus) { try { first.focus(); } catch (e) {} }
+  }
+  function pushTopicsHtml() {
+    var h = '<fieldset class="as-push-topics"><legend>Ring me for</legend>';
+    TOPICS.forEach(function (t) {
+      var on = pushTopics.indexOf(t.id) !== -1 ? ' checked' : '';
+      h += '<label><input type="checkbox" data-topic="' + t.id + '"' + on + '> ' + t.label + '</label>';
+    });
+    return h + '</fieldset>';
+  }
+  function pushReadTopics() {
+    if (!pushPanel) return pushTopics;
+    var out = [];
+    var boxes = pushPanel.querySelectorAll('[data-topic]:checked');
+    Array.prototype.forEach.call(boxes, function (b) { out.push(b.getAttribute('data-topic')); });
+    return out.length ? out : ['posts'];
+  }
+  function pushRefresh() {
+    if (!pushSupported()) { pushState = PUSH_NOSUP; renderPushPanel(); return; }
+    if (!pushConfigured()) { pushState = PUSH_ERR; renderPushPanel(); return; }
+    pushReg().then(function (reg) {
+      return reg.pushManager.getSubscription();
+    }).then(function (sub) {
+      if (sub) {
+        pushState = PUSH_SUB;
+        // self-heal: permission granted but server lost us → re-POST silently
+        pushPost('/subscribe', subJson(sub, pushTopics)).catch(function () {});
+      } else if (window.Notification && Notification.permission === 'denied') {
+        pushState = PUSH_BLOCKED;
+      } else {
+        pushState = PUSH_UNSET;
+      }
+      renderPushPanel();
+    }).catch(function (e) {
+      try { console.warn('[push] refresh failed', e); } catch (_) {}
+      pushState = PUSH_ERR;
+      renderPushPanel();
+    });
+  }
+  function subJson(sub, topics) {
+    var raw = sub.toJSON();
+    return {
+      endpoint: sub.endpoint,
+      keys: { p256dh: (raw.keys.p256dh || '').replace(/=+$/, ''), auth: (raw.keys.auth || '').replace(/=+$/, '') },
+      topics: topics && topics.length ? topics : ['posts'],
+    };
+  }
+  function pushEnable() {
+    if (pushBusy) return;
+    pushBusy = true;
+    pushTopics = pushReadTopics();
+    var chain = Promise.resolve();
+    if (window.Notification && Notification.permission === 'default') {
+      chain = chain.then(function () { return Notification.requestPermission(); });
+    }
+    chain.then(function () {
+      if (Notification.permission === 'denied') { pushState = PUSH_BLOCKED; renderPushPanel(); return; }
+      return pushReg().then(function (reg) {
+        return reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: urlBase64ToBytes(VAPID_KEY) });
+      }).then(function (sub) {
+        return pushPost('/subscribe', subJson(sub, pushTopics));
+      }).then(function () {
+        pushState = PUSH_SUB;
+        renderPushPanel();
+      });
+    }).catch(function (e) {
+      try { console.warn('[push] enable failed', e); } catch (_) {}
+      pushState = (e && e.name === 'NotAllowedError') ? PUSH_BLOCKED : PUSH_ERR;
+      renderPushPanel();
+    }).then(function () { pushBusy = false; });
+  }
+  function pushDisable() {
+    if (pushBusy) return;
+    pushBusy = true;
+    pushReg().then(function (reg) {
+      return reg.pushManager.getSubscription();
+    }).then(function (sub) {
+      var endpoint = sub ? sub.endpoint : '';
+      var done = sub ? sub.unsubscribe() : Promise.resolve(true);
+      return done.then(function () {
+        if (endpoint) return pushPost('/unsubscribe', { endpoint }).catch(function () {});
+      });
+    }).then(function () {
+      pushState = PUSH_UNSET;
+      renderPushPanel();
+    }).catch(function (e) {
+      try { console.warn('[push] disable failed', e); } catch (_) {}
+      pushState = PUSH_ERR;
+      renderPushPanel();
+    }).then(function () { pushBusy = false; });
+  }
+  function pushRetopics() {
+    pushTopics = pushReadTopics();
+    if (pushState !== PUSH_SUB || pushBusy) return;
+    pushReg().then(function (reg) {
+      return reg.pushManager.getSubscription();
+    }).then(function (sub) {
+      if (sub) return pushPost('/subscribe', subJson(sub, pushTopics));
+    }).catch(function (e) {
+      try { console.warn('[push] topics update failed', e); } catch (_) {}
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var bells = document.querySelectorAll('[data-push-toggle]');
+    if (!bells.length) return;
+    Array.prototype.forEach.call(bells, function (bell) {
+      bell.hidden = false; // bell stays even when unsupported — panel explains why
+      bell.addEventListener('click', function () {
+        if (pushPanel) { closePushPanel(true); return; }
+        if (!pushSupported()) { pushState = PUSH_NOSUP; renderPushPanel(); return; }
+        if (!pushConfigured()) { pushState = PUSH_ERR; renderPushPanel(); return; }
+        if (pushState === PUSH_UNSET || pushState === PUSH_ERR) { pushRefresh(); return; }
+        renderPushPanel();
+      });
+    });
+    // prove real state quietly — no panel, bell just reflects next tap
+    if (pushSupported() && pushConfigured()) {
+      pushReg().then(function (reg) {
+        return reg.pushManager.getSubscription();
+      }).then(function (sub) {
+        if (sub) {
+          pushState = PUSH_SUB;
+          pushPost('/subscribe', subJson(sub, pushTopics)).catch(function () {});
+        } else if (window.Notification && Notification.permission === 'denied') {
+          pushState = PUSH_BLOCKED;
+        }
+      }).catch(function () {});
+    }
+  });
 })();

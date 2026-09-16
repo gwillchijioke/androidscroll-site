@@ -30,11 +30,19 @@ const footPillars = PILLARS
         <!-- P17a: install buttons (finance .ffollow port). Both hidden until JS
              proves support: beforeinstallprompt reveals Install; iOS UA reveals
              the dashed Share-sheet guide. appinstalled hides both. -->
+        <!-- P17b: push bell beside the install buttons (finance .ffollow port, richer:
+
+             status panel, topics, action buttons). Hidden until push JS proves support. -->
         <p class="foot-install">
           <button type="button" class="as-install" data-install-app hidden
             data-label-alt="Install not available">Install app</button>
           <button type="button" class="as-install as-install--ios" data-install-ios hidden
             aria-expanded="false" aria-label="Add Android Scroll to your iPhone Home Screen">Add to Home Screen</button>
+          <button type="button" class="as-install as-install--bell" data-push-toggle hidden
+            aria-label="Notification settings">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+            <span>Alerts</span>
+          </button>
         </p>
         <!-- v0.6.10: nine brand accounts, inline icons, optical-law scaled -->
         <div class="foot-social">

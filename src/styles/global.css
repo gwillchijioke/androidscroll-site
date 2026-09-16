@@ -1022,3 +1022,25 @@ html[data-theme=dark] .as-install:hover{background:var(--band)}
 .as-install--ios{border-style:dashed}
 .as-install-note{display:block;width:100%;max-width:46ch;margin:8px 0 0;font-size:11.5px;line-height:1.55;font-weight:500;color:var(--ink-2);background:var(--band);border:1px solid var(--line);border-radius:2px;padding:8px 10px}
 html[data-theme=dark] .as-install-note{background:var(--band-2);border-color:var(--line-2)}
+/* P17b push panel (bottom-sheet family, same skin as .as-pwa-card; monochrome, no new palette) */
+.as-push-card{position:relative;display:flex;flex-direction:column;gap:6px;background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:14px 16px;max-width:46ch;margin:10px 0 0;box-shadow:0 8px 28px rgba(0,0,0,.14)}
+.as-push-kicker{font-size:11px;letter-spacing:.14em;color:var(--muted);margin:0}
+.as-push-title{font-size:16px;font-weight:800;margin:0;color:var(--ink)}
+.as-push-copy{font-size:13px;line-height:1.6;margin:0;color:var(--ink-2)}
+.as-push-x{position:absolute;top:6px;right:8px;border:0;background:transparent;color:var(--muted);font-size:20px;line-height:1;cursor:pointer;padding:4px}
+.as-push-x:hover{color:var(--ink)}
+.as-push-acts{display:flex;gap:10px;margin-top:6px}
+.as-push-on{background:var(--deep);color:var(--on-deep);border:0;border-radius:2px;padding:10px 14px;font-family:var(--sans);font-size:12.5px;font-weight:800;cursor:pointer}
+.as-push-on:hover{background:var(--deeper)}
+.as-push-off{background:transparent;color:var(--deep);border:1px solid var(--deep);border-radius:2px;padding:10px 14px;font-family:var(--sans);font-size:12.5px;font-weight:800;cursor:pointer}
+.as-push-off:hover{background:var(--band)}
+.as-push-on:focus-visible,.as-push-off:focus-visible,.as-push-x:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.as-push-topics{display:flex;flex-wrap:wrap;gap:8px 14px;border:0;margin:6px 0 0;padding:0}
+.as-push-topics legend{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:0;margin-bottom:4px}
+.as-push-topics label{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--ink-2);cursor:pointer}
+.as-push-topics input{accent-color:var(--deep);width:15px;height:15px}
+html[data-theme=dark] .as-push-card{background:var(--band-2);border-color:var(--line-2)}
+html[data-theme=dark] .as-push-on{background:var(--teal);color:var(--verdict)}
+html[data-theme=dark] .as-push-on:hover{background:var(--mint)}
+html[data-theme=dark] .as-push-off{border-color:var(--teal);color:var(--teal)}
+html[data-theme=dark] .as-push-topics input{accent-color:var(--teal)}
