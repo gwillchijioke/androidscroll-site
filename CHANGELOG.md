@@ -1,3 +1,4 @@
+## v0.6.54 — 2026-09-16 — campaign drill-down + origin badges (P18b/P18c deck legs): tap any bell card -> full story from GET /campaigns/:cid (body/target/funnel/latest signals, fetched once, keyboard accessible); source pills Auto-peal/Trial/Rung by hand + flock chip. Worker v1.3.1: /stats rows carry topic+source; :events keys excluded from list.
 ## v0.6.53 — 2026-09-16 — stay signed in (King locked out): desk token persists in localStorage (sessionStorage fallback); empty Unlock reuses saved token instead of wiping; sign-out still clears both.
 ## v0.6.52 — 2026-09-16 — deck double-render race: stale Push openings stand down (run guard).
 ## v0.6.51 — 2026-09-16 — second form removed (King): Push tab has no token form; desk session is the only gate, server still Bearer-locked.

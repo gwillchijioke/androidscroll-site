@@ -1382,7 +1382,7 @@ let pushTopic = 'posts';
 let pushRun = 0; // v0.6.52: stale openings stand down (double-tap race)
 interface PushStats {
   subs?: { total?: number; new7?: number; new30?: number; byOrigin?: Record<string, number>; byTopic?: Record<string, number> };
-  campaigns?: { cid?: number; title?: string; sent?: number; pruned?: number; failed?: number; clicked?: number; dismissed?: number; when?: number; openRate?: number | null; dismissRate?: number | null }[];
+  campaigns?: { cid?: number; title?: string; sent?: number; pruned?: number; failed?: number; clicked?: number; dismissed?: number; when?: number; openRate?: number | null; dismissRate?: number | null; topic?: string | null; source?: string | null }[];
   health?: { version?: string; now?: number };
 }
 async function pushApi(path: string, opts: RequestInit = {}): Promise<Response> {
@@ -1467,11 +1467,71 @@ async function loadPush(): Promise<void> {
       time.textContent = c.when ? timeAgo(new Date(c.when).toISOString()) : '';
       head.append(name, time);
       box.appendChild(head);
+      // v0.6.54 (P18 badges): origin pill — Auto-peal / Trial / Rung by hand + flock.
+      const srcLabel = c.source === 'auto' ? 'Auto-peal' : c.source === 'test' ? 'Trial' : c.source === 'manual' ? 'Rung by hand' : (c.source || '');
+      if (srcLabel || c.topic) {
+        const chips = el('div', 'mod-item-head');
+        if (srcLabel) { const s = el('span', 'mod-chip'); s.textContent = srcLabel; chips.appendChild(s); }
+        if (c.topic) { const t = el('span', 'mod-chip'); t.textContent = 'Flock · ' + c.topic; chips.appendChild(t); }
+        box.appendChild(chips);
+      }
       const meta = el('p', 'mod-meta');
       const or = c.openRate == null ? '—' : (c.openRate * 100).toFixed(1) + '%';
       const dr = c.dismissRate == null ? '—' : (c.dismissRate * 100).toFixed(1) + '%';
       meta.textContent = 'sent ' + (c.sent ?? 0) + ' · opened ' + (c.clicked ?? 0) + ' (' + or + ') · ignored ' + (c.dismissed ?? 0) + ' (' + dr + ') · pruned ' + (c.pruned ?? 0) + ' · failed ' + (c.failed ?? 0);
       box.appendChild(meta);
+      // v0.6.54 (P18b drill-down): tap the bell → its full story (body, target,
+      // funnel, timeline), fetched once from /campaigns/:cid, cached on the card.
+      const detail = el('div'); detail.hidden = true;
+      box.appendChild(detail);
+      box.style.cursor = 'pointer';
+      box.setAttribute('role', 'button');
+      box.setAttribute('tabindex', '0');
+      const toggleDetail = () => {
+        if (detail.hidden && !detail.dataset.done) {
+          detail.dataset.done = '1';
+          const wait = el('p', 'mod-meta'); wait.textContent = 'Opening the log…';
+          detail.appendChild(wait);
+          pushApi('/campaigns/' + c.cid).then(async (res) => {
+            detail.textContent = '';
+            if (!res.ok) { const e = el('p', 'mod-meta'); e.textContent = 'Log unavailable — HTTP ' + res.status + '.'; detail.appendChild(e); return; }
+            const d = await res.json().catch(() => ({})) as {
+              body?: string | null; url?: string | null; sent?: number; pruned?: number;
+              failed?: number; clicked?: number; dismissed?: number;
+              openRate?: number | null; dismissRate?: number | null;
+              events?: { t?: string; at?: number }[];
+            };
+            if (d.body) { const b = el('p'); b.textContent = d.body; detail.appendChild(b); }
+            if (d.url) {
+              const p = el('p', 'mod-meta'); const a = el('a') as HTMLAnchorElement;
+              a.href = d.url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = d.url;
+              p.append('Target: ', a); detail.appendChild(p);
+            }
+            const f = el('p', 'mod-meta');
+            const pct = (v: number | null | undefined) => (v == null ? '—' : (v * 100).toFixed(1) + '%');
+            f.textContent = 'sent ' + (d.sent ?? 0) + ' · opened ' + (d.clicked ?? 0) + ' (' + pct(d.openRate) + ') · ignored ' + (d.dismissed ?? 0) + ' (' + pct(d.dismissRate) + ') · pruned ' + (d.pruned ?? 0) + ' · failed ' + (d.failed ?? 0);
+            detail.appendChild(f);
+            const evs = d.events || [];
+            if (evs.length) {
+              const h = el('p', 'mod-label'); h.textContent = 'Latest ' + Math.min(evs.length, 5) + ' signals';
+              detail.appendChild(h);
+              for (const e of evs.slice(-5).reverse()) {
+                const r = el('p', 'mod-meta');
+                r.textContent = (e.t === 'click' ? 'Opened' : e.t === 'dismiss' ? 'Ignored' : (e.t || '?')) + (e.at ? ' · ' + timeAgo(new Date(e.at).toISOString()) : '');
+                detail.appendChild(r);
+              }
+            }
+          }).catch(() => {
+            detail.textContent = '';
+            const e = el('p', 'mod-meta'); e.textContent = 'Log unreachable.'; detail.appendChild(e);
+          });
+        }
+        detail.hidden = !detail.hidden;
+      };
+      box.addEventListener('click', toggleDetail);
+      box.addEventListener('keydown', (ev) => {
+        if ((ev as KeyboardEvent).key === 'Enter' || (ev as KeyboardEvent).key === ' ') { ev.preventDefault(); toggleDetail(); }
+      });
       camps.appendChild(box);
     }
   }
