@@ -1,5 +1,5 @@
 ---
-/* /search results page — v0.6.18 Direction A (P7 SEARCH26).
+/* /search results page - v0.6.18 Direction A (P7 SEARCH26).
    URL-addressable (?q=), same scorer as the overlay (search-core.js ?raw inline),
    no-JS fallback = full shelf server-rendered. Canonical /search/ via Head;
    JS injects robots noindex only when a ?q= is present (q-pages never indexed). */
@@ -13,7 +13,7 @@ const SYNM = buildSynonyms(IDX);
 const NEWEST3 = POSTS.slice(0, 3);
 const shelfCats = PILLARS.map(p => ({ name: p.name, path: p.path, n: postsIn(p).length })).filter(c => c.n > 0);
 ---
-<Base title="Search" desc={`Search all ${TOTALS.posts} AndroidScroll guides — ranked client-side, zero network per keystroke.`}>
+<Base title="Search" desc={`Search all ${TOTALS.posts} AndroidScroll guides - ranked client-side, zero network per keystroke.`}>
   <div class="wrap" style="padding-bottom:56px">
     <nav class="crumb" aria-label="Breadcrumb" style="padding-top:26px"><a href="/">Home</a> <span>›</span> <span>Search</span></nav>
     <header style="padding-top:10px">
@@ -78,7 +78,7 @@ const shelfCats = PILLARS.map(p => ({ name: p.name, path: p.path, n: postsIn(p).
       m.name = 'robots'; m.content = 'noindex';
       document.head.appendChild(m);
     }
-    /* P13 Direction A — query-scoped filter chips: counts come from the LIVE
+    /* P13 Direction A - query-scoped filter chips: counts come from the LIVE
        matched set (countByCat, same core as the scorer), so chips always sum
        to the result length. Idle / zero-state keeps the server shelf links. */
     const chips = document.getElementById('sq-chips');
@@ -112,14 +112,14 @@ const shelfCats = PILLARS.map(p => ({ name: p.name, path: p.path, n: postsIn(p).
       if (!terms.length) return; /* idle = server shelf stays */
       const matched = S.rank(terms);
       h.innerHTML = `For “${esc(qt)}”<span class="dot">.</span>`;
-      document.title = `“${qt}” — Search — AndroidScroll`;
+      document.title = `“${qt}” - Search - AndroidScroll`;
       if (matched.length) {
         none.hidden = true; list.hidden = false;
         pool = matched; poolTerms = terms; activeFilter = 'All';
         paintChips(); paintList();
       } else {
         list.hidden = true; none.hidden = false;
-        noneH.textContent = `Nothing filed under “${qt}” yet — that's the backlog, not a dead end.`;
+        noneH.textContent = `Nothing filed under “${qt}” yet - that's the backlog, not a dead end.`;
         count.textContent = '0 matches';
         const sug = S.didYouMean(terms);
         dym.hidden = !sug;
@@ -133,12 +133,12 @@ const shelfCats = PILLARS.map(p => ({ name: p.name, path: p.path, n: postsIn(p).
           orBtn.textContent = `Search any word (${orHits.length})`;
           orBtn.onclick = () => {
             list.hidden = false; none.hidden = true;
-            h.innerHTML = `For “${esc(qt)}” — any word<span class="dot">.</span>`;
+            h.innerHTML = `For “${esc(qt)}” - any word<span class="dot">.</span>`;
             pool = orHits; poolTerms = terms; activeFilter = 'All';
             paintChips(); paintList();
           };
         }
-        /* P11 base-aware: #sq-tell static href was relativized at build time —
+        /* P11 base-aware: #sq-tell static href was relativized at build time -
            derive from it so the contact link stays under the site's base. */
         tell.href = (tell.getAttribute('href') || '../contact/').split('?')[0] + '?q=' + encodeURIComponent(qt);
       }

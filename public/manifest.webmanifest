@@ -1,14 +1,14 @@
 {
   "name": "Android Scroll",
   "short_name": "AndroidScroll",
-  "description": "Master your Android — fixes, guides and verdicts.",
+  "description": "Master your Android - fixes, guides and verdicts.",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",
   "background_color": "#EDF6F3",
   "theme_color": "#071512",
   "categories": ["utilities", "news", "productivity"],
-  "build_id": "0.6.61-6666be7",
+  "build_id": "0.6.62-ac52634",
   "icons": [
     { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
     { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },

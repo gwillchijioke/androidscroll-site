@@ -1,7 +1,7 @@
 /**
- * socials.ts — v0.6.10 social icon data (single source for footer/header/author rows).
+ * socials.ts - v0.6.10 social icon data (single source for footer/header/author rows).
  * Paths: simple-icons (CC0), viewBox 0 0 24 24, single <path>, fill=currentColor.
- * scale: OPTICAL LAW — each icon's ink bbox max-dimension normalized to ~19.8u of
+ * scale: OPTICAL LAW - each icon's ink bbox max-dimension normalized to ~19.8u of
  * the 24u grid (set spread ±5%; law = ±10%), measured from ink rasters (alpha>16,
  * @480px, see /tmp/v0610/ink_all.json recipe). YouTube (wide bar) and solid discs
  * (facebook/telegram/linkedin, heavy ink) scale DOWN; x (sparse) scales UP.

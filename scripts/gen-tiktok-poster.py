@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate og-tiktok.jpg — TikTok poster: clean beamed-eighth-notes glyph on brand black.
+"""Generate og-tiktok.jpg - TikTok poster: clean beamed-eighth-notes glyph on brand black.
 
 v0.4.25 (King): the v0.4.21 blank was hand-drawn with offset ~165px right of center and
 malformed heads (right head smaller/lower, beam not fused to stems). This draws proper
@@ -7,7 +7,7 @@ engraving-style geometry (equal tilted ellipse heads + vertical stems + fused pa
 beam), auto-centers the ink bbox on the 1200x1200 canvas (measure -> translate -> re-render),
 and adds the TikTok chromatic split (cyan lower-left / red upper-right) for platform context.
 Reproducible: python3 scripts/gen-tiktok-poster.py
-ONE-SHOT: not wired to any npm script — output already committed at public/img/og-tiktok.jpg.
+ONE-SHOT: not wired to any npm script - output already committed at public/img/og-tiktok.jpg.
 """
 import io
 import cairosvg

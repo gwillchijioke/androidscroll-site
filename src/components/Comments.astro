@@ -1,5 +1,5 @@
 ---
-// Comments — click-to-load, zero third-party JS, Worker rail (brief §4).
+// Comments - click-to-load, zero third-party JS, Worker rail (brief §4).
 // v0.5.3 (COMMENTSUX-BRIEF Leg A+B): optimistic reactions (§3a.3), heart geometry
 //   candidate B + fill-on-active + non-scaling stroke (§3c), relative time + 60 s
 //   refresh (D1), live count probe via IntersectionObserver (D6), localStorage
@@ -8,12 +8,12 @@
 //   the form (D8), one thread rail + tightened rhythm (D5/D15), pending ghost row
 //   + structured skeleton (D13/D12). Sanitizer path untouched. No spinners.
 interface Props {
-  postId: number;            // REQUIRED — WP post id
+  postId: number;            // REQUIRED - WP post id
   postSlug?: string;         // analytics/moderation context
   authorName?: string;       // post author display name → is_author badge match
   initialCount?: number;     // build-time count, rendered in the button label
   policyUrl?: string;        // default '/comments-policy'
-  apiBase?: string;          // Worker origin — one constant to roll back
+  apiBase?: string;          // Worker origin - one constant to roll back
 }
 const {
   postId,
@@ -39,17 +39,17 @@ const hasCount = typeof initialCount === 'number' && initialCount > 0;
       ? <>Read the <span class="cnt">{initialCount}</span>&nbsp;comments</>
       : <>Be the first to comment</>}
   </button>
-  <noscript><p class="c-noscript">Comments require JavaScript — read our
+  <noscript><p class="c-noscript">Comments require JavaScript - read our
     <a href={policyUrl}>comments policy</a>.</p></noscript>
 
   <div id="comments-inner" hidden>
-    <!-- structured 2-row skeleton — avatar square + 2 bars (brief §4.7 / D12) -->
+    <!-- structured 2-row skeleton - avatar square + 2 bars (brief §4.7 / D12) -->
     <div id="comments-loading" aria-busy="true">
       <div class="c-skel-row"><span class="sk-av" aria-hidden="true"></span><span class="sk-lines"><span class="sk-bar"></span><span class="sk-bar sk-bar-s"></span></span></div>
       <div class="c-skel-row"><span class="sk-av" aria-hidden="true"></span><span class="sk-lines"><span class="sk-bar"></span><span class="sk-bar sk-bar-s"></span></span></div>
     </div>
     <div id="comments-error" hidden>
-      <p class="c-err-msg" role="alert">Couldn't load comments — the thread service didn't answer.</p>
+      <p class="c-err-msg" role="alert">Couldn't load comments - the thread service didn't answer.</p>
       <button id="retry-comments" type="button">Retry</button>
     </div>
     <div id="comments-list" hidden></div>
@@ -72,7 +72,7 @@ const hasCount = typeof initialCount === 'number' && initialCount > 0;
               <input id="c-name" name="name" type="text" required minlength="2" maxlength="100" autocomplete="name" />
             </div>
             <div class="c-field">
-              <label for="c-email">Email <span class="c-opt">(optional — needed only for reply notices)</span></label>
+              <label for="c-email">Email <span class="c-opt">(optional - needed only for reply notices)</span></label>
               <input id="c-email" name="email" type="email" maxlength="254" autocomplete="email" />
             </div>
           </div>
@@ -85,7 +85,7 @@ const hasCount = typeof initialCount === 'number' && initialCount > 0;
           <!-- honeypot: bots fill it, humans never see it -->
           <div class="c-hp" aria-hidden="true"><label for="c-hp">Leave this empty</label><input id="c-hp" name="honeypot" type="text" tabindex="-1" autocomplete="off" /></div>
           <!-- JS guard owns consent feedback (Safari bubble blocked submit silently) -->
-          <!-- v0.6.9 FINISH-3: label is inline-flex gap:8px — the "policy. " text was an
+          <!-- v0.6.9 FINISH-3: label is inline-flex gap:8px - the "policy. " text was an
              anonymous flex item, so gap:8px re-glued nothing (star still 8px off the
              period). Wrap trailing text + period + star in ONE inline span: flex gap
              only applies input↔span, star sits flush against the period. -->
@@ -93,7 +93,7 @@ const hasCount = typeof initialCount === 'number' && initialCount > 0;
           <p class="c-check"><label><input id="c-notify" name="notify" type="checkbox" /> Email me when someone replies.</label></p>
           <button type="submit" id="c-submit" class="btn-deep">Post Comment</button>
           <p id="form-msg" aria-live="polite" role="status"></p>
-          <p class="n-note">Held for review first — approved comments appear here and by email reply notices go to the thread followers.</p>
+          <p class="n-note">Held for review first - approved comments appear here and by email reply notices go to the thread followers.</p>
         </form>
       </div>
     </div>
@@ -131,7 +131,7 @@ function safeHttpUrl(v: string): boolean {
   return low.indexOf('http://') === 0 || low.indexOf('https://') === 0;
 }
 
-// XSS boundary — unchanged (DESIGN-RESEARCH §4.12.4): template round-trip.
+// XSS boundary - unchanged (DESIGN-RESEARCH §4.12.4): template round-trip.
 function sanitizeCommentHtml(html: string): string {
   const tpl = document.createElement('template');
   tpl.innerHTML = html;
@@ -188,7 +188,7 @@ const show = (el: HTMLElement | null, on = true) => { if (el) el.hidden = !on; }
 const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 // Commenter faces (v0.6.33 P17c2): photos come from OUR Worker proxy, never the
-// third-party avatar host — AUDIT-01 M5's privacy finding stays closed. The
+// third-party avatar host - AUDIT-01 M5's privacy finding stays closed. The
 // Worker returns
 // 200 image/* for a hash that has a photo and 404 otherwise; the img sits on top
 // of the monogram, so the 404 onerror just removes it and the initials show
@@ -196,7 +196,7 @@ const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)');
 // The desk-author star badge (is_author) is display-only and stays below.
 const AV_BG = ['var(--deep)', 'var(--teal)', 'var(--deeper)', 'var(--verdict)'];
 // P24 hotfix (v0.6.31): AUDIT-01 M5 removed the Gravatar block but avHash was
-// ALSO the deterministic monogram-bg picker — avatarBg() + the pending ghost
+// ALSO the deterministic monogram-bg picker - avatarBg() + the pending ghost
 // row still call it, so every loadComments() render died on
 // ReferenceError: avHash is not defined → generic "Couldn't load comments".
 // Restore the helper (same FNV-style 31 hash as before, unchanged output).
@@ -216,14 +216,14 @@ function initials(name: string): string {
 }
 // v0.6.33 P17c2: the ONLY string allowed to reach the avatar URL is a bare
 // 64-hex-lowercase email_hash (measured: all API rows carry one). Anything else
-// — null, short, uppercase, path/query injection — renders the monogram only.
+// - null, short, uppercase, path/query injection - renders the monogram only.
 // No name special-casing, no hardcoded hash.
 function photoHashFor(c: any): string {
   const h = String(c?.email_hash || '').trim();
   return /^[0-9a-f]{64}$/.test(h) ? h : '';
 }
 
-// ── relative time (brief D1 / §3a P2 — vanilla, no time lib) ──
+// ── relative time (brief D1 / §3a P2 - vanilla, no time lib) ──
 function timeAgo(iso: string): string {
   const t = Date.parse(iso);
   if (!t) return '';
@@ -248,20 +248,20 @@ function stampTimes(root: ParentNode) {
     el.textContent = timeAgo(iso);
   });
 }
-// 60 s refresh — skips work while the tab is hidden (plugin-proven guard)
+// 60 s refresh - skips work while the tab is hidden (plugin-proven guard)
 setInterval(() => { if (!document.hidden) stampTimes(document); }, 60000);
 document.addEventListener('visibilitychange', () => { if (!document.hidden) stampTimes(document); });
 
 // ── reactions: BESPOKE inline SVG (King law: geometry, not emoji; zero DNA ──
 // ── from vibe-comments; non-scaling stroke keeps hairlines true at 14-18px ──
 // heart = brief §3c.2 CANDIDATE B (two-cubic classic): off-centre lobes + cleft
-// at x=12 — the shipped dome (semicircle apex at centre) is retired for good.
+// at x=12 - the shipped dome (semicircle apex at centre) is retired for good.
 const REACTIONS = [['like', 'Like'], ['heart', 'Heart'], ['fire', 'Fire'], ['laugh', 'Laugh']] as const;
 const VE = ' vector-effect="non-scaling-stroke"';
 const REACT_SVG: Record<string, string> = {
   // thumbs-up: straight-line palm + cuff (fills solid when reacted)
   like: `<path class="fl"${VE} d="M8.6 20.4V11l5-8.2c2 0 3.2 1.2 3.2 3.2l-.6 3.4h4c1.6 0 2.6 1.2 2.4 2.6l-1.2 6.4c-.2 1.2-1.2 2-2.4 2H8.6Z"/><path class="fl"${VE} d="M3.6 11.6h5v8.8h-5z"/>`,
-  // heart: candidate B — two-cubic classic silhouette (brief §3c.2)
+  // heart: candidate B - two-cubic classic silhouette (brief §3c.2)
   heart: `<path class="fl"${VE} d="M12 20.8C12 20.8 3.2 15 3.2 9.4 3.2 6.4 5.5 4.3 8.2 4.3c1.8 0 3.1 1 3.8 2.3.7-1.3 2-2.3 3.8-2.3 2.7 0 5 2.1 5 5.1 0 5.6-8.8 11.4-8.8 11.4Z"/>`,
   // flame: angular outline + SOLID core (v0.6.2 King: the hollow diamond read as a
   // droplet/leaf at 18px). Core is now always-filled, no .fl state, and grown
@@ -269,30 +269,30 @@ const REACT_SVG: Record<string, string> = {
   // Raster gate @18/24/36px both themes: pointed tip -> split side licks -> solid
   // core -> rounded base; unambiguous flame in light+dark.
   fire: `<path${VE} d="M12 2.8 16.2 9.4l1.6-1.6c1.6 2 2.6 4 2.6 6.2a8.4 8.4 0 1 1-16.8 0c0-2.2 1-4.2 2.6-6.2l1.6 1.6L12 2.8Z"/><path fill="currentColor" stroke="none" d="M12 10.6 15.5 15.4 12 20.2 8.5 15.4Z"/>`,
-  // laugh: 😂 tears-of-joy — v0.6.3 LAUGH-v3 geometry, v0.6.6 OPTICAL SIZE MATCH (King:
-  // "You didn't increase the size of the laughter SVG" — at equal 21px CSS it read SMALLER
+  // laugh: 😂 tears-of-joy - v0.6.3 LAUGH-v3 geometry, v0.6.6 OPTICAL SIZE MATCH (King:
+  // "You didn't increase the size of the laughter SVG" - at equal 21px CSS it read SMALLER
   // than like/heart/fire because the face disc spanned only 13.2u of the 24 grid vs the
   // siblings' ~16-18u). Fix is geometry, not CSS. VISION GATE HISTORY (real Obscura picker
   // crops, both themes): r7.4 FAILED (21x13 disc still read small), r7.6s FAILED (read
   // compact), r8.8s size-PASSed light but both-theme mass reads said 'too heavy' vs the
   // monoline siblings. SHIPS r7.9s: face disc r6.6→7.9 (15.8u; wedge eyes + grin
-  // proportional — same 68% mouth:face opening, same eye-mouth septum, evenodd knock-out
+  // proportional - same 68% mouth:face opening, same eye-mouth septum, evenodd knock-out
   // untouched); teardrops TRANSLATED along their radial axis to cusp tips (3.073,8.75)/
   // (20.927,8.75) = radius 9.5 = R+1.6 → glyph-lab 1.6u tip gutter law holds EXACTLY; bulbs
   // slimmed 0.80 about the tip (r1.7→1.36) so fill x[0.042,23.885] stays inside the 24u
-  // viewBox (unscaled r7.9 bulbs clip ~0.03u/side — the "stubby handles" reject class).
+  // viewBox (unscaled r7.9 bulbs clip ~0.03u/side - the "stubby handles" reject class).
   // Raster gate (cairosvg @ EXACT 21px picker + 16px pill, light #f6f8f8/#52635F + dark
   // #0B241D/#B6CCC6, vs shipped siblings heart 17x16 ink118/120, like 19x18 ink153/154,
   // fire 17x20 ink175/178): laugh 21x15 ink171 both themes; @16 16x12 ink104/106.
-  // Brand monochrome — currentColor only, never emoji yellow/blue. No dark-mode colour
+  // Brand monochrome - currentColor only, never emoji yellow/blue. No dark-mode colour
   // change (King: idle icons read great in dark as-is).
   laugh: `<path fill="currentColor" stroke="none" fill-rule="evenodd" d="M4.1 12a7.9 7.9 0 1 0 15.8 0a7.9 7.9 0 1 0 -15.8 0Z M6.314 9.965Q8.289 6.7 10.264 9.965Q8.289 8.9 6.314 9.965Z M13.736 9.965Q15.711 6.7 17.686 9.965Q15.711 8.9 13.736 9.965Z M6.614 11.88H17.386a5.386 6.344 0 0 1 -10.773 0Z"/><path d="M3.073 8.75L2.765 10.849A1.36 1.36 0 1 1 1.037 9.347Z" fill="currentColor" stroke="none"/><path d="M20.927 8.75L22.963 9.347A1.36 1.36 0 1 1 21.235 10.849Z" fill="currentColor" stroke="none"/>`,
 };
 const reactIcon = (k: string) =>
   '<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' + (REACT_SVG[k] || '') + '</svg>';
 
-// ── own-reaction mirror (brief §3a.3 option i) — localStorage, try/catch ──
-// v0.6.5: single-highlight semantics — the mirror stores ONE emoji key (string)
+// ── own-reaction mirror (brief §3a.3 option i) - localStorage, try/catch ──
+// v0.6.5: single-highlight semantics - the mirror stores ONE emoji key (string)
 // per comment or deletes the entry. Old array format is migrated on read: the
 // LAST valid key in the array wins (it was the most recent tap).
 const RX_KEY = 'androidscroll:rx:' + postId;
@@ -318,7 +318,7 @@ function stateFor(c: any) {
   const mine = new Set<string>();
   const stored = readMirror()[id];
   // v0.6.5 single-highlight: mirror is one key (string). Migrate the old array
-  // format on read — last valid key wins — and rewrite the mirror in the new shape.
+  // format on read - last valid key wins - and rewrite the mirror in the new shape.
   let migrated: string | undefined;
   if (typeof stored === 'string' && VALID_RX.has(stored)) migrated = stored;
   else if (Array.isArray(stored)) { const last = stored.filter(k => VALID_RX.has(k)).pop(); if (last) migrated = last; }
@@ -347,11 +347,11 @@ function total(st: { counts: Record<string, number> }): number {
 // ONE summary pill (P3): overlapping 18px glyph bubbles (top 3 types) + aggregate
 // total; zero-state = dashed '+ React' slot-frame idiom. Tap → picker.
 // v0.6.9 (King, phone screenshot: "the most that's in the front should be on top
-// most" — v0.6.6 misread this as last/rightmost-on-top): TRUE Facebook semantics —
+// most" - v0.6.6 misread this as last/rightmost-on-top): TRUE Facebook semantics -
 // DESCENDING by count, so the MOST-reacted bubble is FIRST (leftmost) in the chain,
 // and .rx-stack nth-child z-index (3/2/1) paints earlier siblings OVER later ones.
 // Ties keep the canonical REACTIONS order (like, heart, fire, laugh) via stable sort.
-// Each non-first bubble still tucks in via margin-left — now under its neighbor.
+// Each non-first bubble still tucks in via margin-left - now under its neighbor.
 function sumInner(st: { counts: Record<string, number>; mine: Set<string> }): string {
   const t = total(st);
   if (!t) return `<span class="rx-add" aria-hidden="true">+</span>React`;
@@ -371,7 +371,7 @@ function reactionWrap(c: any, st: any): string {
     ` aria-label="${label} reaction">${reactIcon(k)}<span class="c-react-n">${st.counts[k] || ''}</span></button>`).join('');
   return `<span class="c-rx" data-cid="${id}">` +
     `<button type="button" class="c-react-sum${total(st) ? '' : ' is-zero'}" data-cid="${id}" aria-expanded="false" aria-haspopup="true"` +
-    ` aria-label="Reactions — open picker">${sumInner(st)}</button>` +
+    ` aria-label="Reactions - open picker">${sumInner(st)}</button>` +
     `<span class="c-react-picker" hidden role="group" aria-label="Choose a reaction">${opts}</span>` +
     `<span class="c-rx-err" role="status" hidden></span></span>`;
 }
@@ -383,7 +383,7 @@ function renderRx(id: string) {
   if (sum) {
     (sum as HTMLElement).innerHTML = sumInner(st);
     sum.classList.toggle('is-zero', total(st) === 0);
-    sum.setAttribute('aria-label', total(st) ? `${total(st)} reactions — open picker` : 'React — open picker');
+    sum.setAttribute('aria-label', total(st) ? `${total(st)} reactions - open picker` : 'React - open picker');
   }
   wrap.querySelectorAll('.c-react').forEach(b => {
     const el = b as HTMLElement, k = el.dataset.emoji || '';
@@ -399,7 +399,7 @@ function renderRx(id: string) {
   }
 }
 
-// 240 ms spring pulse (§4.8) — the only acknowledgement a tap ever gets. No spinner.
+// 240 ms spring pulse (§4.8) - the only acknowledgement a tap ever gets. No spinner.
 function pop(el: HTMLElement) {
   if (REDUCED.matches) return;
   el.classList.remove('c-rx-pop');
@@ -407,8 +407,8 @@ function pop(el: HTMLElement) {
   el.classList.add('c-rx-pop');
 }
 
-// ── optimistic state machine (brief §3a.3) — kills the silent return at old :228 ──
-// v0.6.5 SINGLE-HIGHLIGHT (King bug #2): a tap REPLACES my reaction — mine holds at
+// ── optimistic state machine (brief §3a.3) - kills the silent return at old :228 ──
+// v0.6.5 SINGLE-HIGHLIGHT (King bug #2): a tap REPLACES my reaction - mine holds at
 // most one emoji. Tapping the same emoji again clears it (toggle-off). Every path
 // (optimistic, server confirm, rollback) repaints all four buttons via renderRx, so
 // no stale aria-pressed can survive. Rollback restores the full prior snapshot.
@@ -444,7 +444,7 @@ async function toggleReact(btn: HTMLElement) {
     if (!res.ok) {
       let data: any = {}; try { data = await res.json(); } catch {}
       // v0.6.12 (worker v0.1.4): a tripped reaction limiter now answers with
-      // code:'rate_limited' + the honest message and a COMPUTED retryAfter —
+      // code:'rate_limited' + the honest message and a COMPUTED retryAfter -
       // surface those verbatim instead of the generic save-failure copy.
       if (data && data.code === 'rate_limited') {
         throw Object.assign(new Error('rate_limited'), {
@@ -454,7 +454,7 @@ async function toggleReact(btn: HTMLElement) {
       throw new Error((data && data.message) || String(res.status));
     }
     const data = await res.json();
-    // CONFIRMED: adopt the server's counts (authoritative — old emoji decremented,
+    // CONFIRMED: adopt the server's counts (authoritative - old emoji decremented,
     // new one incremented); mirror the single active key; mirror survives reload
     if (data && data.counts) for (const [k] of REACTIONS) if (typeof data.counts[k] === 'number') st.counts[k] = data.counts[k];
     if (data && typeof data.active === 'boolean') {
@@ -463,15 +463,15 @@ async function toggleReact(btn: HTMLElement) {
     }
     persistMine(cid, st);
   } catch (e: any) {
-    // ROLLED BACK: restore the full prior snapshot (mine + counts), surface it — never silent
+    // ROLLED BACK: restore the full prior snapshot (mine + counts), surface it - never silent
     st.mine = prevMine;
     st.counts = prevCounts;
     persistMine(cid, st);
     st.err = e && e.friendly
       ? e.friendly // v0.6.12: rate-limited toast (server copy + retry-after), never the generic line
       : e && e.name === 'AbortError'
-      ? 'Reaction timed out — tap to retry.'
-      : "Couldn't save that reaction — tap to retry.";
+      ? 'Reaction timed out - tap to retry.'
+      : "Couldn't save that reaction - tap to retry.";
     pop(btn);
   } finally {
     btn.classList.remove('is-syncing');
@@ -534,7 +534,7 @@ function flash(btn: HTMLElement, label: string, ms: number, onDone?: () => void)
   setTimeout(() => { btn.textContent = keep; btn.classList.remove('is-flash'); if (onDone) onDone(); }, ms);
 }
 
-// ── report: existing worker endpoint (brief D10) — minimal reason select ──
+// ── report: existing worker endpoint (brief D10) - minimal reason select ──
 function reportPanel(id: string): string {
   return `<span class="c-report" hidden><label class="sr-only" for="c-rep-sel-${id}">Reason</label>` +
     `<select id="c-rep-sel-${id}" class="c-rep-sel">` +
@@ -550,7 +550,7 @@ async function sendReport(btn: HTMLElement) {
   const repKey = 'as-cd:rep:' + id;
   try {
     if (Date.now() < Number(localStorage.getItem(repKey) || 0)) {
-      if (panel) panel.innerHTML = `<span class="c-rep-done" role="status">Already reported — the desk has it.</span>`;
+      if (panel) panel.innerHTML = `<span class="c-rep-done" role="status">Already reported - the desk has it.</span>`;
       return;
     }
   } catch { /* private mode: no cooldown memory */ }
@@ -563,13 +563,13 @@ async function sendReport(btn: HTMLElement) {
     });
     if (res.ok || res.status === 202) {
       try { localStorage.setItem(repKey, String(Date.now() + 300000)); } catch {}
-      if (panel) panel.innerHTML = `<span class="c-rep-done" role="status">Reported — thank you.</span>`;
+      if (panel) panel.innerHTML = `<span class="c-rep-done" role="status">Reported - thank you.</span>`;
     } else {
       const d = await res.json().catch(() => ({} as any));
-      if (panel) panel.innerHTML = `<span class="c-rep-err" role="status">${esc(d && d.message ? d.message : 'Could not send the report — try again shortly.')}</span>`;
+      if (panel) panel.innerHTML = `<span class="c-rep-err" role="status">${esc(d && d.message ? d.message : 'Could not send the report - try again shortly.')}</span>`;
     }
   } catch {
-    if (panel) panel.innerHTML = `<span class="c-rep-err" role="status">Network error — the report was not sent.</span>`;
+    if (panel) panel.innerHTML = `<span class="c-rep-err" role="status">Network error - the report was not sent.</span>`;
   }
 }
 
@@ -588,9 +588,9 @@ function openReply(btn: HTMLElement) {
   let slot = null;
   for (const ch of Array.from(item.children)) {
     if ((ch as HTMLElement).classList && (ch as HTMLElement).classList.contains('c-reply-slot')) { slot = ch as HTMLElement; break; }
-  } // :scope avoided — child scan is portable
+  } // :scope avoided - child scan is portable
   if (!slot) { slot = document.createElement('div'); slot.className = 'c-reply-slot'; item.appendChild(slot); }
-  slot.appendChild(card); // SAME node moves — focus/values survive
+  slot.appendChild(card); // SAME node moves - focus/values survive
   movedCard = card;
   item.classList.add('has-form');
   const parent = $('c-parent') as HTMLInputElement;
@@ -618,7 +618,7 @@ function renderThread(comments: any[]): string {
     const safeName = esc(c.name || 'Anonymous');
     const iso = String(c.created_at || '');
     const id = esc(String(c.id));
-    // v0.6.34 P27: the Website field is gone — names render plain, never as a
+    // v0.6.34 P27: the Website field is gone - names render plain, never as a
     // link. Legacy rows may still carry c.url in the DB; it is ignored here.
     const childReplies = replies.filter((r: any) => r.parent === c.id);
     const replyMark = replyToName
@@ -641,7 +641,7 @@ function renderThread(comments: any[]): string {
           <!-- v0.6.33 P17c2: monogram default, Worker-proxied photo layered over
                it. d=404 miss (no photo) fires onerror -> img removed, initials
                show through. alt="" + aria-hidden: the name is already announced
-               by .c-name right next to it — no duplicate SR reading. -->
+               by .c-name right next to it - no duplicate SR reading. -->
           <span class="c-av-wrap"><span class="c-avatar" aria-hidden="true" style="background:${avatarBg(c)}">${esc(initials(c.name || 'Anonymous'))}</span>${photoHashFor(c) ? `<img class="c-photo" src="${esc(AVATAR + photoHashFor(c))}" alt="" aria-hidden="true" loading="lazy" decoding="async" width="36" height="36" referrerpolicy="no-referrer" onerror="this.remove()">` : ''}</span>
           <span class="c-headline">
             <span class="c-name-wrap"><span class="c-name">${safeName}</span></span>
@@ -698,11 +698,11 @@ function bindThread(list: HTMLElement) {
   });
 }
 
-// ── pending own-comment ghost row (D13 / P8) — session-only, honest ──
+// ── pending own-comment ghost row (D13 / P8) - session-only, honest ──
 function addPendingRow(name: string, content: string) {
   const list = $('comments-list'); if (!list) return;
   let thread = list.querySelector('.c-thread') as HTMLElement | null;
-  if (!thread) { // empty thread until now — seed the rail and drop the empty note
+  if (!thread) { // empty thread until now - seed the rail and drop the empty note
     list.innerHTML = '';
     thread = document.createElement('div');
     thread.className = 'c-thread';
@@ -741,7 +741,7 @@ async function loadComments() {
     lastComments = comments;
     show(loading, false); if (loading) loading.setAttribute('aria-busy', 'false');
     if (!comments.length) {
-      if (list) list.innerHTML = '<p class="c-empty">No comments yet — the first one is yours. New posts are held for review before they appear.</p>';
+      if (list) list.innerHTML = '<p class="c-empty">No comments yet - the first one is yours. New posts are held for review before they appear.</p>';
       show(list);
     } else {
       if (list) {
@@ -761,7 +761,7 @@ async function loadComments() {
   }
 }
 
-// ── live count probe (brief §3b / P1) — one tiny GET, only when the reader ──
+// ── live count probe (brief §3b / P1) - one tiny GET, only when the reader ──
 // ── reaches the section (IntersectionObserver, 200px lead). Silent on fail. ──
 function patchCount(n: number) {
   const btn = $('load-comments-btn');
@@ -783,7 +783,7 @@ function fetchCount() {
   fetch(`${API}/count?post=${encodeURIComponent(postId)}`, { headers: { accept: 'application/json' } })
     .then(r => (r.ok ? r.json() : null))
     .then(d => { if (d && typeof d.count === 'number') patchCount(d.count); })
-    .catch(() => { /* baked value stays — never error for a cosmetic number */ });
+    .catch(() => { /* baked value stays - never error for a cosmetic number */ });
 }
 if (section) {
   if ('IntersectionObserver' in window) {
@@ -862,7 +862,7 @@ document.getElementById('comment-form')?.addEventListener('submit', async (e) =>
     const cdUntil = Number(localStorage.getItem('as-cd:comment') || 0);
     if (Date.now() < cdUntil) {
       const waitS = Math.ceil((cdUntil - Date.now()) / 1000);
-      setMsg('Still cooling down — try again in ' + waitS + 's.', false);
+      setMsg('Still cooling down - try again in ' + waitS + 's.', false);
       if (submitBtn) countdown(submitBtn, waitS);
       return;
     }
@@ -889,10 +889,10 @@ document.getElementById('comment-form')?.addEventListener('submit', async (e) =>
       updateCount();
       if (!wasPending) {
         loadComments(); // refresh just this post's thread (no reload, no polling)
-        setMsg('Posted — live in the thread above.', true);
+        setMsg('Posted - live in the thread above.', true);
       } else {
         addPendingRow(name, content); // ghost row: your words are held, not lost
-        setMsg('Posted — awaiting moderation. It’ll appear once the editor approves.', true);
+        setMsg('Posted - awaiting moderation. It’ll appear once the editor approves.', true);
       }
     } else if (res.status === 400) {
       const field = /name/i.test(data.message || '') ? $('c-name')
@@ -900,14 +900,14 @@ document.getElementById('comment-form')?.addEventListener('submit', async (e) =>
       setMsg(data.message || 'Please check the highlighted field.', false, field as HTMLElement);
     } else if (res.status === 429) {
       const ra = Number(res.headers.get('retry-after') || data.retryAfter || 60);
-      setMsg(data.message || 'Too many comments — try again shortly.', false);
+      setMsg(data.message || 'Too many comments - try again shortly.', false);
       if (submitBtn) countdown(submitBtn, Math.min(300, Math.max(1, ra)));
     } else {
-      // keep the typed draft — never lose a reader's text
+      // keep the typed draft - never lose a reader's text
       setMsg(data.message || 'Failed to post comment.', false, submitBtn);
     }
   } catch {
-    setMsg('Network error — your text is kept, please try again.', false, $('c-submit'));
+    setMsg('Network error - your text is kept, please try again.', false, $('c-submit'));
   } finally {
     if (submitBtn && !submitBtn.dataset.cd) submitBtn.disabled = false;
   }
@@ -929,15 +929,15 @@ $('retry-comments')?.addEventListener('click', () => loadComments());
 </script>
 
 <style is:global>
-/* v0.5.3 — COMMENTSUX Leg A+B. Brand tokens only (global.css:23-38); radius
+/* v0.5.3 - COMMENTSUX Leg A+B. Brand tokens only (global.css:23-38); radius
    ladder 2/4 (+ 999 pill idiom); motion ≤240 ms, transform/opacity/border only,
    all prefers-reduced-motion guarded; 44 px touch law on (hover:none). */
 .comments{margin-top:clamp(28px,5vh,44px);scroll-margin-top:calc(var(--header-h,54px) + 12px)} /* v0.6.0 fix 5: the .lc-link anchor jump must land the heading below the sticky header (scroll-behavior:smooth already on html) */
 /* King v0.6.1 (refined): the duplicate line above 'Comments' is only a problem
-   on MOBILE (tight stacking) — the related-articles block already ends with its
+   on MOBILE (tight stacking) - the related-articles block already ends with its
    own bottom divider there. On wide viewports the rule-s top border reads as an
    intentional section seam and STAYS. Mobile-only scoped kill (global .rule-s
-   untouched — other sections legitimately use its top border). */
+   untouched - other sections legitimately use its top border). */
 @media (max-width:639px){.comments .rule-s{border-top:0;padding-top:0}}
 .comments .c-noscript{font-family:var(--mono);font-size:11px;color:var(--muted)}
 .comments .c-noscript a{color:var(--deep)}
@@ -945,13 +945,13 @@ $('retry-comments')?.addEventListener('click', () => loadComments());
 /* screen-reader-only label helper (report select) */
 .comments .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 
-/* load control — .launch/.btn-ghost voice */
+/* load control - .launch/.btn-ghost voice */
 .comments #load-comments-btn{display:flex;width:fit-content;align-items:center;gap:9px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--deep);background:var(--paper);border:1px solid var(--deep);padding:11px 16px;border-radius:2px;min-height:44px;cursor:pointer;margin:2px 0 18px;transition:background-color .16s ease-out}
 .comments #load-comments-btn:hover{background:var(--band);text-decoration:none}
 .comments #load-comments-btn .cnt{margin:0 2px;font-variant-numeric:tabular-nums}
 .comments #comments-inner{margin-top:4px}
 
-/* skeleton — structured 2 rows: 36px avatar square + 2 bars (§4.7 / D12) */
+/* skeleton - structured 2 rows: 36px avatar square + 2 bars (§4.7 / D12) */
 .comments .c-skel-row{display:flex;gap:12px;align-items:flex-start;border:1px dashed var(--line-2);background:var(--band);border-radius:4px;padding:14px 16px;margin-bottom:10px;animation:c-pulse 1.2s ease-in-out infinite}
 .comments .sk-av{flex:none;width:36px;height:36px;background:var(--band-2);border-radius:2px}
 .comments .sk-lines{flex:1;display:flex;flex-direction:column;gap:8px;padding-top:4px}
@@ -960,30 +960,30 @@ $('retry-comments')?.addEventListener('click', () => loadComments());
 @keyframes c-pulse{50%{opacity:.5}}
 @media (prefers-reduced-motion: reduce){.comments .c-skel-row{animation:none}}
 
-/* error/retry — .term box + .btn-ghost */
+/* error/retry - .term box + .btn-ghost */
 .comments #comments-error{background:var(--band);border:1px solid var(--line-2);border-left:3px solid var(--deep);padding:11px 14px;margin-bottom:16px}
 .comments .c-err-msg{font-family:var(--mono);font-size:12px;color:var(--ink-2);margin:0 0 10px;line-height:1.5}
 .comments #retry-comments{display:inline-flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;color:var(--deep);background:var(--paper);border:1px solid var(--deep);border-radius:2px;padding:0 16px;min-height:44px;cursor:pointer;transition:background-color .16s ease-out}
 .comments #retry-comments:hover{background:var(--band);text-decoration:none}
 
-/* ONE rail for the whole thread (§4.1 / D5) — per-card rails are gone */
+/* ONE rail for the whole thread (§4.1 / D5) - per-card rails are gone */
 .comments .c-thread{border-left:2px solid var(--line);padding-left:clamp(12px,3vw,22px);margin-left:2px}
 .comments .c-thread:hover{border-left-color:var(--line-2)}
 
-/* comment card — flat hairline box, tightened rhythm (§4.2: 14/16 pad, 10 gap) */
+/* comment card - flat hairline box, tightened rhythm (§4.2: 14/16 pad, 10 gap) */
 .comments .c-item{position:relative;background:var(--paper);border:1px solid var(--line-2);border-radius:4px;padding:14px 16px;margin-bottom:10px;scroll-margin-top:84px}
 .comments .c-item:target{border-color:var(--deep)}
 .comments .c-by-author{border-left:4px solid var(--verdict);background:var(--band)} /* author = the ONE card with a solid rail */
 .comments .c-by-author:hover{border-left-color:var(--deep)}
 
-/* pending ghost row (P8) — dashed rail, session-only */
+/* pending ghost row (P8) - dashed rail, session-only */
 .comments .c-item.is-pending{border-left:2px dashed var(--line-2);background:var(--band)}
 .comments .c-item.is-pending .c-avatar{opacity:.6}
 .comments .c-item.is-pending .c-body{font-style:italic;color:var(--muted)}
 .comments .c-pend-chip{border-color:var(--deep);color:var(--deep)}
 html[data-theme=dark] .comments .c-pend-chip{border-color:var(--teal);color:var(--teal)} /* mint-on-dark-green fails contrast (§4.9.3) */
 
-/* threading — 1 level, sub-rail kept (§4.5) */
+/* threading - 1 level, sub-rail kept (§4.5) */
 .comments .c-kids{margin:0 0 10px clamp(14px,3.5vw,28px);padding-left:clamp(10px,2vw,16px);border-left:2px solid var(--line);display:flex;flex-direction:column;gap:10px}
 .comments .c-reply{margin-bottom:0}
 .comments .c-re-line{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.03em;margin-bottom:8px}
@@ -1004,7 +1004,7 @@ html[data-theme=dark] .comments .c-pend-chip{border-color:var(--teal);color:var(
 .comments .c-badge{border:1px solid var(--deep);color:var(--deep);padding:2px 7px;font-family:var(--mono);font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:9.5px;border-radius:2px} /* .upd anatomy */
 .comments .c-date{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.04em;font-variant-numeric:tabular-nums} /* relative + title=absolute (D1) */
 
-/* body (§4.2 — 15.5/1.62) */
+/* body (§4.2 - 15.5/1.62) */
 .comments .c-body{font-size:15.5px;line-height:1.62;color:var(--ink-2);overflow-wrap:break-word;max-width:68ch}
 .comments .c-body p{margin:0 0 .7em}
 .comments .c-body p:last-child{margin-bottom:0}
@@ -1020,7 +1020,7 @@ html[data-theme=dark] .comments .c-pend-chip{border-color:var(--teal);color:var(
 .comments .c-actions{margin-left:auto;display:flex;align-items:center;gap:14px}
 /* v0.6.11 King phone-review #1: at phone width a NESTED card's footer can't hold
    pill + actions on one line. The old margin-left:auto made the wrapped action row
-   float RIGHT — a lone pill with dead space beside it and an off-rail second line
+   float RIGHT - a lone pill with dead space beside it and an off-rail second line
    (his "spacing issue", img shot A). Below 640px the actions stay on the LEFT RAIL
    (same edge as the pill and the body text above) and row-gap is tightened so the
    two-line footer reads as one even block. Desktop keeps pill-left/actions-right. */
@@ -1029,47 +1029,47 @@ html[data-theme=dark] .comments .c-pend-chip{border-color:var(--teal);color:var(
   .comments .c-actions{margin-left:0;gap:12px}
 }
 
-/* reaction summary pill (P3) — house pill skeleton (post-tags), one per comment */
+/* reaction summary pill (P3) - house pill skeleton (post-tags), one per comment */
 .comments .c-react-sum{display:inline-flex;gap:7px;align-items:center;border:1px solid var(--line-2);border-radius:999px;background:var(--paper);padding:4px 11px;min-height:32px;font-family:var(--mono);font-size:12px;color:var(--muted);cursor:pointer;transition:border-color .14s ease-out,color .14s ease-out}
 .comments .c-react-sum:hover{border-color:var(--deep);color:var(--deep);text-decoration:none}
 .comments .c-react-sum.is-zero{border-style:dashed} /* '+ React' slot-frame idiom */
 .comments .rx-add{color:var(--deep);font-weight:600}
 .comments .rx-stack{display:inline-flex;align-items:center}
-/* v0.6.9 King crescent compaction: -7→-11 tucks the chain tighter — 3-type pill
+/* v0.6.9 King crescent compaction: -7→-11 tucks the chain tighter - 3-type pill
    offsetWidth 58→50px (bubbles stay 24px; only the overlap deepens), meta row holds
    one line at 390px. Visible sliver of each tucked bubble = crescent (Facebook idiom). */
 .comments .rx-bub{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border:1px solid var(--line-2);border-radius:999px;background:var(--paper);color:var(--muted);margin-left:-11px;position:relative} /* King v0.6.5: 22→24 container, proportional to 14→16 glyphs */
-/* v0.6.9 King: leftmost (most-reacted after the DESC sort) paints ON TOP — z-index
+/* v0.6.9 King: leftmost (most-reacted after the DESC sort) paints ON TOP - z-index
    descends by position so each earlier bubble's right edge covers the next one's. */
 .comments .rx-stack .rx-bub:nth-child(1){z-index:3}
 .comments .rx-stack .rx-bub:nth-child(2){z-index:2}
 .comments .rx-stack .rx-bub:nth-child(3){z-index:1}
 .comments .rx-bub:first-child{margin-left:0}
-.comments .rx-bub svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:square;stroke-linejoin:miter;flex:none} /* King v0.6.5: 14→16px — pill scales with the 21px picker so pill→picker still reads */
+.comments .rx-bub svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:square;stroke-linejoin:miter;flex:none} /* King v0.6.5: 14→16px - pill scales with the 21px picker so pill→picker still reads */
 .comments .rx-bub.is-mine .fl{fill:currentColor}
 .comments .rx-total{font-family:var(--mono);font-weight:600;font-size:12px;color:var(--deep);font-variant-numeric:tabular-nums;margin-left:2px}
 
-/* picker row — 4 options, glyph + per-type count, 140 ms pop-in (§4.3/§4.8) */
+/* picker row - 4 options, glyph + per-type count, 140 ms pop-in (§4.3/§4.8) */
 .comments .c-react-picker{display:flex;gap:6px;flex-wrap:wrap;align-items:stretch}
 .comments .c-react-picker[hidden]{display:none} /* display override must not beat [hidden] */
 .comments .c-react-picker:not([hidden]){animation:c-pick-in .14s cubic-bezier(.34,1.56,.64,1)}
 @keyframes c-pick-in{from{transform:scale(.86);opacity:0}to{transform:scale(1);opacity:1}}
 .comments .c-react{display:inline-flex;flex-direction:column;gap:2px;align-items:center;justify-content:center;border:1px solid var(--line-2);border-radius:4px;background:var(--paper);padding:3px 9px;min-height:44px;min-width:44px;font-family:var(--mono);font-size:12px;color:var(--muted);cursor:pointer;transition:border-color .14s ease-out,color .14s ease-out,background-color .14s ease-out}
-.comments .c-react svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:square;stroke-linejoin:miter;flex:none} /* King v0.6.5: 15→18→21px — 'Laughing SVG is now looking awesome... TOO SMALL at 18px'; uniform bump across all four glyphs (equal rhythm), non-scaling stroke stays 1.6px, 44px tap targets */
+.comments .c-react svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:square;stroke-linejoin:miter;flex:none} /* King v0.6.5: 15→18→21px - 'Laughing SVG is now looking awesome... TOO SMALL at 18px'; uniform bump across all four glyphs (equal rhythm), non-scaling stroke stays 1.6px, 44px tap targets */
 .comments .c-react:hover{border-color:var(--deep);color:var(--deep);text-decoration:none}
 .comments .c-react[aria-pressed="true"]{background:var(--mint);border-color:var(--deep);color:var(--deep)}
 html[data-theme=dark] .comments .c-react[aria-pressed="true"]{background:transparent;border-color:var(--teal);color:var(--teal)}
 .comments .c-react[aria-pressed="true"] .fl{fill:currentColor} /* fill-on-active (§3c.3.2) */
 .comments .c-react[aria-pressed="true"] .c-react-n{color:inherit}
 .comments .c-react-n{font-weight:600;font-size:10.5px;color:var(--deep);font-variant-numeric:tabular-nums;min-height:1em}
-.comments .c-react.is-syncing{pointer-events:none} /* tap-block — no spinner, no opacity change (§3a.3) */
+.comments .c-react.is-syncing{pointer-events:none} /* tap-block - no spinner, no opacity change (§3a.3) */
 .comments .c-react.is-error{border-color:var(--deep);border-style:dashed}
 .comments .c-rx-pop{animation:c-rx-pop .24s cubic-bezier(.34,1.56,.64,1)}
 @keyframes c-rx-pop{0%{transform:scale(1)}35%{transform:scale(1.1)}70%{transform:scale(.97)}100%{transform:scale(1)}}
 .comments .c-rx-err{display:block;width:100%;font-family:var(--mono);font-size:11px;color:var(--deep);letter-spacing:.02em;line-height:1.5;padding-top:2px}
 .comments .c-rx-err[hidden]{display:none}
 
-/* footer actions — mono 11 deep */
+/* footer actions - mono 11 deep */
 .comments .c-actions button{background:none;border:none;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.03em;color:var(--deep);padding:6px 2px;min-height:34px;display:inline-flex;align-items:center}
 .comments .c-actions button:hover{text-decoration:underline;text-underline-offset:3px}
 .comments .c-share.is-flash{color:var(--teal);font-weight:600}
@@ -1086,10 +1086,10 @@ html[data-theme=dark] .comments .c-react[aria-pressed="true"]{background:transpa
 .comments .c-rep-err{color:var(--deep)}
 html[data-theme=dark] .comments .c-rep-sel{background:var(--field);border-color:var(--field-line);color:var(--field-ink)} /* v0.6.8: was --mint white-slab */
 
-/* empty — sheet-note voice */
+/* empty - sheet-note voice */
 .comments .c-empty{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.03em;border-left:3px solid var(--deep);background:var(--band);padding:14px 18px;line-height:1.6;margin:4px 0 16px}
 
-/* form card — qa-box wrapper + kicker-h header; keeps the --verdict rail: the
+/* form card - qa-box wrapper + kicker-h header; keeps the --verdict rail: the
    form is not a comment, its rail is hierarchy, not noise */
 .comments .c-form-card{border:1px solid var(--line-2);border-left:4px solid var(--verdict);background:var(--paper);border-radius:4px;margin-top:24px;padding:16px 18px 18px}
 .comments .c-item .c-form-card{margin-top:12px} /* moved inline via .c-reply-slot (§4.6) */
@@ -1102,11 +1102,11 @@ html[data-theme=dark] .comments .c-rep-sel{background:var(--field);border-color:
 /* v0.6.9 FINISH-4 blind-vision FAIL: DOM space removed but Manrope's asterisk ink box
    has ~3.25px of combined side bearings after a period = word-space-sized gap (gate
    PIL run analysis). Pull the star 3px left so its left arm starts ~0.25px off the
-   period dot — GLUED. Scoped to .c-check so Name/Comment label stars (which have a
+   period dot - GLUED. Scoped to .c-check so Name/Comment label stars (which have a
    real space, correct there) are untouched. */
 .comments .c-check .c-req{margin-left:-3px}
 .comments .c-opt{font-weight:400;letter-spacing:.03em;text-transform:none;font-size:10px}
-/* fields — verbatim .notify input; v0.6.8 dark = --field well (was --mint white-slab debt) */
+/* fields - verbatim .notify input; v0.6.8 dark = --field well (was --mint white-slab debt) */
 .comments #comment-form input[type="text"],.comments #comment-form input[type="email"],.comments #comment-form input[type="url"],.comments #comment-form textarea{width:100%;box-sizing:border-box;border:1px solid var(--line-2);border-bottom-width:2px;background:var(--paper);padding:12px 14px;border-radius:2px;font-size:15px;font-weight:500;font-family:var(--sans);color:var(--ink)}
 .comments #comment-form input::placeholder{color:var(--muted)}
 html[data-theme=dark] .comments #comment-form input[type="text"],html[data-theme=dark] .comments #comment-form input[type="email"],html[data-theme=dark] .comments #comment-form input[type="url"],html[data-theme=dark] .comments #comment-form textarea{background:var(--field);border-color:var(--field-line);color:var(--field-ink)}
@@ -1120,16 +1120,16 @@ html[data-theme=dark] .comments #comment-form input::placeholder,html[data-theme
 .comments .c-check input{width:18px;height:18px;margin-top:2px;flex:none;accent-color:var(--deep)}
 .comments .c-check a{color:var(--deep)}
 .comments .n-note{margin:6px 0 0;font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.03em;line-height:1.6}
-/* submit — btn-deep */
+/* submit - btn-deep */
 .comments #c-submit{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--deep);color:var(--on-deep);font-weight:800;font-size:14.5px;font-family:var(--sans);padding:13px 20px;border-radius:2px;border:0;border-top:2px solid var(--teal);min-height:44px;width:fit-content;cursor:pointer;margin-top:2px;transition:background-color .16s ease-out}
 .comments #c-submit:hover{background:var(--deeper);color:var(--on-deep);text-decoration:none}
 html[data-theme=dark] .comments #c-submit{color:var(--mint)}
 .comments #c-submit:disabled{background:var(--verdict);color:var(--mint);cursor:not-allowed;border-top-color:var(--deep)}
-/* reply strip — rides the form card when it moves */
+/* reply strip - rides the form card when it moves */
 .comments #reply-indicator{font-family:var(--mono);font-size:11px;color:var(--deep);letter-spacing:.03em;background:var(--band);border:1px dashed var(--line-2);border-radius:2px;padding:8px 12px}
 .comments #cancel-reply{margin-left:10px;background:none;border:none;cursor:pointer;color:var(--muted);font-family:var(--mono);font-size:11px;text-decoration:underline;text-underline-offset:2px;padding:2px}
 .comments #cancel-reply:hover{color:var(--deep)}
-/* messages — success = .term strip; error = mono 12 deep */
+/* messages - success = .term strip; error = mono 12 deep */
 .comments #form-msg{font-size:13px;margin:0;min-height:1em}
 .comments #form-msg.c-msg-ok{font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--ink-2);background:var(--band);border:1px solid var(--line-2);border-left:3px solid var(--deep);padding:11px 14px}
 .comments #form-msg.c-err{font-family:var(--mono);font-size:12px;color:var(--deep);line-height:1.5}
@@ -1137,7 +1137,7 @@ html[data-theme=dark] .comments #c-submit{color:var(--mint)}
 .comments .comment-form-grid{display:grid;grid-template-columns:1fr;gap:12px}
 @media (min-width:600px){.comments .comment-form-grid{grid-template-columns:1fr 1fr}}
 
-/* motion budget — three animations total (§4.8); nothing moves under reduce */
+/* motion budget - three animations total (§4.8); nothing moves under reduce */
 @media (prefers-reduced-motion: reduce){
   .comments *{animation:none !important;transition:none !important}
 }

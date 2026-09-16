@@ -1,5 +1,5 @@
 ---
-/* Homepage v3 — H1 FRONT PAGE with H2 VOICE (King verdict, home-mobile-patterns.md).
+/* Homepage v3 - H1 FRONT PAGE with H2 VOICE (King verdict, home-mobile-patterns.md).
    Front page, not welcome mat: hero strip (kicker + H1 + one-sentence stand +
    hairline meta + status TICKER) → §00 TOP FIXES (first content ≤420px at 390)
    → §01 LATEST → §02 THE LEDGER (full status panel, below the fold) → §03 PILLAR
@@ -32,7 +32,7 @@ const words = POSTS.reduce((n, p) => n + (p.words || 0), 0);
     <div class="hero-main">
       <div class="hero-kicker">The Android field manual · {SITE.benchline}</div>
       <h1 class="hero-h1" id="hero-h1">Master your Android<span class="dot">.</span></h1>
-      <p class="hero-stand">No hype, no filler — {TOTALS.posts} long guides tested on the same mid-range phones you hold.</p>
+      <p class="hero-stand">No hype, no filler - {TOTALS.posts} long guides tested on the same mid-range phones you hold.</p>
       <div class="hero-meta">
         <span>Est. <b>2019</b></span>
         <span>{TOTALS.posts} guides</span>
@@ -40,9 +40,9 @@ const words = POSTS.reduce((n, p) => n + (p.words || 0), 0);
         <span>{(words / 1000).toFixed(1)}k words</span>
         <span>Android 16 on the bench</span>
       </div>
-      <div class="st-ticker mono" aria-label="Site status — live counts">
+      <div class="st-ticker mono" aria-label="Site status - live counts">
         <span class="st-sig">site:status ● live</span>
-        <span class="sep">—</span>
+        <span class="sep">-</span>
         <span>fix_guides <b>{TOTALS.posts}</b></span><span class="sep">·</span>
         <span>quick_reads <b>{shorts}</b> ≤10 min</span><span class="sep">·</span>
         <span>comments <b>{TOTALS.comments}</b></span><span class="sep">·</span>
@@ -52,14 +52,14 @@ const words = POSTS.reduce((n, p) => n + (p.words || 0), 0);
       </div>
     </div>
 
-    <!-- quick-answer terminal box (signature #4) — compressed to two lines -->
+    <!-- quick-answer terminal box (signature #4) - compressed to two lines -->
     <div class="term stag" role="group" aria-label="Quick answer">
-      <div class="t-line"><span class="t-p">&gt; q:</span><span class="t-k">phone acting up — where do I start?</span></div>
+      <div class="t-line"><span class="t-p">&gt; q:</span><span class="t-k">phone acting up - where do I start?</span></div>
       <div class="t-line"><span class="t-p">&gt; a:</span><span class="t-a">Restart, then <a href="/android-problems-fix/">work the full fix rail</a> in order. <span class="t-cursor" aria-hidden="true"></span></span></div>
     </div>
   </section>
 
-  <!-- §00 TOP FIXES: spec-sheet rows, no boxes — the front page leads with help -->
+  <!-- §00 TOP FIXES: spec-sheet rows, no boxes - the front page leads with help -->
   <section class="sec wrap" aria-labelledby="s-fixes">
     <div class="rule-s"><span class="s-no">§00</span><h2 id="s-fixes">Top fixes</h2><span class="s-side">start here · most-worked rails first</span></div>
     <div class="fix-rail">
@@ -77,7 +77,7 @@ const words = POSTS.reduce((n, p) => n + (p.words || 0), 0);
     <div class="lat-more"><a href="/latest/">All {TOTALS.posts} fixes →</a></div>
   </section>
 
-  <!-- §01 latest: chronologic mono list (moved up — readers want what's new next) -->
+  <!-- §01 latest: chronologic mono list (moved up - readers want what's new next) -->
   <section class="sec wrap" aria-labelledby="s-latest">
     <div class="rule-s"><span class="s-no">§01</span><h2 id="s-latest">Latest from the bench</h2><span class="s-side">{TOTALS.posts} guides since 2019 · newest first</span></div>
     <div class="lat-list">
@@ -98,7 +98,7 @@ const words = POSTS.reduce((n, p) => n + (p.words || 0), 0);
   <!-- §02 THE LEDGER: the full status panel, below the fold where it earns its rows -->
   <section class="sec wrap" aria-labelledby="s-ledger">
     <div class="rule-s"><span class="s-no">§02</span><h2 id="s-ledger">The ledger</h2><span class="s-side">live counts · no vanity metrics</span></div>
-    <aside class="st-panel mono" aria-label="Site status — live counts">
+    <aside class="st-panel mono" aria-label="Site status - live counts">
       <div class="st-head"><span>site:status</span><span class="st-sig">● live</span></div>
       <ul class="st-rows">
         <li><span class="k">fix_guides</span><span class="dots"></span><span class="v">{TOTALS.posts}</span></li>
@@ -112,7 +112,7 @@ const words = POSTS.reduce((n, p) => n + (p.words || 0), 0);
           <span class="v">{TOTALS.posts}/200</span>
         </li>
       </ul>
-      <div class="st-foot">counts read straight off the build — no CMS, no database · {SITE.url.replace('https://', '')}</div>
+      <div class="st-foot">counts read straight off the build - no CMS, no database · {SITE.url.replace('https://', '')}</div>
     </aside>
   </section>
 
@@ -154,7 +154,7 @@ const words = POSTS.reduce((n, p) => n + (p.words || 0), 0);
       <div>
         <div class="vb-score">
           <span class="n">0</span>
-          <span class="of">buyer’s guides<br />published — today</span>
+          <span class="of">buyer’s guides<br />published - today</span>
         </div>
         <div class="vb-batt mono" style="margin-top:14px">
           <span class="batt" data-lvl="0" aria-label="Zero of five buying shelves stocked"><i></i><i></i><i></i><i></i><i></i></span>
@@ -162,7 +162,7 @@ const words = POSTS.reduce((n, p) => n + (p.words || 0), 0);
         </div>
       </div>
       <div>
-        <div class="vb-kicker">§04 · Money tree — the honest state</div>
+        <div class="vb-kicker">§04 · Money tree - the honest state</div>
         <h2 class="vb-title" id="s-money">We won’t tell you what to buy until we’ve broken one first.</h2>
         <p class="vb-copy">Buying Guides is the emptiest shelf on the site and the most expensive mistake we could make filling it with filler. {emptyShelves.length} sub-shelves are planned; first drops January 2027; every pick bought at retail and daily-driven two weeks before a verdict ships. Where the library is already deep, the guides above are the receipts.</p>
         <div class="vb-shelves">
@@ -170,7 +170,7 @@ const words = POSTS.reduce((n, p) => n + (p.words || 0), 0);
         </div>
         <div class="vb-cta">
           <a class="btn-deep" href="/category/buying-guides/">Watch the shelf →</a>
-          <span class="vb-fine">Notify-me list builds per shelf — no spam, one email at launch.</span>
+          <span class="vb-fine">Notify-me list builds per shelf - no spam, one email at launch.</span>
         </div>
       </div>
     </div></div>
@@ -188,12 +188,12 @@ const words = POSTS.reduce((n, p) => n + (p.words || 0), 0);
             <img class="t-mono-av" src="/img/author.png" alt="" aria-hidden="true" width="40" height="40" loading="lazy" decoding="async"> <!-- v0.6.11 #4: desk trust cell -> author photo (was 'G' monogram) -->
             <div><b>G-will Chijioke</b><span>Founder · Android &amp; security writing since 2019</span></div>
           </div>
-          <p>Every guide carries a real byline and a correction email. When we’re wrong, the page says so — see the <a href="/comments-policy/">comments policy</a> or <a href="/contact/">contact the desk</a>.</p>
+          <p>Every guide carries a real byline and a correction email. When we’re wrong, the page says so - see the <a href="/comments-policy/">comments policy</a> or <a href="/contact/">contact the desk</a>.</p>
         </div>
         <div class="t-cell">
           <span class="t-k">The bench</span>
-          <h3>Mid-range first — your phone, not ours</h3>
-          <p>Guides are tested on Galaxy-A / Pixel-a / Redmi-Note class devices — the same class you hold. No flagship-only advice; steps checked on the stock Android you actually run.</p>
+          <h3>Mid-range first - your phone, not ours</h3>
+          <p>Guides are tested on Galaxy-A / Pixel-a / Redmi-Note class devices - the same class you hold. No flagship-only advice; steps checked on the stock Android you actually run.</p>
           <p style="margin-top:10px"><a href="/how-we-test/">How we test →</a></p>
         </div>
         <div class="t-cell">
@@ -205,7 +205,7 @@ const words = POSTS.reduce((n, p) => n + (p.words || 0), 0);
             <div class="stat"><div class="n">{TOTALS.empty_categories}</div><div class="l">shelves to stock</div></div>
             <div class="stat"><div class="n">200</div><div class="l">by dec 2026</div></div>
           </div>
-          <p>No inflated archive. The roadmap is public because the library is small — that’s the point.</p>
+          <p>No inflated archive. The roadmap is public because the library is small - that’s the point.</p>
         </div>
       </div>
     </div>
@@ -219,9 +219,9 @@ const words = POSTS.reduce((n, p) => n + (p.words || 0), 0);
         <p>One email when a shelf opens or a flagship guide is re-tested. No digest, no “top 10 of the week.”</p>
       </div>
       <form data-stub>
-        <input type="email" placeholder="you@example.com" aria-label="Email address" required />
+        <input type="email" placeholder="you@phone.ng" aria-label="Email address" required />
         <button class="btn-deep" type="submit">Notify me</button>
-        <span class="n-note">Prototype stub — this form confirms on-device, nothing is sent.</span>
+        <span class="n-note">Prototype stub - this form confirms on-device, nothing is sent.</span>
       </form>
     </div>
   </section>

@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 """Generate PWA icons from the inline SVG favicon spec (teal rounded square
 + white corner block). Pure PIL, no network. v0.6.8 manifest work.
-ONE-SHOT: not wired to any npm script — run manually only when the mark changes."""
+ONE-SHOT: not wired to any npm script - run manually only when the mark changes."""
 from PIL import Image, ImageDraw
 import os
 
 OUT = "/home/ubuntu/androidscroll/build/public/icons"
 os.makedirs(OUT, exist_ok=True)
-TEAL = (0, 110, 94, 255)      # #006E5E — matches favicon rect fill
+TEAL = (0, 110, 94, 255)      # #006E5E - matches favicon rect fill
 WHITE = (255, 255, 255, 255)
 
 def make(size, maskable=False):
     img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
     if maskable:
-        # full-bleed square (no rounding) — safe-zone art inset ~80%
+        # full-bleed square (no rounding) - safe-zone art inset ~80%
         d.rectangle([0, 0, size - 1, size - 1], fill=TEAL)
         s = size / 32.0
         # white block from the SVG: x19 y6 w7 h7, scaled into the inner ~70% box

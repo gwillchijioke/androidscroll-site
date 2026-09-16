@@ -1,5 +1,5 @@
 ---
-/* Footer v2.4 — D3 MAGAZINE KEEPER (King verdict, Sep 11).
+/* Footer v2.4 - D3 MAGAZINE KEEPER (King verdict, Sep 11).
    C1 wordmark nameplate (eyes pinned open), honest alerts link (no stub form),
    capped pillar sitemap + The paper in the brand block, legal lives in the
    bottom bar dots. Deep-verdict band, mint type. */
@@ -22,11 +22,11 @@ const footPillars = PILLARS
   <div class="foot-in">
     <div class="foot-grid">
       <div class="foot-col foot-brand">
-        <a class="nameplate" href="/" aria-label="AndroidScroll — home">
+        <a class="nameplate" href="/" aria-label="AndroidScroll - home">
           <Wordmark />
         </a>
         <p>{SITE.tagline} Built as a static publication: Astro on the edge, no trackers without your consent.</p>
-        <p class="foot-alerts"><a href="/contact/">Get launch alerts — tell us where to reach you →</a></p>
+        <p class="foot-alerts"><a href="/contact/">Get launch alerts - tell us where to reach you →</a></p>
         <!-- P17a: install buttons (finance .ffollow port). Both hidden until JS
              proves support: beforeinstallprompt reveals Install; iOS UA reveals
              the dashed Share-sheet guide. appinstalled hides both. -->
@@ -51,7 +51,7 @@ const footPillars = PILLARS
         </div>
       </div>
 
-      <!-- v2.7: The paper lifted OUT of the brand block — it's a grid sibling now,
+      <!-- v2.7: The paper lifted OUT of the brand block - it's a grid sibling now,
            so mobile gets a true 2x2 (paper + pillars beside each other). King's call. -->
       <nav class="foot-col foot-paper" aria-label="The paper">
         <h4>The paper</h4>
@@ -112,7 +112,7 @@ const footPillars = PILLARS
       e.preventDefault();
       const inp = f.querySelector('input');
       if (inp.value && inp.checkValidity()) {
-        toast.textContent = 'Noted — launch alerts stub registered on this device. (Prototype: no data leaves the page.)';
+        toast.textContent = 'Noted - launch alerts stub registered on this device. (Prototype: no data leaves the page.)';
         inp.value = '';
       } else {
         toast.textContent = 'Enter a valid email to be notified.';

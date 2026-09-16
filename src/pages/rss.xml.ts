@@ -1,6 +1,6 @@
 import { SITE, POSTS } from '../data/site';
 
-/* RSS 2.0 from the real WP data (13 posts) — v0.1 shipped a /rss.xml link with
+/* RSS 2.0 from the real WP data (13 posts) - v0.1 shipped a /rss.xml link with
    no feed behind it (the one 404 route on the live prototype). Self-hosted,
    zero external requests, honest dates/counts. */
 export function GET() {

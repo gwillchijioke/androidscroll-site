@@ -43,7 +43,7 @@
 <rect x="390" y="64" width="382" height="4" fill="#0A332C"/>
 <text x="414" y="100" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="2" fill="#006E5E">FIELD READING</text>
 <rect x="414" y="118" width="8" height="8" fill="#006E5E"/>
-<text x="434" y="126" font-family="'IBM Plex Mono',monospace" font-size="12.5" fill="#10231F">Delete files? The bar barely moves —</text>
+<text x="434" y="126" font-family="'IBM Plex Mono',monospace" font-size="12.5" fill="#10231F">Delete files? The bar barely moves -</text>
 <text x="434" y="146" font-family="'IBM Plex Mono',monospace" font-size="12.5" fill="#10231F">apps are silent growers.</text>
 <rect x="414" y="164" width="8" height="8" fill="#00A88F"/>
 <text x="434" y="172" font-family="'IBM Plex Mono',monospace" font-size="12.5" fill="#10231F">Cache returns to ~9 GB within</text>
@@ -51,7 +51,7 @@
 <text x="434" y="212" font-family="'IBM Plex Mono',monospace" font-size="12.5" fill="#10231F">never a cleaner app.</text>
 <rect x="414" y="236" width="334" height="1" fill="#B9CCC6"/>
 <text x="414" y="262" font-family="'IBM Plex Mono',monospace" font-size="12.5" fill="#006E5E" font-weight="600">Rule of thumb: free 2x the APK size</text>
-<text x="414" y="282" font-family="'IBM Plex Mono',monospace" font-size="12.5" fill="#2C4640">before any install — 82 MB app,</text>
+<text x="414" y="282" font-family="'IBM Plex Mono',monospace" font-size="12.5" fill="#2C4640">before any install - 82 MB app,</text>
 <text x="414" y="302" font-family="'IBM Plex Mono',monospace" font-size="12.5" fill="#2C4640">164 MB free minimum.</text>
 <rect x="414" y="326" width="120" height="34" fill="#FFFFFF" stroke="#006E5E" stroke-width="2"/>
 <text x="474" y="348" font-family="'IBM Plex Mono',monospace" font-size="11" fill="#006E5E" text-anchor="middle">STORAGE › CACHE</text>

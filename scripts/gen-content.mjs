@@ -1,4 +1,4 @@
-// gen-content.mjs — P8 AUTO-COUNTS prebuild step (npm `prebuild` hook).
+// gen-content.mjs - P8 AUTO-COUNTS prebuild step (npm `prebuild` hook).
 // Regenerates src/data/content.json counts at build time so no number is
 // hard-coded: per-post + total comments come from the Worker PUBLIC API,
 // post/category/empty-category math is derived from the posts array.
@@ -6,7 +6,7 @@
 //
 // Behavior:
 // - Loads src/data/content.json as the base snapshot (words/read_min and all
-//   editorial fields are carried over — there is no src/content/ body source
+//   editorial fields are carried over - there is no src/content/ body source
 //   to recompute them from).
 // - Per post (sequential, cheap for ~13 posts):
 //     GET {API}/api/comments/count?post={wpId}  (5s timeout x 3 tries)

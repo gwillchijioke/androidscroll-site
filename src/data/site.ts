@@ -3,7 +3,7 @@ import data from './content.json';
 export const SITE = {
   name: 'AndroidScroll',
   url: 'https://androidscroll.com',
-  tagline: 'Practical Android guides — written for the phone in your hand.',
+  tagline: 'Practical Android guides - written for the phone in your hand.',
   dateline: 'Wednesday, 10 September 2026',
   benchline: 'Android 16 on the bench',
   email: 'desk@androidscroll.com',

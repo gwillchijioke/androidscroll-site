@@ -1,5 +1,5 @@
 ---
-/* KITCHEN-SINK style fixture — the site's internal style QA page, exposed as a
+/* KITCHEN-SINK style fixture - the site's internal style QA page, exposed as a
    real published URL: /style-test-article/.
    UNLISTED BY CONSTRUCTION: the article data lives in src/data/content.json and
    every index (homepage latest/top-fixes, /latest/, search overlay, category +
@@ -7,13 +7,13 @@
    so it appears in none of them; robots is noindex,nofollow on top, and the repo
    ships no sitemap that could list it.
    Covers all 20 Gutenberg-mapped elements for visual QA (markup is rendered for
-   the eye only — no SEO structured data on a QA fixture). */
+   the eye only - no SEO structured data on a QA fixture). */
 import Base from '../layouts/Base.astro';
 import ArticleChrome from '../components/ArticleChrome.astro';
 import { SITE } from '../data/site';
 
-const title = 'Style Test — AndroidScroll';
-const desc = 'Internal style QA fixture — renders every brand component (prose, code, quotes, cards, buttons, reaction pills) for visual review. Unlisted and noindex.';
+const title = 'Style Test - AndroidScroll';
+const desc = 'Internal style QA fixture - renders every brand component (prose, code, quotes, cards, buttons, reaction pills) for visual review. Unlisted and noindex.';
 const absUrl = SITE.url + '/style-test-article/';
 const tags = ['sideload', 'adb', 'apk', 'play-protect'];
 ---
@@ -37,11 +37,11 @@ const tags = ['sideload', 'adb', 'apk', 'play-protect'];
         <span>6 min<span class="f-lbl"> read</span></span></span>
       </div>
       <div class="callout note" role="note" style="margin-top:18px">
-        <p><strong>QA fixture:</strong> this page renders every article element — headings, lists, tables, quotes, embeds, callouts — so the design system can be eyeballed as a whole. It is noindex and deliberately absent from the homepage, latest feed, search, categories, tags and RSS.</p>
+        <p><strong>QA fixture:</strong> this page renders every article element - headings, lists, tables, quotes, embeds, callouts - so the design system can be eyeballed as a whole. It is noindex and deliberately absent from the homepage, latest feed, search, categories, tags and RSS.</p>
       </div>
       <figure class="art-hero">
         <img src="/img/kb-hero.svg" width="1200" height="675" alt="Terminal showing INSTALL_FAILED_UPDATE_INCOMPATIBLE, fixed with adb uninstall -k" loading="eager" fetchpriority="high" decoding="async" />
-        <figcaption>Sample hero figure — exercises the 16/9 crop, caption styling and eager-load path.</figcaption>
+        <figcaption>Sample hero figure - exercises the 16/9 crop, caption styling and eager-load path.</figcaption>
       </figure>
     </header>
 
@@ -49,9 +49,9 @@ const tags = ['sideload', 'adb', 'apk', 'play-protect'];
       <div class="art-main">
         <aside class="qa-box" aria-label="Quick answer">
           <p class="qa-kicker mono">Quick answer</p>
-          <p class="qa-verdict"><strong>FIX:</strong> "App not installed" on sideloaded APKs is almost always a stale signature conflict — uninstall the old copy (keep data via ADB), then reinstall.</p>
+          <p class="qa-verdict"><strong>FIX:</strong> "App not installed" on sideloaded APKs is almost always a stale signature conflict - uninstall the old copy (keep data via ADB), then reinstall.</p>
           <ol class="qa-steps">
-            <li>Uninstall the old app: <code>adb uninstall -k com.example.app</code> (keeps data) — or long-press → Uninstall if you don't need data.</li>
+            <li>Uninstall the old app: <code>adb uninstall -k com.example.app</code> (keeps data) - or long-press → Uninstall if you don't need data.</li>
             <li>Confirm arch + Android version match the APK (arm64-v8a, minSdk ≤ your version).</li>
             <li>Reinstall: <code>adb install app-release.apk</code> and read the real error if it fails.</li>
           </ol>
@@ -66,34 +66,34 @@ const tags = ['sideload', 'adb', 'apk', 'play-protect'];
 
         <div class="prose">
           <h2>Why it happens</h2>
-          <p>Android refuses the install and shows one useless toast. The Package Manager log always names the real cause — <strong>signature mismatch</strong> beats corrupt downloads 9 times out of 10. This sample body exercises every block the editor can emit: opening paragraphs, the symptom table below, and the exact command that tells the truth.</p>
+          <p>Android refuses the install and shows one useless toast. The Package Manager log always names the real cause - <strong>signature mismatch</strong> beats corrupt downloads 9 times out of 10. This sample body exercises every block the editor can emit: opening paragraphs, the symptom table below, and the exact command that tells the truth.</p>
           <h3>The one-line version</h3>
-          <p>Same key, same app — or no install. Everything below is just finding out which key signed what.</p>
+          <p>Same key, same app - or no install. Everything below is just finding out which key signed what.</p>
           <h4>Heading four, small-bold</h4>
           <h5>Heading five, small-bold</h5>
           <h6>Heading six, small-bold</h6>
 
           <h2>Symptoms</h2>
           <ul>
-            <li><strong>"App not installed"</strong> with no error code — classic signature conflict.</li>
-            <li>Install dies at ~90% — storage or split-APK issue:
+            <li><strong>"App not installed"</strong> with no error code - classic signature conflict.</li>
+            <li>Install dies at ~90% - storage or split-APK issue:
               <ul>
                 <li>Check free space (need 2× APK size).</li>
                 <li>Check if the file is <code>.apks</code>/<code>.xapk</code> (needs Split Installer, not plain install).</li>
               </ul>
             </li>
-            <li>Play Protect blocks silently — toggle to confirm, then re-enable.</li>
+            <li>Play Protect blocks silently - toggle to confirm, then re-enable.</li>
           </ul>
           <ol>
             <li>Reproduce the failure once (note the exact screen).</li>
             <li>Pull the truth from logcat (next section).</li>
-            <li>Apply the fix matrix in order — stop at the first green install.</li>
+            <li>Apply the fix matrix in order - stop at the first green install.</li>
           </ol>
 
           <h2>The log never lies</h2>
           <blockquote>
             <p>"If the toast says nothing, <code>adb logcat</code> says everything. Read the install lines before you download a fourth copy of the same APK."</p>
-            <cite>— G-will, after fixing the same Tecno Spark issue twice in one week.</cite>
+            <cite>- G-will, after fixing the same Tecno Spark issue twice in one week.</cite>
           </blockquote>
           <p>Pull the failure signature:</p>
           <pre><code class="language-bash">adb logcat -c && adb install app-release.apk
@@ -147,12 +147,12 @@ Read it first.</pre>
           </div>
           <div class="faq">
             <details>
-              <summary>Play Protect blocked it — now what?</summary>
-              <p>Turn it back on after the test install. A blocked sideload that installs fine with Protect off is untrusted until proven otherwise — verify the SHA on the source site.</p>
+              <summary>Play Protect blocked it - now what?</summary>
+              <p>Turn it back on after the test install. A blocked sideload that installs fine with Protect off is untrusted until proven otherwise - verify the SHA on the source site.</p>
             </details>
             <details>
               <summary>Are split APKs (.apks) broken?</summary>
-              <p>No — they're multi-file by design. Install with Split APK Installer or <code>adb install-multiple base.apk config.arm64.apk</code>.</p>
+              <p>No - they're multi-file by design. Install with Split APK Installer or <code>adb install-multiple base.apk config.arm64.apk</code>.</p>
             </details>
           </div>
 
@@ -173,15 +173,15 @@ Read it first.</pre>
             <p>Green install. The whole guide in one screen.</p>
           </div>
           <h3>Video &amp; audio embeds</h3>
-          <p>Every embed is a styled facade — poster art, provider badge, real play button. Zero third-party JS until you press play (privacy-first, no trackers pre-click):</p>
+          <p>Every embed is a styled facade - poster art, provider badge, real play button. Zero third-party JS until you press play (privacy-first, no trackers pre-click):</p>
 
           {/* YouTube */}
-          <div class="facade-card" data-facade data-src="https://www.youtube-nocookie.com/embed/aqz-KE-bpKQ?autoplay=1" data-embed-ratio="16/9" data-title="Fix in 3 minutes — Galaxy A14 (YouTube)">
+          <div class="facade-card" data-facade data-src="https://www.youtube-nocookie.com/embed/aqz-KE-bpKQ?autoplay=1" data-embed-ratio="16/9" data-title="Fix in 3 minutes - Galaxy A14 (YouTube)">
             <img class="fc-poster" src="/img/og-youtube.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" />
             <span class="fc-scrim" aria-hidden="true"></span>
             <span class="fc-badge" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.5 15.5v-7l6.3 3.5-6.3 3.5z"/></svg> YouTube</span>
-            <span class="fc-playwrap"><button class="fc-play" type="button" aria-label="Play video: Fix in 3 minutes — Galaxy A14">▶</button></span>
-            <span class="fc-label">Fix in 3 minutes — Galaxy A14</span>
+            <span class="fc-playwrap"><button class="fc-play" type="button" aria-label="Play video: Fix in 3 minutes - Galaxy A14">▶</button></span>
+            <span class="fc-label">Fix in 3 minutes - Galaxy A14</span>
             <span class="fc-title">Video walkthrough</span>
           </div>
 
@@ -195,7 +195,7 @@ Read it first.</pre>
             <span class="fc-title">Long-form reference</span>
           </div>
 
-          {/* TikTok — portrait */}
+          {/* TikTok - portrait */}
           <div class="facade-card square" data-facade data-src="https://www.tiktok.com/embed/v3/6718335390845095173" data-embed-ratio="9/16" data-title="ADB quick tip (TikTok)">
             <img class="fc-poster" src="/img/og-tiktok.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" />
             <span class="fc-scrim" aria-hidden="true"></span>
@@ -206,17 +206,17 @@ Read it first.</pre>
           </div>
 
           {/* Spotify */}
-          <div class="facade-card" data-facade data-src="https://open.spotify.com/embed/track/0VjIjW4GlUZAMYd2vXMi3b" data-embed-height="152" data-title="Blinding Lights — The Weeknd (Spotify)">
+          <div class="facade-card" data-facade data-src="https://open.spotify.com/embed/track/0VjIjW4GlUZAMYd2vXMi3b" data-embed-height="152" data-title="Blinding Lights - The Weeknd (Spotify)">
             <img class="fc-poster" src="/img/og-spotify.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" />
             <span class="fc-scrim" aria-hidden="true"></span>
             <span class="fc-badge" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm5.5 17.3a.8.8 0 0 1-1 .2c-2.8-1.7-6.3-2.1-10.4-1.2a.8.8 0 0 1-.9-.6.8.8 0 0 1 .6-.9c4.5-1 8.4-.5 11.6 1.4.4.2.5.7.3 1.1zm1.5-3.3c-.2.3-.6.5-1 .3-3.2-2-8-2.5-11.7-1.4-.4.1-.9-.1-1-.6-.1-.4.1-.9.6-1 4.3-1.3 9.6-.7 13.3 1.5.4.2.5.8.3 1.2zm.1-3.4C15.3 8.4 8.9 8.2 5.2 9.3c-.5.2-1.1-.1-1.3-.7-.2-.5.1-1.1.7-1.3 4.3-1.3 11.4-1 15.9 1.4.5.3.7 1 .4 1.5-.3.4-.9.6-1.3.4z"/></svg> Spotify</span>
-            <span class="fc-playwrap"><button class="fc-play" type="button" aria-label="Play audio: Blinding Lights — The Weeknd">▶</button></span>
-            <span class="fc-label">Blinding Lights — The Weeknd</span>
+            <span class="fc-playwrap"><button class="fc-play" type="button" aria-label="Play audio: Blinding Lights - The Weeknd">▶</button></span>
+            <span class="fc-label">Blinding Lights - The Weeknd</span>
             <span class="fc-title">Audio · music embed</span>
           </div>
 
-          {/* Apple Music — v0.4.29 King: measured 176px white widget card at every width (684 desktop & 356 mobile); the old 270 left ~95px of see-through space under the player = the reported excess space */}
-          <div class="facade-card" data-facade data-src="https://embed.music.apple.com/us/album/never-gonna-give-you-up/1773292758?i=1773293184" data-embed-height="176" data-title="Never Gonna Give You Up — Rick Astley (Apple Music)">
+          {/* Apple Music - v0.4.29 King: measured 176px white widget card at every width (684 desktop & 356 mobile); the old 270 left ~95px of see-through space under the player = the reported excess space */}
+          <div class="facade-card" data-facade data-src="https://embed.music.apple.com/us/album/never-gonna-give-you-up/1773292758?i=1773293184" data-embed-height="176" data-title="Never Gonna Give You Up - Rick Astley (Apple Music)">
             <img class="fc-poster" src="/img/og-applemusic.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" />
             <span class="fc-scrim" aria-hidden="true"></span>
             <span class="fc-badge" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M17.1 12.4c0-2.5 2-3.7 2.1-3.8-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.9C7.4 6.7 6 7.7 5.3 9.2c-1.5 2.5-.4 6.3 1 8.4.7 1 1.6 2.2 2.7 2.1 1.1 0 1.5-.7 2.8-.7s1.6.7 2.7.7c1.1 0 1.9-1.1 2.6-2.1.8-1.2 1.1-2.3 1.2-2.4-.1 0-2.2-.9-2.2-2.8zm-2.6-6.5c.6-.7 1-1.7.9-2.7-.9 0-2 .6-2.6 1.3-.6.6-1 1.6-.9 2.6 1 .1 2-.5 2.6-1.2z"/></svg> Apple&nbsp;Music</span>
@@ -225,47 +225,47 @@ Read it first.</pre>
             <span class="fc-title">Audio · music embed</span>
           </div>
 
-          {/* Audiomack — portrait */}
-          <div class="facade-card square" data-facade data-src="https://audiomack.com/embed/song/pop-smoke/got-it-on-me" data-embed-height="252" data-title="Got It On Me — Pop Smoke (Audiomack)">
+          {/* Audiomack - portrait */}
+          <div class="facade-card square" data-facade data-src="https://audiomack.com/embed/song/pop-smoke/got-it-on-me" data-embed-height="252" data-title="Got It On Me - Pop Smoke (Audiomack)">
             <img class="fc-poster" src="/img/og-audiomack.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" />
             <span class="fc-scrim" aria-hidden="true"></span>
             <span class="fc-badge" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8zm-2.5-4.5 7-3.5-7-3.5z"/></svg> Audiomack</span>
-            <span class="fc-playwrap"><button class="fc-play" type="button" aria-label="Play audio: Got It On Me — Pop Smoke">▶</button></span>
-            <span class="fc-label">Got It On Me — Pop Smoke</span>
+            <span class="fc-playwrap"><button class="fc-play" type="button" aria-label="Play audio: Got It On Me - Pop Smoke">▶</button></span>
+            <span class="fc-label">Got It On Me - Pop Smoke</span>
             <span class="fc-title">Audio · music embed</span>
           </div>
 
-          {/* YouTube Music — v0.4.29 King fix: music.youtube.com/embed/ is NOT a player URL (302s to a consent wall, serves the YTM SPA shell with no iframe player — the card rendered a broken grey page). Same video on the standard nocookie embed host plays everywhere. */}
-          <div class="facade-card" data-facade data-src="https://www.youtube-nocookie.com/embed/4NRXx6U8ABQ?autoplay=1" data-embed-ratio="16/9" data-title="Blinding Lights (Official Video) — YouTube Music">
+          {/* YouTube Music - v0.4.29 King fix: music.youtube.com/embed/ is NOT a player URL (302s to a consent wall, serves the YTM SPA shell with no iframe player - the card rendered a broken grey page). Same video on the standard nocookie embed host plays everywhere. */}
+          <div class="facade-card" data-facade data-src="https://www.youtube-nocookie.com/embed/4NRXx6U8ABQ?autoplay=1" data-embed-ratio="16/9" data-title="Blinding Lights (Official Video) - YouTube Music">
             <img class="fc-poster" src="/img/og-youtubemusic.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" />
             <span class="fc-scrim" aria-hidden="true"></span>
             <span class="fc-badge" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8zm-1.5-5.5 5-2.5-5-2.5z"/></svg> YouTube&nbsp;Music</span>
             <span class="fc-playwrap"><button class="fc-play" type="button" aria-label="Play video: Blinding Lights Official Video">▶</button></span>
-            <span class="fc-label">Blinding Lights — Official Video</span>
+            <span class="fc-label">Blinding Lights - Official Video</span>
             <span class="fc-title">Video · music embed</span>
           </div>
 
           {/* X (Twitter) */}
-          <div class="facade-card" data-facade data-src="https://platform.twitter.com/embed/Tweet.html?id=20" data-embed-ratio="16/9" data-title="just setting up my twttr — @jack (X)">
+          <div class="facade-card" data-facade data-src="https://platform.twitter.com/embed/Tweet.html?id=20" data-embed-ratio="16/9" data-title="just setting up my twttr - @jack (X)">
             <img class="fc-poster" src="/img/og-x.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" />
             <span class="fc-scrim" aria-hidden="true"></span>
             <span class="fc-badge" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932zM17.61 20.644h2.039L6.486 3.24H4.298z" fill-rule="evenodd"/></svg> X</span>
             <span class="fc-playwrap"><button class="fc-play" type="button" aria-label="Load post: just setting up my twttr by @jack">▶</button></span>
-            <span class="fc-label">just setting up my twttr — @jack</span>
+            <span class="fc-label">just setting up my twttr - @jack</span>
             <span class="fc-title">Post · X embed</span>
           </div>
 
-          {/* Self-hosted audio — styled row */}
+          {/* Self-hosted audio - styled row */}
           <figure class="audio-fig">
             <div class="fc-audio-row">
               <span class="fc-badge" aria-hidden="true">🎙 Field note</span>
               <audio controls preload="none" src="/audio/kb-note.wav"></audio>
             </div>
-            <figcaption>Sample self-hosted audio row — exercises the native player styling.</figcaption>
+            <figcaption>Sample self-hosted audio row - exercises the native player styling.</figcaption>
           </figure>
 
           <h2>Notes</h2>
-          <p>Signature conflicts survive reboots and re-downloads<sup id="fnref1"><a href="#fn1">[1]</a></sup>. Split APKs (<code>.apks</code>) are not broken — they're multi-file by design<sup id="fnref2"><a href="#fn2">[2]</a></sup>.</p>
+          <p>Signature conflicts survive reboots and re-downloads<sup id="fnref1"><a href="#fn1">[1]</a></sup>. Split APKs (<code>.apks</code>) are not broken - they're multi-file by design<sup id="fnref2"><a href="#fn2">[2]</a></sup>.</p>
           <ol class="footnotes">
             <li id="fn1">The old signature lives in <code>/data/system/packages.xml</code> until uninstall completes. <a href="#fnref1">↩</a></li>
             <li id="fn2">Install with Split APK Installer or <code>adb install-multiple base.apk config.arm64.apk</code>. <a href="#fnref2">↩</a></li>

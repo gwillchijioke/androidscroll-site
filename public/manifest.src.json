@@ -1,7 +1,7 @@
 {
   "name": "Android Scroll",
   "short_name": "AndroidScroll",
-  "description": "Master your Android — fixes, guides and verdicts.",
+  "description": "Master your Android - fixes, guides and verdicts.",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",

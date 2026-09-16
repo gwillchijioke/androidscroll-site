@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* Copy self-hosted woff2 (src/assets/fonts) into public/fonts so Astro emits them at /fonts/.
-   ONE-SHOT: not wired to any npm script — run manually only when fonts change. */
+   ONE-SHOT: not wired to any npm script - run manually only when fonts change. */
 import { cpSync, mkdirSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 const src = 'src/assets/fonts', dst = 'public/fonts';

@@ -1,5 +1,5 @@
 ---
-/* Header v0.3 — ONE BAR (header-patterns.md decisions, Sep 10):
+/* Header v0.3 - ONE BAR (header-patterns.md decisions, Sep 10):
    - Single sticky bar 54px mobile / 60px desktop (Cloudflare 54 + Velt 69 bracket).
    - Wordmark = biggest element: green square SVG mark with terminal-notch cut
      (echo of the approved Terminal G logo, executed clean) + "AndroidScroll"
@@ -23,19 +23,19 @@ import SocialRow from './SocialRow.astro';
 import { SOCIAL_BRAND } from '../data/socials';
 const pillarsWithPosts = PILLARS.map(p => ({ ...p, real: postsIn(p).length }));
 const navCats = pillarsWithPosts.filter(p => p.real > 0).slice(0, 4);
-const navLabel = (name: string) => name.split(/[ &—-]+/).filter(Boolean)[0] || name;
+const navLabel = (name: string) => name.split(/[ &--]+/).filter(Boolean)[0] || name;
 const shortCount = (name: string) => navLabel(name).toLowerCase();
 ---
 <header class="site-header" id="site-header">
   <div class="header-in">
-    <a class="wordmark" href="/" aria-label="AndroidScroll — home">
+    <a class="wordmark" href="/" aria-label="AndroidScroll - home">
       <Wordmark />
     </a>
 
     {navCats.length > 0 && (
       <nav class="head-cats" aria-label="Featured shelves">
         {navCats.map(p => (
-          <a href={p.path} title={`${p.name} — ${p.real} live ${p.real === 1 ? 'guide' : 'guides'}`}>{shortCount(p.name)}</a>
+          <a href={p.path} title={`${p.name} - ${p.real} live ${p.real === 1 ? 'guide' : 'guides'}`}>{shortCount(p.name)}</a>
         ))}
       </nav>
     )}
@@ -99,11 +99,11 @@ const shortCount = (name: string) => navLabel(name).toLowerCase();
       </div>
     ))}
     <div class="sheet-note">
-      Counts are honest: {TOTALS.posts} guides live today across {TOTALS.categories} shelves — the rest open as the
+      Counts are honest: {TOTALS.posts} guides live today across {TOTALS.categories} shelves - the rest open as the
       200-post library lands. <a href="/about/">How we work →</a>
     </div>
     <div class="sheet-foot" aria-label="Follow AndroidScroll">
-      <!-- v0.6.10 King: "the footer and header has all social link" — the bar is a
+      <!-- v0.6.10 King: "the footer and header has all social link" - the bar is a
            tight 54px trio at 390px, so the nine accounts ride the sheet foot. -->
       <div class="sheet-socs">
         <span class="foot-kicker">Follow us</span>
@@ -138,7 +138,7 @@ const shortCount = (name: string) => navLabel(name).toLowerCase();
     <ul class="search-results" id="search-results" role="listbox" aria-label="Search suggestions"></ul>
     <a class="search-seeall" id="search-seeall" href="/search/">See all {TOTALS.posts} results →</a>
     <div class="search-empty no-js-hide" id="search-empty" hidden>
-      <span id="search-empty-msg">No guide matches that yet — and that's the backlog, not a dead end.</span><br />
+      <span id="search-empty-msg">No guide matches that yet - and that's the backlog, not a dead end.</span><br />
       <a id="search-tellus" href="/contact/">Tell us what to write →</a>
     </div>
     <div class="search-keys" aria-hidden="true"><span>↑↓ navigate</span><span>↵ open</span><span>esc close</span></div>
@@ -148,10 +148,10 @@ const shortCount = (name: string) => navLabel(name).toLowerCase();
 <script type="module">
   /* One progressive-enhancement script: theme, compact header, browse sheet,
      search overlay (client index), rail stagger. */
-  /* NOTE: NO imports here — Astro passes this module script through to dist
+  /* NOTE: NO imports here - Astro passes this module script through to dist
      verbatim, so a TS import 404s and kills the whole script (caught pre-ship
      v0.6.9). Theme colors come from #tc-base data attrs, stamped at build time
-     from data/theme-colors.ts — still a single source of truth. */
+     from data/theme-colors.ts - still a single source of truth. */
   const root = document.documentElement;
   const header = document.getElementById('site-header');
   const scrim = document.getElementById('scrim');
@@ -166,7 +166,7 @@ const shortCount = (name: string) => navLabel(name).toLowerCase();
   let toastTimer;
   const say = m => { toast.textContent = m; toast.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove('show'), 2600); };
 
-  /* theme — 3-state cycle button + 3-way segmented control in Browse sheet (King v0.4).
+  /* theme - 3-state cycle button + 3-way segmented control in Browse sheet (King v0.4).
      pref ('light'|'dark'|'system') persists in localStorage 'as-theme'; 'system' tracks
      the phone's prefers-color-scheme live. SVG glyph + segments reflect PREF, not just effect. */
   const themeBtn = document.getElementById('theme-toggle');
@@ -183,8 +183,8 @@ const shortCount = (name: string) => navLabel(name).toLowerCase();
     themeBtn.classList.toggle('pref-system', pref === 'system');
     const names = { light: 'light', dark: 'dark', system: 'auto (follows system)' };
     themeBtn.setAttribute('aria-label', 'Theme: ' + names[pref]);
-    themeBtn.title = 'Theme: ' + names[pref] + ' — click to change';
-    /* v1.3: single meta — plain content set (first-match always wins).
+    themeBtn.title = 'Theme: ' + names[pref] + ' - click to change';
+    /* v1.3: single meta - plain content set (first-match always wins).
        Colors from #tc-base data attrs (build-stamped). */
     const tcMeta = document.getElementById('tc-base');
     if (tcMeta) {
@@ -204,20 +204,20 @@ const shortCount = (name: string) => navLabel(name).toLowerCase();
   mqDark.addEventListener?.('change', () => { if ((store.get('as-theme') || 'system') === 'system') applyTheme(); });
   /* v1.1 meta hardening: a standalone PWA resumed from recents/bfcache can come back
      with a stale head (OS theme may have flipped while frozen, 'change' never fired).
-     Re-run the same set+move path on resume — no new mechanism, just no stale state. */
+     Re-run the same set+move path on resume - no new mechanism, just no stale state. */
   window.addEventListener('pageshow', applyTheme);
   document.addEventListener('visibilitychange', () => { if (!document.hidden) applyTheme(); });
-  /* King fix v0.4 (2): direct selection — segment applies + persists immediately */
+  /* King fix v0.4 (2): direct selection - segment applies + persists immediately */
   if (segWrap) segWrap.addEventListener('click', e => {
     const btn = e.target instanceof Element ? e.target.closest('[data-pref]') : null;
     if (!btn) return;
     const pref = btn.dataset.pref;
     const was = root.getAttribute('data-theme');
     store.set('as-theme', pref); applyTheme();
-    const msg = { light: 'Theme: light', dark: 'Theme: dark', system: 'Theme: auto — follows your phone' };
+    const msg = { light: 'Theme: light', dark: 'Theme: dark', system: 'Theme: auto - follows your phone' };
     say(root.getAttribute('data-theme') !== was ? msg[pref] : msg[pref] + ' (already matching your phone)');
   });
-  /* King v0.5: header button OPENS the 3-option menu (cycle removed — direct choice only) */
+  /* King v0.5: header button OPENS the 3-option menu (cycle removed - direct choice only) */
   const openMenu = (on) => { themeMenu.hidden = !on; themeBtn.setAttribute('aria-expanded', on ? 'true' : 'false'); };
   themeBtn.addEventListener('click', (e) => { e.stopPropagation(); openMenu(themeMenu.hidden); });
   themeMenu.addEventListener('click', (e) => {
@@ -225,7 +225,7 @@ const shortCount = (name: string) => navLabel(name).toLowerCase();
     if (!btn) return;
     const pref = btn.dataset.pref;
     store.set('as-theme', pref); applyTheme(); openMenu(false);
-    const msg = { light: 'Theme: light', dark: 'Theme: dark', system: 'Theme: auto — follows your phone' };
+    const msg = { light: 'Theme: light', dark: 'Theme: dark', system: 'Theme: auto - follows your phone' };
     say(msg[pref]);
   });
   document.addEventListener('click', (e) => { if (!themeMenu.hidden && !(e.target instanceof Element && e.target.closest('#theme-menu, #theme-toggle'))) openMenu(false); });
@@ -246,11 +246,11 @@ const shortCount = (name: string) => navLabel(name).toLowerCase();
     stag.forEach(el => el.classList.add('in'));
   }
 
-  /* compact sticky state — v2.6 HYSTERESIS: the old single >8px threshold made the
+  /* compact sticky state - v2.6 HYSTERESIS: the old single >8px threshold made the
      header dance forever on small scrolls: entering compact shrinks 54->48, which
      shifts content and can put scrollY back under 8, re-expanding and re-shifting
      (feedback loop, worst on mobile flick scrolls). Enter compact only past 12px,
-     leave only under 4px — the 8px dead band kills the oscillation. */
+     leave only under 4px - the 8px dead band kills the oscillation. */
   let compact = false;
   const onScroll = () => {
     const want = compact ? window.scrollY > 4 : window.scrollY > 12;
@@ -268,14 +268,14 @@ const shortCount = (name: string) => navLabel(name).toLowerCase();
   const unlockPage = () => { locks = Math.max(0, locks - 1); if (!locks) { document.documentElement.classList.remove('locked'); document.body.classList.remove('frozen'); document.body.style.top = ''; try { window.scrollTo({ top: lockY, behavior: 'instant' }); } catch (e) { window.scrollTo(0, lockY); } } };
   const openSheet = () => { if (!sheet.hidden) return; lockPage(); scrim.hidden = false; sheet.hidden = false; requestAnimationFrame(() => { scrim.classList.add('is-open'); sheet.classList.add('is-open'); }); const trig = document.getElementById('browse-trigger'); trig.setAttribute('aria-expanded', 'true'); trig.setAttribute('aria-label', 'Close browse menu'); };
   const closeSheet = () => { if (sheet.hidden) return; scrim.classList.remove('is-open'); sheet.classList.remove('is-open'); const trig = document.getElementById('browse-trigger'); trig.setAttribute('aria-expanded', 'false'); trig.setAttribute('aria-label', 'Open browse menu'); setTimeout(() => { sheet.hidden = true; scrim.hidden = true; unlockPage(); }, 200); };
-  /* v0.6.8 King: the hamburger TOGGLES — tap while the drawer is open closes it
+  /* v0.6.8 King: the hamburger TOGGLES - tap while the drawer is open closes it
      (it used to be open-only; × / scrim / Escape already closed). openSheet and
      closeSheet are idempotent guards, so the flip tests sheet.hidden directly. */
   document.getElementById('browse-trigger').addEventListener('click', () => { if (sheet.hidden) openSheet(); else closeSheet(); });
   document.getElementById('browse-close').addEventListener('click', closeSheet);
   scrim.addEventListener('click', closeSheet);
 
-  /* search overlay — v0.6 smart: keyboard nav, clear, <mark>, status, focus return, scroll lock */
+  /* search overlay - v0.6 smart: keyboard nav, clear, <mark>, status, focus return, scroll lock */
   const INDEX = JSON.parse(document.getElementById('search-index').textContent);
   const searchTrigger = document.getElementById('search-trigger');
   const searchClear = document.getElementById('search-clear');
@@ -288,13 +288,13 @@ const shortCount = (name: string) => navLabel(name).toLowerCase();
     searchLayer.hidden = false;
     searchLayer.classList.add('is-open');
     searchInput.setAttribute('aria-expanded', 'true');
-    /* v0.6.9 King: the search icon TOGGLES — mirror of the v0.6.8 hamburger:
+    /* v0.6.9 King: the search icon TOGGLES - mirror of the v0.6.8 hamburger:
        trigger carries aria-expanded + a label flip so AT says "Close search". */
     searchTrigger.setAttribute('aria-expanded', 'true');
     searchTrigger.setAttribute('aria-label', 'Close search');
     render(searchInput.value || '');
     /* Focus the input so the keyboard comes up on mobile / cursor is in the field.
-       Use rAF + short setTimeout so the browser has flushed the overlay paint first —
+       Use rAF + short setTimeout so the browser has flushed the overlay paint first -
        this is the actual UX fix for "open search and nothing is focused". */
     requestAnimationFrame(() => {
       try { searchInput.focus({ preventScroll: true }); } catch (e) {}
@@ -316,9 +316,9 @@ const shortCount = (name: string) => navLabel(name).toLowerCase();
   };
   /* v0.6.9 King: search icon toggles (was open-only): tap while open closes.
      openSearch/closeSearch are idempotent-guarded, so the flip tests
-     searchLayer.hidden directly — same shape as the v0.6.8 hamburger. */
+     searchLayer.hidden directly - same shape as the v0.6.8 hamburger. */
   searchTrigger.addEventListener('click', () => { if (searchLayer.hidden) openSearch(); else closeSearch(); });
-  /* v0.6.5: the 'Esc to close' hint is now a REAL button — same close path as tap-outside */
+  /* v0.6.5: the 'Esc to close' hint is now a REAL button - same close path as tap-outside */
   const searchCloseBtn = document.getElementById('search-close');
   searchCloseBtn.addEventListener('click', closeSearch);
   /* tap the overlay background (anywhere outside the search box) to close */
@@ -357,7 +357,7 @@ const shortCount = (name: string) => navLabel(name).toLowerCase();
     if (activeIdx >= 0) searchInput.setAttribute('aria-activedescendant', 'search-opt-' + activeIdx);
     else searchInput.removeAttribute('aria-activedescendant');
   };
-  /* v0.6.18 Direction A: single-source ranking — search-core.js (src/lib) is inlined
+  /* v0.6.18 Direction A: single-source ranking - search-core.js (src/lib) is inlined
      above via ?raw and self-registers on globalThis; the Node query-suite imports
      the SAME file, so overlay + /search page + CI can never drift. Lazy lookup:
      the core module executes in document order, first use is post-interaction. */
@@ -371,7 +371,7 @@ const shortCount = (name: string) => navLabel(name).toLowerCase();
   const tellUs = document.getElementById('search-tellus');
   /* P11 base-aware: the static hrefs above were relativized at build time
      (relativize.mjs), so they stay under the site's base on staging
-     (/androidscroll-site) and apex (/). Stash them once — every runtime
+     (/androidscroll-site) and apex (/). Stash them once - every runtime
      navigation below derives from these, never a root-absolute literal
      (which escapes the subpath to the domain-root fossil). */
   const SEARCH_BASE = (seeAll.getAttribute('href') || './search/').split('?')[0];
@@ -421,15 +421,15 @@ const shortCount = (name: string) => navLabel(name).toLowerCase();
     if (!reduceMotion) results.querySelectorAll('li').forEach((li, i) => { li.style.animationDelay = Math.min(i * 24, 144) + 'ms'; });
     /* honest count: total matched, plus a showing-note when the slice hides some */
     if (!terms.length) searchStatus.textContent = INDEX.length + ' guides';
-    else if (fallback) searchStatus.textContent = '0 matches — showing the 3 latest guides';
-    else if (matched.length > hits.length) searchStatus.textContent = matched.length + ' matches — showing first ' + hits.length;
+    else if (fallback) searchStatus.textContent = '0 matches - showing the 3 latest guides';
+    else if (matched.length > hits.length) searchStatus.textContent = matched.length + ' matches - showing first ' + hits.length;
     else if (matched.length) searchStatus.textContent = matched.length + (matched.length === 1 ? ' match' : ' matches');
     else searchStatus.textContent = '0 matches';
     const qt = q.trim();
     if (!terms.length) { seeAll.textContent = `See all ${INDEX.length} results →`; seeAll.href = SEARCH_BASE; }
     else { seeAll.textContent = `See all ${matched.length} result${matched.length === 1 ? '' : 's'} for “${qt}” →`; seeAll.href = SEARCH_BASE + '?q=' + encodeURIComponent(qt); }
     const emptyMsg = document.getElementById('search-empty-msg');
-    if (emptyMsg) emptyMsg.textContent = fallback ? `Nothing filed under “${qt}” yet — that's the backlog, not a dead end.` : '';
+    if (emptyMsg) emptyMsg.textContent = fallback ? `Nothing filed under “${qt}” yet - that's the backlog, not a dead end.` : '';
     if (tellUs) tellUs.href = CONTACT_BASE + (fallback ? '?q=' + encodeURIComponent(qt) : '');
     empty.hidden = !fallback;
     searchClear.hidden = !searchInput.value;

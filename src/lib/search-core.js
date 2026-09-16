@@ -1,4 +1,4 @@
-/* AndroidScroll search-core.js — v0.6.18 Direction A "The Desk" scorer (P7 SEARCH26).
+/* AndroidScroll search-core.js - v0.6.18 Direction A "The Desk" scorer (P7 SEARCH26).
  * SINGLE SOURCE: frontmatter `import { buildSynonyms }` (build-time map),
  * browser via `?raw` inlined into <script type="module"> (self-registers on
  * globalThis for Header/search-page scripts), Node query-suite (scorer-test.mjs)
@@ -42,7 +42,7 @@ function fuzzyHit(tok, word) {
   return m > 0 && levLE(tok, word, m) <= m;
 }
 
-/* Data-driven synonym/category boost map — generated AT BUILD from the real
+/* Data-driven synonym/category boost map - generated AT BUILD from the real
  * index (buildSynonyms(POSTS)). No invented taxonomy:
  *  (1) stem families: title/excerpt/cat words (len>=5) sharing a 4-char stem map
  *      to each other (drain<->draining, overheat<->overheating, charge<->charging…);
@@ -247,7 +247,7 @@ export function makeSearch(INDEX, SYN) {
 }
 
 /* Query-scoped filter counts (P13 Direction A): honest per-category counts over
- * an already-ranked list — every chip count is drawn from the live result set,
+ * an already-ranked list - every chip count is drawn from the live result set,
  * so the chips always sum to the list length. Key = p.cat || p.cat_name. */
 export function countByCat(list) {
   const counts = {};

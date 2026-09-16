@@ -23,9 +23,9 @@
 <rect x="46" y="204" width="434" height="1" fill="#123430"/>
 <text x="46" y="228" font-family="'IBM Plex Mono',monospace" font-size="12" fill="#D9F2E8">01-01 07:14:02 PackageManager: verifying</text>
 <text x="46" y="250" font-family="'IBM Plex Mono',monospace" font-size="12" fill="#8FA9A2">01-01 07:14:02 v2 signature: <tspan fill="#00C896">mismatch</tspan></text>
-<text x="46" y="272" font-family="'IBM Plex Mono',monospace" font-size="12" fill="#8FA9A2">01-01 07:14:02 abort install — rollback ok</text>
+<text x="46" y="272" font-family="'IBM Plex Mono',monospace" font-size="12" fill="#8FA9A2">01-01 07:14:02 abort install - rollback ok</text>
 <text x="46" y="306" font-family="'IBM Plex Mono',monospace" font-size="13" fill="#00A88F">$ adb uninstall -k com.example.app</text>
-<text x="46" y="330" font-family="'IBM Plex Mono',monospace" font-size="13" fill="#5EEAD4">Success — data kept. Reinstall clean.</text>
+<text x="46" y="330" font-family="'IBM Plex Mono',monospace" font-size="13" fill="#5EEAD4">Success - data kept. Reinstall clean.</text>
 <rect x="46" y="338" width="9" height="14" fill="#00A88F"/>
 
 <!-- cause panel -->
@@ -40,7 +40,7 @@
 <text x="554" y="150" font-family="'IBM Plex Mono',monospace" font-size="11.5" fill="#D9F2E8">Rooted ROM re-signs apps</text>
 <rect x="536" y="170" width="8" height="8" fill="#5EEAD4"/>
 <text x="554" y="178" font-family="'IBM Plex Mono',monospace" font-size="11.5" fill="#5EEAD4">Fix: uninstall -k, then install</text>
-<text x="536" y="212" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#8FA9A2">-k keeps app data — nothing is lost</text>
+<text x="536" y="212" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#8FA9A2">-k keeps app data - nothing is lost</text>
 
 <!-- clean-install badge -->
 <rect x="518" y="248" width="254" height="110" fill="#071512" stroke="#123430"/>

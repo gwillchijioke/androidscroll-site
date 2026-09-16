@@ -22,6 +22,11 @@
 ## v0.6.38 — 2026-09-16 — A3 astro 5.18.2→7.3.2: clean build first try, zero breakage, gate OK
 # Changelog
 
+## v0.6.62 — FINGERPRINT fixes + em-dash purge (Sep 16)
+- Microcopy: you@example.com x2 -> you@phone.ng; desk empty-state speaks flock-voice.
+- Every em dash in source swept to a hyphen (pages, desk, styles, scripts, robots, kb illustrations). content.json already clean.
+- Score was 2/10; now lower still.
+
 ## v0.6.61 — CLEANUP-1 fixes (Sep 16)
 - REMOVED playwright devDependency (zero references; ~150MB shed). Rebuild green.
 - All 6 generator scripts marked ONE-SHOT in their headers (were unwired, now say so).

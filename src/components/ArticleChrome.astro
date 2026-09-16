@@ -1,5 +1,5 @@
 ---
-/* ArticleChrome — shared article furniture + vanilla islands (no jQuery, ever).
+/* ArticleChrome - shared article furniture + vanilla islands (no jQuery, ever).
    Used by [...slug].astro and the kitchen-sink style test.
    Props: title, url (absolute), tags (string[]). */
 import SocialRow from './SocialRow.astro';
@@ -27,7 +27,7 @@ const shareTg = `https://t.me/share/url?url=${enc(url)}&text=${enc(title)}`;
   <span class="share-grp">
   <a class="sh-btn sh-btn--icon" href={shareX} target="_blank" rel="noopener noreferrer" aria-label="Share on X"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path style="fill:currentColor;stroke:none" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span class="sr-only">Share on X</span></a>
 <!-- v0.6.5 share glyph updates (King screenshot verdict on v0.6.3: WA read as a TILTED MAP PIN
-     with handset ends welded to the wall — root cause: v0.6.3's arc flags `0 1 1` drew the
+     with handset ends welded to the wall - root cause: v0.6.3's arc flags `0 1 1` drew the
      REFLECTED circle. v3 bubble = ONE continuous path, major arc `0 1 0` (verified renders the
      true circle) r7.0 c(12,11.2) + SHORT integrated stub tail to tip ~(6.2,18.6) max y18.6<19,
      no long sweep; handset = bowed bar + 2 bulb circles r0.85, ends at r3.2 from centre ->
@@ -38,37 +38,37 @@ const shareTg = `https://t.me/share/url?url=${enc(url)}&text=${enc(title)}`;
      tail-centre->nose stopping 1.4u short so the cap never doubles at the tip; 2 paths max.
      Blind-read PASS: "paper airplane... Telegram... Send". X + Copy-link bytes untouched.
 <!-- v0.6.7 share glyph OPTICAL BALANCE (King: WA + TG read smaller than X at the 16px phone size):
-     both resized to X's optical footprint in the 24u grid via group scale about (12,12) — no other
+     both resized to X's optical footprint in the 24u grid via group scale about (12,12) - no other
      bytes touched (viewBox, aria, sr-only, hrefs identical). Measured in cairosvg lab @16px true size,
      light #f6f8f8 + dark #0B1F1A sheets, blind vision read gate: X geom ink bbox 17.6x17.3u = the band
      (15.7-19.2/axis). WA shape v4: the stroke v3 STILL failed the cold read (reads as "prohibited sign"
      at 16px); per King addendum the brand mark was REBUILT as the authentic WhatsApp silhouette (official
-     Simple-Icons path, filled currentColor — handset punched by the path's own evenodd, brand-realistic)
+     Simple-Icons path, filled currentColor - handset punched by the path's own evenodd, brand-realistic)
      at scale 0.86 uniform. FINISH-LEG ITERATION (2 of cap 4 used): the dead leg's 0.745 rastered a
-     12x12px ink bbox at the true 16px phone size vs X's 14x14 (ratio 0.857 — outside +-10%; its
+     12x12px ink bbox at the true 16px phone size vs X's 14x14 (ratio 0.857 - outside +-10%; its
      stroke-free 24u-geom measure said PASS, the device raster said no). 0.86 is the fit: 16px device
      raster 14x14 both themes (ratio 1.00/1.00, ink 106 vs X 118), 480px-lab ratio w 0.907 h 1.046
-     area 0.949 — every axis inside +-10%. Transform-only: brand path bytes verbatim from wa_d.txt,
+     area 0.949 - every axis inside +-10%. Transform-only: brand path bytes verbatim from wa_d.txt,
      viewBox/aria/sr-only/hrefs identical; blind cold-read PASS both themes ("speech bubble with tail
-     enclosing a handset — WhatsApp"), all three in one bounding-box class. TG = approved v2 shape,
+     enclosing a handset - WhatsApp"), all three in one bounding-box class. TG = approved v2 shape,
      resize-only scale(0.95 1.10) (dead leg's own gate line called .95/1.10 but its applied edit
-     carried the earlier 0.92/1.16 — raster h-ratio 1.124, band-out): now 16px device raster 14x14
+     carried the earlier 0.92/1.16 - raster h-ratio 1.124, band-out): now 16px device raster 14x14
      (1.00/1.00), 480-lab w 1.033 h 1.066, stroke-free geom 17.6x16.0u inside the 15.7-19.2 band
-     (was 18.6x14.6 — height deficit fixed), strokes + non-scaling kept. Blind cold-read names both
+     (was 18.6x14.6 - height deficit fixed), strokes + non-scaling kept. Blind cold-read names both
      themes "Telegram/paper plane", equal size class. X + Copy-link bytes untouched. -->
   <a class="sh-btn sh-btn--icon" href={shareWa} target="_blank" rel="noopener noreferrer" aria-label="Share on WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="translate(12 12) scale(0.86) translate(-12 -12)"><path style="fill:currentColor;stroke:none" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></g></svg><span class="sr-only">Share on WhatsApp</span></a>
 <!-- v0.6.15 TG PLANE-ONLY FIX (King screenshots 12:29 + follow-up: "Telegram SVG looks odd with the
-     circle compared to others — I like the others, let Telegram match their type design"): v0.6.13
-     shipped the Simple-Icons 'telegram' COMPOUND path — its first sub-path is the brand disc, and the
+     circle compared to others - I like the others, let Telegram match their type design"): v0.6.13
+     shipped the Simple-Icons 'telegram' COMPOUND path - its first sub-path is the brand disc, and the
      plane renders as a negative cutout inside it. On our monochrome currentColor tiles that reads as a
      dark circle with a plane-shaped hole, NOT the solid-glyph family X/WA set. FIX: drop the circle
      sub-path entirely; keep ONLY the plane sub-path as a single SOLID filled silhouette (currentColor),
      matching X's solid mark family. The plane sub-path began with a RELATIVE 'm' anchored at the
-     circle's start point (11.944,0) — anchor baked to absolute M16.906 7.224, remaining bytes verbatim.
+     circle's start point (11.944,0) - anchor baked to absolute M16.906 7.224, remaining bytes verbatim.
      Fold slits tested (even-odd cuts at 16px): collapse to 1px speckle noise + edge erosion at tile
-     size — REJECTED per cairosvg A/B vision gate; clean solid plane ships. Re-centered on the plane's
+     size - REJECTED per cairosvg A/B vision gate; clean solid plane ships. Re-centered on the plane's
      own ink-bbox center (10.861,12.329) and scale(1.67) about (12,12): cairosvg trio lab @16px true
-     device size both themes — TG raster ink 15x13 vs X 14x14 / WA 14x14 = w1.07 h0.93, inside the
+     device size both themes - TG raster ink 15x13 vs X 14x14 / WA 14x14 = w1.07 h0.93, inside the
      +-10% trio law (uniform 1.63-1.70 all pass; 1.67 best optical weight per zoom-sheet eye check).
      Blind cold-read of the trio sheet both themes: "X / WhatsApp / Telegram", TG reads solid paper
      plane, same filled family as X, NO disc. aria-label/href/tile/viewBox/sr-only identical; X/WA/Copy
@@ -80,12 +80,12 @@ const shareTg = `https://t.me/share/url?url=${enc(url)}&text=${enc(title)}`;
 
 <!-- author bio -->
 <div class="author-box" itemprop="author" itemscope itemtype="https://schema.org/Person">
-  <!-- AUDIT-01 M5: self-hosted author photo (was Gravatar) — zero third-party requests. 48px slot kept => zero layout shift. -->
+  <!-- AUDIT-01 M5: self-hosted author photo (was Gravatar) - zero third-party requests. 48px slot kept => zero layout shift. -->
   <img class="a-photo" src="/img/author.png"
        alt="G-will Chijioke" itemprop="image" loading="lazy" decoding="async" width="48" height="48" />
   <div class="a-body">
     <h4 itemprop="name">G-will Chijioke</h4>
-    <p><span itemprop="description">Founder of AndroidScroll. Fixes Android on cheap data and cheaper phones — everything tested on real Tecno/Infinix hardware.</span> Corrections and tips: <a href="mailto:desk@androidscroll.com">desk@androidscroll.com</a> · <a href="/how-we-test/">How we test</a></p>
+    <p><span itemprop="description">Founder of AndroidScroll. Fixes Android on cheap data and cheaper phones - everything tested on real Tecno/Infinix hardware.</span> Corrections and tips: <a href="mailto:desk@androidscroll.com">desk@androidscroll.com</a> · <a href="/how-we-test/">How we test</a></p>
     <!-- v0.6.10 personal accounts (King-verified slugs; IG has NO underscore) -->
     <div class="a-socials">
       <SocialRow items={SOCIAL_PERSONAL} label="G-will Chijioke on social media" variant="paper" />
@@ -102,15 +102,15 @@ const shareTg = `https://t.me/share/url?url=${enc(url)}&text=${enc(title)}`;
     </div>
     <form data-notify-form action="/contact/" method="get">
       <label class="sr-only" for="nl-email" style="position:absolute;left:-9999px">Email address</label>
-      <input id="nl-email" type="email" name="email" placeholder="you@example.com" required autocomplete="email" />
+      <input id="nl-email" type="email" name="email" placeholder="you@phone.ng" required autocomplete="email" />
       <button class="btn-deep" type="submit">Tell me</button>
-      <span class="n-note">Static site — submit opens the contact desk. No trackers.</span>
+      <span class="n-note">Static site - submit opens the contact desk. No trackers.</span>
     </form>
   </div>
 </section>
 
 <script>
-/* Article islands — vanilla, article routes only. One IIFE per concern. */
+/* Article islands - vanilla, article routes only. One IIFE per concern. */
 (function () {
   'use strict';
   var reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -206,7 +206,7 @@ const shareTg = `https://t.me/share/url?url=${enc(url)}&text=${enc(title)}`;
     return out;
   }
   document.querySelectorAll('.prose pre').forEach(function (pre) {
-    if (pre.classList.contains('verse')) return; /* v0.4.12 King: poems are not code — no copy button, no wrapper, no chip */
+    if (pre.classList.contains('verse')) return; /* v0.4.12 King: poems are not code - no copy button, no wrapper, no chip */
     var code = pre.querySelector('code');
     var lang = 'code';
     if (code) {
@@ -260,9 +260,9 @@ const shareTg = `https://t.me/share/url?url=${enc(url)}&text=${enc(title)}`;
     w.appendChild(t);
   });
 
-  /* 6. lightbox — vanilla port of the themes' gl-overlay pattern:
+  /* 6. lightbox - vanilla port of the themes' gl-overlay pattern:
         dialog + focus trap + counter + caption + swipe (>40px).
-        Scope: EVERY article image the reader can zoom — hero + every figureimg,
+        Scope: EVERY article image the reader can zoom - hero + every figureimg,
         not only .prose descendants (gallery + hero live outside prose). */
   var lbImgs = Array.prototype.slice.call(document.querySelectorAll('figure img, .gallery img, .art-hero img, .qa-box img')).filter(function (im) {
     return !im.closest('.no-zoom') && !im.closest('a');
@@ -365,7 +365,7 @@ const shareTg = `https://t.me/share/url?url=${enc(url)}&text=${enc(title)}`;
   });
 
   /* 7. embed facades: click swaps the provider iframe in (zero 3rd-party until play).
-        v0.4.17: card facades (poster+badge+play) for YouTube/Vimeo/TikTok/Spotify/AppleMusic —
+        v0.4.17: card facades (poster+badge+play) for YouTube/Vimeo/TikTok/Spotify/AppleMusic -
         same swap-in, but the iframe REPLACES the card innards and the card keeps its frame. */
   document.querySelectorAll('[data-facade]').forEach(function (f) {
     var btn = f.querySelector('button');
@@ -386,7 +386,7 @@ const shareTg = `https://t.me/share/url?url=${enc(url)}&text=${enc(title)}`;
       ifr.allowFullscreen = true;
       
       /* v0.4.27 King: v0.4.23 fix broke because .fc-live iframe CSS applied aspect-ratio:16/9
-         to ALL live iframes — audio players (Spotify 152, Apple 270, Audiomack 252) need the px
+         to ALL live iframes - audio players (Spotify 152, Apple 270, Audiomack 252) need the px
          height, not a ratio box. Now the JS sets the exact sizing per card: data-embed-height =
          px height + aspect-ratio:auto for audio players, data-embed-ratio (fallback 16/9) for
          video. The blanket CSS ratio is gone. */
@@ -425,7 +425,7 @@ const shareTg = `https://t.me/share/url?url=${enc(url)}&text=${enc(title)}`;
   document.querySelectorAll('[data-copy-link]').forEach(function (b) {
     b.addEventListener('click', function () {
       var link = b.getAttribute('data-copy-link');
-      function done(ok) { toast(ok ? 'Link copied.' : 'Copy failed — long-press the URL.'); }
+      function done(ok) { toast(ok ? 'Link copied.' : 'Copy failed - long-press the URL.'); }
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(link).then(function () { done(true); }, function () { done(false); });
       } else {

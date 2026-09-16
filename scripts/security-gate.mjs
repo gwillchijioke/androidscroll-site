@@ -92,7 +92,7 @@ else {
 // M5: self-hosted author photo ships with the build
 if (!existsSync(join(DIST, 'img', 'author.png'))) note('M5 dist img/author.png missing');
 
-// P28 (audit-02 fix-order-1): structural invariant — this gate only walks
+// P28 (audit-02 fix-order-1): structural invariant - this gate only walks
 // dist/, so any *.html tracked OUTSIDE the publish dirs (dist/ built output +
 // public/ build-time assets) would be shipped by a root-based publish path
 // with the gate green. Zero tolerance: the gate must have run on everything

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Generate public/img/og-x.jpg — X (Twitter) facade-card poster.
+"""Generate public/img/og-x.jpg - X (Twitter) facade-card poster.
 1200x675, brand blue #1DA1F2, centered white X logo (official glyph path).
 Deterministic: SVG -> cairosvg -> PIL -> JPEG. Same recipe family as
 gen-tiktok-poster.py (v0.4.25): draw vector, measure ink bbox, auto-center.
-ONE-SHOT: not wired to any npm script — output already committed at public/img/og-x.jpg.
+ONE-SHOT: not wired to any npm script - output already committed at public/img/og-x.jpg.
 """
 import io, os
 from PIL import Image
