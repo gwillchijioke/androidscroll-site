@@ -1,3 +1,4 @@
+## v0.6.44 — 2026-09-16 — footer buttons unglued: .foot-install is flex+gap+center (Install/Alerts fused borders + stepped baselines, King phone shot), bell svg locked, gate OK.
 ## v0.6.43 — 2026-09-16 — P17b bell names its snag: error panel now prints the browser reason (AbortError/NetworkError/etc), fresh BUILD_ID stamp, gate OK.
 ## v0.6.42 — 2026-09-16 — P17b PUSH SHIPPED: bell+panel+topics (pwa-install §4), rich SW (actions/image/beacons/close), footer bell, mod-desk Push tab (stats/campaigns/compose+test/broadcast), worker v1.1.0 (topics/fanout/cid/click/dismiss/stats/test), gate OK.
 ## v0.6.41 — 2026-09-16 — MOD-DESK LAUGH SYNC: mod.astro carried the stale apex-up wedge eyes while Comments.astro shipped closed-eye arches (P30); grafted the fixed geometry verbatim, gate OK.

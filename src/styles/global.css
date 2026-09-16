@@ -1014,7 +1014,9 @@ html[data-theme=dark] .as-pwa-later:hover{border-color:var(--teal)}
 .as-pwa-install:focus-visible,.as-pwa-later:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
 @media (max-width:767px){.as-pwa-card{flex-wrap:wrap;gap:10px 12px}.as-pwa-body{flex-basis:calc(100% - 50px)}.as-pwa-acts{flex-basis:100%}.as-pwa-install,.as-pwa-later{flex:1;text-align:center}}
 /* footer buttons (finance .finall → .as-install): hidden until JS proves support */
+.foot-install{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:12px 0 0}
 .as-install{font:inherit;font-size:13px;font-weight:700;line-height:1;padding:10px 16px;border-radius:2px;cursor:pointer;border:1px solid var(--deep);background:transparent;color:var(--deep);display:inline-flex;align-items:center;gap:8px;-webkit-tap-highlight-color:transparent}
+.as-install svg{flex:none;display:block}
 .as-install:hover{background:var(--band);text-decoration:none}
 .as-install[hidden]{display:none}
 html[data-theme=dark] .as-install{border-color:var(--teal);color:var(--teal)}
