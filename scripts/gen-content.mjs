@@ -61,6 +61,26 @@ function fetchCount(postId) {
 
 const data = JSON.parse(readFileSync(CONTENT, 'utf8'));
 
+// ARCH-1 shape assert: a renamed/missing snapshot field must fail LOUD here,
+// not deep in a page template. Runs before any mutation below.
+const shapeBad = [];
+if (!Array.isArray(data.posts)) shapeBad.push('posts[]');
+if (!Array.isArray(data.categories)) shapeBad.push('categories[]');
+for (const p of (data.posts || [])) {
+  for (const k of ['id', 'slug', 'title', 'url', 'cat_path']) {
+    if (p[k] === undefined || p[k] === null || p[k] === '') { shapeBad.push(`post#${p.id || '?'}:${k}`); break; }
+  }
+}
+for (const c of (data.categories || [])) {
+  for (const k of ['slug', 'path']) {
+    if (c[k] === undefined || c[k] === null || c[k] === '') { shapeBad.push(`cat:${c.slug || '?'}:${k}`); break; }
+  }
+}
+if (shapeBad.length) {
+  console.error('[gen-content] FATAL snapshot shape (ARCH-1): ' + shapeBad.slice(0, 8).join(', '));
+  process.exit(1);
+}
+
 // AUDIT-01 L4a: pipeline compromise must break the build, not ship.
 // Every post url stays site-relative; a javascript: (or absolute) url aborts.
 const badUrls = data.posts.filter((pl) => typeof pl.url !== "string" || pl.url.indexOf("/") !== 0 || pl.url.indexOf("javascript:") !== -1).map((pl) => String(pl.id) + ":" + String(pl.url));

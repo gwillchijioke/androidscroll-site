@@ -60,7 +60,7 @@ for (const p of POSTS) postMap[p.id] = { u: p.url, t: p.title };
         <div class="mod-act-row">
           <button class="btn-deep" type="submit">Unlock</button>
         </div>
-        <p class="mod-meta" id="mod-lock-ver">desk v0.6.63</p>
+        <p class="mod-meta" id="mod-lock-ver">desk v0.6.64</p>
       </form>
 
       <p id="mod-toast" class="mod-toast" role="status" aria-live="polite"></p>
@@ -562,11 +562,11 @@ function setTab(tab: string) {
   paintTabs();
   for (const k of TABS) if (views[k]) views[k]!.hidden = k !== tab;
   show(errBox, false);
-  if (tab === 'queue') void loadQueue();
-  else if (tab === 'all') void loadAll();
-  else if (tab === 'reports') void loadReports();
-  else if (tab === 'push') void loadPush();
-  else void loadOverview();
+  if (tab === 'queue') guardDeck('Queue', loadQueue);
+  else if (tab === 'all') guardDeck('All', loadAll);
+  else if (tab === 'reports') guardDeck('Reports', loadReports);
+  else if (tab === 'push') guardDeck('Push', loadPush);
+  else guardDeck('Overview', loadOverview);
 }
 function paintTabs() {
   if (!tabs) return;
@@ -687,6 +687,20 @@ function wrongToken() {
   setLocked(true);
 }
 function netError() { show(errBox, true); }
+/* v0.6.64 ARCH-1 deck isolation: five decks share one script block, so one
+   deck's throw used to silence the rest. Every deck dispatch now runs guarded
+   (sync throw AND async rejection both land here); the hurt deck toasts its
+   name while the other four stand. Deliberately guards, not file split: Astro
+   bundles static imports back into one script anyway, so isolation comes from
+   the catch, not the folder. */
+function deckDown(deck: string, err: unknown): void {
+  setToast(deck + ' stumbled - ' + String((err as Error)?.message || err) + '. The other decks stand.', true);
+}
+function guardDeck(deck: string, fn: () => void | Promise<void>): void {
+  let r: void | Promise<void>;
+  try { r = fn(); } catch (err) { deckDown(deck, err); return; }
+  if (r && typeof (r as Promise<void>).catch === 'function') (r as Promise<void>).catch((err) => deckDown(deck, err));
+}
 
 /* ---------- fetchers per tab ---------- */
 let reqSeq = 0; // stale-response guard for fast filter/page changes
@@ -1659,13 +1673,13 @@ lock?.addEventListener('submit', (ev) => {
   saveTok((tokInp?.value || '').trim() || token);
   if (tokInp && token) tokInp.value = token;
   if (!token) { if (lockMsg) lockMsg.textContent = 'Paste the desk token first.'; return; }
-  void setTab(state.tab);
+  guardDeck('Desk', () => setTab(state.tab));
 });
 
 tabs?.addEventListener('click', (ev) => {
   const b = (ev.target as HTMLElement)?.closest?.('.mod-tab') as HTMLElement | null;
   if (!b || !unlocked) return;
-  void setTab(b.getAttribute('data-tab') || 'overview');
+  guardDeck('Desk', () => setTab(b.getAttribute('data-tab') || 'overview'));
 });
 seg?.addEventListener('click', (ev) => {
   const b = (ev.target as HTMLElement)?.closest?.('button[data-status]') as HTMLElement | null;
@@ -1673,21 +1687,21 @@ seg?.addEventListener('click', (ev) => {
   state.status = b.getAttribute('data-status') || 'approved';
   state.page = 1;
   syncHash();
-  void loadAll();
+  guardDeck('All', loadAll);
 });
 postForm?.addEventListener('submit', (ev) => {
   ev.preventDefault();
   state.post = (postInp?.value || '').trim().replace(/[^0-9]/g, '');
   state.page = 1;
   syncHash();
-  void loadAll();
+  guardDeck('All', loadAll);
 });
 prevB?.addEventListener('click', () => {
-  if (state.page > 1) { state.page -= 1; syncHash(); void loadAll(); }
+  if (state.page > 1) { state.page -= 1; syncHash(); guardDeck('All', loadAll); }
 });
-nextB?.addEventListener('click', () => { state.page += 1; syncHash(); void loadAll(); });
+nextB?.addEventListener('click', () => { state.page += 1; syncHash(); guardDeck('All', loadAll); });
 
-refreshB?.addEventListener('click', () => void reloadActive());
+refreshB?.addEventListener('click', () => guardDeck('Desk', reloadActive));
 /* v0.6.17 (B): header select-all - scope = the rows actually rendered in the
    current filtered tab (visible filtered scope, per brief). */
 for (const key of ['queue', 'all']) {
@@ -1699,7 +1713,7 @@ for (const key of ['queue', 'all']) {
     onSelChange();
   });
 }
-retryB?.addEventListener('click', () => void reloadActive());
+retryB?.addEventListener('click', () => guardDeck('Desk', reloadActive));
 signoutB?.addEventListener('click', () => {
   saveTok('');
   savePushTok(''); // v0.6.49 one gate: the bell session leaves with the desk
@@ -1717,17 +1731,18 @@ $('push-seg')?.addEventListener('click', (ev) => {
     (x as HTMLElement).classList.toggle('is-on', x === b);
 });
 $('push-test')?.addEventListener('click', (ev) => {
-  void pushFire('/test', 'Trial rung', ev.currentTarget as HTMLButtonElement);
+  const btn = ev.currentTarget as HTMLButtonElement;
+  guardDeck('Push', () => pushFire('/test', 'Trial rung', btn));
 });
 $('push-fire')?.addEventListener('click', (ev) => {
   const btn = ev.currentTarget as HTMLButtonElement;
-  armTwoTap(btn, 'Sound the full peal', () => void pushFire('/send', 'Peal sounded', btn));
+  armTwoTap(btn, 'Sound the full peal', () => guardDeck('Push', () => pushFire('/send', 'Peal sounded', btn)));
 });
 
 window.addEventListener('hashchange', () => {
   if (!readHash()) return;
   paintTabs();
-  if (unlocked) void setTab(state.tab);
+  if (unlocked) guardDeck('Desk', () => setTab(state.tab));
 });
 
 /* boot: hash keeps tab (and All-tab filters) across refresh; ?tab= legacy
@@ -1736,7 +1751,7 @@ if (!readHash() && TABS.includes(TAB_QUERY)) state.tab = TAB_QUERY;
 paintTabs();
 for (const k of TABS) if (views[k]) views[k]!.hidden = k !== state.tab;
 setLocked(true);
-if (token) void setTab(state.tab);
+if (token) guardDeck('Desk', () => setTab(state.tab));
 // v0.6.55 (King: leave-and-return lockout): a phone-restored tab wakes with a
 // dead session and no reload - re-read the jars whenever the page shows again
 // (or becomes visible) and walk straight in when the key survived.
@@ -1746,7 +1761,7 @@ function rehydrate(): void {
   if (rescued) {
     token = rescued;
     if (tokInp) tokInp.value = rescued;
-    void setTab(state.tab);
+    guardDeck('Desk', () => setTab(state.tab));
   }
 }
 window.addEventListener('pageshow', rehydrate);

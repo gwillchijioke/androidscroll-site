@@ -22,6 +22,13 @@
 ## v0.6.38 - 2026-09-16 - A3 astro 5.18.2→7.3.2: clean build first try, zero breakage, gate OK
 # Changelog
 
+## v0.6.64 - ARCH-1 fixes (Sep 16)
+- Desk deck isolation: guardDeck wraps all 15 deck dispatches (sync throw + async rejection both toast the hurt deck, other four stand). Guards over file split, deliberately: one bundle either way, the catch is the isolation.
+- Font preload (Archivo + Manrope) in Head; relativize-safe.
+- tsconfig strict baseline added (verification only).
+- gen-content shape assert: snapshot typos fail loud pre-mutation.
+- Fixture + sitemap checked: already noindex + unlisted, no change.
+
 ## v0.6.63 - PORTABILITY-1 fixes (Sep 16)
 - Worker rails centralized in src/data/endpoints.ts (PUBLIC_COMMENTS_API/PUBLIC_PUSH_API, live defaults); desk + Comments + CSP import it. Host moves need env, not code.
 - Python generators portable: scripts/requirements.txt added; all absolute /home/ubuntu paths resolved from script location (BRAND_V2 override kept).
