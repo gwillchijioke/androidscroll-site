@@ -22,6 +22,9 @@
 ## v0.6.38 - 2026-09-16 - A3 astro 5.18.2→7.3.2: clean build first try, zero breakage, gate OK
 # Changelog
 
+## v0.6.70 - dead-font purge (Sep 16)
+- Fraunces woff2 (67KB) shipped unreferenced since the Archivo switch - deleted from source + public. Live set: Archivo, Manrope, Plex Mono x3.
+
 ## v0.6.69 - SEO-1 fixes (Sep 16)
 - Shares dress up: brand OG PNG (1200x630) + large-image cards site-wide, per-page image prop plumbed.
 - Homepage gains its WebSite/Organization entity (brand sameAs only).
