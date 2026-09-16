@@ -1364,11 +1364,13 @@ function reloadActive(): Promise<void> {
   return loadOverview();
 }
 
-/* ---------- PUSH DECK (P17b LEG4 — over the push worker, own token) ---------- */
+/* ---------- PUSH DECK (P17b LEG4 — over the push worker, desk key opens it) ---------- */
 const PUSH_API = 'https://androidscroll-push.gwill.workers.dev';
 const PUSH_TOK_KEY = 'androidscroll:pushtok';
 let pushToken = '';
-try { pushToken = sessionStorage.getItem(PUSH_TOK_KEY) || ''; } catch { /* private mode */ }
+// v0.6.49 one gate (King): a saved push token wins (old sessions);
+// else adopt the desk session — the worker (v1.1.2) honours the desk key too.
+try { pushToken = sessionStorage.getItem(PUSH_TOK_KEY) || sessionStorage.getItem(TOK_KEY) || ''; } catch { /* private mode */ }
 function savePushTok(v: string) {
   pushToken = v;
   try { v ? sessionStorage.setItem(PUSH_TOK_KEY, v) : sessionStorage.removeItem(PUSH_TOK_KEY); } catch { /* ok */ }
@@ -1562,6 +1564,7 @@ for (const key of ['queue', 'all']) {
 retryB?.addEventListener('click', () => void reloadActive());
 signoutB?.addEventListener('click', () => {
   saveTok('');
+  savePushTok(''); // v0.6.49 one gate: the bell session leaves with the desk
   if (tokInp) tokInp.value = '';
   if (lockMsg) { lockMsg.textContent = 'Signed out.'; lockMsg.classList.remove('is-bad'); }
   setLocked(true);

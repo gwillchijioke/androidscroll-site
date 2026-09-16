@@ -1,3 +1,4 @@
+## v0.6.49 — 2026-09-16 — one gate for the bell: Push deck adopts the desk session (worker v1.1.2 honours desk key); signout evicts both.
 ## v0.6.48 — 2026-09-16 — pale panel text in light theme: foot-brand p rule outranked bell words; re-pinned under card scope.
 ## v0.6.47 — 2026-09-16 — bell speaks while working: Ringing…/Turning off… spinner, buttons rest, motion-safe, gate OK.
 ## v0.6.46 — 2026-09-16 — THE SNAG: page CSP connect-src barred the push worker (address-bar worked, in-page fetch died — King proved the split). Push origin allowlisted, gate OK.
