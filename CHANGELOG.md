@@ -22,6 +22,13 @@
 ## v0.6.38 - 2026-09-16 - A3 astro 5.18.2→7.3.2: clean build first try, zero breakage, gate OK
 # Changelog
 
+## v0.6.67 - MOBILE-1 fixes (Sep 16)
+- Sub-360 header compaction: 320px no longer clips the theme toggle.
+- 16px comment + desk fields: iOS zoom-on-focus ends (padding trimmed to hold rhythm).
+- Pressed states: touch taps answer with a 1px dip.
+- Stagger renderer fallback: viewport rails join in even if IO stalls.
+- Reverted v0.6.66 rail-cap no-op (wrong selector, did nothing) - rail verified correct as drawn.
+
 ## v0.6.66 - DESIGN-1 fixes (Sep 16)
 - 404 deep-path redress: sentinel script re-seats deep bad URLs at the dressed 404 (staging + apex roots probed, portable).
 - Ticker scroll affordance: edge fade on phones.

@@ -162,7 +162,15 @@ html[data-theme=dark] .wordmark-lockup{--deep:#006E5E}
 html[data-theme=dark] .theme-menu{box-shadow:0 24px 70px rgba(0,0,0,.75)}
 .icon-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:2px;color:var(--ink);transition:color .16s ease-out,background-color .16s ease-out}
 .icon-btn:hover{color:var(--deep);background:var(--band)}
+/* MOBILE-1 pressed feedback: touch has no hover - the 1px dip answers every tap */
+.icon-btn:active,.btn-deep:active,.theme-menu button:active{transform:translateY(1px)}
 .icon-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:square}
+/* MOBILE-1 sub-360 compaction: lockup + 3x44px icons overflow 320px and clip the
+   theme toggle - shrink both, still far above the 24px minimum */
+@media (max-width:359px){
+  .wordmark-lockup{height:22px}
+  .icon-btn{width:40px;height:40px}
+}
 /* King fix 3: 3-state theme button - light (sun) / dark (moon) / system (auto circle).
    ALL glyphs hidden by default; exactly one shows per pref (v0.5.1: sun was never hidden → double icon). */
 .icon-btn .glyph-sun,.icon-btn .glyph-moon,.icon-btn .glyph-auto{display:none}
@@ -396,8 +404,6 @@ h1.hero-h1 .dot{color:var(--deep)}
 
 /* ---------- TOP FIXES: fix rails as spec-sheet rows (no boxes) ---------- */
 .fix-rail{position:relative;border-bottom:1px solid var(--line)}
-/* DESIGN-1: the rail dies with the last card - no stub dangling into the section foot */
-.fix-rail:last-child::before{bottom:auto;height:26px}
 .fix-rail::before{content:"";position:absolute;left:14px;top:18px;bottom:18px;width:1px;background:var(--line-2)}
 .spec-row{position:relative;display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:0 16px;align-items:center;padding:13px 0;border-top:1px solid var(--line)}
 .spec-row:first-child{border-top:0}
@@ -496,7 +502,7 @@ h1.hero-h1 .dot{color:var(--deep)}
 .notify h2{font-family:var(--display);font-size:clamp(22px,3.2vw,30px);letter-spacing:-.03em;line-height:.95;font-weight:800}
 .notify p{color:var(--muted);font-size:14px;margin:8px 0 0;max-width:48ch}
 .notify form{display:flex;gap:10px;flex-wrap:wrap}
-.notify input[type=email]{flex:1;min-width:200px;border:1px solid var(--line-2);border-bottom-width:2px;background:var(--paper);padding:12px 14px;border-radius:2px;font-size:15px;font-weight:500}
+.notify input[type=email]{flex:1;min-width:200px;border:1px solid var(--line-2);border-bottom-width:2px;background:var(--paper);padding:12px 14px;border-radius:2px;font-size:16px;font-weight:500}
 /* v0.6.8 King: dark fields were --mint (rgb(217,242,232)) = white slabs on the dark
    band (v3.3 debt reversed) - now --field derived from --band-2, ink light, placeholder
    --muted re-derived for the dark surface. Light mode untouched. */

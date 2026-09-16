@@ -242,6 +242,12 @@ const shortCount = (name: string) => navLabel(name).toLowerCase();
       }
     }), { rootMargin: '0px 0px -8% 0px' });
     stag.forEach(el => io.observe(el));
+    /* MOBILE-1 renderer fallback: anything sitting in the viewport that IO has
+       not marked within 2.5s (bots, stalled frames) joins in - no voids */
+    setTimeout(() => stag.forEach(el => {
+      if (!el.classList.contains('in') && el.getBoundingClientRect().top < innerHeight)
+        el.classList.add('in');
+    }), 2500);
   } else {
     stag.forEach(el => el.classList.add('in'));
   }
