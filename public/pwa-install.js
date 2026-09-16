@@ -8,12 +8,12 @@
  *      never stacks on an open overlay — yields while the page is scroll-locked).
  *   3. Footer buttons: [data-install-app] native prompt; [data-install-ios] dashed
  *      inline Share-sheet guide (Apple exposes no install API). appinstalled hides all.
- * 0.6.40-7193f97 is replaced at prebuild (scripts/stamp-pwa.mjs).
+ * 0.6.41-fb36b8e is replaced at prebuild (scripts/stamp-pwa.mjs).
  */
 (function () {
   'use strict';
 
-  var BUILD_ID = '0.6.40-7193f97';
+  var BUILD_ID = '0.6.41-fb36b8e';
   var KEY = '***';
   var DISMISS_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 

@@ -1,3 +1,4 @@
+## v0.6.41 — 2026-09-16 — MOD-DESK LAUGH SYNC: mod.astro carried the stale apex-up wedge eyes while Comments.astro shipped closed-eye arches (P30); grafted the fixed geometry verbatim, gate OK.
 ## v0.6.40 — 2026-09-16 — P17a PWA install SHIPPED: manifest standalone + icons, sw offline shell, pwa-install card/dock/footer-buttons wired (Ultra drill WIRED), gate OK. No push (P17b later).
 ## v0.6.39 — 2026-09-16 — P30 laugh closed-eyes: wedge triangles → squeezed-shut arch crescents (King: old slits read evil); monochrome+mass+tears+grin untouched, gate OK
 ## v0.6.38 — 2026-09-16 — A3 astro 5.18.2→7.3.2: clean build first try, zero breakage, gate OK
