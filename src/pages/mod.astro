@@ -60,7 +60,7 @@ for (const p of POSTS) postMap[p.id] = { u: p.url, t: p.title };
         <div class="mod-act-row">
           <button class="btn-deep" type="submit">Unlock</button>
         </div>
-        <p class="mod-meta" id="mod-lock-ver">desk v0.6.59</p>
+        <p class="mod-meta" id="mod-lock-ver">desk v0.6.60</p>
       </form>
 
       <p id="mod-toast" class="mod-toast" role="status" aria-live="polite"></p>
@@ -107,14 +107,18 @@ for (const p of POSTS) postMap[p.id] = { u: p.url, t: p.title };
         </div>
 
         <!-- PUSH (P17b LEG4 — bell command deck over the push worker).
-             v0.6.51: NO second form (King's law) — the desk session is the
-             only gate. No session: one calm line. Server still Bearer-locked. -->
+             v0.6.60 (AUDIT-1 key split): the desk key READS (stats, drill-down);
+             sounding needs the commander key, asked inline at the compose form.
+             No session: one calm line. Server enforces the split. -->
         <div id="mod-view-push" class="mod-view" hidden>
           <div id="push-lock" class="mod-card" hidden>
             <p id="push-lock-msg" class="mod-result" role="status" aria-live="polite">Sign in to the desk first — the bell answers the desk key.</p>
           </div>
           <div id="push-body" hidden>
             <div id="push-cards" class="mod-cards"></div>
+            <!-- v0.6.60 (AUDIT-1 key split): the desk key READS; sounding needs
+                 the commander key. The badge says which key currently rides. -->
+            <p id="push-role" class="mod-empty" role="status"></p>
             <p class="mod-label mod-top-head">Flocks &amp; origins</p>
             <div id="push-mix" class="mod-rows"></div>
             <p class="mod-label mod-top-head">Compose</p>
@@ -135,6 +139,11 @@ for (const p of POSTS) postMap[p.id] = { u: p.url, t: p.title };
                 </div>
               </div>
               <p id="push-compose-msg" class="mod-result" role="status" aria-live="polite"></p>
+              <!-- v0.6.60: commander-key row — shown only while a reader key rides. -->
+              <div id="push-commander-row" hidden>
+                <p class="mod-label" for="push-commander">Commander key (sounds the bell — kept for this session)</p>
+                <input id="push-commander" class="mod-token" type="password" autocomplete="off" placeholder="Paste once, then ring" />
+              </div>
               <div class="mod-act-row">
                 <button id="push-test" class="btn-ghost" type="button">Ring my flock first</button>
                 <button id="push-fire" class="btn-deep" type="button">Sound the full peal</button>
@@ -1392,7 +1401,11 @@ function savePushTok(v: string) {
 }
 let pushTopic = 'posts';
 let pushRun = 0; // v0.6.52: stale openings stand down (double-tap race)
+// v0.6.60 (AUDIT-1 key split): 'reader' (desk key — stats only) or
+// 'commander' (rings the bell). Learned from /stats on every load.
+let pushRole = '';
 interface PushStats {
+  role?: string;
   subs?: { total?: number; new7?: number; new30?: number; byOrigin?: Record<string, number>; byTopic?: Record<string, number>; byCountry?: Record<string, number>; byCity?: Record<string, number> };
   campaigns?: { cid?: number; title?: string; sent?: number; pruned?: number; failed?: number; clicked?: number; dismissed?: number; when?: number; openRate?: number | null; dismissRate?: number | null; topic?: string | null; source?: string | null }[];
   health?: { version?: string; now?: number };
@@ -1443,6 +1456,15 @@ async function loadPush(): Promise<void> {
   }
   if (!res.ok) { setToast('Push stats error — HTTP ' + res.status, true); return; }
   let s: PushStats; try { s = await res.json(); } catch { setToast('Push stats unreadable.', true); return; }
+  // v0.6.60 (AUDIT-1 key split): learn which key rides, badge it, gate the bell.
+  // Legacy (worker <1.3.3 sends no role — and grants everything): any key that
+  // reads is fully privileged, so default to commander, never to reader.
+  pushRole = s.role === 'reader' ? 'reader' : 'commander';
+  const roleEl = $('push-role');
+  if (roleEl) roleEl.textContent = pushRole === 'commander'
+    ? 'Commander key — the bell obeys.'
+    : 'Reading key — stats only. Sounding needs the commander key below.';
+  show($('push-commander-row'), pushRole !== 'commander');
   const subs = s.subs || {};
   const n = (v: unknown) => (Number.isFinite(Number(v)) ? String(Number(v)) : '0');
   pushKpi(cards, n(subs.total), 'Subscribers');
@@ -1576,6 +1598,33 @@ async function pushFire(path: string, okWord: string, btn: HTMLButtonElement): P
   const msg = $('push-compose-msg');
   const payload = pushComposePayload();
   if (!payload) return;
+  // v0.6.60 (AUDIT-1 key split): readers don't ring — upgrade to the
+  // commander key inline, verify it reads as commander, then sound.
+  if (pushRole !== 'commander') {
+    const cmdInp = $('push-commander') as HTMLInputElement | null;
+    const cmd = (cmdInp?.value || '').trim();
+    if (!cmd) { if (msg) msg.textContent = 'Commander key first — paste it above, then ring.'; return; }
+    pushToken = cmd; savePushTok(cmd);
+    let probe: Response;
+    try { probe = await pushApi('/stats'); }
+    catch { if (msg) msg.textContent = 'Could not reach the push API — retry.'; return; }
+    const ps = await probe.json().catch(() => ({} as PushStats)) as PushStats;
+    if (!probe.ok) {
+      if (msg) msg.textContent = 'That key was refused — check it and retry.';
+      return;
+    }
+    // Legacy worker (<1.3.3) sends no role but grants everything to any valid
+    // key — treat a working key as commander; the split worker says so itself.
+    if (ps.role !== undefined && ps.role !== 'commander') {
+      if (msg) msg.textContent = 'That key still reads only — the commander key sounds the bell.';
+      return;
+    }
+    pushRole = 'commander';
+    if (cmdInp) cmdInp.value = '';
+    const roleEl = $('push-role');
+    if (roleEl) roleEl.textContent = 'Commander key — the bell obeys.';
+    show($('push-commander-row'), false);
+  }
   btn.disabled = true;
   try {
     const res = await pushApi(path, { method: 'POST', body: JSON.stringify(payload) });

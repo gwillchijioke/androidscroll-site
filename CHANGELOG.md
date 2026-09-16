@@ -22,6 +22,13 @@
 ## v0.6.38 — 2026-09-16 — A3 astro 5.18.2→7.3.2: clean build first try, zero breakage, gate OK
 # Changelog
 
+## v0.6.60 — AUDIT-1 fixes ship (Sep 16)
+- KEY SPLIT (audit LOW): desk key now READS (stats, drill-down); sounding needs the commander key, asked inline at compose and verified before ringing. Badge shows which key rides. A stolen desk jar can no longer peal. Worker v1.3.3 enforces the split (requireCommander on /send + /test, role in /stats).
+- BEACON BRAKE (audit MEDIUM): /click + /dismiss ride the 5/hr/IP rate limit — analytics can no longer be rewritten at will.
+- SEND CAGE (audit LOW): /send + /test validate https + androidscroll.com/github.io hosts + length caps; desk pre-checks https target.
+- HEADERS (audit NICE-TO-HAVE): meta referrer + Permissions-Policy (camera/mic/geo/payment off).
+- Pin astro 7.3.2 exact (audit action).
+
 ## [0.6.37] — 2026-09-16
 ### Security — audit-02 leftovers: B4 storage key, N2 npm audit CI
 - **B4 (LOW, PARTIAL):** inspected the file's only recorded introduction commit

@@ -21,6 +21,10 @@ const CSP = `default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 's
      — meta CSP CAN carry frame-ancestors when a page opts in; audit's host-header
      guidance stays primary for the general case). -->
 <meta http-equiv="Content-Security-Policy" content={CSP} />
+<!-- AUDIT-1 NICE-TO-HAVE (v0.6.60): no camera/mic/geo anywhere on the site,
+     and cross-origin referrers buy nothing — say so explicitly. -->
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()" />
 <title>{title}</title>
 <meta name="description" content={props.desc || SITE.tagline} />
 <link rel="canonical" href={canonical} />
