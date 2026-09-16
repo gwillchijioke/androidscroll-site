@@ -22,6 +22,14 @@
 ## v0.6.38 - 2026-09-16 - A3 astro 5.18.2→7.3.2: clean build first try, zero breakage, gate OK
 # Changelog
 
+## v0.6.66 - DESIGN-1 fixes (Sep 16)
+- 404 deep-path redress: sentinel script re-seats deep bad URLs at the dressed 404 (staging + apex roots probed, portable).
+- Ticker scroll affordance: edge fade on phones.
+- Hero de-duplicated: one 13, one bench (ledger keeps the full panel).
+- Caption trimmed to 'Field illustration.'.
+- Rail capped at the last card; hex spellings unified (zero render change).
+- DECLINED with reason: quick-answer restatement (excerpt is the only honest copy until bodies land; steps would be fabricated).
+
 ## v0.6.65 - DATA-1 fixes (Sep 16)
 - Snapshot freshness check in prebuild: compares WP newest vs snapshot newest, logs CURRENT or BEHIND. Visibility only, never fails, never auto-publishes. Caught a real gap on first run (see below).
 - Live-count moment: refreshed comment counts carry title="Count refreshed just now".

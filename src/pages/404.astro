@@ -32,5 +32,25 @@ const magnets = [...POSTS].sort((a, b) => b.comments - a.comments).slice(0, 3);
     document.getElementById('nf-search')?.addEventListener('click', () => {
       document.getElementById('search-trigger')?.click();
     });
+    /* DESIGN-1 deep-path redress: hosts serve this file at ANY bad URL, so its
+       relative ./_astro/* refs resolve into the void past depth 1 and the page
+       stands unstyled. If the --ink token never painted, re-point the page's
+       own stylesheet/script refs at the first deploy root that answers. */
+    if (!getComputedStyle(document.body).getPropertyValue('--ink').trim()) {
+      const hrefs = [...document.querySelectorAll('link[rel="stylesheet"]')]
+        .map(l => l.getAttribute('href') || '').filter(h => h.includes('_astro/'));
+      const file = (hrefs[0] || '').split('/').pop();
+      if (file) {
+        const roots = [location.origin + '/androidscroll-site/', location.origin + '/'];
+        (async () => {
+          for (const b of roots) {
+            try {
+              const r = await fetch(b + '_astro/' + file, { method: 'HEAD' });
+              if (r.ok) { location.replace(b + '404/'); return; }
+            } catch { /* try the next root */ }
+          }
+        })();
+      }
+    }
   </script>
 </Base>

@@ -35,10 +35,8 @@ const words = POSTS.reduce((n, p) => n + (p.words || 0), 0);
       <p class="hero-stand">No hype, no filler - {TOTALS.posts} long guides tested on the same mid-range phones you hold.</p>
       <div class="hero-meta">
         <span>Est. <b>2019</b></span>
-        <span>{TOTALS.posts} guides</span>
         <span>{TOTALS.comments} comments</span>
         <span>{(words / 1000).toFixed(1)}k words</span>
-        <span>Android 16 on the bench</span>
       </div>
       <div class="st-ticker mono" aria-label="Site status - live counts">
         <span class="st-sig">site:status ● live</span>
