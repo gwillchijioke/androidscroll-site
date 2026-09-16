@@ -1,0 +1,1381 @@
+---
+/* MOD-CONSOLE v2 (0.6.16) — token-gated moderation desk over the worker API.
+   Four tabs (v0.6.16: Overview FIRST + DEFAULT): Overview (KPI tiles that
+   jump to their sections, action-required tiles, top guides, 7-day sparkline,
+   recent activity, reaction mix), Queue (pending + actions + reply-as-author),
+   All comments (status segment + post filter + pagination), Reports (alert-
+   style report cards with their OWN dismiss/resolve — worker v0.1.6 route —
+   plus a separate on-the-comment row). Tab + filter state lives in the URL
+   hash (#/mod/<tab>?k=v) via history.replaceState so a refresh keeps position.
+   - Base layout + robots noindex,nofollow (unlisted — no nav link ever).
+   - ZERO third-party JS: plain DOM, one bundled module, Worker rail only.
+   - Brand: var() tokens from global.css ONLY (mono labels, --paper cards w/
+     1px --line-2 radius 4, --band tint, btn-deep/btn-ghost, mint active tab,
+     44px touch, focus-visible, reduced-motion). No new fonts.
+   - Token: localStorage 'androidscroll:modtok' (try/catch); Sign-out clears;
+     401 → 'Wrong token'. Token never touches the repo or logs. */
+import Base from '../layouts/Base.astro';
+import Wordmark from '../components/Wordmark.astro';
+import { POSTS } from '../data/site';
+
+/* Build-time post_id → {url, title} map (v0.6.17: titles over ids — King
+   "I hate post number idea… prefer the name of the post link back"). Unknown
+   ids render as bare "Post <id>" meta with an honest no-link fallback
+   (v0.6.14 — never a dead href). */
+const postMap: Record<number, { u: string; t: string }> = {};
+for (const p of POSTS) postMap[p.id] = { u: p.url, t: p.title };
+---
+<!-- AUDIT-02 A1 (v0.6.36): the desk is public, guessable and carries one-click
+     Approve/Spam/Trash — it must never be framable. Meta CSP can carry
+     frame-ancestors when a page opts in; apex host headers stay primary. -->
+<Base title="Moderation desk" desc="Private moderation console — queue, all comments, reports, overview." robots="noindex, nofollow" cspExtra="frame-ancestors 'none'">
+  <div class="mod-scoped" id="mod-desk" data-post-map={JSON.stringify(postMap)}>
+    <section class="mod-band">
+      <div class="wrap mod-band-in">
+        <a class="mod-mark" href="/" aria-label="AndroidScroll — home"><Wordmark /></a>
+        <p class="mod-kicker">Moderation Desk</p>
+        <div class="mod-band-actions">
+          <button id="mod-refresh" class="btn-ghost" type="button" hidden>Refresh</button>
+          <button id="mod-signout" class="btn-ghost" type="button" hidden>Sign out</button>
+        </div>
+      </div>
+      <div class="wrap">
+        <!-- v0.6.16: Overview FIRST + DEFAULT (King 10:24) -->
+        <nav class="mod-tabs" id="mod-tabs" aria-label="Console sections" hidden>
+          <button type="button" class="mod-tab" data-tab="overview">Overview</button>
+          <button type="button" class="mod-tab" data-tab="queue">Queue</button>
+          <button type="button" class="mod-tab" data-tab="all">All comments</button>
+          <button type="button" class="mod-tab" data-tab="reports">Reports</button>
+        </nav>
+      </div>
+    </section>
+
+    <div class="col mod-main">
+      <form id="mod-lock" class="mod-card mod-lock" autocomplete="off">
+        <p class="mod-label" id="mod-token-label">Access token</p>
+        <input id="mod-token" class="mod-token" type="password" aria-labelledby="mod-token-label"
+               placeholder="Paste the desk token" />
+        <p id="mod-lock-msg" class="mod-result is-bad" role="status" aria-live="polite"></p>
+        <div class="mod-act-row">
+          <button class="btn-deep" type="submit">Unlock</button>
+        </div>
+      </form>
+
+      <p id="mod-toast" class="mod-toast" role="status" aria-live="polite"></p>
+
+      <section id="mod-panel" hidden aria-label="Console panel">
+        <!-- QUEUE -->
+        <div id="mod-view-queue" class="mod-view" hidden>
+          <label class="mod-selall" id="mod-queue-selall-wrap"><input type="checkbox" id="mod-queue-selall" class="mod-cbx" aria-label="Select all in queue"><span class="mod-cbx-box" aria-hidden="true"></span><span>Select all</span></label>
+          <div id="mod-queue-list" class="mod-rows"></div>
+          <p id="mod-queue-empty" class="mod-empty" hidden>Nothing waiting.</p>
+        </div>
+
+        <!-- ALL COMMENTS -->
+        <div id="mod-view-all" class="mod-view" hidden>
+          <div class="mod-filterbar">
+            <div class="mod-seg" id="mod-seg" role="group" aria-label="Status filter">
+              <button type="button" data-status="pending">Pending</button>
+              <button type="button" data-status="approved" class="is-on">Approved</button>
+              <button type="button" data-status="spam">Spam</button>
+              <button type="button" data-status="trash">Trash</button>
+              <button type="button" data-status="all">All</button>
+            </div>
+            <label class="mod-selall" id="mod-all-selall-wrap"><input type="checkbox" id="mod-all-selall" class="mod-cbx" aria-label="Select all on this page"><span class="mod-cbx-box" aria-hidden="true"></span><span>Select all</span></label>
+            <form id="mod-postform" class="mod-postform" autocomplete="off">
+              <label class="mod-label mod-label-inline" for="mod-postinp">Post ID</label>
+              <input id="mod-postinp" class="mod-postinp" list="mod-postids" inputmode="numeric" placeholder="any" />
+              <datalist id="mod-postids">
+              </datalist>
+              <button class="btn-ghost mod-apply" type="submit">Apply</button>
+            </form>
+          </div>
+          <div id="mod-all-list" class="mod-rows"></div>
+          <p id="mod-all-empty" class="mod-empty" hidden>No comments match.</p>
+          <div id="mod-pager" class="mod-pager" hidden>
+            <button id="mod-prev" class="btn-ghost" type="button">Prev</button>
+            <p id="mod-pagen" class="mod-pagen"></p>
+            <button id="mod-next" class="btn-ghost" type="button">Next</button>
+          </div>
+        </div>
+        <!-- REPORTS (no checkboxes — Dismiss/resolve is its own lifecycle) -->
+        <div id="mod-view-reports" class="mod-view" hidden>
+          <div id="mod-rep-list" class="mod-rows"></div>
+          <p id="mod-rep-empty" class="mod-empty" hidden>No open reports.</p>
+        </div>
+
+        <!-- v0.6.17 BULK BAR — floats over Queue + All Comments (sticky at
+             the panel bottom) whenever rows are selected. -->
+        <div id="mod-bulkbar" class="mod-selbar" hidden></div>
+
+        <!-- OVERVIEW (v0.6.16: first + default tab, expanded real-data-only) -->
+        <div id="mod-view-overview" class="mod-view" hidden>
+          <div id="mod-cards" class="mod-cards"></div>
+          <div id="mod-actionreq" class="mod-actionreq"></div>
+          <p class="mod-label mod-top-head">Top guides</p>
+          <div id="mod-topposts" class="mod-rows"></div>
+          <p id="mod-top-empty" class="mod-empty" hidden>No posts with comments.</p>
+          <p class="mod-label mod-top-head">Last 7 days</p>
+          <div id="mod-spark" class="mod-spark"></div>
+          <p class="mod-label mod-top-head">Recent activity</p>
+          <div id="mod-recent" class="mod-rows"></div>
+          <p id="mod-recent-empty" class="mod-empty" hidden>No comments yet.</p>
+          <p id="mod-mix-head" class="mod-label mod-top-head" hidden>Reaction mix</p>
+          <div id="mod-mix" class="mod-rows"></div>
+        </div>
+
+        <div id="mod-error" class="mod-card" hidden>
+          <p class="mod-label">Network</p>
+          <p class="mod-err-msg">Could not reach the desk API.</p>
+          <div class="mod-act-row">
+            <button id="mod-retry" class="btn-ghost" type="button">Retry</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</Base>
+
+<style is:global>
+/* .mod-scoped — all rules namespaced under the desk root. var() tokens ONLY. */
+.mod-scoped .mod-band{background:var(--band);border-bottom:1px solid var(--line-2);padding-top:18px;padding-bottom:0}
+.mod-scoped .mod-band-in{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding-bottom:14px}
+.mod-scoped .mod-mark{display:inline-flex;align-items:center;min-height:44px;color:var(--ink)}
+.mod-scoped .mod-kicker{margin:0;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--deep)}
+.mod-scoped .mod-band-actions{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap}
+.mod-scoped .mod-band-actions .btn-ghost{white-space:nowrap}
+.mod-scoped .mod-main{padding-top:14px;padding-bottom:var(--sp-e)}
+
+/* Tabs — mono uppercase, active gets brand mint underline.
+   v0.6.17 (C — King: "revert the vertical scroll bar in the tab menu"):
+   overflow-x:auto FORCES computed overflow-y to auto, and the tab row's
+   fractional line-height (10.5px mono x 1.65 = 17.325px) + margin-bottom:-1px
+   bled 1px past the rail → ghost vertical scrollbar on fractional-DPR
+   phones. Fix: line-height:1 (integer box), margin-bottom:0, rail pinned to
+   an exact 47px (1 border + 2 pad + 44 tab), and overflow-y:hidden then
+   clip (progressive) so no vertical scrollbar can ever paint. */
+.mod-scoped .mod-tabs{display:flex;gap:4px;overflow-x:auto;overflow-y:hidden;overflow-y:clip;border-top:1px solid var(--line);padding-top:2px;height:47px;box-sizing:border-box;align-items:flex-start}
+.mod-scoped .mod-tab{appearance:none;background:none;border:0;border-bottom:3px solid transparent;min-height:44px;line-height:1;padding:12px 14px;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);white-space:nowrap;cursor:pointer}
+.mod-scoped .mod-tab:hover{color:var(--deep)}
+.mod-scoped .mod-tab.is-on{color:var(--ink);border-bottom-color:var(--mint)}
+.mod-scoped .mod-tab:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+
+/* v0.6.17 (F) TAB-WHITENESS (King 16:5x) — dark-theme active tab/pill must never
+   read pure-white: active tab gets brand-mint #00E9B0 text + underline; status
+   pills get a dark fill + mint accent border + mint text (no pale --mint slab). */
+html[data-theme=dark] .mod-scoped .mod-tab.is-on{color:#00E9B0;border-bottom-color:#00E9B0}
+html[data-theme=dark] .mod-scoped .mod-seg button.is-on{background:var(--band-2);border-color:#00E9B0;color:#00E9B0}
+@media (prefers-color-scheme:dark){html:not([data-theme=light]) .mod-scoped .mod-tab.is-on{color:#00E9B0;border-bottom-color:#00E9B0}html:not([data-theme=light]) .mod-scoped .mod-seg button.is-on{background:var(--band-2);border-color:#00E9B0;color:#00E9B0}}
+
+.mod-scoped .mod-label{margin:0 0 8px;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.mod-scoped .mod-label-inline{margin:0 8px 0 0}
+.mod-scoped .mod-card{background:var(--paper);border:1px solid var(--line-2);border-left:4px solid var(--verdict);border-radius:4px;margin-top:16px;padding:16px 18px}
+
+.mod-scoped .btn-deep{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--deep);color:var(--on-deep);font-weight:800;font-size:14.5px;padding:11px 20px;min-height:44px;border-radius:2px;border-top:2px solid var(--teal)}
+.mod-scoped .btn-deep:hover{background:var(--deeper);color:var(--on-deep);text-decoration:none}
+.mod-scoped .btn-ghost{display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;border:1px solid var(--deep);color:var(--deep);font-weight:800;font-size:14.5px;padding:11px 22px;min-height:44px;border-radius:2px;background:transparent}
+.mod-scoped .btn-ghost:hover{background:var(--band);text-decoration:none}
+.mod-scoped button:disabled{opacity:.5;cursor:not-allowed}
+
+.mod-scoped .mod-token{width:100%;max-width:420px;background:var(--paper);border:1px solid var(--line-2);border-radius:2px;color:var(--ink);font-family:var(--mono);font-size:14px;padding:10px 12px;min-height:44px}
+.mod-scoped .mod-act-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+
+/* Inline mono toast — action results. */
+.mod-scoped .mod-toast{margin:10px 0 0;font-family:var(--mono);font-size:11px;letter-spacing:.03em;color:var(--deep);font-variant-numeric:tabular-nums;min-height:16px}
+.mod-scoped .mod-toast.is-bad{color:var(--ink)}
+.mod-scoped .mod-result{margin:10px 0 0;font-family:var(--mono);font-size:11px;letter-spacing:.03em;color:var(--deep);font-variant-numeric:tabular-nums}
+.mod-scoped .mod-result.is-bad{color:var(--ink)}
+
+/* Row cards */
+/* v0.6.16 (King 10:22): tab panels are NATURAL height — never an artificial
+   max-height/overflow that paints a ghost scrollbar 1px past the content. */
+.mod-scoped .mod-view{max-height:none;overflow:visible}
+.mod-scoped .mod-rows{display:block}
+.mod-scoped .mod-item{margin-top:14px}
+.mod-scoped .mod-item-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px}
+.mod-scoped .mod-name{font-family:var(--display);font-weight:800;font-size:16px;letter-spacing:-.01em;color:var(--ink)}
+.mod-scoped .mod-meta{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.mod-scoped .mod-meta a{color:var(--deep)}
+.mod-scoped .mod-meta a:hover{text-decoration:underline}
+.mod-scoped .mod-chip{margin-left:auto;border:1px solid var(--line-2);border-radius:2px;padding:2px 8px;color:var(--ink-2);font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
+.mod-scoped .mod-chip.is-spam{border-color:var(--deep);color:var(--deep)}
+.mod-scoped .mod-chip.is-rep{border-color:var(--deep);color:var(--deep)}
+.mod-scoped .mod-chip.is-st{color:var(--ink-2)}
+.mod-scoped .mod-ex{margin:10px 0 0;font-size:15px;line-height:1.6;color:var(--ink-2);overflow-wrap:anywhere}
+.mod-scoped .mod-linkbtn{display:inline-flex;align-items:center;min-height:44px;font-family:var(--mono);font-size:11.5px;font-weight:500;letter-spacing:.04em;color:var(--deep);background:none;border:0;padding:0 2px;margin-top:2px}
+.mod-scoped .mod-linkbtn:hover{text-decoration:underline}
+.mod-scoped .mod-reply{margin-top:10px}
+.mod-scoped .mod-ta{width:100%;min-height:96px;background:var(--paper);border:1px solid var(--line-2);border-radius:2px;color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.6;padding:10px 12px;resize:vertical}
+.mod-scoped .mod-reply-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:10px}
+.mod-scoped .mod-reply-msg{font-family:var(--mono);font-size:11px;letter-spacing:.03em;color:var(--deep);margin:8px 0 0}
+
+/* Filter bar (All comments) */
+.mod-scoped .mod-filterbar{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px;margin-top:14px}
+.mod-scoped .mod-seg{display:flex;flex-wrap:wrap;gap:6px}
+.mod-scoped .mod-seg button{appearance:none;border:1px solid var(--line-2);background:var(--paper);color:var(--muted);font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:0 12px;min-height:44px;border-radius:4px;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center}
+.mod-scoped .mod-seg button:hover{color:var(--deep);border-color:var(--deep)}
+.mod-scoped .mod-seg button.is-on{background:var(--mint);border-color:var(--mint);color:#10231F}
+.mod-scoped .mod-postform{display:flex;align-items:center;gap:0;margin-left:auto}
+.mod-scoped .mod-postinp{width:110px;background:var(--paper);border:1px solid var(--line-2);border-radius:2px;color:var(--ink);font-family:var(--mono);font-size:13px;padding:9px 10px;min-height:44px;margin-right:8px}
+.mod-scoped .mod-apply{padding:11px 16px}
+
+/* Pager */
+.mod-scoped .mod-pager{display:flex;align-items:center;gap:14px;margin-top:18px}
+.mod-scoped .mod-pagen{margin:0;font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* v0.6.17 (A) DELETE FOREVER — red danger language (house has no red token:
+   derived from --verdict ink family), inline two-tap arm, NEVER native
+   confirm(). Armed button swaps label + full ring; auto-disarms in 4s. */
+.mod-scoped .btn-danger{display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;border:1px solid #A3352A;color:#A3352A;font-weight:800;font-size:14.5px;padding:11px 18px;min-height:44px;border-radius:2px;background:transparent}
+.mod-scoped .btn-danger:hover{background:rgba(163,53,42,.08)}
+.mod-scoped .btn-danger.is-armed{background:#A3352A;color:#FFF;border-color:#A3352A;outline:2px solid #A3352A;outline-offset:2px}
+@media (prefers-color-scheme:dark){html:not([data-theme=light]) .mod-scoped .btn-danger{color:#FF8A7A;border-color:#FF8A7A}html:not([data-theme=light]) .mod-scoped .btn-danger:hover{background:rgba(255,138,122,.12)}html:not([data-theme=light]) .mod-scoped .btn-danger.is-armed{background:#B4402F;border-color:#FF8A7A;color:#FFF;outline-color:#FF8A7A}}
+html[data-theme=dark] .mod-scoped .btn-danger{color:#FF8A7A;border-color:#FF8A7A}
+html[data-theme=dark] .mod-scoped .btn-danger:hover{background:rgba(255,138,122,.12)}
+html[data-theme=dark] .mod-scoped .btn-danger.is-armed{background:#B4402F;border-color:#FF8A7A;color:#FFF;outline-color:#FF8A7A}
+
+/* v0.6.20 (P10 DESK SELECT-STYLE — King: native squares + white pill) —
+   custom Desk checkboxes: the native input stays in the DOM (change
+   events, data-sel, :checked/:indeterminate all untouched) but is
+   visually hidden; the styled box is a sibling span.mod-cbx-box —
+   24px rounded, subtle border, brand #00E9B0 tick on a dark fill when
+   on, --focus ring on keyboard focus. 44px touch target lives on the
+   label wrap. Suits dark AND light: unchecked = paper + line-2 border;
+   checked = verdict fill (dark in BOTH themes) + #00E9B0 tick. */
+.mod-scoped .mod-cbx-wrap,.mod-scoped .mod-selall{position:relative;display:inline-flex;align-items:center;min-width:44px;min-height:44px;cursor:pointer}
+.mod-scoped .mod-cbx{position:absolute;inset:0;width:44px;height:44px;margin:0;opacity:0;cursor:pointer;touch-action:manipulation}
+.mod-scoped .mod-cbx-box{flex:none;width:24px;height:24px;border-radius:7px;background:var(--paper);border:1.5px solid var(--line-2);display:inline-grid;place-items:center;transition:border-color .12s ease-out,background-color .12s ease-out}
+.mod-scoped .mod-cbx-box::after{content:"";width:12px;height:7px;border:2.5px solid transparent;border-top:0;border-right:0;transform:rotate(-45deg) translateY(-1px)}
+.mod-scoped .mod-cbx:checked+.mod-cbx-box{background:var(--verdict);border-color:#00E9B0}
+.mod-scoped .mod-cbx:checked+.mod-cbx-box::after{border-color:#00E9B0}
+.mod-scoped .mod-cbx:indeterminate+.mod-cbx-box{background:var(--verdict);border-color:#00E9B0}
+.mod-scoped .mod-cbx:indeterminate+.mod-cbx-box::after{width:11px;height:0;border:0;border-top:2.5px solid #00E9B0;transform:none}
+.mod-scoped .mod-cbx:focus-visible{outline:none}
+.mod-scoped .mod-cbx:focus-visible+.mod-cbx-box{outline:2px solid var(--focus);outline-offset:2px}
+/* .is-on/.is-mixed mirror :checked/:indeterminate for style engines that
+   never match dynamic :checked (proven live: Obscura); synced in
+   syncSelUI() only — same paint, zero behavior change. */
+.mod-scoped .mod-cbx-box.is-on{background:var(--verdict);border-color:#00E9B0}
+.mod-scoped .mod-cbx-box.is-on::after{border-color:#00E9B0}
+.mod-scoped .mod-cbx-box.is-mixed{background:var(--verdict);border-color:#00E9B0}
+.mod-scoped .mod-cbx-box.is-mixed::after{width:11px;height:0;border:0;border-top:2.5px solid #00E9B0;transform:none}
+.mod-scoped .mod-item.mod-selected{border-left-color:#00E9B0}
+.mod-scoped .mod-selbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;position:sticky;bottom:12px;z-index:30;margin:14px auto 0;max-width:680px;background:var(--verdict);border:1px solid var(--line-2);border-radius:6px;padding:8px 12px;box-shadow:var(--float)}
+.mod-scoped .mod-selbar:empty{display:none}
+/* v0.6.20 (P10) — dark floating bar in BOTH themes: verdict fill is dark
+   light + dark, count in brand #00E9B0, Approve = mint slab / Spam-Trash-
+   Clear = mint-outline ghosts, danger keeps its red language. */
+.mod-scoped .mod-selbar .mod-sel-n{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#00E9B0;margin-right:auto;white-space:nowrap}
+.mod-scoped .mod-selbar .btn-ghost{border-color:#00E9B0;color:#00E9B0;font-size:13px;padding:9px 14px;min-height:44px;background:transparent}
+.mod-scoped .mod-selbar .btn-ghost:hover{background:rgba(0,233,176,.12)}
+.mod-scoped .mod-selbar .btn-deep{border-top-color:transparent;background:#00E9B0;color:#10231F;font-size:13px;padding:9px 14px}
+.mod-scoped .mod-selbar .btn-deep:hover{background:#00E9B0;color:#10231F;filter:brightness(1.1)}
+.mod-scoped .mod-selbar .btn-deep:focus-visible,.mod-scoped .mod-selbar .btn-ghost:focus-visible,.mod-scoped .mod-selbar .btn-danger:focus-visible{outline:2px solid #00E9B0;outline-offset:2px}
+.mod-scoped .mod-selbar .btn-danger{border-color:#FF8A7A;color:#FF8A7A;font-size:13px;padding:9px 14px}
+.mod-scoped .mod-selbar .btn-danger:hover{background:rgba(255,138,122,.12)}
+.mod-scoped .mod-selbar .btn-danger.is-armed{background:#B4402F;color:#FFF;border-color:#FF8A7A;outline-color:#FF8A7A}
+.mod-scoped .mod-selall{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);cursor:pointer}
+
+/* v0.6.17 (E) POST TITLES — link text = title (one line, ellipsis); the raw
+   id survives only as a tiny muted '#id' suffix, never a primary label. */
+.mod-scoped .mod-ptitle{display:inline-block;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:bottom;text-transform:none;letter-spacing:.02em;font-size:11px;font-weight:600}
+@media (max-width:639px){.mod-scoped .mod-ptitle{max-width:180px}}
+.mod-scoped .mod-pid{font-size:9.5px;color:var(--muted);letter-spacing:.06em;margin-left:6px}
+
+/* Overview cards */
+.mod-scoped .mod-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:16px}
+.mod-scoped .mod-kpi{background:var(--paper);border:1px solid var(--line-2);border-radius:4px;padding:14px 16px}
+.mod-scoped .mod-kpi b{display:block;font-family:var(--display);font-weight:800;font-size:28px;letter-spacing:-.02em;color:var(--ink);font-variant-numeric:tabular-nums}
+.mod-scoped .mod-kpi span{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+/* v0.6.16 (King 11:17): the 4 status tiles ARE buttons — jump to their section. */
+.mod-scoped button.mod-kpi{text-align:left;cursor:pointer;font:inherit;color:inherit;transition:transform .12s ease-out,border-color .12s ease-out}
+.mod-scoped button.mod-kpi:hover{border-color:var(--deep)}
+.mod-scoped button.mod-kpi:active{transform:scale(.985)}
+.mod-scoped button.mod-kpi:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.mod-scoped .mod-kpi .mod-kpi-go{display:block;margin-top:6px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--deep)}
+.mod-scoped .mod-kpi .mod-kpi-go::after{content:" \203A"} /* subtle chevron affordance */
+/* Action required row — calm when zero, accent when not (King ledger #5). */
+.mod-scoped .mod-actionreq{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:12px}
+.mod-scoped .mod-actionreq:empty{display:none}
+.mod-scoped .mod-act-tile{display:flex;align-items:center;gap:10px;text-align:left;background:var(--paper);border:1px solid var(--line-2);border-radius:4px;padding:14px 16px;cursor:pointer;font:inherit;color:inherit;transition:transform .12s ease-out,border-color .12s ease-out}
+.mod-scoped .mod-act-tile:hover{border-color:var(--deep)}
+.mod-scoped .mod-act-tile:active{transform:scale(.985)}
+.mod-scoped .mod-act-tile:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.mod-scoped .mod-act-tile b{font-family:var(--display);font-weight:800;font-size:24px;color:var(--ink);font-variant-numeric:tabular-nums}
+.mod-scoped .mod-act-tile span{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.mod-scoped .mod-act-tile.is-hot{border-color:var(--deep);background:var(--band)}
+.mod-scoped .mod-act-tile.is-hot b{color:var(--deep)}
+/* 7-day sparkline — bespoke monoline, no chart lib (brand law). */
+.mod-scoped .mod-spark{margin-top:12px;background:var(--paper);border:1px solid var(--line-2);border-radius:4px;padding:14px 16px}
+.mod-scoped .mod-spark svg{display:block;width:100%;height:44px}
+.mod-scoped .mod-spark-num{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:8px 0 0}
+/* Recent activity + reaction mix rows reuse card language. */
+.mod-scoped .mod-rec-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;margin-top:10px}
+.mod-scoped .mod-rec-name{font-family:var(--display);font-weight:800;font-size:14px;color:var(--ink)}
+.mod-scoped .mod-rec-snippet{font-size:13.5px;line-height:1.5;color:var(--ink-2);overflow-wrap:anywhere;flex:1 1 100%}
+.mod-scoped .mod-mix-row{display:flex;align-items:center;gap:12px;margin-top:10px;font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+.mod-scoped .mod-mix-e{font-size:16px}
+.mod-scoped .mod-mix-n{margin-left:auto;font-variant-numeric:tabular-nums;color:var(--muted)}
+/* v0.6.17 (D): reaction mix = EXACT brand SVG glyph from the comment summary
+   bubbles (same paths/strokes as .rx-bub svg @16px), NO word label, NO emoji
+   character — the 'fire 🔥 17' double-glyph read was King-rejected. */
+.mod-scoped .mod-mix-g{display:inline-flex;width:16px;height:16px;color:var(--muted);flex:none}
+.mod-scoped .mod-mix-g svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:square;stroke-linejoin:miter;display:block}
+.mod-scoped .mod-mix-g svg .fl{fill:none}
+.mod-scoped .mod-top-head{margin-top:26px}
+.mod-scoped .mod-top-row{display:flex;align-items:baseline;gap:10px;margin-top:10px;font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+.mod-scoped .mod-top-row a{color:var(--deep)}
+.mod-scoped .mod-top-row .mod-topn{margin-left:auto;font-variant-numeric:tabular-nums;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-size:10.5px}
+
+/* v0.6.16 REPORT cards — alert language, deliberately NOT the comment-bubble
+   card: verdict-tinted rail + band wash, quote is dimmed context. */
+.mod-scoped .mod-report{border-left-width:6px;border-left-color:var(--deep);background:var(--band)}
+.mod-scoped .mod-rep-sub{margin:10px 0 0;color:var(--muted)}
+.mod-scoped .mod-rep-quote{margin:10px 0 0;padding:8px 14px;border-left:2px solid var(--line-2);color:var(--muted);font-style:italic;font-size:14px;line-height:1.55;overflow-wrap:anywhere}
+.mod-scoped .mod-chip.is-reason{border-color:var(--deep);color:var(--on-deep);background:var(--deep)}
+.mod-scoped .mod-rep-lead{margin:14px 0 0}
+.mod-scoped .mod-rep-actions{margin-top:14px}
+.mod-scoped .mod-rep-comment{opacity:.9;margin-top:6px}
+.mod-scoped .mod-rep-comment .btn-ghost{font-size:13px;padding:9px 16px}
+
+/* Skeleton + states */
+.mod-scoped .mod-skel{margin-top:14px;height:86px;border:1px solid var(--line);border-radius:4px;background:linear-gradient(100deg,var(--paper) 40%,var(--band-2) 50%,var(--paper) 60%) 0 0/240% 100%;animation:mod-shim 1.2s linear infinite}
+@keyframes mod-shim{to{background-position:-120% 0}}
+.mod-scoped .mod-empty{margin:26px 2px;font-family:var(--mono);font-size:12px;letter-spacing:.05em;color:var(--muted)}
+.mod-scoped .mod-err-msg{margin:0;font-size:14.5px;color:var(--ink)}
+
+.mod-scoped .btn-deep:focus-visible,.mod-scoped .btn-ghost:focus-visible,
+.mod-scoped .mod-token:focus-visible,.mod-scoped .mod-ta:focus-visible,
+.mod-scoped .mod-postinp:focus-visible,.mod-scoped .mod-linkbtn:focus-visible,
+.mod-scoped .mod-seg button:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+
+@media (max-width:639px){
+  .mod-scoped .mod-chip{margin-left:0}
+  .mod-scoped .btn-deep,.mod-scoped .btn-ghost{flex:1 1 auto}
+  .mod-scoped .mod-postform{margin-left:0;width:100%}
+  .mod-scoped .mod-tab{padding:12px 10px;letter-spacing:.08em;font-size:10.5px}
+  .mod-scoped .mod-linkbtn{white-space:nowrap}
+}
+@media (prefers-reduced-motion:reduce){.mod-scoped *,.mod-scoped *::before,.mod-scoped *::after{transition:none!important;animation:none!important}}
+</style>
+
+<script>
+/* Console client — zero third-party. Bearer desk API: moderation/list,
+   /reports, /stats, moderation/:id actions, public /comments reply.
+   API base: absolute Worker rail in prod; on 127.0.0.1/localhost (dist e2e
+   preview) we use the SAME-ORIGIN /api path so the local e2e proxy can
+   bridge — the Worker CORS allow-list is exact-match and excludes dev
+   origins. Tab/filter/page state lives in the URL hash (#/mod/<tab>?k=v). */
+const ROOT = document.getElementById('mod-desk') as HTMLElement;
+
+interface Item {
+  id: number; post_id: number; parent: number; name: string; content: string;
+  status: string; created_at: string; spam_score: number; is_author: boolean;
+  reactions: Record<string, number> | null; reaction_total: number | null;
+  open_reports: number | null;
+}
+interface ListResp { ok?: boolean; items?: Item[]; total?: number; page?: number; per?: number; pages?: number }
+interface Report {
+  id: number; comment_id: number; post_id: number; reason: string;
+  created_at: string; comment_name: string | null; comment_status: string | null;
+  comment_excerpt: string | null; reporter_hash?: string | null;
+  resolved_at?: string | null;
+}
+interface Stats {
+  ok?: boolean; comments_by_status?: Record<string, number>; pending?: number;
+  comments_last_7d?: number; reactions_total?: number; open_reports?: number;
+  top_posts?: { post_id: number; count: number }[]; posts_with_comments?: number;
+  comments_total?: number;
+}
+
+const PROD_API = 'https://androidscroll-comments.gwill.workers.dev';
+const IS_LOCAL = ['127.0.0.1', 'localhost'].includes(location.hostname);
+const API = IS_LOCAL ? '/api' : PROD_API + '/api';
+
+const TOK_KEY = 'androidscroll:modtok';
+const POST_MAP: Record<string, { u?: string; t?: string } | string> = (() => {
+  /* v0.6.17: map values became {u:url, t:title}; accept legacy string form
+     defensively so an old cached page+new script never crashes. */
+  try { return JSON.parse(ROOT?.dataset.postMap || '{}'); } catch { return {}; }
+})();
+function mapSlug(id: number | string): string {
+  const v = POST_MAP[String(id)];
+  return typeof v === 'string' ? v : (v?.u || '');
+}
+function mapTitle(id: number | string): string {
+  const v = POST_MAP[String(id)];
+  return typeof v === 'object' && v ? (v.t || '') : '';
+}
+
+/* Site root at runtime — the desk is served from any origin: apex '/',
+   staging '/androidscroll-site/'. Astro base is '' at build, so the only
+   honest way to resolve '/' + slug on the current host is to take the path
+   up to (and incl.) the '/mod/' segment. v0.6.14: fixes trace links that
+   404'd on staging because they pointed at origin root. */
+function withBase(slug: string): string {
+  const m = (location.pathname || '').match(/^(.*?)\/mod\/?$/);
+  const root = m ? m[1] + '/' : '/';
+  return root + slug.replace(/^\//, '');
+}
+
+const $ = (id: string) => document.getElementById(id) as HTMLElement | null;
+const lock     = $('mod-lock') as HTMLFormElement | null;
+const tokInp   = $('mod-token') as HTMLInputElement | null;
+const lockMsg  = $('mod-lock-msg') as HTMLElement | null;
+const panel    = $('mod-panel') as HTMLElement | null;
+const tabs     = $('mod-tabs') as HTMLElement | null;
+const toast    = $('mod-toast') as HTMLElement | null;
+const errBox   = $('mod-error') as HTMLElement | null;
+const refreshB = $('mod-refresh') as HTMLButtonElement | null;
+const signoutB = $('mod-signout') as HTMLButtonElement | null;
+const retryB   = $('mod-retry') as HTMLButtonElement | null;
+
+const views: Record<string, HTMLElement | null> = {
+  queue:    $('mod-view-queue'),
+  all:      $('mod-view-all'),
+  reports:  $('mod-view-reports'),
+  overview: $('mod-view-overview'),
+};
+const queueList = $('mod-queue-list');
+const queueEmpty = $('mod-queue-empty');
+const allList   = $('mod-all-list');
+const allEmpty  = $('mod-all-empty');
+const seg       = $('mod-seg');
+const postForm  = $('mod-postform') as HTMLFormElement | null;
+const postInp   = $('mod-postinp') as HTMLInputElement | null;
+const pager     = $('mod-pager') as HTMLElement | null;
+const prevB     = $('mod-prev') as HTMLButtonElement | null;
+const nextB     = $('mod-next') as HTMLButtonElement | null;
+const pageN     = $('mod-pagen') as HTMLElement | null;
+const repList   = $('mod-rep-list');
+const repEmpty  = $('mod-rep-empty');
+const cards     = $('mod-cards');
+const topList   = $('mod-topposts');
+const topEmpty  = $('mod-top-empty');
+
+/* ---------- state (hash-synced) ---------- */
+/* v0.6.16: Overview is FIRST + DEFAULT (King 10:24). ?tab= search param is
+   honoured for legacy links; hash wins over it. No ?tab=, no hash →
+   overview. */
+type State = { tab: string; status: string; post: string; page: number };
+const state: State = { tab: 'overview', status: 'approved', post: '', page: 1 };
+const TABS = ['overview', 'queue', 'all', 'reports'];
+const TAB_QUERY = (new URLSearchParams(location.search).get('tab') || '').trim();
+
+function hashOf(s: State): string {
+  if (s.tab === 'all') {
+    const q = ['status=' + s.status];
+    if (s.post) q.push('post=' + s.post);
+    if (s.page > 1) q.push('page=' + s.page);
+    return '#/mod/all?' + q.join('&');
+  }
+  return '#/mod/' + s.tab;
+}
+function readHash(): boolean {
+  const m = (location.hash || '').match(/^#\/mod\/(queue|all|reports|overview)(?:\?(.*))?$/);
+  if (!m) return false;
+  state.tab = m[1];
+  const p = new URLSearchParams(m[2] || '');
+  const st = p.get('status');
+  if (st && ['pending', 'approved', 'spam', 'trash', 'all'].includes(st)) state.status = st;
+  state.post = (p.get('post') || '').replace(/[^0-9]/g, '');
+  state.page = Math.max(1, parseInt(p.get('page') || '1', 10) || 1);
+  return true;
+}
+function syncHash() {
+  const h = hashOf(state);
+  try { history.replaceState(null, '', h); } catch { /* file:// sandbox: state still in memory */ }
+}
+function setTab(tab: string) {
+  state.tab = tab;
+  clearSelectionSilent(); // v0.6.17: selection clears on tab change
+  syncHash();
+  paintTabs();
+  for (const k of TABS) if (views[k]) views[k]!.hidden = k !== tab;
+  show(errBox, false);
+  if (tab === 'queue') void loadQueue();
+  else if (tab === 'all') void loadAll();
+  else if (tab === 'reports') void loadReports();
+  else void loadOverview();
+}
+function paintTabs() {
+  if (!tabs) return;
+  for (const b of Array.from(tabs.querySelectorAll('.mod-tab'))) {
+    (b as HTMLElement).classList.toggle('is-on', b.getAttribute('data-tab') === state.tab);
+  }
+}
+
+/* ---------- token gate ---------- */
+let token = '';
+try { token = sessionStorage.getItem(TOK_KEY) || ''; } catch { /* private mode: session-only */ }
+function saveTok(v: string) {
+  token = v;
+  try { v ? sessionStorage.setItem(TOK_KEY, v) : sessionStorage.removeItem(TOK_KEY); } catch { /* ok */ }
+}
+// AUDIT-01 M4: session-only token (dies with the tab) + no auto-fill.
+// Idle auto-lock: 30 min without activity re-locks the desk.
+let idleH = 0;
+function pokeIdle() {
+  if (!unlocked) return;
+  if (idleH) clearTimeout(idleH);
+  idleH = window.setTimeout(() => setLocked(true), 30 * 60 * 1000);
+}
+for (const ev of ['click', 'keydown', 'scroll']) window.addEventListener(ev, pokeIdle, { passive: true });
+
+function show(el: HTMLElement | null, on: boolean) { if (el) el.hidden = !on; }
+let unlocked = false;
+function setLocked(on: boolean) {
+  unlocked = !on;
+  show(lock, on); show(panel, !on); show(tabs, !on);
+  show(refreshB, !on); show(signoutB, !on);
+  if (!on) pokeIdle();
+}
+function setToast(msg: string, bad = false) {
+  if (!toast) return;
+  toast.textContent = msg;
+  toast.classList.toggle('is-bad', bad);
+}
+
+/* ---------- helpers ---------- */
+function timeAgo(iso: string): string {
+  const t = Date.parse(iso);
+  if (isNaN(t)) return iso;
+  const s = Math.max(0, (Date.now() - t) / 1000);
+  if (s < 60) return 'just now';
+  if (s < 3600) return Math.floor(s / 60) + 'm ago';
+  if (s < 86400) return Math.floor(s / 3600) + 'h ago';
+  if (s < 604800) return Math.floor(s / 86400) + 'd ago';
+  return iso.slice(0, 10);
+}
+function absTitle(iso: string): string { return String(iso || '').replace('T', ' ').replace(/\.\d+Z$/, ' UTC'); }
+function stripHtml(s: string): string {
+  return String(s || '').replace(/<[^>]*>/g, ' ').replace(/&#?\w+;/g, ' ')
+          .replace(/\s+/g, ' ').trim().slice(0, 160);
+}
+function el<K extends keyof HTMLElementTagNameMap>(tag: K, cls?: string): HTMLElementTagNameMap[K] {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  return e;
+}
+/* ── v0.6.17 (D): EXACT brand reaction SVGs — paths copied VERBATIM from the
+   comment summary bubbles (Comments.astro REACT_SVG: like/heart/fire/laugh,
+   r7.9s laugh geometry, non-scaling-stroke, currentColor). Inline innerHTML
+   build (not innerHTML from API data — keys are from OUR map). ── */
+const VE = ' vector-effect="non-scaling-stroke"';
+const REACT_SVG: Record<string, string> = {
+  like: `<path class="fl"${VE} d="M8.6 20.4V11l5-8.2c2 0 3.2 1.2 3.2 3.2l-.6 3.4h4c1.6 0 2.6 1.2 2.4 2.6l-1.2 6.4c-.2 1.2-1.2 2-2.4 2H8.6Z"/><path class="fl"${VE} d="M3.6 11.6h5v8.8h-5z"/>`,
+  heart: `<path class="fl"${VE} d="M12 20.8C12 20.8 3.2 15 3.2 9.4 3.2 6.4 5.5 4.3 8.2 4.3c1.8 0 3.1 1 3.8 2.3.7-1.3 2-2.3 3.8-2.3 2.7 0 5 2.1 5 5.1 0 5.6-8.8 11.4-8.8 11.4Z"/>`,
+  fire: `<path${VE} d="M12 2.8 16.2 9.4l1.6-1.6c1.6 2 2.6 4 2.6 6.2a8.4 8.4 0 1 1-16.8 0c0-2.2 1-4.2 2.6-6.2l1.6 1.6L12 2.8Z"/><path fill="currentColor" stroke="none" d="M12 10.6 15.5 15.4 12 20.2 8.5 15.4Z"/>`,
+  laugh: `<path fill="currentColor" stroke="none" fill-rule="evenodd" d="M4.1 12a7.9 7.9 0 1 0 15.8 0a7.9 7.9 0 1 0 -15.8 0Z M7.935 7.411L6.314 9.965L10.264 9.965L8.644 7.411A0.419 0.419 0 0 0 7.935 7.411Z M15.356 7.411L13.736 9.965L17.686 9.965L16.065 7.411A0.419 0.419 0 0 0 15.356 7.411Z M6.614 11.88H17.386a5.386 6.344 0 0 1 -10.773 0Z"/><path d="M3.073 8.75L2.765 10.849A1.36 1.36 0 1 1 1.037 9.347Z" fill="currentColor" stroke="none"/><path d="M20.927 8.75L22.963 9.347A1.36 1.36 0 1 1 21.235 10.849Z" fill="currentColor" stroke="none"/>`,
+};
+
+function postRef(id: number, commentId?: number): HTMLElement {
+  const meta = el('span', 'mod-meta');
+  const slug = mapSlug(id);
+  const title = mapTitle(id);
+  if (slug) {
+    // v0.6.14/16: base-aware — absolute slug 404s under the staging base;
+    // withBase() derives the real root from the /mod/ path. When we know the
+    // comment row we land on its #comment-<id> anchor (Comments.astro).
+    const a = el('a'); a.href = withBase(slug) + (commentId ? '#comment-' + commentId : '');
+    a.title = title || slug;
+    a.dataset.postlink = String(id);
+    const lab = el('span', 'mod-ptitle');
+    lab.textContent = title || 'Post ' + id; /* v0.6.17 E: TITLE is the link text; mapped-URL-but-no-title falls back honestly */
+    a.appendChild(lab);
+    meta.appendChild(a);
+    const pid = el('span', 'mod-pid');
+    pid.textContent = '#' + id; /* raw id: tiny muted suffix ONLY */
+    meta.appendChild(pid);
+  } else {
+    meta.textContent = 'Post ' + id;
+    meta.dataset.postlink = 'raw-' + id;
+  }
+  return meta;
+}
+function skeletons(host: HTMLElement | null, n = 3) {
+  if (!host) return;
+  host.textContent = '';
+  for (let i = 0; i < n; i++) host.appendChild(el('div', 'mod-skel'));
+}
+async function api(path: string, opts: RequestInit = {}): Promise<Response> {
+  const headers = new Headers(opts.headers || {});
+  headers.set('authorization', 'Bearer ' + token);
+  if (opts.body && !headers.has('content-type')) headers.set('content-type', 'application/json');
+  return fetch(API + path, { ...opts, headers });
+}
+function wrongToken() {
+  if (lockMsg) { lockMsg.textContent = 'Wrong token'; lockMsg.classList.add('is-bad'); }
+  setLocked(true);
+}
+function netError() { show(errBox, true); }
+
+/* ---------- fetchers per tab ---------- */
+let reqSeq = 0; // stale-response guard for fast filter/page changes
+
+async function loadQueue(): Promise<void> {
+  if (!token) return;
+  const seq = ++reqSeq;
+  show(errBox, false); show(queueEmpty, false);
+  skeletons(queueList);
+  let res: Response;
+  try { res = await api('/moderation/list?status=pending&per=25'); }
+  catch { if (seq === reqSeq) { skeletons(queueList, 0); netError(); } return; }
+  if (seq !== reqSeq) return;
+  if (res.status === 401) { wrongToken(); return; }
+  if (!res.ok) { skeletons(queueList, 0); setToast('Queue error — HTTP ' + res.status, true); netError(); return; }
+  let data: ListResp; try { data = await res.json(); } catch { skeletons(queueList, 0); netError(); return; }
+  setLocked(false);
+  skeletons(queueList, 0);
+  const items = data.items || [];
+  show(queueEmpty, items.length === 0);
+  const saQ = $('mod-queue-selall-wrap'); if (saQ) saQ.hidden = items.length === 0;
+  clearSelectionSilent();
+  listStatusById = {};
+  if (queueList) {
+    queueList.textContent = '';
+    for (const it of items) { listStatusById[String(it.id)] = it.status; queueList.appendChild(row(it, { reply: true, bulk: true })); }
+  }
+}
+
+function allParams(): string {
+  const p = new URLSearchParams({ status: state.status, per: '25', page: String(state.page) });
+  if (state.post) p.set('post', state.post);
+  return p.toString();
+}
+async function loadAll(): Promise<void> {
+  if (!token) return;
+  const seq = ++reqSeq;
+  show(errBox, false); show(allEmpty, false);
+  skeletons(allList);
+  if (seg) for (const b of Array.from(seg.querySelectorAll('button')))
+    b.classList.toggle('is-on', b.getAttribute('data-status') === state.status);
+  if (postInp && postInp.value !== state.post) postInp.value = state.post;
+  let res: Response;
+  try { res = await api('/moderation/list?' + allParams()); }
+  catch { if (seq === reqSeq) { skeletons(allList, 0); netError(); } return; }
+  if (seq !== reqSeq) return;
+  if (res.status === 401) { wrongToken(); return; }
+  if (!res.ok) { skeletons(allList, 0); setToast('List error — HTTP ' + res.status, true); netError(); return; }
+  let data: ListResp; try { data = await res.json(); } catch { skeletons(allList, 0); netError(); return; }
+  setLocked(false);
+  skeletons(allList, 0);
+  const items = data.items || [];
+  show(allEmpty, items.length === 0);
+  const saA = $('mod-all-selall-wrap'); if (saA) saA.hidden = items.length === 0;
+  clearSelectionSilent(); // selection clears on tab/filter/page change (King: visible filtered scope only)
+  listStatusById = {};
+  if (allList) {
+    allList.textContent = '';
+    for (const it of items) { listStatusById[String(it.id)] = it.status; allList.appendChild(row(it, { reply: true, bulk: true })); }
+  }
+  const total = data.total ?? items.length;
+  const page = data.page ?? state.page;
+  const pages = data.pages ?? 1;
+  show(pager, total > 25);
+  if (pageN) pageN.textContent = 'Page ' + page + ' of ' + Math.max(1, pages) + ' — ' + total + ' total';
+  if (prevB) prevB.disabled = page <= 1;
+  if (nextB) nextB.disabled = page >= pages;
+}
+
+async function loadReports(): Promise<void> {
+  if (!token) return;
+  const seq = ++reqSeq;
+  show(errBox, false); show(repEmpty, false);
+  skeletons(repList);
+  let res: Response;
+  try { res = await api('/moderation/reports?page=1'); }
+  catch { if (seq === reqSeq) { skeletons(repList, 0); netError(); } return; }
+  if (seq !== reqSeq) return;
+  if (res.status === 401) { wrongToken(); return; }
+  if (!res.ok) { skeletons(repList, 0); setToast('Reports error — HTTP ' + res.status, true); netError(); return; }
+  let data: { items?: Report[]; total?: number }; try { data = await res.json(); } catch { skeletons(repList, 0); netError(); return; }
+  setLocked(false);
+  skeletons(repList, 0);
+  const items = data.items || [];
+  show(repEmpty, items.length === 0);
+  if (repList) {
+    repList.textContent = '';
+    for (const r of items) repList.appendChild(reportRow(r));
+  }
+}
+
+/* ---------- Overview (v0.6.16 expansion — real data only) ---------- */
+function sparkPoints(createdList: string[]): number[] {
+  // comments per day for the last 7 days (today = index 6), from list created_at
+  const DAY = 86_400_000;
+  const now = Date.now();
+  const buckets = new Array(7).fill(0);
+  for (const iso of createdList) {
+    const t = Date.parse(iso);
+    if (isNaN(t)) continue;
+    const daysAgo = Math.floor((now - t) / DAY);
+    if (daysAgo >= 0 && daysAgo <= 6) buckets[6 - daysAgo]++;
+  }
+  return buckets;
+}
+
+function sparklineSVG(b: number[]): SVGElement | null {
+  const NS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(NS, 'svg') as SVGElement;
+  svg.setAttribute('viewBox', '0 0 280 44');
+  svg.setAttribute('width', '280');
+  svg.setAttribute('height', '44');
+  svg.setAttribute('preserveAspectRatio', 'none');
+  svg.setAttribute('role', 'img');
+  svg.setAttribute('aria-label', 'Comments per day, last 7 days');
+  const max = Math.max(1, ...b);
+  const step = 280 / 6;
+  const pts = b.map((v, i) => (i * step).toFixed(1) + ',' + (40 - (v / max) * 34).toFixed(1)).join(' ');
+  const line = document.createElementNS(NS, 'polyline');
+  line.setAttribute('points', pts);
+  line.setAttribute('fill', 'none');
+  line.setAttribute('stroke', 'var(--deep)');
+  line.setAttribute('stroke-width', '2');
+  line.setAttribute('stroke-linecap', 'round');
+  line.setAttribute('stroke-linejoin', 'round');
+  const base = document.createElementNS(NS, 'line');
+  base.setAttribute('x1', '0'); base.setAttribute('x2', '280');
+  base.setAttribute('y1', '42'); base.setAttribute('y2', '42');
+  base.setAttribute('stroke', 'var(--line-2)'); base.setAttribute('stroke-width', '1');
+  svg.append(base, line);
+  return svg;
+}
+
+async function loadOverview(): Promise<void> {
+  if (!token) return;
+  const seq = ++reqSeq;
+  show(errBox, false);
+  if (cards) cards.textContent = '';
+  let res: Response; let listRes: Response | null = null;
+  try {
+    const p = Promise.all([
+      api('/moderation/stats'),
+      api('/moderation/list?status=all&per=100&page=1'),
+    ]);
+    res = (await p)[0]; listRes = (await p)[1];
+  } catch { if (seq === reqSeq) netError(); return; }
+  if (seq !== reqSeq) return;
+  if (res.status === 401) { wrongToken(); return; }
+  if (!res.ok) { setToast('Stats error — HTTP ' + res.status, true); netError(); return; }
+  let s: Stats; try { s = await res.json(); } catch { netError(); return; }
+  let listData: ListResp = {};
+  if (listRes && listRes.ok) { try { listData = await listRes.json(); } catch { /* partial: no extras */ } }
+  setLocked(false);
+  const items = listData.items || [];
+  const by = s.comments_by_status || {};
+  const n = (v: unknown) => (Number.isFinite(Number(v)) ? String(Number(v)) : '0');
+
+  /* status tiles — v0.6.16: BUTTONS (King 11:17). PENDING jumps to Queue;
+     APPROVED/SPAM/TRASH jump to All Comments pre-filtered (client-side seg). */
+  const tiles: [string, string, string, () => void][] = [
+    ['approved', n(by.approved), 'Approved', () => jumpFiltered('approved')],
+    ['pending',  n(by.pending ?? s.pending), 'Pending', () => setTab('queue')],
+    ['spam',     n(by.spam), 'Spam', () => jumpFiltered('spam')],
+    ['trash',    n(by.trash), 'Trash', () => jumpFiltered('trash')],
+  ];
+  const extras: [string, string, string][] = [
+    ['last7', 'Last 7 days', n(s.comments_last_7d)],
+    ['reactions', 'Reactions', n(s.reactions_total)],
+  ];
+  if (cards) {
+    cards.textContent = '';
+    for (const [key, val, label, fn] of tiles) {
+      const k = el('button', 'mod-kpi'); k.type = 'button'; k.dataset.kpi = key;
+      k.setAttribute('aria-label', label + ' — ' + val + ', open ' + (key === 'pending' ? 'queue' : 'all comments filtered ' + key));
+      const b = el('b'); b.textContent = val;
+      const sp = el('span'); sp.textContent = label;
+      const go = el('span', 'mod-kpi-go'); go.textContent = 'View';
+      k.append(b, sp, go);
+      k.addEventListener('click', fn);
+      cards.appendChild(k);
+    }
+    for (const [key, label, val] of extras) {
+      const k = el('div', 'mod-kpi'); k.dataset.kpi = key;
+      const b = el('b'); b.textContent = val;
+      const sp = el('span'); sp.textContent = label;
+      k.append(b, sp);
+      cards.appendChild(k);
+    }
+  }
+
+  /* ACTION REQUIRED — pending + open reports as clickable tiles */
+  const actHost = $('mod-actionreq');
+  if (actHost) {
+    actHost.textContent = '';
+    const pend = Number(by.pending ?? s.pending);
+    const reps = Number(s.open_reports);
+    const mkTile = (label: string, val: number, hot: boolean, fn: () => void) => {
+      const t = el('button', 'mod-act-tile' + (hot ? ' is-hot' : '')); t.type = 'button';
+      t.dataset.actiontile = label.toLowerCase().replace(/\s+/g, '');
+      const b = el('b'); b.textContent = String(val);
+      const sp = el('span'); sp.textContent = hot ? label + ' — act' : label + ' — clear';
+      t.append(b, sp); t.addEventListener('click', fn);
+      actHost.appendChild(t);
+    };
+    mkTile('Pending comments', pend, pend > 0, () => setTab('queue'));
+    mkTile('Open reports', reps, reps > 0, () => setTab('reports'));
+  }
+
+  /* TOP GUIDES — base-aware links via the same postRef map (fix #2 reuse) */
+  const tops = (s.top_posts || []).slice(0, 5);
+  show(topEmpty, tops.length === 0);
+  if (topList) {
+    topList.textContent = '';
+    for (const t of tops) {
+      const rowE = el('div', 'mod-card mod-top-row');
+      rowE.appendChild(postRef(t.post_id));
+      const c = el('span', 'mod-topn'); c.textContent = t.count + (t.count === 1 ? ' comment' : ' comments');
+      rowE.appendChild(c);
+      topList.appendChild(rowE);
+    }
+  }
+
+  /* 7-DAY TREND — inline SVG sparkline from list created_at (no chart lib) */
+  const spark = $('mod-spark');
+  if (spark) {
+    spark.textContent = '';
+    const buckets = sparkPoints(items.map((it) => it.created_at));
+    const svg = sparklineSVG(buckets);
+    if (svg) {
+      svg.setAttribute('data-spark', buckets.join(','));
+      spark.appendChild(svg);
+    }
+    const num = el('p', 'mod-spark-num');
+    num.textContent = n(s.comments_last_7d) + ' comments in the last 7 days';
+    spark.appendChild(num);
+  }
+
+  /* RECENT ACTIVITY — last 5 newest from list payload (list is created_at DESC) */
+  const recent = $('mod-recent');
+  const recEmpty = $('mod-recent-empty');
+  if (recent) {
+    recent.textContent = '';
+    const last5 = items.slice(0, 5);
+    show(recEmpty, last5.length === 0);
+    for (const it of last5) {
+      const rowE = el('div', 'mod-card mod-rec-row');
+      const name = el('span', 'mod-rec-name'); name.textContent = it.name || 'Anonymous';
+      const snip = el('span', 'mod-rec-snippet');
+      const text = stripHtml(it.content || '');
+      snip.textContent = text.length > 40 ? text.slice(0, 40) + '\u2026' : text;
+      const time = el('span', 'mod-meta'); time.textContent = timeAgo(it.created_at);
+      rowE.append(name, time, postRef(it.post_id, it.id), snip);
+      recent.appendChild(rowE);
+    }
+  }
+
+  /* REACTION MIX — client-side aggregate over the SAME list payload */
+  const mixHost = $('mod-mix');
+  const mixHead = $('mod-mix-head');
+  if (mixHost) {
+    mixHost.textContent = '';
+    const tally: Record<string, number> = {};
+    let any = false;
+    for (const it of items) {
+      const rx = it.reactions || {};
+      for (const [e, v] of Object.entries(rx)) {
+        tally[e] = (tally[e] || 0) + Number(v || 0);
+        any = true;
+      }
+    }
+    const entries = Object.entries(tally).sort((a, b2) => b2[1] - a[1]);
+    show(mixHead, any);
+    for (const [emoji, count] of entries) {
+      const rowE = el('div', 'mod-card mod-mix-row');
+      /* v0.6.17 (D): brand SVG glyph ONLY — no word label, no emoji char
+         (the 'fire 🔥 17' double read was King-rejected), then the count.
+         Keys come from OUR map, so this innerHTML is build-time content. */
+      const g = el('span', 'mod-mix-g');
+      g.setAttribute('aria-hidden', 'true');
+      g.dataset.mixglyph = emoji;
+      g.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' + (REACT_SVG[emoji] || '') + '</svg>';
+      const sr = el('span'); /* sr-only accessible name for the glyph (no word label shown) */
+      sr.className = 'mod-mix-l';
+      sr.style.position = 'absolute'; sr.style.width = '1px'; sr.style.height = '1px';
+      sr.style.overflow = 'hidden'; sr.style.clip = 'rect(1px 1px 1px 1px)'; sr.style.whiteSpace = 'nowrap';
+      sr.textContent = (REACTIONS_LABEL[emoji] || emoji) + ' reactions';
+      const c = el('span', 'mod-mix-n'); c.dataset.mix = emoji; c.textContent = String(count);
+      rowE.append(g, sr, c);
+      mixHost.appendChild(rowE);
+    }
+  }
+}
+const REACTIONS_LABEL: Record<string, string> = { like: 'Like', heart: 'Heart', fire: 'Fire', laugh: 'Laugh' };
+function jumpFiltered(status: string): void {
+  state.status = status; state.page = 1; state.post = '';
+  setTab('all');
+}
+
+/* ---------- comment row (Queue + All) ---------- */
+function row(it: Item, opts: { reply?: boolean; bulk?: boolean }): HTMLElement {
+  const box = el('article', 'mod-card mod-item');
+  box.dataset.id = String(it.id);
+  if (opts.bulk) box.dataset.bulk = '1';
+
+  const head = el('div', 'mod-item-head');
+  if (opts.bulk) {
+    /* v0.6.17 (B): 44px touch checkbox, accent = brand --deep fill
+       v0.6.20 (P10): custom Desk box — hidden native input + styled
+       span.mod-cbx-box sibling (CSS paints :checked/:indeterminate +
+       focus ring); input keeps .mod-cbx/data-sel/change = behavior kept. */
+    const lb = el('label', 'mod-cbx-wrap');
+    const cb = el('input'); (cb as HTMLInputElement).type = 'checkbox';
+    cb.className = 'mod-cbx'; cb.dataset.sel = String(it.id);
+    cb.setAttribute('aria-label', 'Select comment ' + it.id + ' by ' + (it.name || 'Anonymous'));
+    cb.addEventListener('change', () => onSelChange());
+    const bx = el('span', 'mod-cbx-box'); bx.setAttribute('aria-hidden', 'true');
+    lb.append(cb, bx);
+    head.appendChild(lb);
+  }
+  const name = el('span', 'mod-name'); name.textContent = it.name || 'Anonymous';
+  const post = postRef(it.post_id, it.id);
+  const time = el('span', 'mod-meta');
+  time.textContent = timeAgo(it.created_at); time.title = absTitle(it.created_at);
+  head.append(name, post, time);
+  const chips: string[] = [];
+  if (it.status !== 'approved') chips.push(it.status);
+  if (Number(it.reaction_total) > 0) chips.push('\u2726 ' + it.reaction_total);
+  if (Number(it.open_reports) > 0) chips.push('reported');
+  for (const c of chips) {
+    const chip = el('span', 'mod-meta mod-chip is-st'); chip.textContent = c; head.appendChild(chip);
+  }
+  const score = el('span', 'mod-meta mod-chip is-spam');
+  score.textContent = 'Spam ' + (Number.isFinite(it.spam_score) ? it.spam_score : '?');
+  head.appendChild(score);
+  box.appendChild(head);
+
+  const ex = el('p', 'mod-ex'); ex.textContent = stripHtml(it.content || '');
+  box.appendChild(ex);
+
+  const arow = el('div', 'mod-act-row');
+  const result = el('span', 'mod-result');
+  const mk = (label: string, cls: string, action: string) => {
+    const b = el('button', cls); b.type = 'button'; b.textContent = label;
+    b.addEventListener('click', () => moderate(it.id, action, b, result));
+    return b;
+  };
+  arow.append(...(it.status === 'approved' ? [] : [mk('Approve', 'btn-deep', 'approve')]));
+  if (it.status !== 'spam') arow.appendChild(mk('Spam', 'btn-ghost', 'spam'));
+  if (it.status !== 'trash') arow.appendChild(mk('Trash', 'btn-ghost', 'trash'));
+  if (it.status === 'spam' || it.status === 'trash') arow.appendChild(mk('Restore', 'btn-ghost', 'restore'));
+  /* v0.6.17 (A): trash is terminal unless mass-deleted — DELETE FOREVER on
+     trash rows only (worker guard: DELETE route requires status=trash).
+     Inline two-tap arm, 4s timeout, never native confirm(). */
+  if (it.status === 'trash') arow.appendChild(deleteForeverButton('Delete forever', () => void purgeOne(it.id), String(it.id)));
+  box.appendChild(arow);
+  box.appendChild(result);
+
+  if (opts.reply) {
+    const toggle = el('button', 'mod-linkbtn'); toggle.type = 'button'; toggle.textContent = 'Reply as author';
+    const rep = el('div', 'mod-reply'); rep.hidden = true;
+    const ta = el('textarea', 'mod-ta'); ta.placeholder = 'Your reply as G-will Chijioke\u2026';
+    const rRow = el('div', 'mod-reply-row');
+    const send = el('button', 'btn-deep'); send.type = 'button'; send.textContent = 'Send reply';
+    const cancel = el('button', 'btn-ghost'); cancel.type = 'button'; cancel.textContent = 'Cancel';
+    const rMsg = el('p', 'mod-reply-msg');
+    rRow.append(send, cancel);
+    rep.append(ta, rRow, rMsg);
+    toggle.addEventListener('click', () => {
+      rep.hidden = !rep.hidden;
+      toggle.textContent = rep.hidden ? 'Reply as author' : 'Hide reply';
+      if (!rep.hidden) ta.focus();
+    });
+    cancel.addEventListener('click', () => { rep.hidden = true; toggle.textContent = 'Reply as author'; });
+    send.addEventListener('click', () => sendReply(it, ta, send, rMsg));
+    box.appendChild(toggle);
+    box.appendChild(rep);
+  }
+  return box;
+}
+
+/* REPORT card (v0.6.16, King 10:20) — a report must NOT look like a comment
+   card. Alert treatment: --verdict left rail + tint, reporter WHO + reason
+   chip + timestamp as the header meta, the flagged comment rendered as a
+   dimmed QUOTE (context, not the body), and the report's OWN actions
+   (Dismiss = was noise / Resolve = seen, keep comment) clearly separated
+   from the comment-level Spam/Trash row underneath. Go-to-post stays. */
+function reportRow(r: Report): HTMLElement {
+  const box = el('article', 'mod-card mod-report');
+  box.dataset.reportId = String(r.id);
+  const head = el('div', 'mod-item-head');
+  const who = el('span', 'mod-name'); who.textContent = 'Report received';
+  const reporter = el('span', 'mod-meta mod-chip is-rep');
+  reporter.textContent = 'Reporter ' + (r.reporter_hash ? '#' + r.reporter_hash : 'unknown');
+  const reason = el('span', 'mod-meta mod-chip is-reason');
+  reason.textContent = String(r.reason || 'unspecified').toUpperCase();
+  const time = el('span', 'mod-meta');
+  time.textContent = timeAgo(r.created_at); time.title = absTitle(r.created_at);
+  head.append(who, reason, reporter, time);
+  box.appendChild(head);
+
+  const sub = el('p', 'mod-meta mod-rep-sub');
+  sub.textContent = 'Flagged comment by ' + (r.comment_name || 'Anonymous') +
+    ' \u00b7 status ' + (r.comment_status || '?');
+  box.appendChild(sub);
+
+  const quote = el('blockquote', 'mod-rep-quote');
+  quote.textContent = stripHtml(r.comment_excerpt || '');
+  box.appendChild(quote);
+
+  /* report's own trash — separate row, separate meaning */
+  const repRow = el('div', 'mod-act-row mod-rep-actions');
+  const repResult = el('span', 'mod-result');
+  const dismiss = el('button', 'btn-deep'); dismiss.type = 'button'; dismiss.textContent = 'Dismiss report';
+  const keep = el('button', 'btn-ghost'); keep.type = 'button'; keep.textContent = 'Resolve \u2014 keep';
+  dismiss.addEventListener('click', () => resolveReport(r.id, 'dismiss', dismiss, repResult));
+  keep.addEventListener('click', () => resolveReport(r.id, 'keep', keep, repResult));
+  const go = el('a');
+  const slug = mapSlug(r.post_id);
+  go.href = slug ? withBase(slug) + (r.comment_id ? '#comment-' + r.comment_id : '') : '/';
+  /* v0.6.17 E: report card post link uses the TITLE (Go to post kept as the
+     action verb via aria-label; visible text = title, ellipsized). */
+  go.className = 'btn-ghost mod-golink';
+  const goLabel = el('span', 'mod-ptitle');
+  goLabel.textContent = mapTitle(r.post_id) || 'Go to post';
+  go.dataset.postlink = slug ? String(r.post_id) : 'raw-' + r.post_id;
+  go.setAttribute('aria-label', 'Go to post' + (mapTitle(r.post_id) ? ': ' + mapTitle(r.post_id) : ' #' + r.post_id));
+  go.appendChild(goLabel);
+  repRow.append(dismiss, keep, go);
+  box.appendChild(repRow);
+  box.appendChild(repResult);
+
+  /* comment-level actions — visually de-emphasised, "on the comment" not "on the report" */
+  const cRow = el('div', 'mod-act-row mod-rep-comment');
+  const cResult = el('span', 'mod-result');
+  const cmk = (label: string, cls: string, action: string) => {
+    const b = el('button', cls); b.type = 'button'; b.textContent = label;
+    b.addEventListener('click', () => moderate(r.comment_id, action, b, cResult));
+    return b;
+  };
+  if (r.comment_status !== 'approved') cRow.appendChild(cmk('Approve', 'btn-ghost', 'approve'));
+  if (r.comment_status !== 'spam') cRow.appendChild(cmk('Spam', 'btn-ghost', 'spam'));
+  if (r.comment_status !== 'trash') cRow.appendChild(cmk('Trash', 'btn-ghost', 'trash'));
+  if (r.comment_status === 'spam' || r.comment_status === 'trash') cRow.appendChild(cmk('Restore', 'btn-ghost', 'restore'));
+  if (r.comment_status === 'trash') cRow.appendChild(deleteForeverButton('Delete forever', () => void purgeOne(r.comment_id), String(r.comment_id)));
+  if (cRow.children.length) {
+    const lead = el('span', 'mod-label mod-rep-lead'); lead.textContent = 'On the comment';
+    box.appendChild(lead); box.appendChild(cRow); box.appendChild(cResult);
+  }
+  return box;
+}
+
+async function resolveReport(id: number, action: 'dismiss' | 'keep', btn: HTMLButtonElement, result: HTMLElement): Promise<void> {
+  btn.disabled = true;
+  try {
+    const res = await api('/moderation/reports/' + id + '/resolve', { method: 'POST', body: JSON.stringify({ action }) });
+    const data = await res.json().catch(() => ({} as Record<string, unknown>));
+    if (res.status === 401) { wrongToken(); return; }
+    if (res.ok) {
+      setToast('Report #' + id + ' ' + (action === 'dismiss' ? 'dismissed \u2014 comment untouched' : 'resolved \u2014 comment kept'));
+      await loadReports();
+    } else {
+      result.textContent = 'Report #' + id + ' ' + String((data as { message?: string }).message || res.status);
+      setToast('Report #' + id + ' failed \u2014 ' + String((data as { message?: string }).message || res.status), true);
+      btn.disabled = false;
+    }
+  } catch {
+    netError();
+    btn.disabled = false;
+  }
+}
+
+/* ---------- actions ---------- */
+async function moderate(id: number, action: string, btn: HTMLButtonElement, result: HTMLElement): Promise<void> {
+  btn.disabled = true;
+  try {
+    const res = await api('/moderation/' + id, { method: 'POST', body: JSON.stringify({ action }) });
+    const data = await res.json().catch(() => ({} as Record<string, unknown>));
+    if (res.status === 401) { wrongToken(); return; }
+    if (res.ok) {
+      const st = (data as { status?: string }).status;
+      result.textContent = '#' + id + ' ' + action + (st ? ' \u2192 ' + st : 'd');
+      setToast('#' + id + ' ' + action + (st ? ' \u2192 ' + st : 'd'));
+      await reloadActive();
+    } else {
+      result.textContent = '#' + id + ' ' + String((data as { message?: string }).message || res.status);
+      setToast('#' + id + ' failed — ' + String((data as { message?: string }).message || res.status), true);
+    }
+  } catch {
+    netError();
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+/* ---------- v0.6.17 (A): DELETE FOREVER — two-tap inline arm ---------- */
+const ARM_TIMERS = new WeakMap<HTMLButtonElement, ReturnType<typeof setTimeout>>();
+function armTwoTap(btn: HTMLButtonElement, label: string, onConfirm: () => void): void {
+  /* first tap arms ('Tap again to confirm'); second tap fires. Disarms after
+     4s. Never native confirm() (King law: inline two-tap). */
+  const t = ARM_TIMERS.get(btn);
+  if (t) { clearTimeout(t); ARM_TIMERS.delete(btn); }
+  if (btn.dataset.armed === '1') {
+    btn.dataset.armed = '0';
+    btn.classList.remove('is-armed');
+    btn.textContent = label;
+    onConfirm();
+    return;
+  }
+  btn.dataset.armed = '1';
+  btn.classList.add('is-armed');
+  btn.textContent = 'Tap again to confirm';
+  ARM_TIMERS.set(btn, setTimeout(() => {
+    if (btn.isConnected && btn.dataset.armed === '1') {
+      btn.dataset.armed = '0';
+      btn.classList.remove('is-armed');
+      btn.textContent = label;
+    }
+  }, 4000));
+}
+
+function deleteForeverButton(label: string, onConfirm: () => void, idForAria: string): HTMLButtonElement {
+  const b = el('button', 'btn-danger'); b.type = 'button'; b.textContent = label;
+  b.dataset.deleteForever = idForAria;
+  b.setAttribute('aria-label', 'Delete forever — ' + idForAria + ' (permanent)');
+  b.addEventListener('click', () => armTwoTap(b, label, onConfirm));
+  return b;
+}
+
+async function purgeOne(id: number): Promise<void> {
+  const btn = document.querySelector('button[data-delete-forever="' + id + '"]') as HTMLButtonElement | null;
+  if (btn) btn.disabled = true;
+  try {
+    const res = await api('/moderation/comments/' + id, { method: 'DELETE' });
+    const data = await res.json().catch(() => ({} as Record<string, unknown>));
+    if (res.status === 401) { wrongToken(); return; }
+    if (res.ok) {
+      setToast('#' + id + ' permanently deleted');
+      selected.delete(String(id));
+      await reloadActive();
+    } else {
+      setToast('#' + id + ' delete failed — ' + String((data as { message?: string }).message || (data as { code?: string }).code || res.status), true);
+      if (btn) btn.disabled = false;
+    }
+  } catch {
+    netError();
+    if (btn) btn.disabled = false;
+  }
+}
+
+/* ---------- v0.6.17 (B): BULK SELECT + mass actions ---------- */
+const selected = new Set<string>();               // comment ids (string)
+let listStatusById: Record<string, string> = {};  // last rendered rows by id
+
+function activeBulkHost(): HTMLElement | null {
+  if (state.tab === 'queue') return queueList;
+  if (state.tab === 'all') return allList;
+  return null;
+}
+function onSelChange(): void {
+  const host = activeBulkHost();
+  if (!host) return;
+  const ids = Array.from(host.querySelectorAll('input[data-sel]'))
+    .map((i) => (i as HTMLInputElement)).filter((i) => i.checked)
+    .map((i) => i.dataset.sel as string);
+  for (const k of Array.from(selected)) if (!ids.includes(k)) selected.delete(k);
+  for (const k of ids) selected.add(k);
+  syncSelUI();
+}
+function clearSelection(): void {
+  selected.clear();
+  const host = activeBulkHost();
+  if (host) for (const i of Array.from(host.querySelectorAll('input[data-sel]'))) (i as HTMLInputElement).checked = false;
+  syncSelUI();
+}
+function syncSelUI(): void {
+  const bar = $('mod-bulkbar');
+  const host = activeBulkHost();
+  const n = selected.size;
+  if (!bar || !host) return;
+  for (const c of Array.from(host.querySelectorAll('input[data-sel]'))) {
+    const art = (c as HTMLElement).closest('.mod-item');
+    art?.classList.toggle('mod-selected', (c as HTMLInputElement).checked);
+    /* v0.6.20 (P10): styled box mirrors :checked for engines that never
+       match dynamic :checked (Obscura, proven live) — same paint. */
+    (c as HTMLElement).nextElementSibling?.classList.toggle('is-on', (c as HTMLInputElement).checked);
+  }
+  if (n === 0) { show(bar, false); bar.textContent = ''; }
+  else {
+    show(bar, true);
+    renderBulkBar(bar);
+  }
+  /* header select-all reflects the visible filtered scope */
+  for (const key of ['queue', 'all']) {
+    const sa = $('mod-' + key + '-selall') as HTMLInputElement | null;
+    if (!sa) continue;
+    const boxes = Array.from(host.querySelectorAll('input[data-sel]')) as HTMLInputElement[];
+    const visChecked = boxes.filter((b) => b.checked).length;
+    sa.checked = boxes.length > 0 && visChecked === boxes.length;
+    sa.indeterminate = visChecked > 0 && visChecked < boxes.length;
+    /* v0.6.20 (P10): select-all styled box mirrors checked/mixed. */
+    sa.nextElementSibling?.classList.toggle('is-on', sa.checked);
+    sa.nextElementSibling?.classList.toggle('is-mixed', sa.indeterminate);
+  }
+}
+function renderBulkBar(bar: HTMLElement): void {
+  bar.textContent = '';
+  const ids = Array.from(selected).map(Number);
+  const cnt = el('span', 'mod-sel-n'); cnt.dataset.selcount = String(ids.length);
+  cnt.textContent = ids.length + ' selected';
+  const mkB = (label: string, cls: string, fn: () => void) => {
+    const b = el('button', cls); b.type = 'button'; b.textContent = label;
+    b.dataset.bulkaction = label.toLowerCase(); b.addEventListener('click', fn);
+    return b;
+  };
+  bar.appendChild(cnt);
+  bar.appendChild(mkB('Approve', 'btn-deep', () => void bulkApply(ids, 'approve', bar)));
+  bar.appendChild(mkB('Spam', 'btn-ghost', () => void bulkApply(ids, 'spam', bar)));
+  bar.appendChild(mkB('Trash', 'btn-ghost', () => void bulkApply(ids, 'trash', bar)));
+  /* Delete-forever only when EVERY selected row is trash (worker guard). */
+  const allTrash = ids.length > 0 && ids.every((id) => listStatusById[String(id)] === 'trash');
+  if (allTrash) {
+    bar.appendChild(deleteForeverButton('Delete forever', () => void bulkApply(ids, 'purge', bar), ids.length + ' selected'));
+  }
+  bar.appendChild(mkB('Clear', 'btn-ghost', () => clearSelection()));
+}
+async function bulkApply(ids: number[], action: string, bar: HTMLElement): Promise<void> {
+  for (const b of Array.from(bar.querySelectorAll('button'))) (b as HTMLButtonElement).disabled = true;
+  let res: Response;
+  try { res = await api('/moderation/bulk', { method: 'POST', body: JSON.stringify({ ids, action }) }); }
+  catch { netError(); for (const b of Array.from(bar.querySelectorAll('button'))) (b as HTMLButtonElement).disabled = false; return; }
+  const data = await res.json().catch(() => ({} as Record<string, unknown>));
+  if (res.status === 401) { wrongToken(); return; }
+  if (!res.ok) {
+    setToast('Bulk ' + action + ' failed — ' + String((data as { message?: string }).message || res.status), true);
+    for (const b of Array.from(bar.querySelectorAll('button'))) (b as HTMLButtonElement).disabled = false;
+    return;
+  }
+  const d = data as { succeeded?: number; total?: number; results?: { id: number; ok: boolean; code?: string }[] };
+  const okN = Number(d.succeeded ?? 0); const tot = Number(d.total ?? ids.length);
+  const fails = (d.results || []).filter((r) => !r.ok);
+  const PAST: Record<string, string> = { approve: 'approved', spam: 'spammed', trash: 'trashed', purge: 'purged' };
+  if (fails.length) {
+    setToast(okN + '/' + tot + ' applied — failed: ' + fails.map((f) => '#' + f.id + ' ' + (f.code || 'error')).join(', '), true);
+  } else {
+    setToast(okN + '/' + tot + ' ' + (PAST[action] || action));
+  }
+  clearSelectionSilent();
+  await reloadActive();
+}
+function clearSelectionSilent(): void {
+  selected.clear();
+  const bar = $('mod-bulkbar');
+  if (bar) { show(bar, false); bar.textContent = ''; }
+}
+
+async function sendReply(it: Item, ta: HTMLTextAreaElement, btn: HTMLButtonElement, msg: HTMLElement): Promise<void> {
+  const content = ta.value.trim();
+  if (!content) { msg.textContent = 'Write something first.'; return; }
+  btn.disabled = true; msg.textContent = '';
+  try {
+    /* v0.6.34 P26: the royal path. This POST goes through api(), so the desk
+       Bearer rides along — the Worker auto-approves it and (asAuthor) stamps the
+       author avatar hash. No token is written into the page source. */
+    const res = await api('/comments', {
+      method: 'POST',
+      body: JSON.stringify({
+        postId: it.post_id,
+        name: 'G-will Chijioke',
+        content,
+        parent: it.id,
+        asAuthor: true,
+        consent: true,
+      }),
+    });
+    const data = await res.json().catch(() => ({} as Record<string, unknown>));
+    if (res.ok && (data as { ok?: boolean }).ok) {
+      const rid = String((data as { id?: number }).id ?? '?');
+      msg.textContent = 'Reply posted live as #' + rid + '.';
+      setToast('Reply posted live as #' + rid + '.');
+      ta.value = '';
+      await reloadActive();
+    } else if (res.status === 401) {
+      msg.textContent = 'Desk token rejected — re-enter it.';
+      wrongToken();
+    } else {
+      msg.textContent = String((data as { message?: string }).message || ('HTTP ' + res.status));
+    }
+  } catch {
+    msg.textContent = 'Could not reach the desk API — retry.';
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function reloadActive(): Promise<void> {
+  if (state.tab === 'queue') return loadQueue();
+  if (state.tab === 'all') return loadAll();
+  if (state.tab === 'reports') return loadReports();
+  return loadOverview();
+}
+
+/* ---------- wiring ---------- */
+lock?.addEventListener('submit', (ev) => {
+  ev.preventDefault();
+  lockMsg?.classList.remove('is-bad');
+  if (lockMsg) lockMsg.textContent = '';
+  saveTok((tokInp?.value || '').trim());
+  if (!token) { if (lockMsg) lockMsg.textContent = 'Paste the desk token first.'; return; }
+  void setTab(state.tab);
+});
+
+tabs?.addEventListener('click', (ev) => {
+  const b = (ev.target as HTMLElement)?.closest?.('.mod-tab') as HTMLElement | null;
+  if (!b || !unlocked) return;
+  void setTab(b.getAttribute('data-tab') || 'overview');
+});
+seg?.addEventListener('click', (ev) => {
+  const b = (ev.target as HTMLElement)?.closest?.('button[data-status]') as HTMLElement | null;
+  if (!b) return;
+  state.status = b.getAttribute('data-status') || 'approved';
+  state.page = 1;
+  syncHash();
+  void loadAll();
+});
+postForm?.addEventListener('submit', (ev) => {
+  ev.preventDefault();
+  state.post = (postInp?.value || '').trim().replace(/[^0-9]/g, '');
+  state.page = 1;
+  syncHash();
+  void loadAll();
+});
+prevB?.addEventListener('click', () => {
+  if (state.page > 1) { state.page -= 1; syncHash(); void loadAll(); }
+});
+nextB?.addEventListener('click', () => { state.page += 1; syncHash(); void loadAll(); });
+
+refreshB?.addEventListener('click', () => void reloadActive());
+/* v0.6.17 (B): header select-all — scope = the rows actually rendered in the
+   current filtered tab (visible filtered scope, per brief). */
+for (const key of ['queue', 'all']) {
+  const sa = $('mod-' + key + '-selall') as HTMLInputElement | null;
+  sa?.addEventListener('change', () => {
+    const host = key === 'queue' ? queueList : allList;
+    if (!host) return;
+    for (const c of Array.from(host.querySelectorAll('input[data-sel]'))) (c as HTMLInputElement).checked = sa.checked;
+    onSelChange();
+  });
+}
+retryB?.addEventListener('click', () => void reloadActive());
+signoutB?.addEventListener('click', () => {
+  saveTok('');
+  if (tokInp) tokInp.value = '';
+  if (lockMsg) { lockMsg.textContent = 'Signed out.'; lockMsg.classList.remove('is-bad'); }
+  setLocked(true);
+});
+
+window.addEventListener('hashchange', () => {
+  if (!readHash()) return;
+  paintTabs();
+  if (unlocked) void setTab(state.tab);
+});
+
+/* boot: hash keeps tab (and All-tab filters) across refresh; ?tab= legacy
+   deep link is honoured when no hash present; default = Overview (v0.6.16) */
+if (!readHash() && TABS.includes(TAB_QUERY)) state.tab = TAB_QUERY;
+paintTabs();
+for (const k of TABS) if (views[k]) views[k]!.hidden = k !== state.tab;
+setLocked(true);
+if (token) void setTab(state.tab); // saved token → straight into the console
+</script>

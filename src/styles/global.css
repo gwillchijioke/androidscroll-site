@@ -1,0 +1,1024 @@
+/* ============================================================
+   AndroidScroll v0.2 — "TERMINAL EDITORIAL" design system
+   (design-plan-v3.md, Sep 10). Type law:
+   IBM Plex Mono = system voice (status line, meta, footer)
+   Archivo = authority voice (display headlines, grotesk)
+   Manrope = body voice (17px/1.65, measures ≤68ch).
+   Fraunces is GONE. Self-hosted latin woff2, font-display swap.
+   ZERO external requests. A2 green tokens verbatim. Flat: no
+   gradients, no glass, no shadow soup.
+   ============================================================ */
+
+/* ---------- fonts (latin subsets, OFL, self-hosted) ---------- */
+@font-face{font-family:"Archivo";font-style:normal;font-weight:400 800;font-display:swap;src:url("/fonts/archivo-var-latin.woff2") format("woff2");}
+@font-face{font-family:"Manrope";font-style:normal;font-weight:200 800;font-display:swap;src:url("/fonts/manrope-var-latin.woff2") format("woff2");}
+@font-face{font-family:"IBM Plex Mono";font-style:normal;font-weight:400;font-display:swap;src:url("/fonts/plexmono-400.woff2") format("woff2");}
+@font-face{font-family:"IBM Plex Mono";font-style:normal;font-weight:500;font-display:swap;src:url("/fonts/plexmono-500.woff2") format("woff2");}
+@font-face{font-family:"IBM Plex Mono";font-style:normal;font-weight:600;font-display:swap;src:url("/fonts/plexmono-600.woff2") format("woff2");}
+
+/* ---------- tokens (verbatim from approved visual-A2.html) ---------- */
+:root{color-scheme:light;--header-h:54px}
+@media (min-width:900px){:root{--header-h:60px}}
+:root{
+  --canvas:#F7FAF9;--paper:#FFFFFF;--band:#EDF6F3;--band-2:#E2EFE9;
+  --ink:#10231F;--ink-2:#2C4640;--muted:#52635F;
+  --line:#DDE8E3;--line-2:#B9CCC6;
+  --teal:#00A88F;--deep:#006E5E;--deeper:#014F44;--verdict:#0A332C;--mint:#D9F2E8;
+  --focus:#0B7C6D;--on-deep:#FFFFFF;
+  --float:0 14px 34px rgba(7,21,18,.24);
+  --display:"Archivo","Space Grotesk",-apple-system,"Segoe UI",Roboto,sans-serif;
+  --sans:"Manrope",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  --sp-t:8px;--sp-b:16px;--sp-e:clamp(32px,5vh,48px)}
+html[data-theme=dark]{color-scheme:dark;
+  --canvas:#071512;--paper:#0B241D;--band:#0E2A23;--band-2:#123430;
+  --ink:#E8F5EF;--ink-2:#CFE4DD;--muted:#B6CCC6;
+  --line:#1F4138;--line-2:#285047;
+  --teal:#00C896;--deep:#00A88F;--deeper:#14BFA4;--verdict:#0C2B24;--mint:#D9F2E8;
+  --focus:#5EEAD4;--on-deep:#071512;
+  --float:0 14px 34px rgba(0,0,0,.5);
+  /* v0.6.8 dark form fields. Root cause: v3.3 "mint King ruling" painted every dark
+     field background with --mint #D9F2E8 = rgb(217,242,232), a near-WHITE (live probe
+     on served bytes read form bg rgb(217,242,232) color rgb(16,35,31)) — mint was born
+     as INK on the --verdict bands, never a surface; on dark cards it blazes as a white
+     block. Fix: a real sunken field surface derived ONLY from existing tokens —
+     --field=--band-2 #123430 (deep green family, 1.21:1 vs paper card = reads as a
+     well, not a slab); --field-line=--line-2 #285047 (1.81:1 vs card >= 1.5 visible);
+     --field-ink=--ink #E8F5EF (12.01:1 on field >= 4.5); --field-ph=--muted #B6CCC6
+     (placeholder 7.98:1 on field >= 3 — the old #2C4640-on-mint pairing was derived for
+     a light surface and goes invalid the moment fields go dark). Focus = border lift
+     only via existing :focus-visible outline --focus. Light theme untouched. */
+  --field:var(--band-2);--field-line:var(--line-2);--field-ink:var(--ink);--field-ph:var(--muted)}
+
+/* ---------- reset / base ---------- */
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--canvas)}
+/* v2.5 branded scrollbar: deep green thumb on canvas track (both engines) */
+html{scrollbar-color:var(--deep) var(--canvas)}
+::-webkit-scrollbar{width:12px;height:12px}
+::-webkit-scrollbar-track{background:var(--canvas)}
+::-webkit-scrollbar-thumb{background:var(--deep);border:3px solid var(--canvas);border-radius:999px}
+::-webkit-scrollbar-thumb:hover{background:var(--deeper)}
+::-webkit-scrollbar-corner{background:var(--canvas)}
+/* v2.1 edge-to-edge (expert synthesis, doc_6d §7.2): A15/16 PWAs paint the page
+   background behind the transparent status bar — html MUST carry the canvas bg,
+   and the sticky header must respect the safe-area inset or it hides under the bar. */
+@supports (padding:env(safe-area-inset-top)){.site-header{padding-top:env(safe-area-inset-top,0)}}
+body{background:var(--canvas);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.65;font-weight:400;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+button,input{font:inherit;color:inherit}button{cursor:pointer;background:none;border:0;padding:0}
+a{color:var(--deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+img{max-width:100%;display:block}
+::selection{background:var(--teal);color:var(--on-deep)}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+h1,h2,h3,h4{margin:0;font-weight:800;font-family:var(--display)}
+p{margin:0 0 1em}
+.wrap{max-width:1180px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
+.col{max-width:760px;margin:0 auto;padding:0 clamp(16px,4vw,24px)}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.skip-link{position:absolute;left:-9999px;top:0;z-index:999;background:var(--ink);color:var(--canvas);padding:10px 14px;border-radius:2px}
+.skip-link:focus{left:12px;top:12px}
+
+/* ---------- battery glyph (the honest-count device) ---------- */
+/* markup: <span class="batt" data-lvl="3"><i></i>×5</span> — fill on first paint, 300ms, once. */
+.batt{display:inline-flex;align-items:center;flex:none;vertical-align:baseline}
+.batt i{display:block;width:4px;height:9px;background:var(--line-2)}
+.batt i+i{margin-left:2px}
+.batt::after{content:"";display:block;width:2px;height:4px;background:var(--line-2);margin-left:2px}
+html:not(.js) .batt[data-lvl="1"] i:nth-child(1),
+html.js .batt.batt-on[data-lvl="1"] i:nth-child(1),
+html:not(.js) .batt[data-lvl="2"] i:nth-child(-n+2),
+html.js .batt.batt-on[data-lvl="2"] i:nth-child(-n+2),
+html:not(.js) .batt[data-lvl="3"] i:nth-child(-n+3),
+html.js .batt.batt-on[data-lvl="3"] i:nth-child(-n+3),
+html:not(.js) .batt[data-lvl="4"] i:nth-child(-n+4),
+html.js .batt.batt-on[data-lvl="4"] i:nth-child(-n+4),
+html:not(.js) .batt[data-lvl="5"] i:nth-child(-n+5),
+html.js .batt.batt-on[data-lvl="5"] i:nth-child(-n+5){background:var(--deep)}
+html.js .batt i{transition:background-color .3s ease}
+
+/* ---------- header v0.3: ONE bar (header-patterns.md) ---------- */
+html,body{overflow-x:clip} /* layout-blowout guard: nothing may paint past the viewport */
+/* v2.3 scroll lock (King: open menu/search must never move the page beneath).
+   html-level because mobile Chrome scrolls the documentElement, not just body.
+   Panels keep their own scroll: overscroll-behavior:contain stops the chain. */
+html.locked,html.locked body{overflow:hidden !important;overscroll-behavior:none}
+/* freeze: body leaves the scroll flow entirely — neither finger nor script can
+   move the page beneath an open overlay; unlock restores the exact position */
+body.frozen{position:fixed;left:0;right:0;width:100%}
+/* v0.6.2 header-lock (King: header must NEVER disappear under an open sheet/search).
+   With body.frozen the document scroll box is inert (html.locked overflow:hidden),
+   so position:sticky can no longer stick — the header rides the pinned body to
+   -lockY and vanishes off-screen. Pin it to the viewport while any overlay is open.
+   z-index 75: ABOVE scrim(50), sheet(60) and search-layer(70) so the bar stays
+   visible over BOTH overlays (the search-layer's own inset:0 scrim would otherwise
+   paint over a z-40 header); still BELOW toast(80) and .gl-overlay(90).
+   .sheet top:var(--header-h) and .search-box top:calc(var(--header-h) + 10px)
+   already assume a VISIBLE header band — no geometry change needed there.
+   padding-top compensation: position:fixed pulls the header out of flow, which
+   would yank the frozen page snapshot up 54px the instant an overlay opens;
+   body padding refills its exact slot (header = first child, height = --header-h). */
+html.locked .site-header{position:fixed;top:0;left:0;right:0;z-index:75}
+html.locked body.frozen{padding-top:var(--header-h,54px)}
+.sheet,.search-results{overscroll-behavior:contain;touch-action:pan-y}
+.site-header{position:sticky;top:0;z-index:40;background:var(--canvas);max-width:100vw}
+.header-in{max-width:1180px;margin:0 auto;padding:0 clamp(16px,4vw,40px);display:flex;align-items:center;gap:16px;height:54px;transition:height .18s ease-out,box-shadow .18s ease-out}
+/* compact state: HAIRLINE + SHADOW ONLY — v2.9: the 54->48 height change is gone.
+   Any height delta = layout reflow on every threshold crossing = the "dancing" the
+   King saw on articles (mobile flicks bounce across it). Pure paint has zero shift. */
+.site-header.is-compact{box-shadow:inset 0 -1px 0 var(--line-2),0 4px 10px -6px rgba(7,21,18,.28)}
+/* wordmark = brand element, biggest thing in the bar */
+.wordmark{display:inline-flex;align-items:center;gap:10px;color:var(--ink);flex:none;min-width:0}
+.wordmark:hover{text-decoration:none}
+/* v1.0 C1 lockup: robot-A wordmark (replaces mark+word-text). 661.8x100 units. */
+.wordmark-lockup{height:26px;width:auto;display:block;flex:none}
+/* v1.2 King's pin: Scroll reads var(--deep) = #006E5E light.
+   v1.3b King's ruling (phone shot): DARK MODE KEEPS THE SAME GREEN — lockup
+   pins --deep to #006E5E in both modes; site-wide --deep (links) untouched. */
+html[data-theme=dark] .wordmark-lockup{--deep:#006E5E}
+/* the blink: eyes fade shut ~0.2s every 5.4s. OPACITY only — a transform-box:fill-box
+   scaleY loop was proven to wedge sync layout in real Chrome (pre-ship catch, v1.0).
+   Fading works because the eye rects sit ON the ink dome: transparent = closed. */
+.wordmark-lockup .eye{animation:as-blink 5.4s ease-in-out infinite}
+@keyframes as-blink{0%,91%,100%{opacity:1}94.5%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.wordmark-lockup .eye{animation:none}}
+.wordmark .mark{width:20px;height:20px;flex:none;transition:width .18s ease-out,height .18s ease-out}
+.wordmark .word-text{font-family:var(--display);font-weight:800;font-size:24px;letter-spacing:-.03em;line-height:1;white-space:nowrap}
+.wordmark .word-text em{font-style:normal;color:var(--deep)}
+/* desktop ≥900px: up to 4 inline category links, mono 12px (Cloudflare labeled links) */
+.head-cats{display:none;align-items:center;gap:18px;margin-left:6px;min-width:0}
+.head-cats a{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.03em;color:var(--muted);white-space:nowrap}
+.head-cats a:hover{color:var(--deep);text-decoration:none}
+/* right cluster: 3 stroke-SVG icons, 20px glyphs in 44px hotspots */
+.head-actions{display:flex;align-items:center;gap:2px;margin-left:auto;flex:none;position:relative}
+/* King v0.5: 3-option theme menu under the header button */
+.theme-menu{position:absolute;top:calc(100% + 6px);right:0;z-index:2;min-width:150px;background:var(--paper);border:1px solid var(--line-2);border-top:3px solid var(--deep);border-radius:4px;box-shadow:0 18px 48px rgba(7,21,18,.28);padding:4px}
+.theme-menu[hidden]{display:none}
+.theme-menu button{display:flex;align-items:center;gap:10px;width:100%;padding:11px 12px;min-height:44px;font-family:var(--mono);font-size:12.5px;font-weight:500;letter-spacing:.03em;color:var(--ink-2);border-radius:2px;text-align:left}
+.theme-menu button svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;flex:none}
+.theme-menu button svg path[fill="currentColor"]{stroke:none}
+.theme-menu button:hover{background:var(--band);color:var(--ink)}
+.theme-menu button.is-active{background:var(--deep);color:#fff}
+html[data-theme=dark] .theme-menu{box-shadow:0 24px 70px rgba(0,0,0,.75)}
+.icon-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:2px;color:var(--ink);transition:color .16s ease-out,background-color .16s ease-out}
+.icon-btn:hover{color:var(--deep);background:var(--band)}
+.icon-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:square}
+/* King fix 3: 3-state theme button — light (sun) / dark (moon) / system (auto circle).
+   ALL glyphs hidden by default; exactly one shows per pref (v0.5.1: sun was never hidden → double icon). */
+.icon-btn .glyph-sun,.icon-btn .glyph-moon,.icon-btn .glyph-auto{display:none}
+.icon-btn.pref-light .glyph-sun{display:block}
+.icon-btn.pref-dark .glyph-moon{display:block}
+.icon-btn.pref-system .glyph-auto{display:block}
+@media (min-width:900px){
+  .header-in{height:60px}
+  .head-cats{display:inline-flex}
+  .wordmark .mark{width:24px;height:24px}
+  .wordmark-lockup{height:30px}
+  .wordmark .word-text{font-size:28px}
+}
+
+/* ---------- browse sheet + search overlay ---------- */
+.scrim{position:fixed;inset:0;z-index:50;background:rgba(7,21,18,.62);opacity:0;pointer-events:none;transition:opacity .16s ease-out}
+.scrim.is-open{opacity:1;pointer-events:auto}
+/* King fix 2: Browse sheet hugs the header — slides from under the bar, not the screen bottom */
+.sheet{position:fixed;z-index:60;left:0;right:0;top:var(--header-h,54px);bottom:auto;max-height:calc(100dvh - var(--header-h,54px) - 12px);overflow:auto;background:var(--paper);border:1px solid var(--line-2);border-top:0;border-radius:0 0 4px 4px;box-shadow:var(--float);transform:translateY(-12px);opacity:0;pointer-events:none;transition:transform .18s ease-out,opacity .18s ease-out}
+.sheet.is-open{transform:none;opacity:1;pointer-events:auto}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;padding:14px clamp(16px,4vw,28px);position:sticky;top:0;background:var(--paper);z-index:2}
+.sheet-head h2{font-family:var(--display);font-size:22px;font-weight:800;letter-spacing:-.03em}
+/* King fix v0.4 (2): direct 3-way theme control at the TOP of the Browse sheet — Light | Auto | Dark */
+.sheet-theme{position:sticky;top:63px;z-index:1;display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding:12px clamp(16px,4vw,28px);background:var(--paper);border-bottom:1px solid var(--line-2)}
+.sheet-theme .st-kicker{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.theme-seg{display:inline-flex;border:1px solid var(--line-2);border-radius:2px;overflow:hidden;background:var(--paper)}
+.theme-seg button{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.02em;color:var(--ink-2);padding:9px 16px;min-height:38px;border-left:1px solid var(--line-2);transition:background-color .14s ease-out,color .14s ease-out}
+.theme-seg button:first-child{border-left:0}
+.theme-seg button:hover{color:var(--deep);background:var(--band)}
+.theme-seg button.is-active{background:var(--deeper);color:#FFF}
+html[data-theme=dark] .theme-seg button.is-active{background:#006E5E;color:#FFF}
+.sheet-body{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0 clamp(20px,4vw,48px);padding:8px clamp(16px,4vw,28px) 34px}
+.b-pillar{border-bottom:1px solid var(--line);padding:14px 0}
+.b-pillar>a.p-name{display:flex;align-items:baseline;gap:10px;color:var(--ink);font-family:var(--display);font-weight:800;font-size:19px;letter-spacing:-.025em}
+.b-pillar>a.p-name:hover{color:var(--deep);text-decoration:none}
+.cnt{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--deep);font-variant-numeric:tabular-nums;letter-spacing:.02em;white-space:nowrap}
+.cnt.zero{color:var(--muted)}
+.b-kids{margin:8px 0 0;padding:0;list-style:none}
+.b-kids li+li{margin-top:2px}
+.b-kids a{display:flex;justify-content:space-between;gap:12px;align-items:baseline;color:var(--ink-2);font-size:14.5px;padding:5px 0 5px 16px;border-left:2px solid var(--line);font-weight:500}
+.b-kids a:hover{border-left-color:var(--deep);color:var(--deep);text-decoration:none}
+.b-kids a.is-empty{color:var(--muted);font-weight:400}
+.sheet-note{grid-column:1/-1;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.03em;padding-top:16px}
+.sheet-note a{color:var(--deep)}
+/* browse sheet footer: social accounts ride the sheet foot (out of the header bar) */
+.sheet-foot{grid-column:1/-1;margin-top:6px;padding:14px clamp(16px,4vw,28px);border-top:1px solid var(--line-2);background:var(--band);display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px}
+.sheet-foot .foot-kicker{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+/* King fix 1: search overlay = clear foreground layer (same anatomy as Browse sheet, anchored under header) */
+/* v0.6.18 Direction A "The Desk": sheet-from-top, oversized Archivo field, live
+   completions under a RECENT/TRENDING rail, ranked rows, see-all footer.
+   Light = --paper sheet on --verdict/60 scrim; dark = --paper on black. */
+.search-layer{position:fixed;inset:0;z-index:70;display:none}
+.search-layer.is-open{display:block}
+/* THE REAL BUG (v0.4.1, pixel-proven): global .scrim{z-index:50} applied to the scrim INSIDE
+   .search-layer too → 78% black scrim painted OVER the search panel (white #F7FAF9 measured as
+   rgb(54,55,55) = exactly 22% of 247). Panel must sit above its own backdrop. */
+.search-layer .scrim{z-index:0;background:rgba(10,51,44,.6)}
+html[data-theme=dark] .search-layer .scrim{background:rgba(0,0,0,.72)}
+/* P18: dvh-aware fit — the box is a flex column capped at the viewport (vh
+   fallback + dvh wins where supported); the results list absorbs all shrink
+   and scrolls internally, chrome rows (field/meta/see-all/footer) stay
+   flex:none so the see-all footer can never be pushed below the fold. */
+.search-box{position:absolute;z-index:1;left:0;right:0;top:var(--header-h,54px);margin:0;background:var(--paper);border:0;border-bottom:1px solid var(--line-2);border-radius:0 0 14px 14px;box-shadow:0 24px 60px rgba(7,21,18,.3);overflow:hidden;display:flex;flex-direction:column;max-height:calc(100vh - var(--header-h,54px) - 12px);max-height:calc(100dvh - var(--header-h,54px) - 12px)}
+@media(min-width:900px){.search-box{left:50%;right:auto;transform:translateX(-50%);top:calc(var(--header-h,60px) + 12px);width:min(620px,calc(100vw - 48px));border:1px solid var(--line-2);border-radius:14px;max-height:calc(100vh - var(--header-h,60px) - 24px);max-height:calc(100dvh - var(--header-h,60px) - 24px)}}
+html[data-theme=dark] .search-box{border-color:var(--line-2);box-shadow:0 24px 70px rgba(0,0,0,.75)}
+@media (prefers-reduced-motion:no-preference){
+  .search-layer.is-open .search-box{animation:desk-in 220ms cubic-bezier(.32,.72,0,1)}
+  .search-layer.is-open .scrim{animation:scrim-in 160ms ease-out}
+  .search-results li{animation:row-in 180ms ease-out backwards}
+}
+@keyframes desk-in{from{translate:0 -12px;opacity:0}to{translate:0 0;opacity:1}}
+@keyframes scrim-in{from{opacity:0}to{opacity:1}}
+@keyframes row-in{from{opacity:0;translate:0 4px}to{opacity:1;translate:0 0}}
+.search-field{display:flex;align-items:center;gap:10px;padding:16px 20px 12px}
+.sf-dot{flex:none;width:8px;height:8px;border-radius:50%;background:var(--teal)}
+.search-box input{flex:1;min-width:0;width:auto;border:0;outline:0;background:transparent;padding:0;font-family:var(--display);font-weight:600;font-size:26px;line-height:1.1;letter-spacing:-.03em;color:var(--ink)}
+.search-box input::placeholder{color:var(--muted);font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:-.02em}
+/* v0.6.5 fix 1: type=search gets Blink's native ::-webkit-search-cancel-button 'x' —
+   double clear icon next to our #search-clear. Suppress the UA decoration entirely. */
+.search-field input[type=search]{appearance:none;-webkit-appearance:none}
+.search-field input[type=search]::-webkit-search-cancel-button,
+.search-field input[type=search]::-webkit-search-decoration{-webkit-appearance:none;appearance:none;display:none;width:0;height:0;margin:0}
+.search-clear{flex:none;width:44px;height:44px;border:1px solid var(--line-2);border-radius:2px;background:transparent;color:var(--muted);font-size:20px;line-height:1;cursor:pointer}
+.search-clear:hover{border-color:var(--deep);color:var(--deep)}
+.search-clear[hidden]{display:none}
+/* idle rail: RECENT chips + TRENDING + scope line (pre-typing suggestions = the alive signal) */
+.search-rail{padding:0 20px 10px}
+.search-rail[hidden]{display:none}
+.sr-row{display:flex;align-items:baseline;gap:10px;margin-top:8px;flex-wrap:wrap}
+.sr-eyebrow{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
+.recent-chips{display:inline-flex;gap:6px;flex-wrap:wrap}
+.recent-chips button,.recent-chips a{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12px;color:var(--ink-2);border:1px solid var(--line-2);border-radius:999px;padding:4px 10px;background:transparent;cursor:pointer}
+.recent-chips button:hover,.recent-chips a:hover{border-color:var(--deep);color:var(--deep);text-decoration:none}
+.recent-chips button i{font-style:normal;color:var(--muted);font-size:13px;line-height:1;padding:0 0 0 2px}
+.recent-chips button i:hover{color:var(--deep)}
+.sr-none{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.sr-scope{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:10px}
+/* live prefix completions */
+.search-complete{display:flex;gap:6px;flex-wrap:wrap;align-items:center;padding:0 20px 10px}
+.search-complete[hidden]{display:none}
+.search-complete button{font-family:var(--mono);font-size:12px;color:var(--ink-2);border:1px dashed var(--line-2);border-radius:999px;padding:4px 10px;background:transparent;cursor:pointer}
+.search-complete button:hover{border-color:var(--teal);color:var(--deep)}
+.sr-more{font-family:var(--mono);font-size:10.5px;color:var(--muted)}
+/* v0.6.5 fix 2: 'Esc to close' is a real tappable button (keyboard hint kept on desktop) */
+/* v0.6.22 Direction A: mobile shows a × (44px target); the Esc text is desktop-only */
+.search-close{flex:none;min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;padding:6px 12px;margin:-6px -8px -6px 0;border:1px solid var(--line-2);border-radius:2px;background:transparent;color:var(--muted);font-family:var(--mono);font-size:11px;letter-spacing:.03em;cursor:pointer}
+.search-close:hover{border-color:var(--deep);color:var(--deep)}
+.search-close:focus-visible{outline:2px solid var(--deep);outline-offset:1px;color:var(--deep)}
+.search-close .sc-x{font-size:19px;line-height:1}
+.search-close .sc-esc{display:none}
+@media(min-width:900px){.search-close{min-width:88px}.search-close .sc-x{display:none}.search-close .sc-esc{display:inline}}
+.search-meta{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 20px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-family:var(--mono);font-size:11px;color:var(--muted)}
+.search-results{flex:1 1 auto;min-height:0;max-height:52vh;max-height:52dvh;overflow:auto;overscroll-behavior:contain;list-style:none;margin:0;padding:4px 0 8px}
+/* P18: chrome rows never shrink (footer stays pinned in view); the no-match
+   note scrolls like results when the viewport is short. */
+.search-field,.search-rail,.search-complete,.search-meta,.search-seeall,.search-keys{flex:none}
+.search-empty{flex:1 1 auto;min-height:0;overflow:auto}
+.search-results li a{display:flex;gap:12px;align-items:baseline;padding:12px 20px;border-bottom:1px solid var(--line);color:var(--ink)}
+.search-results li a:hover{background:var(--band);text-decoration:none}
+.search-results li.is-active a{background:var(--band);box-shadow:inset 4px 0 0 var(--teal)}
+.sr-rank{flex:none;min-width:14px;text-align:right;font-family:var(--mono);font-size:10px;color:var(--muted)}
+.sr-body{min-width:0}
+.search-results h3{font-family:var(--display);font-size:19px;font-weight:800;letter-spacing:-.02em;margin:0 0 2px}
+.search-results .sr-x{display:block;font-size:14px;color:var(--muted);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.search-results .sr-meta{display:block;font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.04em;margin-top:4px}
+.sr-cat{font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--deep)}
+.search-results mark,.search-empty mark,.sq-list mark{background:var(--mint);color:var(--ink);font-weight:700;padding:0 2px;border-radius:2px}
+html[data-theme=dark] .search-results mark,html[data-theme=dark] .search-empty mark,html[data-theme=dark] .sq-list mark{background:rgba(94,234,212,.32);color:var(--ink)}
+.search-seeall{display:block;padding:13px 20px;font-family:var(--mono);font-size:12.5px;color:var(--deep);border-top:1px solid var(--line);background:var(--band)}
+.search-seeall:hover{background:var(--band-2);text-decoration:none}
+.search-keys{display:flex;gap:14px;padding:8px 20px 12px;font-family:var(--mono);font-size:10.5px;color:var(--muted)}
+@media(max-width:899px){.search-keys{display:none}}
+.search-empty{padding:22px 20px;font-size:14px;color:var(--ink-2);line-height:1.7}
+.search-empty a{display:inline-block;margin-top:10px;font-weight:700;color:var(--deep)}
+/* press feedback law: any tappable scales .985 in 80ms */
+.search-box button,.search-box a{transition:transform 80ms ease}
+.search-box button:active,.search-box a:active{transform:scale(.985)}
+/* ---------- /search page (Direction A row anatomy at page scale) ---------- */
+.sq-kicker{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--teal)}
+.sq-h{font-family:var(--display);font-weight:800;font-size:clamp(30px,7.5vw,44px);letter-spacing:-.035em;line-height:.95;margin:8px 0 0;overflow-wrap:anywhere}
+.sq-h .dot{color:var(--deep)}
+.sq-count{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:10px}
+.sq-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.sq-chips a,.sq-chips button{font-family:var(--mono);font-size:11.5px;color:var(--ink-2);border:1px solid var(--line-2);border-radius:999px;padding:5px 12px;background:transparent;cursor:pointer}
+.sq-chips a:hover,.sq-chips button:hover{border-color:var(--deep);color:var(--deep);text-decoration:none}
+.sq-chips button[aria-pressed="true"]{background:var(--mint);border-color:var(--deep);color:var(--ink);font-weight:700}
+html[data-theme=dark] .sq-chips button[aria-pressed="true"]{background:rgba(94,234,212,.22)}
+.sq-list{list-style:none;margin:22px 0 0;padding:0}
+.sq-list li a{display:flex;gap:14px;align-items:baseline;padding:16px 4px;border-top:1px solid var(--line);color:var(--ink)}
+.sq-list li:last-child a{border-bottom:1px solid var(--line)}
+.sq-list li a:hover{background:var(--band);text-decoration:none}
+.sq-list h3{font-family:var(--display);font-size:20px;font-weight:800;letter-spacing:-.02em;margin:0 0 4px}
+.sq-list .sr-x{display:block;font-size:14.5px;color:var(--muted);line-height:1.55}
+.sq-none{margin-top:22px;padding:22px 20px;background:var(--band);border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:0 8px 8px 0}
+.sq-none h2{font-family:var(--display);font-size:22px;font-weight:800;letter-spacing:-.02em}
+.sq-dym{margin-top:10px;font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+.sq-dym button{color:var(--deep);font-weight:600;text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+.sq-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.sq-actions a,.sq-actions button{font-family:var(--mono);font-size:12px;border:1px solid var(--line-2);border-radius:999px;padding:7px 14px;color:var(--ink-2);background:var(--paper);cursor:pointer}
+.sq-actions a:hover,.sq-actions button:hover{border-color:var(--deep);color:var(--deep);text-decoration:none}
+.sq-sub{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:26px 0 0}
+.close-x{width:38px;height:38px;border:1px solid var(--line-2);border-radius:2px;color:var(--muted);display:inline-flex;align-items:center;justify-content:center;flex:none}
+.close-x:hover{border-color:var(--deep);color:var(--deep)}
+.close-x svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:square}
+
+/* ---------- homepage hero: H1 left 8 cols + site-status panel right 4 ---------- */
+.hero{padding-top:clamp(10px,3vh,26px)} /* v3.2: longhand — shorthand killed wrap gutters (hero text was flush to glass too) */
+/* v3 FRONT PAGE: hero strip — H1 halved, one-sentence stand, hairline meta, ticker */
+h1.hero-h1{font-family:var(--display);font-weight:800;font-size:clamp(30px,7.5vw,44px);letter-spacing:-.035em;line-height:.92;max-width:14ch}
+h1.hero-h1 .dot{color:var(--deep)}
+.hero-stand{font-family:var(--sans);font-weight:400;font-size:clamp(15px,2vw,18px);line-height:1.6;color:var(--ink-2);max-width:60ch;margin:12px 0 0}
+.st-ticker{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-top:12px;padding:9px 12px;background:var(--band);border:1px solid var(--line);border-left:3px solid var(--deep);font-size:11px;letter-spacing:.03em;color:var(--muted);font-variant-numeric:tabular-nums}
+.st-ticker b{color:var(--deep);font-weight:600}
+.st-ticker .st-sig{color:var(--ink);font-weight:600;letter-spacing:.06em}
+.st-ticker .sep{opacity:.45}
+.st-ticker .batt{margin-left:2px}
+/* v3.1 fold assault: first story row ≤420px at 390 (King's gate) */
+@media (max-width:639px){
+  .hero-main{display:flex;flex-direction:column}
+  .hero-meta{order:6;margin-top:10px;font-size:10px;padding-top:10px}
+  .st-ticker{flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;scrollbar-width:none;padding:8px 12px}
+  .st-ticker::-webkit-scrollbar{display:none}
+  .st-ticker>*{flex:none}
+  .term{padding:8px 12px;font-size:12px;line-height:1.5;margin-top:10px}
+  .hero + .sec{padding-top:12px}
+  .rule-s{margin-bottom:10px}
+  .hero{padding-top:10px}
+  .hero-kicker{margin-bottom:6px}
+  .hero-stand{margin-top:8px;line-height:1.5}
+}
+.hero-grid{display:grid;grid-template-columns:1fr;gap:clamp(20px,4vw,36px)}
+@media (min-width:900px){.hero-grid{grid-template-columns:minmax(0,2fr) minmax(280px,1fr)}}
+.hero-kicker{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;color:var(--deep);margin-bottom:10px;font-weight:500}
+.hero-kicker::before{content:"";width:8px;height:8px;background:var(--deep);flex:none}
+/* v3: H1/stand rules moved up with the FRONT PAGE strip (old clamp(40,10vw,84) killed) */
+.hero-meta{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:14px;font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;color:var(--muted);border-top:1px solid var(--line);padding-top:12px;font-variant-numeric:tabular-nums}
+.hero-meta b{color:var(--deep);font-weight:600}
+/* site-status panel (live readout, real counts) */
+.st-panel{align-self:start;background:var(--band);border:1px solid var(--line-2);border-top:3px solid var(--verdict);padding:16px 18px 14px}
+.st-head{display:flex;align-items:center;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.12em;color:var(--ink);text-transform:uppercase;padding-bottom:10px;border-bottom:1px solid var(--line-2)}
+.st-head .st-sig{color:var(--deep)}
+.st-rows{margin:0;padding:0;list-style:none}
+.st-rows li{display:flex;align-items:baseline;gap:8px;padding:7px 0;border-bottom:1px dotted var(--line);font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.02em}
+.st-rows li:last-child{border-bottom:0}
+.st-rows .k{white-space:nowrap}
+.st-rows .dots{flex:1;min-width:14px;border-bottom:1px dotted var(--line-2);transform:translateY(-3px)}
+.st-rows .v{color:var(--ink);font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums}
+.st-rows .v.zero{color:var(--muted)}
+.st-batt{display:flex;align-items:center;gap:8px}
+.st-foot{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--muted);padding-top:10px;border-top:1px solid var(--line);margin-top:2px}
+
+/* ---------- quick-answer terminal box (signature #4) ---------- */
+.term{margin-top:clamp(14px,2.5vh,22px);background:var(--band);border:1px solid var(--line-2);border-top:3px solid var(--verdict);padding:11px 14px;font-family:var(--mono);font-size:12.5px;line-height:1.6}
+.term .t-line{display:flex;gap:10px;align-items:baseline}
+.term .t-p{color:var(--deep);font-weight:600;flex:none}
+.term .t-k{color:var(--muted)}
+.term .t-a{color:var(--ink);font-weight:500}
+.term .t-a a{color:var(--deep);font-weight:600}
+.term .t-a a:hover{color:var(--deeper)}
+.term .t-cursor{display:inline-block;width:8px;height:14px;background:var(--deep);transform:translateY(2px)}
+
+/* ---------- section furniture: § mono-indexed dividers ---------- */
+.sec{padding-top:var(--sp-e)} /* v3.2 bleed fix: longhand ONLY — the old shorthand's 0 sides killed .wrap's 16px gutters site-wide (every section flush to glass) */
+.rule-s{display:flex;align-items:baseline;gap:14px;border-top:1px solid var(--line-2);padding-top:12px;margin-bottom:18px}
+.rule-s .s-no{font-family:var(--mono);font-weight:600;font-size:13px;color:var(--deep);letter-spacing:.06em;line-height:1}
+.rule-s h2{font-family:var(--display);font-weight:800;font-size:clamp(23px,3.6vw,32px);letter-spacing:-.03em;line-height:.95}
+.rule-s .s-side{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.05em;white-space:nowrap}
+@media (max-width:639px){.rule-s .s-side{display:none}}
+
+/* ---------- TOP FIXES: fix rails as spec-sheet rows (no boxes) ---------- */
+.fix-rail{position:relative;border-bottom:1px solid var(--line)}
+.fix-rail::before{content:"";position:absolute;left:14px;top:18px;bottom:18px;width:1px;background:var(--line-2)}
+.spec-row{position:relative;display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:0 16px;align-items:center;padding:13px 0;border-top:1px solid var(--line)}
+.spec-row:first-child{border-top:0}
+.spec-row .idx{width:30px;height:30px;flex:none;background:var(--deep);color:var(--on-deep);font-family:var(--mono);font-weight:600;font-size:11.5px;display:inline-flex;align-items:center;justify-content:center;z-index:1;position:relative}
+.spec-row .sr-main{min-width:0}
+.spec-row h3{font-family:var(--display);font-weight:800;font-size:clamp(17px,2.4vw,21px);letter-spacing:-.02em;line-height:1.12;margin:0}
+.spec-row h3 a{color:var(--ink)}
+.spec-row .sr-meta{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.spec-row .sr-meta b{color:var(--deep);font-weight:500}
+.spec-row .arr{font-family:var(--mono);font-weight:600;font-size:18px;color:var(--deep);padding:0 2px;transition:transform .16s ease-out}
+.spec-row a:hover{text-decoration:none}
+.spec-row:hover h3 a{color:var(--deep)}
+.spec-row:hover .arr{transform:translateX(4px)}
+@media (max-width:639px){.spec-row .sr-meta span.hide-s{display:none}}
+
+/* ---------- §01 pillar map: battery-glyph tiles ---------- */
+.tiles{display:grid;grid-template-columns:1fr;gap:16px}
+@media (min-width:640px){.tiles{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:980px){.tiles{grid-template-columns:repeat(4,1fr)}}
+.tile{background:var(--band);border:1px solid var(--line);border-top:3px solid var(--deep);padding:16px 16px 14px;display:flex;flex-direction:column;gap:10px}
+.tile.is-empty{border-top-color:var(--line-2)}
+.tile-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.tile-top .batt{transform:translateY(1px)}
+.tile h3{font-family:var(--display);font-weight:800;font-size:18.5px;letter-spacing:-.02em;line-height:1.08;margin:0}
+.tile h3 a{color:var(--ink)}
+.tile h3 a:hover{color:var(--deep);text-decoration:none}
+.tile .t-meta{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+.tile .t-meta b{color:var(--deep);font-weight:600}
+.tile ul{list-style:none;margin:0;padding:0}
+.tile ul a{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-top:1px dotted var(--line);color:var(--ink-2);font-family:var(--mono);font-size:12px;align-items:baseline}
+.tile ul a:hover{color:var(--deep);text-decoration:none;border-top-color:var(--deep)}
+.tile ul a .n{color:var(--deep);font-weight:500;white-space:nowrap}
+.tile ul a.is-empty{color:var(--muted)}
+.tile ul a.is-empty .n{color:var(--muted)}
+.tile .t-foot{margin-top:auto;padding-top:8px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+.tile .t-foot a{color:var(--deep);font-weight:500}
+
+/* ---------- §02 money tree: deep-teal verdict band ---------- */
+.verdict-band{background:var(--verdict);color:var(--mint);margin:var(--sp-e) 0 0;position:relative}
+.verdict-band .vb-in{display:grid;grid-template-columns:1fr;gap:clamp(18px,3vw,40px);padding:clamp(28px,5vh,48px) clamp(20px,4vw,40px)}
+@media (min-width:900px){.verdict-band .vb-in{grid-template-columns:.75fr 1.25fr;align-items:center}}
+.vb-score{display:flex;flex-direction:column;gap:6px} /* v3.5 King: stacked stat — the side-hung label at a 110px baseline read accidental */
+.vb-score .n{font-family:var(--display);font-weight:800;font-size:clamp(64px,13vw,110px);line-height:.85;letter-spacing:-.05em;color:#FFF}
+.vb-score .of{font-family:var(--mono);font-size:12px;color:var(--mint);opacity:.85;letter-spacing:.05em;line-height:1.4}
+.vb-kicker{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);font-weight:600;margin-bottom:10px}
+.vb-title{font-family:var(--display);font-weight:800;font-size:clamp(22px,3.2vw,30px);letter-spacing:-.03em;line-height:1;color:#FFF;margin-bottom:10px}
+.vb-copy{color:var(--mint);opacity:.92;font-size:15px;line-height:1.6;max-width:62ch}
+.vb-shelves{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.shelf{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--mint);border:1px dashed rgba(217,242,232,.45);padding:7px 10px;border-radius:2px;display:inline-flex;gap:8px;align-items:center;background:transparent}
+.shelf b{color:#FFF;font-weight:500}
+.shelf:hover{border-color:#FFF;text-decoration:none}
+.vb-cta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:20px}
+.btn-deep{display:inline-flex;align-items:center;gap:10px;background:var(--deep);color:var(--on-deep);font-weight:800;font-size:14.5px;padding:13px 20px;border-radius:2px;border-top:2px solid var(--teal);min-height:42px}
+.btn-deep:hover{background:var(--deeper);color:var(--on-deep);text-decoration:none}
+.vb-fine{font-family:var(--mono);font-size:10.5px;color:var(--mint);opacity:.8;letter-spacing:.03em}
+.vb-batt{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--mint);opacity:.9}
+
+/* ---------- §03 latest: chronologic mono list (spec-sheet rows) ---------- */
+.lat-list{border-bottom:1px solid var(--line)}
+.lat-row{display:grid;grid-template-columns:86px minmax(0,1fr) auto;gap:0 16px;align-items:baseline;padding:12px 0;border-top:1px solid var(--line)}
+.lat-row .d{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.03em;white-space:nowrap;font-variant-numeric:tabular-nums}
+.lat-row h3{font-family:var(--display);font-weight:800;font-size:clamp(16px,2.2vw,19px);letter-spacing:-.018em;line-height:1.15;margin:0}
+.lat-row h3 a{color:var(--ink)}
+.lat-row .m{font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+.lat-row .m b{color:var(--deep);font-weight:500}
+.lat-row .arr{font-family:var(--mono);font-weight:600;color:var(--deep);transition:transform .16s ease-out}
+.lat-row a:hover{text-decoration:none}
+.lat-row:hover h3 a{color:var(--deep)}
+.lat-row:hover .arr{transform:translateX(4px)}
+@media (max-width:639px){.lat-row{grid-template-columns:minmax(0,1fr) auto}.lat-row .d{grid-column:1/-1;margin-bottom:2px}}
+.lat-more{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:.04em}
+.lat-more a{color:var(--deep);font-weight:600}
+
+/* ---------- trust / EEAT band ---------- */
+.trust{border:1px solid var(--line-2);background:var(--paper)}
+.trust-in{display:grid;grid-template-columns:1fr}
+@media (min-width:860px){.trust-in{grid-template-columns:repeat(3,1fr)}}
+.t-cell{padding:clamp(18px,3vw,28px);border-bottom:1px solid var(--line)}
+@media (min-width:860px){.t-cell{border-bottom:0;border-left:1px solid var(--line)}.t-cell:first-child{border-left:0}}
+.t-cell .t-k{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--deep);font-weight:600}
+.t-cell h3{font-family:var(--display);font-size:19px;letter-spacing:-.02em;margin:8px 0 4px;font-weight:800}
+.t-cell p{font-size:13.5px;color:var(--muted);line-height:1.55;margin:6px 0 0}
+.t-person{display:flex;align-items:center;gap:12px;margin-top:10px}
+.t-mono-av{width:40px;height:40px;flex:none;background:var(--deep);color:var(--on-deep);font-family:var(--display);font-weight:800;font-size:16px;display:flex;align-items:center;justify-content:center;border-radius:2px;letter-spacing:-.02em}
+.t-person b{display:block;font-size:14.5px;color:var(--ink)}
+.t-person span{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.04em}
+.stat-grid{display:flex;flex-wrap:wrap;gap:0 26px;margin-top:10px}
+.stat{min-width:86px}
+.stat .n{font-family:var(--display);font-weight:800;font-size:30px;letter-spacing:-.04em;line-height:.9;color:var(--ink);font-variant-numeric:tabular-nums}
+.stat .l{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
+
+/* ---------- newsletter stub ---------- */
+.notify{border-top:1px solid var(--line-2);margin-top:var(--sp-e);padding-top:clamp(26px,5vh,44px);padding-bottom:clamp(26px,5vh,44px)} /* v3.2: longhands — shorthand killed wrap gutters */
+.notify-in{display:grid;grid-template-columns:1fr;gap:18px;align-items:end}
+@media (min-width:760px){.notify-in{grid-template-columns:1.1fr .9fr}}
+.notify h2{font-family:var(--display);font-size:clamp(22px,3.2vw,30px);letter-spacing:-.03em;line-height:.95;font-weight:800}
+.notify p{color:var(--muted);font-size:14px;margin:8px 0 0;max-width:48ch}
+.notify form{display:flex;gap:10px;flex-wrap:wrap}
+.notify input[type=email]{flex:1;min-width:200px;border:1px solid var(--line-2);border-bottom-width:2px;background:var(--paper);padding:12px 14px;border-radius:2px;font-size:15px;font-weight:500}
+/* v0.6.8 King: dark fields were --mint (rgb(217,242,232)) = white slabs on the dark
+   band (v3.3 debt reversed) — now --field derived from --band-2, ink light, placeholder
+   --muted re-derived for the dark surface. Light mode untouched. */
+html[data-theme=dark] .notify input[type=email]{background:var(--field);border-color:var(--field-line);color:var(--field-ink)}
+html[data-theme=dark] .notify input[type=email]::placeholder{color:var(--field-ph)}
+/* v0.6.8: checkbox accents lift to --teal on dark (UA paints the box dark via
+   color-scheme:dark; the checked fill at --deep #00A88F was muddy against --field) */
+html[data-theme=dark] .c-check input{accent-color:var(--teal)}
+/* v3.3 King: dark button text melted into the button (verdict bg + ink text) */
+html[data-theme=dark] .notify .btn-deep{color:var(--mint)}
+.notify .btn-deep{border-top-width:0;background:var(--verdict)}
+.notify .btn-deep:hover{background:var(--deeper)}
+.notify .n-note{flex-basis:100%;font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.03em}
+
+/* ---------- article stub (kept internals, grotesk display) ---------- */
+/* v3.2: longhands ONLY below — shorthand with 0 sides kills .col gutters */
+.art-head{padding-top:clamp(26px,5vh,46px);padding-bottom:0}
+.crumb{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--muted);margin-bottom:16px;overflow:hidden;display:flex;align-items:center;gap:8px} /* v0.4.30 King: container clips the trail — nothing bleeds past the edge; v0.6.23 P14: gap for ol-less trails (search/latest/static/category) — matches ol>li gap:8px rhythm, no-op on single-child ol pages */
+.crumb ol{list-style:none;margin:0;padding-left:0;padding-right:0;display:flex;gap:8px;flex-wrap:nowrap;align-items:center;overflow:hidden;min-width:0;flex:1 1 auto} /* v0.4.14 King: trail never wraps — a dangling › on line two is the mess; v0.4.30: + clip so the ellipsis, not the viewport, ends the line */
+.crumb > span{flex:none} /* v0.4.30: ol-less markup (category/latest/static) — the › separators hold their size */
+.crumb > a{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap} /* v0.4.30: Home/parent crumbs on ol-less pages never break the row */
+.crumb > span:last-child{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap} /* v0.4.30: current crumb on ol-less pages takes the ellipsis */
+.crumb li{min-width:0;white-space:nowrap;flex:none;display:flex;align-items:center} /* real spans below; li itself centers its content */
+.crumb li:last-child{flex:0 1 auto} /* v0.4.30: only the CURRENT item shrinks — earlier crumbs stay whole, the "…" lands on the last visible item */
+.crumb li .sep{color:var(--line-2);margin-right:8px;line-height:1;flex:none} /* v0.4.14: REAL separator span — pseudo-element ::before line metrics doubled li height in phone engines (Obscura 35px vs 17px strut) */
+.crumb li .sep+.txt,.crumb li>a,.crumb li>span:not(.sep){min-width:0;overflow:hidden;text-overflow:ellipsis;display:block} /* v0.4.30: display:block so the ellipsis actually paints in flex items */
+.crumb a{color:var(--deep)}
+.art-h1{font-family:var(--display);font-weight:800;font-size:clamp(30px,5.6vw,58px);letter-spacing:-.035em;line-height:.92;max-width:22ch}
+.art-stand{font-family:var(--sans);font-weight:400;font-size:clamp(16px,2.2vw,19px);line-height:1.65;color:var(--ink-2);max-width:68ch;margin-top:16px}
+.meta-bar{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;margin:18px 0 0;padding-top:12px;padding-bottom:12px;border-top:1px solid var(--ink);border-bottom:1px solid var(--line);font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--muted);font-variant-numeric:tabular-nums}
+.meta-bar a{color:var(--deep);font-weight:500}
+.meta-who{display:inline-flex;align-items:center;gap:10px} /* v0.4.14 King: avatar + byline on one centered row — no more hanging author */
+.meta-bar .t-mono-av{width:32px;height:32px;font-size:13px} /* hero avatar steps down from the 40px author-box block */
+img.t-mono-av{object-fit:cover;border-radius:2px} /* v0.6.11 #4: byline monogram replaced by the author's Gravatar photo (same box, zero CLS) */
+.meta-bar .upd{border:1px solid var(--deep);color:var(--deep);padding:2px 7px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:9.5px;margin-left:10px} /* v0.5.1 King: pill needs clean separation from whatever precedes it (year on desktop, first element on mobile) */
+/* v0.4.3 King: meta is TWO deliberate lines, never wrap-shrapnel — author line + middot facts line */
+.meta-facts{display:flex;flex-wrap:wrap;gap:8px 0;align-items:center}
+.meta-facts span + span:not(.upd)::before{content:"·";margin:0 10px;color:var(--muted)} /* v0.5.1 King: :not(.upd) — the middot was painting TRAPPED INSIDE the pill border */
+/* v0.6.0 King fix 4+5: the live count is now <a class="lc"> — the span+span middot
+   rule matched INSIDE the group (stray dot "3 · comments"). Kill inner dots, keep the
+   sibling dot before the group (span + a.lc), and make the whole pill a comments link. */
+.meta-facts .lc span::before{content:none !important}
+.meta-facts span + a.lc::before{content:"·";margin:0 10px;color:var(--muted)}
+.meta-facts a.lc-link{cursor:pointer;text-decoration:none;color:inherit;display:inline-flex;align-items:center;gap:3px;line-height:1;padding:5px 0;margin:-5px 0;transition:color .14s ease-out} /* gap:3px — inline-flex drops the raw space text node between spans; 3px = the '3 comments' word space. 44px-ish tap comfort without stretching the row (negative margin cancels the padding) */
+.meta-facts a.lc-link:hover{color:var(--deep);text-decoration:underline}
+.meta-facts a.lc-link:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:2px}
+@media (max-width:899px){.meta-bar{flex-direction:column;align-items:flex-start;gap:8px}} /* v0.4.5 King landscape: the row wraps ragged at 640-899 — column discipline until desktop */
+@media (max-width:639px){.meta-bar .meta-who{font-size:12px}.meta-facts{gap:6px 0;font-size:10px}.meta-facts span + span:not(.upd)::before{margin:0 7px}.meta-facts span + a.lc::before{margin:0 7px}.meta-facts .f-lbl{display:none}.meta-facts:has(.upd) .f-pub{display:none}.meta-bar .upd{margin-left:0}} /* v0.4.4 King: facts diet — updated pill carries recency on mobile, published date rests on desktop+markup */ /* v0.5.2 King bug #4: :not(.upd) guard was missing on mobile — middot re-appeared trapped against the UPDATED pill */ /* v0.5.3 King bug #5: .f-pub is hidden above → .upd LEADS the line, so its 10px separation margin became an orphan indent (the 'unknown space'). Zero it when the pill leads; desktop keeps 10px. */ /* v0.6.0: a.lc sibling dot gets the same mobile 7px rhythm */
+.art-body{padding-top:26px;padding-bottom:10px}
+.stub-note{border-left:3px solid var(--deep);background:var(--band);padding:14px 18px;font-size:14px;color:var(--ink-2);line-height:1.6;margin:22px 0}
+.stub-note b{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--deep);display:block;margin-bottom:4px}
+.kicker-h{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--deep);font-weight:600;margin:26px 0 10px}
+.kicker-h::before{content:"";width:8px;height:8px;background:var(--deep);flex:none}
+.art-facts{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.art-facts li{display:flex;justify-content:space-between;gap:14px;padding-top:10px;padding-bottom:10px;border-bottom:1px solid var(--line);font-size:14.5px}
+.art-facts .fk{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.05em;flex:none;padding-top:2px}
+.author-box{border:1px solid var(--line-2);border-left:4px solid var(--verdict);background:var(--paper);padding:18px 20px;display:flex;gap:16px;align-items:flex-start;margin:30px 0 0}
+.author-box .t-mono-av{width:48px;height:48px;font-size:18px}
+.author-box h4{font-size:16px;font-weight:800;letter-spacing:-.01em;margin:0}
+.author-box p{font-size:13.5px;color:var(--muted);margin:4px 0 0;line-height:1.55}
+.rel-grid{display:grid;grid-template-columns:1fr;gap:0;border-top:1px solid var(--line-2);margin-top:14px}
+@media (min-width:760px){.rel-grid{grid-template-columns:repeat(3,1fr);column-gap:28px}}
+.rel-grid article{padding-top:14px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.rel-grid h3{font-size:15px;font-weight:800;letter-spacing:-.01em;line-height:1.3;margin:0 0 4px}
+.rel-grid h3 a{color:var(--ink)}
+.rel-grid h3 a:hover{color:var(--deep);text-decoration:none}
+.byline{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;color:var(--muted);display:flex;gap:12px;flex-wrap:wrap;font-variant-numeric:tabular-nums}
+.byline b{color:var(--deep);font-weight:500}
+.f-byline{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:16px;font-family:var(--mono);font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;letter-spacing:.03em}
+.f-byline b{color:var(--deep);font-weight:500}
+
+/* ---------- C-FULL article reading surface (article-patterns.md §6 MUST-HAVE + §3 traits) ----------
+   RULE: longhand padding ONLY in this block — any shorthand with 0 sides
+   collapses .col's clamp(16px) gutters and pins text to x=0 at 390. */
+.art-kicker{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--deep);font-weight:600;margin-top:0;margin-bottom:10px}
+.art-hero{margin:22px 0 0;min-width:0}
+.art-hero img{width:100%;height:auto;border-radius:4px;border:1px solid var(--line-2)}
+.art-hero figcaption{font-size:12.5px;color:var(--muted);line-height:1.55;margin-top:8px}
+.art-hero-ph{border:1px dashed var(--line-2);background:transparent;border-radius:4px;min-height:120px;display:flex;flex-direction:column;gap:6px;align-items:flex-start;justify-content:center;padding-top:28px;padding-bottom:28px;padding-left:22px;padding-right:20px;position:relative} /* v0.4.6 King: placeholder read as a dead CTA button — viewfinder frame now, nothing centered */
+.art-hero-ph::before,.art-hero-ph::after{content:"";position:absolute;width:16px;height:16px;pointer-events:none}
+.art-hero-ph::before{top:8px;left:8px;border-top:2px solid var(--deep);border-left:2px solid var(--deep)}
+.art-hero-ph::after{bottom:8px;right:8px;border-bottom:2px solid var(--deep);border-right:2px solid var(--deep)}
+.art-hero-sig{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.art-hero-soon{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--muted);opacity:.75}
+.art-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:0;min-width:0}
+.art-main{min-width:0}
+@media (min-width:1024px){.art-layout{grid-template-columns:minmax(0,1fr) 250px;column-gap:44px;align-items:start}.toc-side{position:sticky;top:72px;max-height:calc(100dvh - 96px);overflow:auto;display:block}}
+/* quick-answer box: verdict first, King's voice, above the mobile TOC */
+.qa-box{border:1px solid var(--line-2);border-left:4px solid var(--verdict);background:var(--paper);border-radius:4px;margin-top:24px;padding-top:16px;padding-bottom:16px;padding-left:18px;padding-right:18px}
+.qa-kicker{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--deep);font-weight:600;margin-top:0;margin-bottom:6px}
+.qa-verdict{font-size:15.5px;line-height:1.6;color:var(--ink);margin-top:0;margin-bottom:10px}
+.qa-steps{margin:0 0 10px;padding-left:22px;padding-right:0;font-size:14.5px;line-height:1.65;color:var(--ink-2)}
+.qa-steps li+li{margin-top:4px}
+.qa-steps code,.prose code{font-family:var(--mono);font-size:.86em;background:var(--band);border:1px solid var(--line);border-radius:3px;padding-top:1px;padding-bottom:1px;padding-left:5px;padding-right:5px;white-space:break-word;overflow-wrap:anywhere}
+.qa-meta{font-family:var(--mono);font-size:11px;letter-spacing:.03em;color:var(--muted);margin-top:0;margin-bottom:10px}
+.qa-jump{display:inline-flex;align-items:center;min-height:44px;font-weight:800;font-size:14.5px;color:var(--deep)}
+/* dual TOC: native details on mobile, sticky aside on desktop, >2-H2 gate in JS */
+.toc-mobile{border:1px solid var(--line-2);border-left:3px solid var(--deep);background:var(--paper);border-radius:4px;margin-top:18px;padding:0}
+.toc-mobile summary{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.08em;color:var(--ink);cursor:pointer;min-height:48px;display:flex;align-items:center;gap:10px;padding:0 16px;list-style:none}
+.toc-mobile summary::-webkit-details-marker{display:none}
+.toc-mobile summary::before{content:"§";color:var(--deep);font-weight:600}
+.toc-mobile summary::after{content:"▾";margin-left:auto;color:var(--muted);transition:transform .18s ease}
+.toc-mobile[open] summary::after{transform:rotate(180deg)}
+.toc-mobile summary .toc-count{font-size:10px;letter-spacing:.06em;color:var(--muted);font-weight:400;margin-left:2px}
+.toc-mobile nav{padding:2px 16px 14px}
+.toc-mobile[hidden],.toc-side[hidden]{display:none}
+.toc-side{font-size:13.5px;min-width:0;display:none} /* v0.4.7 King: widget TOC is a DESKTOP-only thing — hard-hidden below 1024, JS can't leak it onto mobile */
+.toc-side .toc-k{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--deep);font-weight:600;margin-top:24px;margin-bottom:8px}
+.toc-list{list-style:none;margin:0;padding-left:0;padding-right:0}
+.toc-list li{margin-top:2px}
+.toc-list a{display:block;color:var(--ink-2);font-size:13.5px;line-height:1.45;border-left:2px solid var(--line);padding-top:5px;padding-bottom:5px;padding-left:12px;padding-right:0}
+.toc-list a:hover{color:var(--deep);text-decoration:none}
+.toc-list a.cur{border-left-color:var(--deep);color:var(--deep);font-weight:700}
+.toc-list ul{list-style:none;margin:2px 0 0;padding-left:14px;padding-right:0}
+/* .prose: all 20 Gutenberg-mapped elements */
+.prose{font-size:16.5px;line-height:1.75;color:var(--ink);max-width:68ch;min-width:0;overflow-wrap:break-word;margin-top:22px}
+.prose> :first-child{margin-top:0}
+.prose h2,.prose h3,.prose h4,.prose h5,.prose h6{scroll-margin-top:76px;overflow-wrap:break-word}
+.prose h2{font-size:24px;letter-spacing:-.02em;line-height:1.15;margin-top:34px;margin-bottom:10px;padding-top:12px;border-top:1px solid var(--line-2)}
+.prose h3{font-size:18px;letter-spacing:-.01em;margin-top:26px;margin-bottom:8px}
+.prose h4,.prose h5,.prose h6{font-size:14px;letter-spacing:.02em;margin-top:20px;margin-bottom:6px}
+.prose p{margin-top:0;margin-bottom:1.2em}
+.prose ul,.prose ol{margin-top:0;margin-bottom:1.2em;padding-left:36px;padding-right:0}
+.prose ul{list-style:none;padding-left:36px}
+.prose ul>li{position:relative;margin-bottom:.45em}
+.prose ul>li::before{content:"◆";position:absolute;left:-22px;color:var(--deep);font-size:.8em;top:.3em}
+.prose ul ul>li::before{content:"◇"}
+.prose ul ul ul>li::before{content:"▪"}
+.prose ol{counter-reset:step;list-style:none;padding-left:44px} /* v0.4.16 King: pill-to-text gap was 6px — cramped; gutter 36→44 gives ~14px breathing room */
+.prose ol>li{position:relative;counter-increment:step;margin-bottom:.55em}
+.prose ol>li::before{content:counter(step);position:absolute;left:-44px;top:calc(.875em - 5px);min-width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;background:var(--deep);color:var(--on-deep);font-family:var(--mono);font-size:10.5px;font-weight:600;border-radius:999px;padding-left:5px;padding-right:5px} /* v0.4.15+16 King: pill centers on the first line's glyph band (em-math; 1lh unit is INVALID in phone engines — never use). v0.4.16: left -36→-44 tracks the 44px gutter → ~14px pill-to-text gap */
+.prose ol.footnotes,.prose ol.qa-steps{counter-reset:none}
+.prose ol.footnotes>li::before,.prose ol.qa-steps>li::before{content:none}
+.prose blockquote{border-left:3px solid var(--deep);background:var(--band);margin-top:0;margin-bottom:1.2em;margin-left:0;margin-right:0;border-radius:0 4px 4px 0;padding-top:12px;padding-bottom:12px;padding-left:16px;padding-right:16px;font-style:italic}
+.prose blockquote p:last-child{margin-bottom:0}
+.prose blockquote cite,.prose cite{display:block;font-family:var(--mono);font-style:normal;font-size:12.5px;color:var(--muted);margin-top:8px}
+.prose figure.pullquote{border:1px solid var(--line-2);border-left:4px solid var(--deep);background:var(--paper);border-radius:4px;margin-top:0;margin-bottom:1.2em;margin-left:0;margin-right:0;padding-top:14px;padding-bottom:14px;padding-left:18px;padding-right:18px;font-size:17px;font-weight:700;line-height:1.5}
+.prose figure.pullquote blockquote{border:0;background:none;margin:0;padding:0;font-style:normal}
+.prose pre{position:relative;background:var(--verdict);color:var(--mint);border-radius:4px;overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:0;margin-bottom:1.2em;padding-top:14px;padding-bottom:14px;padding-left:16px;padding-right:56px;font-family:var(--mono);font-size:13px;line-height:1.65;max-width:100%}
+.prose pre code{background:none;border:0;color:inherit;padding:0;font-size:inherit;white-space:pre}
+.prose pre.verse{background:var(--band);color:var(--ink-2);border:1px solid var(--line-2);padding-right:16px;white-space:pre-wrap}
+.code-wrap{position:relative;margin-bottom:1.2em} /* v0.4.9 King: chip + copy button anchor here (NON-scrolling); pre x-scrolls under them */
+.code-wrap>pre{margin-bottom:0;padding-bottom:56px} /* v0.4.10 King: the absolute button was covering the tail of every code line — reserved band below code; button lives there, never on text */
+.code-wrap::after{content:attr(data-lang);position:absolute;top:8px;right:12px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);opacity:.9;pointer-events:none}
+.code-wrap:has(pre.verse)::after{content:none}
+/* v0.4.11 King: mobile code lines were truncated at the edge (half-visible commands) — touch widths WRAP the code instead of clipping; chip-clearance top pad */
+@media (max-width:1023px){
+  .prose pre{padding-right:18px;padding-top:30px}
+  .prose pre code{white-space:pre-wrap;overflow-wrap:break-word}
+  .prose pre.verse{padding-top:14px}
+}
+.prose code .tk-cmd{color:var(--teal);font-weight:600}
+.prose code .tk-str{color:#FFF}
+.prose code .tk-flag{color:var(--mint);opacity:.7}
+.prose code .tk-num{color:var(--mint);opacity:.9}
+.prose code .tk-op{color:var(--teal)}
+.prose code .tk-cmt{opacity:.5;font-style:italic}
+.copy-btn{position:absolute;right:8px;bottom:8px;min-height:36px;display:inline-flex;align-items:center;border:1px solid var(--teal);border-radius:3px;color:var(--verdict);font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.05em;padding-top:6px;padding-bottom:6px;padding-left:12px;padding-right:12px;background:var(--teal);box-shadow:0 1px 0 rgba(0,0,0,.18)} /* v0.4.10 King: transparent+thin-teal=mint-text ghost was invisible on the dark block — solid teal fill + dark text = a real button */
+.copy-btn:hover{background:var(--mint);color:var(--verdict);border-color:var(--mint)}
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line-2);border-radius:4px;margin-top:0;margin-bottom:1.2em;max-width:100%}
+.prose table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px;line-height:1.55;margin:0}
+.prose th{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;text-align:left;color:var(--ink);background:var(--band);border-bottom:2px solid var(--line-2);padding-top:10px;padding-bottom:10px;padding-left:12px;padding-right:12px;white-space:nowrap}
+.prose td{border-top:1px solid var(--line);vertical-align:top;padding-top:10px;padding-bottom:10px;padding-left:12px;padding-right:12px}
+.prose td code,.prose th code{white-space:nowrap} /* v0.4.9 King: INSTALL_FAILED_* tokens must never split mid-word — the table scrolls, tokens don't break */
+.prose tbody tr:hover{background:var(--band)}
+.prose td.tbl-yes{color:var(--deep);font-weight:600}
+.prose td.tbl-no{color:#B3261E;font-weight:600}
+.prose td.tbl-best{background:var(--band);font-weight:700;box-shadow:inset 3px 0 0 var(--deep)}
+.prose figure{margin-top:0;margin-bottom:1.4em;margin-left:0;margin-right:0;min-width:0}
+.prose figure img{width:100%;height:auto;border-radius:4px;border:1px solid var(--line-2);cursor:zoom-in}
+.prose figcaption{font-size:12.5px;color:var(--muted);line-height:1.55;margin-top:8px}
+.prose .gallery{display:grid;grid-template-columns:1fr;gap:14px;margin-top:0;margin-bottom:1.4em}
+@media (min-width:768px) and (max-width:1023px){.prose .gallery{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:1024px){.prose .gallery{grid-template-columns:repeat(3,1fr)}}
+.prose .gallery figure{margin:0}
+.prose .btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:0;margin-bottom:1.2em}
+.prose .btn,.prose .btn-ghost{display:inline-flex;align-items:center;justify-content:center;min-height:44px;border-radius:2px;font-weight:800;font-size:14.5px;padding-top:11px;padding-bottom:11px;padding-left:20px;padding-right:20px}
+.prose .btn{background:var(--deep);color:var(--on-deep)}
+.prose .btn:hover{background:var(--deeper);text-decoration:none}
+.prose .btn-ghost{border:1px solid var(--deep);color:var(--deep)}
+.prose .btn-ghost:hover{background:var(--band);text-decoration:none}
+.prose hr{border:0;border-top:1px solid var(--line-2);margin-top:3em;margin-bottom:3em;margin-left:0;margin-right:0}
+.prose .cols{display:grid;grid-template-columns:1fr;gap:16px;margin-top:0;margin-bottom:1.2em}
+@media (min-width:768px){.prose .cols{grid-template-columns:repeat(2,1fr)}}
+.prose .cover{position:relative;overflow:hidden;border-radius:4px;background-size:cover;background-position:center;min-height:260px;display:flex;align-items:center;justify-content:center;text-align:center;margin-top:0;margin-bottom:1.2em;padding-top:32px;padding-bottom:32px;padding-left:24px;padding-right:24px}
+.prose .cover p{position:relative;z-index:1;color:#FFF;font-family:var(--display);font-weight:800;font-size:clamp(19px,3vw,26px);letter-spacing:-.02em;margin:0;max-width:30ch}
+.prose .cover .cover-dim{position:absolute;inset:0;background:rgba(7,21,18,.55)}
+.prose .facade{position:relative;aspect-ratio:16/9;max-width:100%;background:var(--verdict);border-radius:4px;overflow:hidden;margin-top:0;margin-bottom:1.2em;display:flex;align-items:center;justify-content:center}
+.prose .facade button{display:inline-flex;align-items:center;gap:10px;min-height:48px;color:#FFF;font-weight:700;font-size:15px;border:1px solid var(--teal);border-radius:4px;padding-top:12px;padding-bottom:12px;padding-left:20px;padding-right:20px;background:rgba(7,21,18,.5)}
+.prose .facade button:hover{background:var(--teal);color:var(--verdict)}
+.prose .facade iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.prose .facade-note{font-family:var(--mono);font-size:11px;color:var(--mint);opacity:.85;margin-top:8px}
+/* v0.4.17 King: media embeds — styled facade cards (poster art + provider badge + real play button) */
+.facade-card{position:relative;min-height:200px;background:var(--verdict);border-radius:6px;overflow:hidden;margin-top:0;margin-bottom:1.2em;border:1px solid var(--line-2);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-top:28px;padding-bottom:28px} /* v0.4.18 King right-bleed: aspect-ratio+min-height FORCES width 356px and phone engines IGNORE max-width against it (proven: inline 288px also ignored). Ratio dropped — min-height carries the frame, poster is cover so nothing distorts; width always = container */
+.facade-card.square{min-height:400px;max-width:min(320px,100%);margin-left:auto;margin-right:auto}
+.facade-card .fc-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55;filter:saturate(.9)}
+.facade-card .fc-scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,21,18,.1) 0%,rgba(7,21,18,.72) 100%)}
+.facade-card .fc-playwrap{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;flex:none;margin-bottom:6px} /* v0.4.17: button owns its row — never clipped by card edges */
+.facade-card .fc-play{width:64px;height:64px;border-radius:999px;background:var(--teal);color:var(--verdict);border:0;display:inline-flex;align-items:center;justify-content:center;font-size:24px;line-height:1;box-shadow:0 2px 14px rgba(0,0,0,.4);cursor:pointer;transition:transform .15s ease,background .15s ease}
+.facade-card .fc-play:hover{transform:scale(1.08);background:#fff}
+.facade-card .fc-play:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
+.facade-card .fc-label{position:relative;z-index:2;display:block;width:100%;color:#FFF;font-family:var(--sans);font-weight:700;font-size:14px;letter-spacing:.01em;padding-top:14px;padding-bottom:10px;padding-left:24px;padding-right:24px}
+.facade-card .fc-title{position:relative;z-index:2;display:block;color:var(--mint);font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding-bottom:22px;padding-left:24px;padding-right:24px}
+.facade-card .fc-badge{position:absolute;top:10px;left:10px;z-index:3;display:inline-flex;align-items:center;gap:6px;height:22px;border-radius:3px;background:rgba(7,21,18,.72);color:var(--mint);font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding-left:8px;padding-right:8px}
+.facade-card .fc-badge svg{width:14px;height:14px;fill:var(--mint)}
+.facade-card iframe{position:absolute;inset:0;width:100%;height:100%;border:0} /* v0.4.23: fc-live below overrides once the player goes live */
+/* v0.4.27 King: no empty space after play — once live, the card sheds its poster-min-height and the
+   iframe sizes to the provider's intrinsic box set by ArticleChrome JS: data-embed-height px +
+   aspect-ratio:auto for audio players (Spotify 152, Apple 270, Audiomack 252), data-embed-ratio for
+   video (TikTok 9/16, YouTube/Vimeo 16/9). The v0.4.23 blanket aspect-ratio:16/9 here stretched every
+   audio player to a 16/9 ratio box — the white space the King reported. JS owns sizing; CSS only
+   un-fits the poster-mode absolute layout. Higher specificity than .facade-card iframe above. */
+.facade-card.fc-live{min-height:0;padding-top:0;padding-bottom:0;border:0;background:transparent;border-radius:6px;overflow:hidden} /* v0.4.30 King: the CARD is the clipping mask — 6px radius + overflow:hidden. v0.4.29 put radius on the iframe instead: the widget's own rounded dark card + the iframe's rounded clip AA left white slivers at the tips (box-within-a-box). One clip path, on the card. */
+.facade-card.fc-live iframe{position:relative;inset:auto;width:100%;height:100%;min-height:0;display:block;border-radius:0;background:transparent} /* v0.4.30: iframe fills the card square, no second clip; JS inline height/aspect-ratio (v0.4.27 sizing) still overrides height:100% per provider */
+.facade-card.fc-live.fc-live-spotify{background:#121212;border-radius:12px} /* v0.4.33 King — TRUE root cause, measured: Spotify's own widget box is .TrackWidget_widgetContainer{overflow:clip;border-radius:.75rem} = 12px, painted on an embed canvas that is OPAQUE WHITE (its html/body declare no background). The host clipped that canvas at 6px, so the 6px..12px crescent at every corner showed the widget's own white canvas — the four white tips. v0.4.30/31/32 all failed because a 6px clip is WIDER than the widget's 12px corner, and no host-side background can paint over the frame canvas. Match the widget's radius exactly: clip == widget corner => host paint covers every pixel. */
+.facade-card.fc-live-spotify iframe{background:#121212;overflow:hidden;border-radius:12px} /* v0.4.33: clip the frame AT the widget's own .75rem corner (also what Spotify's official embed snippet ships: <iframe style="border-radius:12px" height="152">), so the frame's white canvas cannot show inside the corner. */
+.audio-fig .fc-audio-row{width:100%;display:flex;align-items:center;gap:12px;background-color:rgba(7,21,18,.5);background-image:url("/img/audio-note.svg");background-position:center;background-size:120px;background-repeat:no-repeat;border:1px solid var(--line-2);border-radius:6px;margin-top:0;margin-bottom:0;padding-top:10px;padding-bottom:10px;padding-left:14px;padding-right:14px;text-align:left} /* v0.4.24: re-scoped from .facade-card — the row is the card now */
+.audio-fig .fc-audio-row audio{flex:1;min-width:0;height:40px}
+.audio-fig .fc-badge{display:inline-flex;align-items:center;gap:6px;height:22px;border-radius:3px;background:rgba(7,21,18,.72);color:var(--mint);font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding-left:8px;padding-right:8px;flex:none} /* v0.4.24: same look the .facade-card .fc-badge gave with position:static */
+.prose audio,.prose video{width:100%;border-radius:4px;display:block}
+.prose video{background:#000}
+.prose audio{color-scheme:light}
+html[data-theme=dark] .prose audio{color-scheme:dark}
+.prose .callout{border:1px solid var(--line-2);border-radius:4px;margin-top:0;margin-bottom:1.2em;padding-top:12px;padding-bottom:12px;padding-left:16px;padding-right:16px;font-size:14.5px;line-height:1.6}
+.prose .callout p:last-child{margin-bottom:0}
+.prose .callout.warn{border-left:4px solid #B3261E;background:var(--paper)}
+.prose .callout.note{border-left:4px solid var(--deep);background:var(--band)}
+.prose .faq details,.prose details{border:1px solid var(--line-2);border-radius:4px;background:var(--paper);margin-top:0;margin-bottom:10px;padding-top:10px;padding-bottom:10px;padding-left:14px;padding-right:14px}
+.prose .faq summary,.prose summary{font-weight:700;font-size:15px;cursor:pointer;min-height:44px;display:flex;align-items:center}
+/* v0.6.2 FAQ affordance (King: click-to-open boxes must LOOK openable) — the
+   .toc-mobile house chevron cue, copied over: ▾ right-aligned in --muted through
+   margin-left:auto, flips 180deg when [open], --deep on hover. Native marker
+   suppressed so the cue is the only triangle in the row. */
+.prose .faq summary,.prose details summary{list-style:none;gap:10px}
+.prose .faq summary::-webkit-details-marker,.prose details summary::-webkit-details-marker{display:none}
+.prose .faq summary::after,.prose details summary::after{content:"▾";margin-left:auto;color:var(--muted);transition:transform .18s ease}
+.prose .faq details[open] summary::after,.prose details[open] summary::after{transform:rotate(180deg)}
+.prose .faq summary:hover::after,.prose details summary:hover::after{color:var(--deep)}
+.prose .faq details p:last-child{margin-bottom:0}
+.prose sup{font-size:.75em}
+.prose sup a{color:var(--deep)}
+.prose ol.footnotes{font-size:13px;color:var(--muted);border-top:1px solid var(--line);margin-top:1.6em;padding-top:12px;list-style:decimal;padding-left:22px}
+.prose ol.footnotes a{color:var(--deep)}
+/* trust footer: tags + share */
+.post-tags{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:26px 0 0;padding-left:0;padding-right:0}
+.post-tags a{display:inline-flex;align-items:center;min-height:44px;font-family:var(--mono);font-size:12px;color:var(--deep);border:1px solid var(--line-2);border-radius:999px;padding-top:8px;padding-bottom:8px;padding-left:14px;padding-right:14px}
+.post-tags a:hover{border-color:var(--deep);text-decoration:none}
+.share-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:18px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding-top:14px;padding-bottom:14px}
+.share-k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-right:4px}
+/* v0.6.11 King phone-review: v0.6.9's margin-left:auto + flex-end pinned the whole
+   group RIGHT — cluster drifted off the SHARE label and Copy link read as a banner.
+   Restore the v0.6.8-approved geometry: label flush-left, buttons LEFT-ALIGNED on the
+   SAME rail as the label, Copy link a content-sized 4th peer. justify-content:flex-end
+   STAYS but only matters when the group wraps internally at narrow widths (≤300px):
+   Copy link then stacks under the icon column's right rail, never under the Share
+   label (v0.6.9 clause preserved for the fallback only). */
+.share-grp{display:inline-flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:10px}
+.sh-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid #8FADA4;border-radius:2px;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--ink);padding:0;background:var(--paper)} /* v0.6.11: exact 44×44 tiles (was 46×44 — padding beat min-width), border + glyph one step stronger (King a11y law) */
+html[data-theme=dark] .sh-btn{border-color:#3E7264}
+.sh-btn[data-copy-link]{width:auto;padding:0 14px;gap:7px}
+.sh-btn:hover{border-color:var(--deep);color:var(--deep);text-decoration:none}
+/* v0.6.2 share glyphs (King: "X/WA/TG look like plain text abbrevs") — brand-drawn
+   inline SVGs in the reaction-icon stroke family: 24 viewBox, stroke currentColor,
+   1.6 hairline, square caps, non-scaling-stroke, zero third-party assets. Glyph-only
+   buttons keep their 44px targets via .sh-btn min-width/min-height. */
+.sh-btn--icon{gap:7px}
+.sh-btn--icon svg{width:16px;height:16px;flex:none;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:square;stroke-linejoin:miter}
+@media (min-width:900px){.sh-btn--icon svg{width:18px;height:18px}}
+/* global sr-only utility (Comments.astro's is scoped to .comments; the share bar
+   needs the same clip pattern site-wide — same box, same rules) */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+/* prev/next cards */
+.post-nav{display:grid;grid-template-columns:1fr;gap:12px;margin-top:26px}
+@media (min-width:640px){.post-nav{grid-template-columns:repeat(2,1fr)}}
+.pn-card{display:block;border:1px solid var(--line-2);border-radius:4px;background:var(--paper);min-width:0;padding-top:14px;padding-bottom:14px;padding-left:16px;padding-right:16px}
+.pn-card:hover{border-color:var(--deep);text-decoration:none}
+.pn-empty{border-style:dashed;min-height:80px}
+.pn-k{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--deep);font-weight:600}
+.pn-t{display:block;font-weight:800;font-size:15px;line-height:1.35;color:var(--ink);margin-top:6px}
+.pn-c{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--muted);margin-top:6px}
+.notify-art{margin-top:34px}
+/* reading progress: fixed GPU bar, scaleX only */
+.rprog{position:fixed;top:0;left:0;right:0;height:3px;z-index:60;pointer-events:none}
+.rprog i{display:block;height:100%;background:var(--deep);transform:scaleX(0);transform-origin:0 50%}
+/* vanilla lightbox: dialog + counter + caption + swipe */
+.gl-overlay{position:fixed;inset:0;z-index:90;background:rgba(7,21,18,.9);display:flex;align-items:center;justify-content:center;flex-direction:column;opacity:0;transition:opacity .18s ease-out;padding-top:20px;padding-bottom:20px;padding-left:16px;padding-right:16px}
+.gl-overlay[hidden]{display:none}
+.gl-overlay.gl-open{opacity:1}
+.gl-image-wrap{width:100%;max-width:min(1000px,100%);max-height:76dvh;display:flex;align-items:center;justify-content:center;min-width:0;min-height:40px} /* v0.4.13 King: wrap is definite-width so the enlarged image can never collapse to zero (flex circular-sizing blanked it on phones) */
+.gl-image{display:block;width:100%;height:auto;max-height:76dvh;object-fit:contain;border-radius:4px}
+.gl-close{position:absolute;top:12px;right:12px;width:48px;height:48px;font-size:28px;line-height:1;color:#FFF;border:1px solid rgba(255,255,255,.4);border-radius:4px}
+.gl-close:hover{background:rgba(255,255,255,.12)}
+.gl-nav{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:64px;font-size:34px;color:#FFF;border:1px solid rgba(255,255,255,.25);border-radius:4px;background:rgba(7,21,18,.4)}
+.gl-prev{left:8px}
+.gl-next{right:8px}
+.gl-counter,.gl-caption{color:#FFF;font-family:var(--mono);font-size:12px;letter-spacing:.04em;margin-top:10px;text-align:center;max-width:60ch}
+@media (prefers-reduced-motion:reduce){.gl-overlay{transition:none}}
+@media (max-width:639px){.art-hero-ph{min-height:96px}.pn-empty{display:none}.gl-nav{width:44px;height:56px}}
+
+/* ---------- category pages ---------- */
+.cat-hero{padding-top:clamp(24px,5vh,42px)} /* v3.4: longhand — shorthand killed wrap gutters (the "0" sat at x=0) */
+.cat-hero h1{font-family:var(--display);font-weight:800;font-size:clamp(30px,5.2vw,52px);letter-spacing:-.035em;line-height:.92}
+.cat-hero .intro{color:var(--ink-2);font-size:16px;max-width:68ch;margin-top:12px}
+.empty-hero .launch{display:flex;width:fit-content;align-items:center;gap:9px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--deep);border:1px solid var(--deep);padding:7px 12px;border-radius:2px;margin:14px auto 0;text-transform:uppercase}
+/* v3.4 King: the count is a composed centered empty-state, not a stray glyph at the edge */
+.empty-hero .zero{font-family:var(--display);font-weight:800;font-size:clamp(60px,12vw,96px);letter-spacing:-.05em;line-height:.85;color:var(--muted);text-align:center;margin-top:22px;font-variant-numeric:tabular-nums}
+.cat-list{margin-top:clamp(22px,4vh,36px);border-top:1px solid var(--line-2)}
+.cat-list article{padding:16px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr;gap:4px}
+@media (min-width:760px){.cat-list article{grid-template-columns:1fr auto;column-gap:30px;align-items:baseline}}
+.cat-list h3{font-family:var(--display);font-size:20px;font-weight:800;letter-spacing:-.02em;line-height:1.15}
+.cat-list h3 a{color:var(--ink)}
+.cat-list h3 a:hover{color:var(--deep);text-decoration:none}
+.cat-list .x{grid-column:1;color:var(--muted);font-size:14px;line-height:1.55;max-width:68ch;margin-top:4px}
+.cat-empty{padding:8px 0 0}
+
+/* ══ v0.6.25 P15B-A Field-Manual Index: dressed sub-shelf tiles ══
+   Digest §1 (informed-by: linear.app feature-card/status-badge — bounded tile +
+   pill count; notion — count as distinct visual property; mintlify — green strictly
+   for stock state; uiplaybook — one radius + one padding token across all tiles).
+   Bounded paper tile, hairline border, house 2px radius, mono count pill:
+   mint-filled when stocked, outline-gray when empty. No yellow, no serif —
+   Archivo display + Plex Mono only, existing brand tokens only. */
+.empty-row{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:14px}
+@media (min-width:760px){.empty-row{grid-template-columns:repeat(4,1fr);gap:16px}}
+.empty-tile{display:flex;flex-direction:column;align-items:flex-start;gap:10px;background:var(--paper);border:1px solid var(--line-2);border-radius:2px;padding:16px 14px;min-height:44px;transition:border-color .16s ease-out}
+.empty-tile:hover{border-color:var(--deep);text-decoration:none}
+.empty-tile b{font-family:var(--display);font-weight:800;font-size:16.5px;letter-spacing:-.02em;line-height:1.15;color:var(--ink)}
+.empty-tile:hover b{color:var(--deep)}
+.empty-tile .t-count{display:inline-flex;align-items:center;width:fit-content;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;background:var(--mint);color:var(--verdict);padding:2px 8px;border-radius:999px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.empty-tile .t-count.is-empty{background:transparent;color:var(--muted);border:1px solid var(--line-2);font-weight:500}
+
+/* ---------- footer (mono voice) ---------- */
+/* C1 wordmark on the deep band: remap type tokens to the footer palette,
+   size ~30px. --canvas feeds the eye holes + mouth — must equal the band
+   (--foot-band) so they read as punched holes, same trick as the header.
+   Eyes pinned open in the footer; blink stays a header trait.
+   Re-pin --deep too: header's html[data-theme=dark] rule would win on specificity. */
+.site-footer{margin-top:clamp(48px,8vh,84px);background:var(--verdict);--foot-band:var(--verdict);color:var(--mint);border-top:4px solid var(--teal)}
+html[data-theme=dark] .site-footer{background:#050F0D;--foot-band:#050F0D}
+/* v0.6.2 King: in dark the footer's top edge painted --teal #00C896 while the scrollbar
+   thumb paints --deep #00A88F — two teals for one brand line. Pin the dark edge to
+   --deep so the seam and the scrollbar read as the SAME green. Light mode keeps the
+   bright --teal #00A88F edge (that is the intent there: the band sits on the canvas). */
+html[data-theme=dark] .site-footer{border-top-color:var(--deep)}
+.foot-in{max-width:1180px;margin:0 auto;padding:clamp(30px,5vh,52px) clamp(16px,4vw,40px) 22px}
+/* v2.4 D3: brand block + 3 sitemap columns on one grid row at 1280;
+   mobile: brand full width, pillars 2-col (digest trait 7) */
+.foot-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:clamp(20px,3vw,36px)}
+@media (min-width:1024px){.foot-grid{grid-template-columns:1.2fr repeat(4,1fr)}}
+/* Wordmark on the band: ink->mint, Scroll->teal, eye/mouth holes -> band */
+.site-footer .wordmark-lockup{height:30px;width:auto;display:block;flex:none;--ink:var(--mint);--deep:var(--teal);--canvas:var(--foot-band)}
+/* re-pin: header's html[data-theme=dark] .wordmark-lockup{--deep:#006E5E} is (0,2,1)
+   and would beat the rule above in dark; (0,3,1) keeps Scroll teal on the band */
+html[data-theme=dark] .site-footer .wordmark-lockup{--deep:#006E5E}
+/* v2.6 King: the footer wordmark blinks too — pin removed, same 5.4s wink as the header */
+.foot-brand .nameplate{display:inline-flex;align-items:center;color:var(--ink);min-width:0;padding:8px 0}
+.foot-col h4{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#FFF;margin:0 0 12px;font-weight:600}
+.foot-col ul{list-style:none;margin:0;padding:0}
+.foot-col li+li{margin-top:7px}
+/* v2.6 mobile/tab friendly: link hit rows >=40px on touch, list rows breathe */
+@media (hover:none),(max-width:1023px){.foot-col li+li{margin-top:1px}.foot-col a{padding:10px 0;min-height:40px}.foot-alerts a{padding:12px 0;min-height:44px}.foot-top{padding:12px 14px;min-height:44px}.foot-legal a{padding:10px 4px}}
+.foot-col a{color:var(--mint);font-family:var(--mono);font-size:12px;letter-spacing:.02em;display:inline-flex;gap:8px;align-items:baseline;justify-content:space-between;width:100%}
+.foot-col a:hover{color:#FFF;text-decoration:none}
+.foot-col .cnt{color:rgba(217,242,232,.65)}
+/* v2.4: stale pre-C1 nameplate markup gone — brand-mark/brand-name rules pruned */
+.foot-brand p{font-size:13px;color:rgba(217,242,232,.85);line-height:1.6;margin-top:12px;max-width:34ch}
+/* v2.4: notify stub form killed — honest one-line link to the contact desk */
+.foot-alerts{margin-top:14px;max-width:none}
+.foot-alerts a{font-family:var(--mono);font-size:11.5px;letter-spacing:.02em;color:var(--teal);display:inline-block;padding:6px 0}
+.foot-alerts a:hover{color:#FFF}
+.foot-paper{margin-top:0}
+.foot-bar{border-top:1px solid rgba(217,242,232,.25);margin-top:clamp(24px,4vh,38px);padding-top:16px;display:flex;flex-wrap:wrap;gap:10px 26px;align-items:center;font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;color:rgba(217,242,232,.75)}
+.foot-bar a{color:rgba(217,242,232,.9)}
+.foot-bar a:hover{color:#FFF}
+.foot-bar .sep{opacity:.4}
+.matomo-note{max-width:62ch}
+/* v2.4 D3: legal dots live in the bottom bar (digest trait 4) */
+.foot-legal{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap}
+.foot-legal .sep{opacity:.4}
+/* back-to-top pinned right on desktop; smooth scroll is the html{} rule */
+.foot-top{margin-left:auto;white-space:nowrap;padding:8px 0}
+/* v2.4 responsive contract: brand full width + pillars 2-col on phones, foot-bar stacks */
+@media (max-width:1023.98px){.foot-brand{grid-column:1/-1}}
+@media (max-width:767px){
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .foot-bar{flex-direction:column;align-items:flex-start;gap:12px}
+  .foot-bar > .sep{display:none}
+  .foot-top{margin-left:0}
+  /* WCAG target size on touch: every footer link ≥44px tappable box */
+  .foot-col a,.foot-alerts a,.foot-bar a{min-height:44px;display:inline-flex;align-items:center}
+}
+
+/* ---------- toast (v0.6.8: hidden state FULLY off-screen + invisible — sliver fix; visibility flips only after the .18s exit completes) ---------- */
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,calc(100% + 40px));opacity:0;visibility:hidden;z-index:80;background:var(--verdict);color:#FFF;border:1px solid var(--teal);padding:11px 18px;border-radius:2px;font-family:var(--mono);font-size:12px;letter-spacing:.04em;box-shadow:var(--float);max-width:90vw;transition:transform .18s ease-out,opacity .18s ease-out,visibility 0s linear .18s}
+.toast.show{transform:translate(-50%,0);opacity:1;visibility:visible;transition:transform .18s ease-out,opacity .18s ease-out,visibility 0s linear 0s}
+
+/* ---------- motion (restrained, 60fps; design-plan-v3) ---------- */
+html.js .stag{opacity:0;transform:translateY(8px);transition:opacity .32s ease,transform .32s ease}
+html.js .stag.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}html.js .stag{opacity:1;transform:none}}
+
+/* ---------- utilities ---------- */
+.hairline{border-top:1px solid var(--line-2);margin:var(--sp-e) 0 0}
+.no-js-hide{display:none}
+html.js .no-js-hide{display:block}
+
+/* ══ v0.6.10 social icon rows (footer band, browse-sheet foot, author box) ══
+   .sh-btn house rule honored: >=40px tap targets, 2px radius, currentColor ink,
+   16px svg (v0.6.7 share-btn ink class) -> 18px >=900px. Optical-law per-icon
+   <g scale> lives in data/socials.ts — geometry, not CSS.
+   Contrast: foot mint #D9F2E8 on --verdict #0A332C = 9.9:1 light / 12.6:1 dark;
+   paper ink-2 on --paper = 10.8:1 light / 11.4:1 dark (all >= 4.5). */
+.soc-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.soc-btn{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:1px solid transparent;border-radius:2px;text-decoration:none;transition:color .16s ease-out,border-color .16s ease-out,background-color .16s ease-out}
+.soc-btn svg{width:16px;height:16px;flex:none;display:block}
+@media (min-width:900px){.soc-btn svg{width:18px;height:18px}}
+.soc-row--foot .soc-btn{color:var(--mint);border-color:rgba(217,242,232,.28)}
+.soc-row--foot .soc-btn:hover{color:#FFF;border-color:var(--teal);text-decoration:none}
+.soc-row--paper .soc-btn{color:var(--ink-2);border-color:var(--line-2);background:var(--paper)}
+.soc-row--paper .soc-btn:hover{color:var(--deep);border-color:var(--deep)}
+.soc-btn:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.soc-kicker{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--muted);margin-bottom:8px}
+.foot-social{margin-top:16px}
+.foot-social .soc-kicker{color:rgba(217,242,232,.8)}
+.sheet-socs{flex-basis:100%;margin-top:2px}
+.sheet-socs .foot-kicker{display:block;margin-bottom:8px}
+/* the footer's .foot-col a rule (width:100%, mono link styling) must not reach
+   the icon buttons — pin the house .soc-btn geometry inside the footer band */
+/* v0.6.10 gate fix: the generic .foot-col a{justify-content:space-between} rule
+   (link+count rows) leaked into the icon buttons — a lone svg under space-between
+   sits flex-start, so every footer glyph rode the box edge 11px left of center.
+   Re-pin the flex centering (specificity .site-footer .soc-btn beats .foot-col a). */
+.site-footer .soc-btn{width:40px;height:40px;font-family:inherit;letter-spacing:0;justify-content:center;align-items:center}
+
+/* ══ v0.6.10 author-box gravatar ══ photo replaces the 'G' monogram in the same
+   48px slot (zero CLS), circular with brand ring per theme. */
+.author-box .a-photo{width:48px;height:48px;flex:none;border-radius:50%;object-fit:cover;border:2px solid var(--verdict);background:var(--band);box-shadow:0 0 0 1px var(--line-2)}
+html[data-theme=dark] .author-box .a-photo{border-color:var(--teal)}
+.author-box .a-body{min-width:0}
+.author-box .a-socials{margin-top:12px}
+
+/* ══ v0.6.10 commenter gravatar ══ img overlays the initials box inside a fixed
+   36px wrap; d=404 hit -> inline onerror removes img -> initials underneath show.
+   Both states occupy the same box: zero CLS. Null hash (every v0.1.3-era row)
+   never builds an img at all — initials path byte-identical to before. */
+.comments .c-av-wrap{position:relative;width:36px;height:36px;flex:none}
+.comments .c-av-wrap .c-avatar{width:36px;height:36px}
+.comments .c-photo{position:absolute;inset:0;width:36px;height:36px;border-radius:2px;object-fit:cover;border:1px solid var(--line-2)}
+
+/* ══ v0.6.27 P16 404 theme-adaptive door ══
+   Digest informed-by per decision (~/work/p16-patterns.md):
+   - giant Archivo 800 numeral, deep green on paper (principle 1; informed-by
+     Native Security 404: giant "404" as the single visual anchor, one exit).
+   - "No guide lives here." kept verbatim, no apology stack (principle 2;
+     informed-by haraguchi 404: restraint, empty space IS the message).
+   - mono log strip = terminal character at zero JS cost (principle 4;
+     informed-by Raycast DESIGN.md: mono type details as brand voice). Light
+     wears Signal Board language (ERROR 404 · LOGGED), dark wears Night
+     Terminal language (> route --404) — CSS-only swap, same element.
+   - SEARCH + HOME CTA pair (informed-by Notion DESIGN.md: headline + CTA
+     pair); SEARCH reuses the header's own #search-trigger click path, no new
+     plumbing. Report link + search pointer kept = fault-owned action
+     (principle 3; informed-by Anti Average 404: own the fault, one action).
+   - no error-red anywhere (informed-by Raycast: red reserved for
+     destructive/error only — a 404 is a door, not damage). Brand tokens only.
+   - magnets + pillar counts kept below a hairline (principle 5, honest counts
+     law); Linear single-voice: same family/weights both themes, only tokens
+     flip. No game/3D/glitch (Lighthouse law).
+   Contrast (measured, pairs hold): light numeral --deep/paper 6.19,
+   stand --ink-2/paper 13.5+, log --deep/paper 6.19 (all >= 3/4.5); dark hero
+   sits on --verdict: numeral --teal 7.00, stand --ink 13.51, log --teal 7.00,
+   muted --muted 8.97; SEARCH solid --teal w/ --verdict ink 8.62 dark /
+   --deep w/ white 6.19 light; HOME outline --deep light / --teal dark. */
+.nf{padding-bottom:64px}
+.nf-hero{margin-top:clamp(18px,4vh,34px);background:var(--paper);border:1px solid var(--line-2);border-top:3px solid var(--deep);border-radius:4px;padding:clamp(22px,5vw,36px) clamp(18px,5vw,32px)}
+html[data-theme=dark] .nf-hero{background:var(--verdict);border-color:var(--line);border-top-color:var(--teal)}
+.nf-log{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--deep);margin:0 0 6px}
+html[data-theme=dark] .nf-log{color:var(--teal)}
+.nf-log .lg-dark{display:none}
+html[data-theme=dark] .nf-log .lg-dark{display:inline}
+html[data-theme=dark] .nf-log .lg-light{display:none}
+.nf-num{font-family:var(--display);font-weight:800;font-size:clamp(96px,30vw,172px);line-height:.85;letter-spacing:-.05em;color:var(--deep);font-variant-numeric:tabular-nums}
+html[data-theme=dark] .nf-num{color:var(--teal)}
+.nf-h1{font-family:var(--display);font-weight:800;font-size:clamp(28px,7vw,44px);letter-spacing:-.035em;line-height:.95;margin:14px 0 0;color:var(--ink)}
+.nf-stand{color:var(--ink-2);font-size:clamp(15px,2vw,17px);line-height:1.65;max-width:60ch;margin:12px 0 0}
+.nf-ctas{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.nf-search{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:11px 22px;border-radius:2px;background:var(--deep);color:#FFF;font-weight:800;font-size:14.5px;border:0;cursor:pointer}
+.nf-search:hover{background:var(--deeper);color:#FFF;text-decoration:none}
+html[data-theme=dark] .nf-search{background:var(--teal);color:var(--verdict)}
+html[data-theme=dark] .nf-search:hover{background:var(--mint);color:var(--verdict)}
+.nf-home{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:11px 22px;border-radius:2px;border:1px solid var(--deep);color:var(--deep);font-weight:800;font-size:14.5px}
+.nf-home:hover{background:var(--band);text-decoration:none}
+html[data-theme=dark] .nf-home{border-color:var(--teal);color:var(--teal)}
+.nf-doors{margin-top:30px;border-top:1px solid var(--line-2);padding-top:4px}
+
+/* ══ P17a — PWA install surfaces (bottom-sheet card + footer buttons) ══
+   Finance gwill-pwa/pwa-install port, re-skinned to the field-manual: paper
+   card, mono kicker, teal primary, ghost secondary. Both themes below. */
+.as-pwa{position:fixed;left:0;right:0;bottom:0;z-index:80;display:none;justify-content:center;padding:0 10px calc(12px + env(safe-area-inset-bottom,0px));pointer-events:none}
+body.as-pwa-visible .as-pwa{display:flex}
+.as-pwa-card{pointer-events:auto;position:relative;width:100%;max-width:460px;display:flex;align-items:center;gap:12px;background:var(--paper);border:1px solid var(--line-2);border-top:3px solid var(--deep);border-radius:4px;box-shadow:var(--float);padding:14px 16px;animation:as-pwa-in .26s ease-out}
+html[data-theme=dark] .as-pwa-card{border-top-color:var(--teal)}
+@keyframes as-pwa-in{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
+@media (prefers-reduced-motion: reduce){.as-pwa-card{animation:none}}
+.as-pwa-mark{flex:none;width:38px;height:38px;display:inline-flex;align-items:center;justify-content:center;border-radius:2px;background:var(--deep);color:var(--on-deep)}
+html[data-theme=dark] .as-pwa-mark{background:var(--teal);color:var(--verdict)}
+.as-pwa-body{flex:1 1 auto;min-width:0}
+.as-pwa-kicker{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;color:var(--muted);margin:0}
+.as-pwa-title{font-family:var(--display);font-size:14px;font-weight:800;letter-spacing:-.01em;color:var(--ink);margin:2px 0 3px}
+.as-pwa-copy{font-size:12px;line-height:1.5;color:var(--ink-2);margin:0}
+.as-pwa-acts{flex:0 0 auto;display:flex;gap:8px}
+.as-pwa-install{background:var(--deep);color:var(--on-deep);border:0;border-radius:2px;padding:10px 14px;font-family:var(--sans);font-size:12.5px;font-weight:800;cursor:pointer;white-space:nowrap}
+.as-pwa-install:hover{background:var(--deeper)}
+html[data-theme=dark] .as-pwa-install{background:var(--teal);color:var(--verdict)}
+html[data-theme=dark] .as-pwa-install:hover{background:var(--mint);color:var(--verdict)}
+.as-pwa-later{background:transparent;color:var(--muted);border:1px solid var(--line-2);border-radius:2px;padding:10px 12px;font-family:var(--sans);font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap}
+.as-pwa-later:hover{border-color:var(--deep);color:var(--ink)}
+html[data-theme=dark] .as-pwa-later:hover{border-color:var(--teal)}
+.as-pwa-install:focus-visible,.as-pwa-later:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+@media (max-width:767px){.as-pwa-card{flex-wrap:wrap;gap:10px 12px}.as-pwa-body{flex-basis:calc(100% - 50px)}.as-pwa-acts{flex-basis:100%}.as-pwa-install,.as-pwa-later{flex:1;text-align:center}}
+/* footer buttons (finance .finall → .as-install): hidden until JS proves support */
+.as-install{font:inherit;font-size:13px;font-weight:700;line-height:1;padding:10px 16px;border-radius:2px;cursor:pointer;border:1px solid var(--deep);background:transparent;color:var(--deep);display:inline-flex;align-items:center;gap:8px;-webkit-tap-highlight-color:transparent}
+.as-install:hover{background:var(--band);text-decoration:none}
+.as-install[hidden]{display:none}
+html[data-theme=dark] .as-install{border-color:var(--teal);color:var(--teal)}
+html[data-theme=dark] .as-install:hover{background:var(--band)}
+.as-install--ios{border-style:dashed}
+.as-install-note{display:block;width:100%;max-width:46ch;margin:8px 0 0;font-size:11.5px;line-height:1.55;font-weight:500;color:var(--ink-2);background:var(--band);border:1px solid var(--line);border-radius:2px;padding:8px 10px}
+html[data-theme=dark] .as-install-note{background:var(--band-2);border-color:var(--line-2)}

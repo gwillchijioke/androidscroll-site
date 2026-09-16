@@ -1,0 +1,471 @@
+---
+/* Header v0.3 — ONE BAR (header-patterns.md decisions, Sep 10):
+   - Single sticky bar 54px mobile / 60px desktop (Cloudflare 54 + Velt 69 bracket).
+   - Wordmark = biggest element: green square SVG mark with terminal-notch cut
+     (echo of the approved Terminal G logo, executed clean) + "AndroidScroll"
+     weight 800, "Scroll" in deep teal. NO status-line, NO ad-flag in the bar.
+   - Right cluster: 3 stroke-SVG icon buttons (browse, search, theme sun/moon),
+     20px icons in 44px hotspots. Zero text glyphs.
+   - Scroll >8px adds .is-compact: 1px bottom hairline + 4px soft shadow,
+     height eases to 48px.
+   - Desktop ≥900px: up to 4 inline category links, mono 12px, between wordmark
+     and icons (Cloudflare's labeled-links pattern).
+   - Browse bottom sheet + search overlay IDs preserved. */
+import { SITE, CATS, PILLARS, TOTALS, childrenOf, postsIn, POSTS, mostRead } from '../data/site';
+import { buildSynonyms } from '../lib/search-core.js';
+import searchCoreRaw from '../lib/search-core.js?raw';
+const SEARCH_IDX = POSTS.map(p => ({ title: p.title, url: p.url, excerpt: p.excerpt, cat: p.cat_name,
+  read_min: p.read_min, meta: `${p.date} · ${p.read_min} min · ${p.cat_name}` }));
+const SEARCH_SYN = buildSynonyms(SEARCH_IDX);
+const TRENDING = mostRead().slice(0, 3);
+import Wordmark from './Wordmark.astro';
+import SocialRow from './SocialRow.astro';
+import { SOCIAL_BRAND } from '../data/socials';
+const pillarsWithPosts = PILLARS.map(p => ({ ...p, real: postsIn(p).length }));
+const navCats = pillarsWithPosts.filter(p => p.real > 0).slice(0, 4);
+const navLabel = (name: string) => name.split(/[ &—-]+/).filter(Boolean)[0] || name;
+const shortCount = (name: string) => navLabel(name).toLowerCase();
+---
+<header class="site-header" id="site-header">
+  <div class="header-in">
+    <a class="wordmark" href="/" aria-label="AndroidScroll — home">
+      <Wordmark />
+    </a>
+
+    {navCats.length > 0 && (
+      <nav class="head-cats" aria-label="Featured shelves">
+        {navCats.map(p => (
+          <a href={p.path} title={`${p.name} — ${p.real} live ${p.real === 1 ? 'guide' : 'guides'}`}>{shortCount(p.name)}</a>
+        ))}
+      </nav>
+    )}
+
+    <div class="head-actions">
+      <button class="icon-btn" id="browse-trigger" aria-expanded="false" aria-controls="browse-sheet" aria-label="Open browse menu" title="Browse the shelves">
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3.5 6.5h17M3.5 12h17M3.5 17.5h11"/></svg>
+      </button>
+      <button class="icon-btn" id="search-trigger" aria-label="Search guides" aria-expanded="false" aria-controls="search-layer" title="Search (/)">
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.8" cy="10.8" r="6.3"/><path d="M15.6 15.6 20.5 20.5"/></svg>
+      </button>
+      <button class="icon-btn" id="theme-toggle" aria-label="Theme: auto (follows system)" aria-haspopup="true" aria-expanded="false" aria-controls="theme-menu" title="Theme">
+        <svg class="glyph-sun" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.6v2.5M12 18.9v2.5M2.6 12h2.5M18.9 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M18.7 5.3l-1.8 1.8M7.1 16.9l-1.8 1.8"/></svg>
+        <svg class="glyph-moon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.2 14.5A8.5 8.5 0 0 1 9.5 3.8a8.5 8.5 0 1 0 10.7 10.7Z"/></svg>
+        <svg class="glyph-auto" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.6"/><path d="M12 3.4a8.6 8.6 0 0 1 0 17.2Z" fill="currentColor" stroke="none"/><path d="M12 1.6v2.2M12 20.2v2.2M1.6 12h2.2M20.2 12h2.2"/></svg>
+      </button>
+      <!-- King v0.5: header button OPENS a 3-option menu (no more cycle) -->
+      <div class="theme-menu" id="theme-menu" role="menu" aria-label="Choose theme" hidden>
+        <button type="button" role="menuitemradio" aria-checked="false" data-pref="light"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.6v2.5M12 18.9v2.5M2.6 12h2.5M18.9 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M18.7 5.3l-1.8 1.8M7.1 16.9l-1.8 1.8"/></svg>Light</button>
+        <button type="button" role="menuitemradio" aria-checked="true" data-pref="system"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="M12 3.4a8.6 8.6 0 0 1 0 17.2Z" fill="currentColor" stroke="none"/></svg>Auto</button>
+        <button type="button" role="menuitemradio" aria-checked="false" data-pref="dark"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.2 14.5A8.5 8.5 0 0 1 9.5 3.8a8.5 8.5 0 1 0 10.7 10.7Z"/></svg>Dark</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="scrim" id="scrim" hidden></div>
+
+<aside class="sheet" id="browse-sheet" role="dialog" aria-modal="true" aria-label="Browse all shelves" hidden>
+  <div class="sheet-head">
+    <h2>The shelves</h2>
+    <button class="close-x" id="browse-close" aria-label="Close browse">
+      <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 5l14 14M19 5 5 19"/></svg>
+    </button>
+  </div>
+  <div class="sheet-theme">
+    <span class="st-kicker">Theme</span>
+    <div class="theme-seg" id="theme-seg" role="radiogroup" aria-label="Theme mode">
+      <button type="button" role="radio" data-pref="light" aria-checked="false">Light</button>
+      <button type="button" role="radio" data-pref="system" aria-checked="false">Auto</button>
+      <button type="button" role="radio" data-pref="dark" aria-checked="false">Dark</button>
+    </div>
+  </div>
+  <nav class="sheet-body" aria-label="Categories">
+    {pillarsWithPosts.map(p => (
+      <div class="b-pillar">
+        <a class="p-name" href={p.path}>{p.name}
+          <span class:list={['cnt', { zero: p.real === 0 }]}>{p.real} {p.real === 1 ? 'guide' : 'guides'}</span>
+        </a>
+        {childrenOf(p).length > 0 && (
+          <ul class="b-kids">
+            {childrenOf(p).map(k => {
+              const n = postsIn(k).length;
+              return <li><a href={k.path} class:list={{ 'is-empty': n === 0 }}>
+                <span>{k.name}</span>
+                <span class:list={['cnt', { zero: n === 0 }]}>{n === 0 ? 'opens soon' : n + (n === 1 ? ' guide' : ' guides')}</span>
+              </a></li>;
+            })}
+          </ul>
+        )}
+      </div>
+    ))}
+    <div class="sheet-note">
+      Counts are honest: {TOTALS.posts} guides live today across {TOTALS.categories} shelves — the rest open as the
+      200-post library lands. <a href="/about/">How we work →</a>
+    </div>
+    <div class="sheet-foot" aria-label="Follow AndroidScroll">
+      <!-- v0.6.10 King: "the footer and header has all social link" — the bar is a
+           tight 54px trio at 390px, so the nine accounts ride the sheet foot. -->
+      <div class="sheet-socs">
+        <span class="foot-kicker">Follow us</span>
+        <SocialRow items={SOCIAL_BRAND} label="AndroidScroll on social media" variant="paper" />
+      </div>
+    </div>
+  </nav>
+</aside>
+
+<div class="search-layer" id="search-layer" role="dialog" aria-modal="true" aria-label="Search" hidden>
+  <div class="scrim is-open" id="search-scrim" style="position:absolute"></div>
+  <div class="search-box">
+    <div class="search-field">
+      <span class="sf-dot" aria-hidden="true"></span>
+      <label class="sr-only" for="search-input" style="position:absolute;left:-9999px">Search guides</label>
+      <input id="search-input" type="search" placeholder={`Search ${TOTALS.posts} guides…`} autocomplete="off" role="combobox" aria-expanded="false" aria-controls="search-results" aria-autocomplete="list" />
+      <button class="search-clear" id="search-clear" type="button" aria-label="Clear search" title="Clear" hidden>×</button>
+    </div>
+    <div class="search-rail" id="search-rail">
+      <div class="sr-row">
+        <span class="sr-eyebrow">RECENT</span>
+        <span class="recent-chips" id="search-recent"></span>
+      </div>
+      <div class="sr-row">
+        <span class="sr-eyebrow">TRENDING</span>
+        <span class="recent-chips">{TRENDING.map(p => (<a href={p.url}>{p.title.length > 34 ? p.title.slice(0, 34) + '…' : p.title}</a>))}</span>
+      </div>
+      <div class="sr-scope">Search AndroidScroll · {TOTALS.posts} guides</div>
+    </div>
+    <div class="search-complete" id="search-complete" hidden></div>
+    <div class="search-meta"><span id="search-status" role="status" aria-live="polite">Search {TOTALS.posts} guides</span><button class="search-close" id="search-close" type="button" aria-label="Close search" title="Close search"><span class="sc-x" aria-hidden="true">×</span><span class="sc-esc" aria-hidden="true">Esc to close</span></button></div>
+    <ul class="search-results" id="search-results" role="listbox" aria-label="Search suggestions"></ul>
+    <a class="search-seeall" id="search-seeall" href="/search/">See all {TOTALS.posts} results →</a>
+    <div class="search-empty no-js-hide" id="search-empty" hidden>
+      <span id="search-empty-msg">No guide matches that yet — and that's the backlog, not a dead end.</span><br />
+      <a id="search-tellus" href="/contact/">Tell us what to write →</a>
+    </div>
+    <div class="search-keys" aria-hidden="true"><span>↑↓ navigate</span><span>↵ open</span><span>esc close</span></div>
+  </div>
+</div>
+
+<script type="module">
+  /* One progressive-enhancement script: theme, compact header, browse sheet,
+     search overlay (client index), rail stagger. */
+  /* NOTE: NO imports here — Astro passes this module script through to dist
+     verbatim, so a TS import 404s and kills the whole script (caught pre-ship
+     v0.6.9). Theme colors come from #tc-base data attrs, stamped at build time
+     from data/theme-colors.ts — still a single source of truth. */
+  const root = document.documentElement;
+  const header = document.getElementById('site-header');
+  const scrim = document.getElementById('scrim');
+  const sheet = document.getElementById('browse-sheet');
+  const searchLayer = document.getElementById('search-layer');
+  const searchInput = document.getElementById('search-input');
+  const results = document.getElementById('search-results');
+  const empty = document.getElementById('search-empty');
+  const toast = document.getElementById('toast');
+  const store = { get: k => { try { return localStorage.getItem(k); } catch { return null; } },
+                  set: (k, v) => { try { localStorage.setItem(k, v); } catch {} } };
+  let toastTimer;
+  const say = m => { toast.textContent = m; toast.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove('show'), 2600); };
+
+  /* theme — 3-state cycle button + 3-way segmented control in Browse sheet (King v0.4).
+     pref ('light'|'dark'|'system') persists in localStorage 'as-theme'; 'system' tracks
+     the phone's prefers-color-scheme live. SVG glyph + segments reflect PREF, not just effect. */
+  const themeBtn = document.getElementById('theme-toggle');
+  const segWrap = document.getElementById('theme-seg');
+  const themeMenu = document.getElementById('theme-menu');
+  const mqDark = matchMedia('(prefers-color-scheme: dark)');
+  const applyTheme = () => {
+    const pref = store.get('as-theme') || 'system';
+    const eff = pref === 'system' ? (mqDark.matches ? 'dark' : 'light') : pref;
+    root.setAttribute('data-theme', eff);
+    root.setAttribute('data-theme-pref', pref);
+    themeBtn.classList.toggle('pref-light', pref === 'light');
+    themeBtn.classList.toggle('pref-dark', pref === 'dark');
+    themeBtn.classList.toggle('pref-system', pref === 'system');
+    const names = { light: 'light', dark: 'dark', system: 'auto (follows system)' };
+    themeBtn.setAttribute('aria-label', 'Theme: ' + names[pref]);
+    themeBtn.title = 'Theme: ' + names[pref] + ' — click to change';
+    /* v1.3: single meta — plain content set (first-match always wins).
+       Colors from #tc-base data attrs (build-stamped). */
+    const tcMeta = document.getElementById('tc-base');
+    if (tcMeta) {
+      tcMeta.setAttribute('content', eff === 'dark' ? tcMeta.dataset.dark : tcMeta.dataset.light);
+    }
+    if (segWrap) segWrap.querySelectorAll('[data-pref]').forEach(btn => {
+      const on = btn.dataset.pref === pref;
+      btn.classList.toggle('is-active', on);
+      btn.setAttribute('aria-checked', on ? 'true' : 'false');
+    });
+    if (themeMenu) themeMenu.querySelectorAll('[data-pref]').forEach(mi => {
+      mi.setAttribute('aria-checked', mi.dataset.pref === pref ? 'true' : 'false');
+      mi.classList.toggle('is-active', mi.dataset.pref === pref);
+    });
+  };
+  applyTheme();
+  mqDark.addEventListener?.('change', () => { if ((store.get('as-theme') || 'system') === 'system') applyTheme(); });
+  /* v1.1 meta hardening: a standalone PWA resumed from recents/bfcache can come back
+     with a stale head (OS theme may have flipped while frozen, 'change' never fired).
+     Re-run the same set+move path on resume — no new mechanism, just no stale state. */
+  window.addEventListener('pageshow', applyTheme);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) applyTheme(); });
+  /* King fix v0.4 (2): direct selection — segment applies + persists immediately */
+  if (segWrap) segWrap.addEventListener('click', e => {
+    const btn = e.target instanceof Element ? e.target.closest('[data-pref]') : null;
+    if (!btn) return;
+    const pref = btn.dataset.pref;
+    const was = root.getAttribute('data-theme');
+    store.set('as-theme', pref); applyTheme();
+    const msg = { light: 'Theme: light', dark: 'Theme: dark', system: 'Theme: auto — follows your phone' };
+    say(root.getAttribute('data-theme') !== was ? msg[pref] : msg[pref] + ' (already matching your phone)');
+  });
+  /* King v0.5: header button OPENS the 3-option menu (cycle removed — direct choice only) */
+  const openMenu = (on) => { themeMenu.hidden = !on; themeBtn.setAttribute('aria-expanded', on ? 'true' : 'false'); };
+  themeBtn.addEventListener('click', (e) => { e.stopPropagation(); openMenu(themeMenu.hidden); });
+  themeMenu.addEventListener('click', (e) => {
+    const btn = e.target instanceof Element ? e.target.closest('[data-pref]') : null;
+    if (!btn) return;
+    const pref = btn.dataset.pref;
+    store.set('as-theme', pref); applyTheme(); openMenu(false);
+    const msg = { light: 'Theme: light', dark: 'Theme: dark', system: 'Theme: auto — follows your phone' };
+    say(msg[pref]);
+  });
+  document.addEventListener('click', (e) => { if (!themeMenu.hidden && !(e.target instanceof Element && e.target.closest('#theme-menu, #theme-toggle'))) openMenu(false); });
+
+  /* rails stagger-in on scroll (IntersectionObserver, 40ms steps, translateY 8px) */
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const stag = document.querySelectorAll('.stag');
+  if (!reduce && 'IntersectionObserver' in window && stag.length) {
+    const io = new IntersectionObserver(es => es.forEach((e, i) => {
+      if (e.isIntersecting) {
+        e.target.style.transitionDelay = Math.min(i * 40, 200) + 'ms';
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    }), { rootMargin: '0px 0px -8% 0px' });
+    stag.forEach(el => io.observe(el));
+  } else {
+    stag.forEach(el => el.classList.add('in'));
+  }
+
+  /* compact sticky state — v2.6 HYSTERESIS: the old single >8px threshold made the
+     header dance forever on small scrolls: entering compact shrinks 54->48, which
+     shifts content and can put scrollY back under 8, re-expanding and re-shifting
+     (feedback loop, worst on mobile flick scrolls). Enter compact only past 12px,
+     leave only under 4px — the 8px dead band kills the oscillation. */
+  let compact = false;
+  const onScroll = () => {
+    const want = compact ? window.scrollY > 4 : window.scrollY > 12;
+    if (want !== compact) { compact = want; header.classList.toggle('is-compact', want); }
+  };
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  /* sheets */
+  /* v2.3 scroll lock (King: scrolling an open menu/search must NEVER move the page).
+     Counter-based: sheet + search can overlap; the page unlocks only when BOTH are shut.
+     html-level class (not just body overflow) because mobile Chrome scrolls the
+     documentElement; panels keep their own scroll via overscroll-behavior:contain. */
+  let locks = 0, lockY = 0;
+  const lockPage = () => { if (!locks) { lockY = window.scrollY || 0; document.body.style.top = (-lockY) + 'px'; document.body.classList.add('frozen'); } locks++; document.documentElement.classList.add('locked'); };
+  const unlockPage = () => { locks = Math.max(0, locks - 1); if (!locks) { document.documentElement.classList.remove('locked'); document.body.classList.remove('frozen'); document.body.style.top = ''; try { window.scrollTo({ top: lockY, behavior: 'instant' }); } catch (e) { window.scrollTo(0, lockY); } } };
+  const openSheet = () => { if (!sheet.hidden) return; lockPage(); scrim.hidden = false; sheet.hidden = false; requestAnimationFrame(() => { scrim.classList.add('is-open'); sheet.classList.add('is-open'); }); const trig = document.getElementById('browse-trigger'); trig.setAttribute('aria-expanded', 'true'); trig.setAttribute('aria-label', 'Close browse menu'); };
+  const closeSheet = () => { if (sheet.hidden) return; scrim.classList.remove('is-open'); sheet.classList.remove('is-open'); const trig = document.getElementById('browse-trigger'); trig.setAttribute('aria-expanded', 'false'); trig.setAttribute('aria-label', 'Open browse menu'); setTimeout(() => { sheet.hidden = true; scrim.hidden = true; unlockPage(); }, 200); };
+  /* v0.6.8 King: the hamburger TOGGLES — tap while the drawer is open closes it
+     (it used to be open-only; × / scrim / Escape already closed). openSheet and
+     closeSheet are idempotent guards, so the flip tests sheet.hidden directly. */
+  document.getElementById('browse-trigger').addEventListener('click', () => { if (sheet.hidden) openSheet(); else closeSheet(); });
+  document.getElementById('browse-close').addEventListener('click', closeSheet);
+  scrim.addEventListener('click', closeSheet);
+
+  /* search overlay — v0.6 smart: keyboard nav, clear, <mark>, status, focus return, scroll lock */
+  const INDEX = JSON.parse(document.getElementById('search-index').textContent);
+  const searchTrigger = document.getElementById('search-trigger');
+  const searchClear = document.getElementById('search-clear');
+  const searchStatus = document.getElementById('search-status');
+  let activeIdx = -1;
+  let currentHits = [];
+  const openSearch = () => {
+    if (!searchLayer.hidden) return;
+    lockPage();
+    searchLayer.hidden = false;
+    searchLayer.classList.add('is-open');
+    searchInput.setAttribute('aria-expanded', 'true');
+    /* v0.6.9 King: the search icon TOGGLES — mirror of the v0.6.8 hamburger:
+       trigger carries aria-expanded + a label flip so AT says "Close search". */
+    searchTrigger.setAttribute('aria-expanded', 'true');
+    searchTrigger.setAttribute('aria-label', 'Close search');
+    render(searchInput.value || '');
+    /* Focus the input so the keyboard comes up on mobile / cursor is in the field.
+       Use rAF + short setTimeout so the browser has flushed the overlay paint first —
+       this is the actual UX fix for "open search and nothing is focused". */
+    requestAnimationFrame(() => {
+      try { searchInput.focus({ preventScroll: true }); } catch (e) {}
+      setTimeout(() => {
+        try { if (document.activeElement !== searchInput) searchInput.focus({ preventScroll: true }); } catch (e) {}
+      }, 30);
+    });
+  };
+  const closeSearch = () => {
+    if (searchLayer.hidden) return;
+    searchLayer.classList.remove('is-open'); searchLayer.hidden = true;
+    unlockPage();
+    searchInput.setAttribute('aria-expanded', 'false');
+    searchTrigger.setAttribute('aria-expanded', 'false');
+    searchTrigger.setAttribute('aria-label', 'Search guides');
+    searchInput.removeAttribute('aria-activedescendant');
+    activeIdx = -1;
+    searchTrigger.focus({ preventScroll: true });
+  };
+  /* v0.6.9 King: search icon toggles (was open-only): tap while open closes.
+     openSearch/closeSearch are idempotent-guarded, so the flip tests
+     searchLayer.hidden directly — same shape as the v0.6.8 hamburger. */
+  searchTrigger.addEventListener('click', () => { if (searchLayer.hidden) openSearch(); else closeSearch(); });
+  /* v0.6.5: the 'Esc to close' hint is now a REAL button — same close path as tap-outside */
+  const searchCloseBtn = document.getElementById('search-close');
+  searchCloseBtn.addEventListener('click', closeSearch);
+  /* tap the overlay background (anywhere outside the search box) to close */
+  searchLayer.addEventListener('click', e => {
+    if (!e.target.closest('.search-box') && !e.target.closest('#search-trigger')) closeSearch();
+  });
+  document.getElementById('search-scrim').addEventListener('click', closeSearch);
+  addEventListener('keydown', e => {
+    if (e.key === 'Escape') { if (!searchLayer.hidden) closeSearch(); else closeSheet(); return; }
+    if (e.key !== '/') return;
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    if (!searchLayer.hidden) return;
+    const ae = document.activeElement;
+    const tag = ae && ae.tagName ? ae.tagName.toLowerCase() : '';
+    if (tag === 'input' || tag === 'textarea' || tag === 'select' || (ae && ae.isContentEditable)) return;
+    e.preventDefault(); openSearch();
+  });
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const escReg = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const hi = (text, terms) => {
+    let out = esc(text);
+    /* longest tokens first so shorter ones can't shred a longer highlight */
+    for (const t of [...terms].sort((a, b) => b.length - a.length)) {
+      if (!t) continue;
+      out = out.replace(new RegExp('(' + escReg(esc(t)) + ')', 'gi'), '<mark>$1</mark>');
+    }
+    return out;
+  };
+  const paint = () => {
+    const items = results.querySelectorAll('li');
+    items.forEach((li, i) => {
+      const on = i === activeIdx;
+      li.classList.toggle('is-active', on);
+      li.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    if (activeIdx >= 0) searchInput.setAttribute('aria-activedescendant', 'search-opt-' + activeIdx);
+    else searchInput.removeAttribute('aria-activedescendant');
+  };
+  /* v0.6.18 Direction A: single-source ranking — search-core.js (src/lib) is inlined
+     above via ?raw and self-registers on globalThis; the Node query-suite imports
+     the SAME file, so overlay + /search page + CI can never drift. Lazy lookup:
+     the core module executes in document order, first use is post-interaction. */
+  const SYN = JSON.parse(document.getElementById('search-syn').textContent);
+  let S = null;
+  const api = () => (S || (S = globalThis.makeSearch(INDEX, SYN)));
+  const rail = document.getElementById('search-rail');
+  const recentBox = document.getElementById('search-recent');
+  const compBox = document.getElementById('search-complete');
+  const seeAll = document.getElementById('search-seeall');
+  const tellUs = document.getElementById('search-tellus');
+  /* P11 base-aware: the static hrefs above were relativized at build time
+     (relativize.mjs), so they stay under the site's base on staging
+     (/androidscroll-site) and apex (/). Stash them once — every runtime
+     navigation below derives from these, never a root-absolute literal
+     (which escapes the subpath to the domain-root fossil). */
+  const SEARCH_BASE = (seeAll.getAttribute('href') || './search/').split('?')[0];
+  const CONTACT_BASE = ((tellUs && tellUs.getAttribute('href')) || './contact/').split('?')[0];
+  const REC_KEY = 'as-search-recent';
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const getRecent = () => { try { return JSON.parse(localStorage.getItem(REC_KEY)) || []; } catch (e) { return []; } };
+  const paintRecent = () => {
+    const r = getRecent();
+    recentBox.innerHTML = r.length ? r.map(q => `<button type="button" data-q="${esc(q)}"><span>${esc(q)}</span><i aria-hidden="true">×</i></button>`).join('') : '<span class="sr-none">no recent searches yet</span>';
+  };
+  const saveRecent = q => {
+    q = String(q || '').trim();
+    if (!q) return;
+    const r = [q, ...getRecent().filter(x => x !== q)].slice(0, 6);
+    try { localStorage.setItem(REC_KEY, JSON.stringify(r)); } catch (e) {}
+    paintRecent();
+  };
+  paintRecent();
+  recentBox.addEventListener('click', e => {
+    const btn = e.target instanceof Element && e.target.closest('button[data-q]');
+    if (!btn) return;
+    if (e.target instanceof Element && e.target.closest('i')) {
+      try { localStorage.setItem(REC_KEY, JSON.stringify(getRecent().filter(x => x !== btn.dataset.q))); } catch (err) {}
+      paintRecent(); return;
+    }
+    searchInput.value = btn.dataset.q; render(searchInput.value); searchInput.focus({ preventScroll: true });
+  });
+  function render(q) {
+    const A = api();
+    const terms = A.norm(q).split(' ').filter(Boolean);
+    const matched = terms.length ? A.rank(terms) : INDEX;
+    const fallback = terms.length && matched.length === 0;
+    /* never a dead end: no match → the 3 latest guides (index is date-desc) */
+    const list = fallback ? INDEX.slice(0, 3) : matched;
+    const hits = list.slice(0, 8);
+    currentHits = hits; activeIdx = -1;
+    searchInput.removeAttribute('aria-activedescendant');
+    /* pre-typing rail (RECENT + TRENDING + scope) shows only when idle */
+    rail.hidden = !!terms.length;
+    /* live prefix completions while typing */
+    const comp = terms.length ? A.complete(q) : { suggestions: [], total: 0 };
+    compBox.hidden = !comp.suggestions.length;
+    compBox.innerHTML = comp.suggestions.map(s => `<button type="button" data-s="${esc(s)}">⌕ ${esc(s)}</button>`).join('')
+      + (comp.total > comp.suggestions.length ? `<span class="sr-more">+${comp.total - comp.suggestions.length} more</span>` : '');
+    results.innerHTML = hits.map((p, i) => `<li role="option" id="search-opt-${i}" aria-selected="false"><a href="${esc(p.url)}" tabindex="-1"><span class="sr-rank" aria-hidden="true">${i + 1}</span><span class="sr-body"><h3>${hi(p.title, terms)}</h3><span class="sr-x">${hi(p.excerpt, terms)}</span><span class="sr-meta"><b class="sr-cat">${esc(p.cat)}</b> · ${p.read_min ? esc(String(p.read_min)) + ' min · ' : ''}${esc(p.meta.split('·')[0].trim())}</span></span></a></li>`).join('');
+    if (!reduceMotion) results.querySelectorAll('li').forEach((li, i) => { li.style.animationDelay = Math.min(i * 24, 144) + 'ms'; });
+    /* honest count: total matched, plus a showing-note when the slice hides some */
+    if (!terms.length) searchStatus.textContent = INDEX.length + ' guides';
+    else if (fallback) searchStatus.textContent = '0 matches — showing the 3 latest guides';
+    else if (matched.length > hits.length) searchStatus.textContent = matched.length + ' matches — showing first ' + hits.length;
+    else if (matched.length) searchStatus.textContent = matched.length + (matched.length === 1 ? ' match' : ' matches');
+    else searchStatus.textContent = '0 matches';
+    const qt = q.trim();
+    if (!terms.length) { seeAll.textContent = `See all ${INDEX.length} results →`; seeAll.href = SEARCH_BASE; }
+    else { seeAll.textContent = `See all ${matched.length} result${matched.length === 1 ? '' : 's'} for “${qt}” →`; seeAll.href = SEARCH_BASE + '?q=' + encodeURIComponent(qt); }
+    const emptyMsg = document.getElementById('search-empty-msg');
+    if (emptyMsg) emptyMsg.textContent = fallback ? `Nothing filed under “${qt}” yet — that's the backlog, not a dead end.` : '';
+    if (tellUs) tellUs.href = CONTACT_BASE + (fallback ? '?q=' + encodeURIComponent(qt) : '');
+    empty.hidden = !fallback;
+    searchClear.hidden = !searchInput.value;
+  }
+  searchInput.addEventListener('input', () => render(searchInput.value));
+  compBox.addEventListener('click', e => {
+    const btn = e.target instanceof Element && e.target.closest('button[data-s]');
+    if (!btn) return;
+    const bits = searchInput.value.trim().split(/\s+/);
+    bits[bits.length - 1] = btn.dataset.s;
+    searchInput.value = bits.join(' ') + ' ';
+    render(searchInput.value); searchInput.focus({ preventScroll: true });
+  });
+  results.addEventListener('click', e => {
+    if (e.target instanceof Element && e.target.closest('a')) saveRecent(searchInput.value);
+  });
+  seeAll.addEventListener('click', () => saveRecent(searchInput.value));
+  searchInput.addEventListener('keydown', e => {
+    if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp' && e.key !== 'Enter') return;
+    if (e.key === 'Enter') {
+      /* Enter with a row focused → open it; else the /search page owns the query */
+      if (activeIdx >= 0 && currentHits[activeIdx]) { e.preventDefault(); saveRecent(searchInput.value); location.href = currentHits[activeIdx].url; }
+      else if (searchInput.value.trim()) { e.preventDefault(); saveRecent(searchInput.value); location.href = SEARCH_BASE + '?q=' + encodeURIComponent(searchInput.value.trim()); }
+      return;
+    }
+    if (!currentHits.length) return;
+    e.preventDefault();
+    const n = currentHits.length;
+    activeIdx = e.key === 'ArrowDown' ? (activeIdx + 1) % n : (activeIdx - 1 + n) % n;
+    paint();
+    results.children[activeIdx]?.scrollIntoView({ block: 'nearest' });
+  });
+  searchClear.addEventListener('click', () => { searchInput.value = ''; render(''); searchInput.focus({ preventScroll: true }); });
+
+</script>
+
+<script type="application/json" id="search-index" set:html={JSON.stringify(SEARCH_IDX).replace(/</g, String.fromCharCode(92, 117, 48, 48, 51, 99))} />
+<script type="application/json" id="search-syn" set:html={JSON.stringify(SEARCH_SYN).replace(/</g, String.fromCharCode(92, 117, 48, 48, 51, 99))} />
+<script type="module" is:inline set:html={searchCoreRaw}></script>
