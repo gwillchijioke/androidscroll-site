@@ -555,13 +555,21 @@ function paintTabs() {
 
 /* ---------- token gate ---------- */
 let token = '';
-try { token = sessionStorage.getItem(TOK_KEY) || ''; } catch { /* private mode: session-only */ }
+function readTok(): string {
+  try { const v = localStorage.getItem(TOK_KEY); if (v) return v; } catch { /* no local jar */ }
+  try { return sessionStorage.getItem(TOK_KEY) || ''; } catch { /* private mode: session-only */ }
+  return '';
+}
+token = readTok();
 function saveTok(v: string) {
   token = v;
+  // v0.6.53 (King's law: stay signed in): the phone kills background tabs and
+  // sessionStorage with them — persist in the local jar, session jar as fallback.
+  try { v ? localStorage.setItem(TOK_KEY, v) : localStorage.removeItem(TOK_KEY); } catch { /* ok */ }
   try { v ? sessionStorage.setItem(TOK_KEY, v) : sessionStorage.removeItem(TOK_KEY); } catch { /* ok */ }
 }
-// AUDIT-01 M4: session-only token (dies with the tab) + no auto-fill.
-// Idle auto-lock: 30 min without activity re-locks the desk.
+// AUDIT-01 M4 superseded v0.6.53: persistent token (survives tab death) + auto-fill.
+// Idle auto-lock: 30 min without activity re-locks the desk (token kept).
 let idleH = 0;
 function pokeIdle() {
   if (!unlocked) return;
@@ -1521,7 +1529,8 @@ lock?.addEventListener('submit', (ev) => {
   ev.preventDefault();
   lockMsg?.classList.remove('is-bad');
   if (lockMsg) lockMsg.textContent = '';
-  saveTok((tokInp?.value || '').trim());
+  saveTok((tokInp?.value || '').trim() || token);
+  if (tokInp && token) tokInp.value = token;
   if (!token) { if (lockMsg) lockMsg.textContent = 'Paste the desk token first.'; return; }
   void setTab(state.tab);
 });
