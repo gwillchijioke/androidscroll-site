@@ -29,6 +29,9 @@ const CONTENT = join(ROOT, 'src', 'data', 'content.json');
 const API = process.env.COMMENTS_API_BASE || 'https://androidscroll-comments.gwill.workers.dev';
 const TIMEOUT_MS = 5000;
 const TRIES = 3;
+// DATA-1 snapshot freshness: WP truth for the newest-post check. Read-only,
+// one tiny request; any failure only silences the freshness line, never build.
+const WP_API = process.env.WP_API_BASE || 'https://androidscroll.com/wp-json/wp/v2';
 
 function fetchCount(postId) {
   const url = `${API}/api/comments/count?post=${postId}`;
@@ -91,8 +94,10 @@ if (badUrls.length) {
 let stale = false;
 const failures = [];
 
-// Sequential: kind to the Worker, trivial cost at 13 posts.
-for (const p of data.posts) {
+// Sequential: kind to the Worker, trivial cost at 13 posts. Past ~30 posts
+// the loop fans out in small batches so prebuild does not stretch (DATA-1).
+const MANY = data.posts.length > 30;
+async function bakeCounts(p) {
   const res = await fetchCount(p.id);
   if (res.ok) {
     p.comments = res.count;
@@ -101,6 +106,34 @@ for (const p of data.posts) {
     failures.push(p.id);
     // keep previous p.comments value (stale fallback)
   }
+}
+if (MANY) {
+  for (let i = 0; i < data.posts.length; i += 5) {
+    await Promise.all(data.posts.slice(i, i + 5).map(bakeCounts));
+  }
+} else {
+  for (const p of data.posts) await bakeCounts(p);
+}
+
+// DATA-1 snapshot freshness check: compare WP newest against the snapshot's
+// newest modified. Visibility ONLY - never fails, never auto-publishes; the
+// King approves what ships. One read, 8s leash.
+let fresh = 'unknown';
+try {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 8000);
+  const r = await fetch(`${WP_API}/posts?per_page=1&_fields=date,modified,slug`, { signal: ctrl.signal });
+  clearTimeout(timer);
+  if (r.ok) {
+    const [wp] = await r.json();
+    const snapNewest = data.posts.map((p) => String(p.modified || p.date || '')).sort().pop() || '';
+    const wpDay = String((wp && wp.modified) || (wp && wp.date) || '').slice(0, 10);
+    if (!wpDay) fresh = 'wp-unreadable';
+    else if (snapNewest.slice(0, 10) >= wpDay) fresh = `current (wp newest ${wp.slug} ${wpDay})`;
+    else fresh = `BEHIND: wp newest "${wp.slug}" ${wpDay} > snapshot ${snapNewest.slice(0, 10)} - refresh the snapshot`;
+  } else fresh = `wp-http-${r.status}`;
+} catch (err) {
+  fresh = String(err && err.message || err).slice(0, 60);
 }
 
 const directCount = (slug) => data.posts.filter((p) => (p.cats || []).includes(slug)).length;
@@ -126,6 +159,7 @@ writeFileSync(CONTENT, JSON.stringify(data, null, 2) + '\n');
 console.log(
   `[gen-content] posts=${data.totals.posts} cats=${data.totals.categories} ` +
   `comments=${data.totals.comments} empty_cats=${data.totals.empty_categories} ` +
-  `stale=${stale}${failures.length ? ` failed=[${failures.join(',')}]` : ''}`,
+  `stale=${stale}${failures.length ? ` failed=[${failures.join(',')}]` : ''} ` +
+  `snapshot=${fresh}`,
 );
 process.exit(0);

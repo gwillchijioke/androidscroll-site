@@ -22,6 +22,12 @@
 ## v0.6.38 - 2026-09-16 - A3 astro 5.18.2→7.3.2: clean build first try, zero breakage, gate OK
 # Changelog
 
+## v0.6.65 - DATA-1 fixes (Sep 16)
+- Snapshot freshness check in prebuild: compares WP newest vs snapshot newest, logs CURRENT or BEHIND. Visibility only, never fails, never auto-publishes. Caught a real gap on first run (see below).
+- Live-count moment: refreshed comment counts carry title="Count refreshed just now".
+- Count bake fans out in batches of 5 past 30 posts (13 today, sequential as before).
+- README env docs: added WP_API_BASE.
+
 ## v0.6.64 - ARCH-1 fixes (Sep 16)
 - Desk deck isolation: guardDeck wraps all 15 deck dispatches (sync throw + async rejection both toast the hurt deck, other four stand). Guards over file split, deliberately: one bundle either way, the catch is the isolation.
 - Font preload (Archivo + Manrope) in Head; relativize-safe.

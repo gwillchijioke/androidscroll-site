@@ -778,6 +778,9 @@ function patchCount(n: number) {
     const num = el.querySelector('.lc-n'), lbl = el.querySelector('.lc-l');
     if (num) num.textContent = String(n);
     if (lbl) lbl.textContent = n === 1 ? 'comment' : 'comments';
+    // DATA-1 live moment: a refreshed count carries its moment, so a reader
+    // never mistakes a build-day number for a fresh one (hover shows it).
+    el.setAttribute('title', 'Count refreshed just now');
   });
 }
 function fetchCount() {

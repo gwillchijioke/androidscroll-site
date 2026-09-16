@@ -25,6 +25,7 @@ from `file://` on a phone; every link, the Browse sheet, search, theme and ad-to
 ## Environment (all optional - defaults are the live rails)
 
 - `COMMENTS_API_BASE` - comments Worker for `scripts/gen-content.mjs` counts
+- `WP_API_BASE` - WordPress truth for the snapshot freshness check (default apex wp-json)
 - `PUBLIC_COMMENTS_API` / `PUBLIC_PUSH_API` - Worker rails baked into the build
   (`src/data/endpoints.ts`); moving hosts = set these, no code edits
 
