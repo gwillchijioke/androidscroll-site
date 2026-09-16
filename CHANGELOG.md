@@ -22,6 +22,11 @@
 ## v0.6.38 — 2026-09-16 — A3 astro 5.18.2→7.3.2: clean build first try, zero breakage, gate OK
 # Changelog
 
+## v0.6.61 — CLEANUP-1 fixes (Sep 16)
+- REMOVED playwright devDependency (zero references; ~150MB shed). Rebuild green.
+- All 6 generator scripts marked ONE-SHOT in their headers (were unwired, now say so).
+- KEPT with reason: 8 og posters (fixture poses one per provider card), kb-*.svg (live hero covers for all 13 posts via slug regex), kb-note.wav + audio-note.svg (fixture audio-row demo), tracked sw.js/pwa-install.js (Pages serves public/ directly, no CI to regenerate).
+
 ## v0.6.60 — AUDIT-1 fixes ship (Sep 16)
 - KEY SPLIT (audit LOW): desk key now READS (stats, drill-down); sounding needs the commander key, asked inline at compose and verified before ringing. Badge shows which key rides. A stolen desk jar can no longer peal. Worker v1.3.3 enforces the split (requireCommander on /send + /test, role in /stats).
 - BEACON BRAKE (audit MEDIUM): /click + /dismiss ride the 5/hr/IP rate limit — analytics can no longer be rewritten at will.

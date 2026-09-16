@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Generate PWA icons from the inline SVG favicon spec (teal rounded square
-+ white corner block). Pure PIL, no network. v0.6.8 manifest work."""
++ white corner block). Pure PIL, no network. v0.6.8 manifest work.
+ONE-SHOT: not wired to any npm script — run manually only when the mark changes."""
 from PIL import Image, ImageDraw
 import os
 

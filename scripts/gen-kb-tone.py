@@ -1,4 +1,5 @@
-"""Generate a 1s placeholder tone (44.1kHz 16-bit mono sine 440Hz)."""
+"""Generate a 1s placeholder tone (44.1kHz 16-bit mono sine 440Hz).
+ONE-SHOT: not wired to any npm script — output already committed at public/audio/kb-note.wav."""
 import math
 import struct
 import wave

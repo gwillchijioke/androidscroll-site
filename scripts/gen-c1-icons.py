@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """v2.8: regenerate site PWA icons + favicon from the SEAMLESS C1 mark.
-Renders concept1-mark.svg via cairosvg onto the deep-green tile."""
+Renders concept1-mark.svg via cairosvg onto the deep-green tile.
+ONE-SHOT: not wired to any npm script — run manually only when the mark changes."""
 import os
 import cairosvg
 from PIL import Image
