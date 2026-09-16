@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.6.34] — 2026-09-16
+### Fixed — P26 the desk reply button now takes the royal road
+- `mod.astro` `sendReply()` posted to the public `/comments` route with a bare
+  `content-type` header, so every author reply landed `pending` and had to be
+  approved by hand. It now goes through the same Bearer-carrying `api()` helper
+  the rest of the desk uses (Worker v0.1.9 auto-approves desk-Bearer posts) and
+  sends `asAuthor:true`, which stamps the author avatar hash server-side. The
+  success line is now “Reply posted live as #N.” — no token is embedded in the
+  page source, and no approve-it-below step remains.
+
+### Removed — P27 the Website field (a spam-link invitation)
+- The comment form no longer offers a Website input: label, field, the
+  `http(s)://` validation, the `url|website` error-map branch and the
+  author-name link render are all gone. Names render as plain text, always.
+  Worker v0.1.9 ignores `body.url` for new rows (`author_url` binds NULL and the
+  spam scorer no longer counts an "author URL" reason). Existing rows keep their
+  stored URL in the DB but render as plain names — no migration, no history loss.
+
 ## [0.6.33] — 2026-09-16
 ### Added — P17c2 comment avatars via the Worker proxy (photos, zero gravatar)
 - Commenter photos are back, served by our own Worker: `GET /avatar/<64-hex>`

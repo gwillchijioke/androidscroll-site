@@ -77,10 +77,6 @@ const hasCount = typeof initialCount === 'number' && initialCount > 0;
             </div>
           </div>
           <div class="c-field">
-            <label for="c-url">Website <span class="c-opt">(optional)</span></label>
-            <input id="c-url" name="url" type="url" maxlength="200" inputmode="url" autocomplete="url" placeholder="https://…" />
-          </div>
-          <div class="c-field">
             <label for="c-content">Comment <span class="c-req">*</span></label>
             <textarea id="c-content" name="content" rows="4" required maxlength="5000" aria-describedby="c-count"></textarea>
             <span id="c-count" class="c-count" aria-live="polite"></span>
@@ -622,9 +618,8 @@ function renderThread(comments: any[]): string {
     const safeName = esc(c.name || 'Anonymous');
     const iso = String(c.created_at || '');
     const id = esc(String(c.id));
-    const urlOk = c.url && safeHttpUrl(String(c.url).trim());
-    const linkOpen  = urlOk ? `<a href="${esc(String(c.url).trim())}" rel="nofollow noopener noreferrer" target="_blank">` : '';
-    const linkClose = urlOk ? '</a>' : '';
+    // v0.6.34 P27: the Website field is gone — names render plain, never as a
+    // link. Legacy rows may still carry c.url in the DB; it is ignored here.
     const childReplies = replies.filter((r: any) => r.parent === c.id);
     const replyMark = replyToName
       ? `<div class="c-re-line"><span class="c-re-mark" aria-hidden="true">↳</span> re: ${esc(replyToName)}</div>`
@@ -649,7 +644,7 @@ function renderThread(comments: any[]): string {
                by .c-name right next to it — no duplicate SR reading. -->
           <span class="c-av-wrap"><span class="c-avatar" aria-hidden="true" style="background:${avatarBg(c)}">${esc(initials(c.name || 'Anonymous'))}</span>${photoHashFor(c) ? `<img class="c-photo" src="${esc(AVATAR + photoHashFor(c))}" alt="" aria-hidden="true" loading="lazy" decoding="async" width="36" height="36" referrerpolicy="no-referrer" onerror="this.remove()">` : ''}</span>
           <span class="c-headline">
-            <span class="c-name-wrap">${linkOpen}<span class="c-name">${safeName}</span>${linkClose}</span>
+            <span class="c-name-wrap"><span class="c-name">${safeName}</span></span>
             <span class="c-sub">
               ${c.is_author ? '<span class="c-badge">★ AUTHOR</span>' : ''}
               <time class="c-date" data-ts="${esc(iso)}" datetime="${esc(iso)}">${esc(absDate(iso))}</time>
@@ -848,7 +843,6 @@ document.getElementById('comment-form')?.addEventListener('submit', async (e) =>
   const form    = e.target as HTMLFormElement;
   const name    = ($('c-name')    as HTMLInputElement).value.trim();
   const email   = ($('c-email')   as HTMLInputElement).value.trim();
-  const url     = ($('c-url')     as HTMLInputElement).value.trim();
   const content = ($('c-content') as HTMLTextAreaElement).value.trim();
   const parent  = ($('c-parent')  as HTMLInputElement).value;
   const hp      = ($('c-hp')      as HTMLInputElement).value;
@@ -857,7 +851,6 @@ document.getElementById('comment-form')?.addEventListener('submit', async (e) =>
 
   if (hp) { setMsg('Submission failed.', false, null); form.reset(); return; } // bot: silent discard
   if (!name || name.length < 2 || name.length > 100) { setMsg('Name is required (2–100 characters).', false, $('c-name')); return; }
-  if (url && !/^https?:\/\//i.test(url)) { setMsg('Website must start with http:// or https://', false, $('c-url')); return; }
   if (!content || content.length > 5000) { setMsg('Comment must be between 1 and 5000 characters.', false, $('c-content')); return; }
   if (!consent) { setMsg('Please tick the comments-policy box first.', false, $('c-consent')); return; }
   if (notify && !email) { setMsg('Add your email to receive reply notices.', false, $('c-email')); return; }
@@ -881,7 +874,7 @@ document.getElementById('comment-form')?.addEventListener('submit', async (e) =>
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         postId: Number(postId), postSlug: section?.dataset.postSlug || '',
-        name, email, url, content, parent,
+        name, email, content, parent,
         honeypot: hp, consent, notify,
       }),
     });
@@ -903,7 +896,6 @@ document.getElementById('comment-form')?.addEventListener('submit', async (e) =>
       }
     } else if (res.status === 400) {
       const field = /name/i.test(data.message || '') ? $('c-name')
-        : /url|website/i.test(data.message || '') ? $('c-url')
         : /comment|content/i.test(data.message || '') ? $('c-content') : null;
       setMsg(data.message || 'Please check the highlighted field.', false, field as HTMLElement);
     } else if (res.status === 429) {

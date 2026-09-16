@@ -1266,24 +1266,30 @@ async function sendReply(it: Item, ta: HTMLTextAreaElement, btn: HTMLButtonEleme
   if (!content) { msg.textContent = 'Write something first.'; return; }
   btn.disabled = true; msg.textContent = '';
   try {
-    const res = await fetch(API + '/comments', {
+    /* v0.6.34 P26: the royal path. This POST goes through api(), so the desk
+       Bearer rides along — the Worker auto-approves it and (asAuthor) stamps the
+       author avatar hash. No token is written into the page source. */
+    const res = await api('/comments', {
       method: 'POST',
-      headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         postId: it.post_id,
         name: 'G-will Chijioke',
         content,
         parent: it.id,
+        asAuthor: true,
         consent: true,
       }),
     });
     const data = await res.json().catch(() => ({} as Record<string, unknown>));
     if (res.ok && (data as { ok?: boolean }).ok) {
       const rid = String((data as { id?: number }).id ?? '?');
-      msg.textContent = 'Reply queued as #' + rid + ' — approve it below.';
-      setToast('Reply queued as #' + rid + ' — approve it below.');
+      msg.textContent = 'Reply posted live as #' + rid + '.';
+      setToast('Reply posted live as #' + rid + '.');
       ta.value = '';
       await reloadActive();
+    } else if (res.status === 401) {
+      msg.textContent = 'Desk token rejected — re-enter it.';
+      wrongToken();
     } else {
       msg.textContent = String((data as { message?: string }).message || ('HTTP ' + res.status));
     }
