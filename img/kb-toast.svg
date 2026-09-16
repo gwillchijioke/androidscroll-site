@@ -36,22 +36,22 @@
 <path d="M384 232 l8 6 l-8 6" fill="none" stroke="#00A88F" stroke-width="2"/>
 <rect x="404" y="58" width="368" height="334" fill="#0E2A23" stroke="#123430"/>
 <rect x="404" y="58" width="368" height="4" fill="#00A88F"/>
-<text x="428" y="92" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="2" fill="#5EEAD4">THREE CAUSES — IN ORDER</text>
+<text x="428" y="92" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="2" fill="#5EEAD4">THREE CAUSES - IN ORDER</text>
 <rect x="428" y="102" width="320" height="1" fill="#123430"/>
 <rect x="428" y="118" width="22" height="22" fill="#00A88F"/><text x="439" y="133" font-family="'IBM Plex Mono',monospace" font-size="11" fill="#071512" text-anchor="middle" font-weight="700">1</text>
 <text x="462" y="130" font-family="'IBM Plex Mono',monospace" font-size="11.5" fill="#D9F2E8">Permission blocked: Settings › Apps ›</text>
-<text x="462" y="146" font-family="'IBM Plex Mono',monospace" font-size="11.5" fill="#8FA9A2">special access › install unknown apps —</text>
+<text x="462" y="146" font-family="'IBM Plex Mono',monospace" font-size="11.5" fill="#8FA9A2">special access › install unknown apps -</text>
 <text x="462" y="162" font-family="'IBM Plex Mono',monospace" font-size="11.5" fill="#8FA9A2">allow ONLY your file manager.</text>
 <rect x="428" y="178" width="22" height="22" fill="#00A88F"/><text x="439" y="193" font-family="'IBM Plex Mono',monospace" font-size="11" fill="#071512" text-anchor="middle" font-weight="700">2</text>
 <text x="462" y="190" font-family="'IBM Plex Mono',monospace" font-size="11.5" fill="#D9F2E8">Broken download: re-download from the</text>
-<text x="462" y="206" font-family="'IBM Plex Mono',monospace" font-size="11.5" fill="#8FA9A2">official store — a partial file passes size</text>
+<text x="462" y="206" font-family="'IBM Plex Mono',monospace" font-size="11.5" fill="#8FA9A2">official store - a partial file passes size</text>
 <text x="462" y="222" font-family="'IBM Plex Mono',monospace" font-size="11.5" fill="#8FA9A2">checks but fails install.</text>
 <rect x="428" y="238" width="22" height="22" fill="#00A88F"/><text x="439" y="253" font-family="'IBM Plex Mono',monospace" font-size="11" fill="#071512" text-anchor="middle" font-weight="700">3</text>
 <text x="462" y="250" font-family="'IBM Plex Mono',monospace" font-size="11.5" fill="#D9F2E8">Signature conflict: an older copy is</text>
-<text x="462" y="266" font-family="'IBM Plex Mono',monospace" font-size="11.5" fill="#8FA9A2">installed from another source —</text>
+<text x="462" y="266" font-family="'IBM Plex Mono',monospace" font-size="11.5" fill="#8FA9A2">installed from another source -</text>
 <text x="462" y="282" font-family="'IBM Plex Mono',monospace" font-size="11.5" fill="#5EEAD4">uninstall it once, then install clean.</text>
 <rect x="428" y="304" width="320" height="1" fill="#123430"/>
-<text x="428" y="328" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#8FA9A2">Never side-load from SMS links or "mod" sites —</text>
+<text x="428" y="328" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#8FA9A2">Never side-load from SMS links or "mod" sites -</text>
 <text x="428" y="344" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#8FA9A2">that's how the next article's malware starts.</text>
 <rect x="428" y="360" width="150" height="18" fill="none" stroke="#014F44"/>
 <text x="503" y="373" font-family="'IBM Plex Mono',monospace" font-size="9" letter-spacing="1" fill="#52635F" text-anchor="middle">GALAXY A14 · ONE UI 6</text>

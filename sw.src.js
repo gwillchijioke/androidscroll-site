@@ -1,5 +1,5 @@
 /**
- * AndroidScroll service worker (P17a — static port of the finance sw.js).
+ * AndroidScroll service worker (P17a - static port of the finance sw.js).
  *
  * Conservative caching, per the P17 dossier §3: navigations are network-first
  * with a cached copy (then the offline shell) as fallback; content-hashed
@@ -16,7 +16,7 @@ const ASSET_CACHE = `as-assets-${VERSION}`;
 const PAGE_CACHE = `as-pages-${VERSION}`;
 
 // Never intercept these (finance /wp-admin|/wp-json exclusions, static translation:
-// the comments Worker + any same-origin /api surface — push/submits stay live).
+// the comments Worker + any same-origin /api surface - push/submits stay live).
 const EXCLUDE = [
   /\/api\//,
   /workers\.dev\//,
@@ -41,7 +41,7 @@ self.addEventListener('install', event => {
 
 // ── 2. activate: purge stale cache namespaces (version-busted above) ───────
 // AUDIT-02 B2 (v0.6.36): caches.delete() is ORIGIN-wide, and GH Pages serves a
-// whole user site (godschi10.github.io) from one origin — other apps/projects
+// whole user site (godschi10.github.io) from one origin - other apps/projects
 // there may own their own caches. Purge ONLY caches carrying OUR prefixes;
 // never touch anything else. Fetch-handler behavior untouched.
 self.addEventListener('activate', event => {
@@ -129,10 +129,10 @@ self.addEventListener('fetch', event => {
   // Everything else: default network (never cached).
 });
 
-// ── 4. push (P17b — richer than the tech/finance bells) ───────────────────
+// ── 4. push (P17b - richer than the tech/finance bells) ───────────────────
 // Action buttons (Read / Later), large image, per-URL tag dedupe, renotify,
 // vibrate, and the campaign id (cid) the click/dismiss beacons report back.
-// A missing/garbled payload still rings a generic bell — never silent.
+// A missing/garbled payload still rings a generic bell - never silent.
 self.addEventListener('push', event => {
   let data = null;
   try {
@@ -150,7 +150,7 @@ self.addEventListener('push', event => {
         /(^|\.)androidscroll\.com$/.test(u.hostname) || /(^|\.)github\.io$/.test(u.hostname))) target = u.href;
   } catch { /* keep default */ }
   const opts = {
-    body: (data && data.body) || 'Fresh from the desk — tap to read.',
+    body: (data && data.body) || 'Fresh from the desk - tap to read.',
     icon: (data && data.icon) || 'icons/icon-192.png',
     badge: (data && data.badge) || 'icons/icon-192.png',
     data: { url: target, cid: (data && data.cid) || 0 },

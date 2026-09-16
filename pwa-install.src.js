@@ -1,11 +1,11 @@
 /**
- * AndroidScroll PWA install UI (P17a — port of finance gwill-pwa.js + pwa-install.js).
+ * AndroidScroll PWA install UI (P17a - port of finance gwill-pwa.js + pwa-install.js).
  * Zero vendor. One file, three jobs:
  *   1. Register the service worker from the stamped URL, base-aware (works on
  *      apex '/' and staging '/androidscroll-site/' from the same tree).
  *   2. Capture beforeinstallprompt, suppress Chrome's mini-infobar, show our own
  *      bottom-sheet card (Not-now = 7-day snooze; install/appinstalled = permanent;
- *      never stacks on an open overlay — yields while the page is scroll-locked).
+ *      never stacks on an open overlay - yields while the page is scroll-locked).
  *   3. Footer buttons: [data-install-app] native prompt; [data-install-ios] dashed
  *      inline Share-sheet guide (Apple exposes no install API). appinstalled hides all.
  * __BUILD_ID__ is replaced at prebuild (scripts/stamp-pwa.mjs).
@@ -37,7 +37,7 @@
   // ── 1. Register the service worker ───────────────────────────────────────
   // Resolve sw.js NEXT TO this script file (it ships in public/ beside sw.js),
   // so the URL follows whatever subpath Pages serves. Registered only on a
-  // secure origin; failures silent — the site works fully without the SW.
+  // secure origin; failures silent - the site works fully without the SW.
   if (document.currentScript && document.currentScript.src) {
     var SW_URL = new URL('sw.js?v=' + encodeURIComponent(BUILD_ID), document.currentScript.src).href;
   }
@@ -63,7 +63,7 @@
         '<div class="as-pwa-body">' +
           '<p class="as-pwa-kicker mono">INSTALL</p>' +
           '<p class="as-pwa-title">Take AndroidScroll with you</p>' +
-          '<p class="as-pwa-copy">Add it to your home screen — guides open in one tap and read offline on bad signal.</p>' +
+          '<p class="as-pwa-copy">Add it to your home screen - guides open in one tap and read offline on bad signal.</p>' +
         '</div>' +
         '<div class="as-pwa-acts">' +
           '<button type="button" class="as-pwa-install" data-as-pwa="install">Install app</button>' +
@@ -216,7 +216,7 @@
     }
   });
 
-  // ── 4. Push bell (P17b — status panel, never a blind toggle) ─────────────
+  // ── 4. Push bell (P17b - status panel, never a blind toggle) ─────────────
   // Beats the tech/finance bells: action buttons in the SW, dismiss beacons,
   // and per-topic choice (posts / deals / news) instead of all-or-nothing.
   // VAPID public key is stamped at ship (manager); unconfigured → error state.
@@ -236,7 +236,7 @@
   var pushLastError = ''; // browser's own failure words, shown in the error panel
   function pushNoteError(e, step) {
     try {
-      pushLastError = (step ? step + ' — ' : '') + (e ? ((e.name ? e.name + ': ' : '') + (e.message || 'no details')) : 'unknown failure');
+      pushLastError = (step ? step + ' - ' : '') + (e ? ((e.name ? e.name + ': ' : '') + (e.message || 'no details')) : 'unknown failure');
     } catch (_) { pushLastError = 'unknown failure'; }
     try { console.warn('[push] failure' + (step ? ' @' + step : ''), e); } catch (_) {}
   }
@@ -331,7 +331,7 @@
     } else if (pushState === PUSH_ERR) {
       inner = '<p class="as-push-kicker mono">NOTIFICATIONS</p>' +
         '<p class="as-push-title">Something snagged</p>' +
-        '<p class="as-push-copy">The bell rope slipped. Try again — nothing changed on your side.</p>' +
+        '<p class="as-push-copy">The bell rope slipped. Try again - nothing changed on your side.</p>' +
         (pushLastError ? '<p class="as-push-err mono">Your browser says: ' + escHtml(pushLastError) + '</p>' : '') +
         '<div class="as-push-acts"><button type="button" class="as-push-on" data-as-push="on">Try again</button></div>';
     } else {
@@ -343,7 +343,7 @@
     }
     panel.innerHTML = '<div class="as-push-card"><button type="button" class="as-push-x" data-as-push="x" aria-label="Close">×</button>' + inner + '</div>';
     if (pushBusy) {
-      // v0.6.47: the working state — buttons rest, a spinner speaks.
+      // v0.6.47: the working state - buttons rest, a spinner speaks.
       var busyLabel = pushBusyAction === 'off' ? 'Turning off…' : 'Ringing…';
       var acts = panel.querySelector('.as-push-acts');
       if (acts) acts.innerHTML = '<button type="button" class="as-push-on" disabled aria-busy="true"><span class="as-push-spin" aria-hidden="true"></span>' + busyLabel + '</button>';
@@ -430,13 +430,13 @@
     }
     chain.then(function () {
       if (Notification.permission === 'denied') { pushState = PUSH_BLOCKED; renderPushPanel(); return; }
-      // v0.6.45: reach the bell server FIRST — a dead route (VPN/ad-blocker/carrier)
+      // v0.6.45: reach the bell server FIRST - a dead route (VPN/ad-blocker/carrier)
       // then names itself instead of masquerading as a subscribe failure.
       return fetch(PUSH_BASE + '/health', { method: 'GET' }).then(function (r) {
         if (!r.ok) throw new Error('bell server answered ' + r.status);
         return pushReg();
       }, function (e) {
-        throw new Error('bell server unreachable — connection, VPN, or ad-blocker may be stopping your phone from reaching it (' + (e && e.message ? e.message : 'no details') + ')');
+        throw new Error('bell server unreachable - connection, VPN, or ad-blocker may be stopping your phone from reaching it (' + (e && e.message ? e.message : 'no details') + ')');
       }).then(function (reg) {
         return reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: urlBase64ToBytes(VAPID_KEY) });
       }, function (e) {
@@ -505,7 +505,7 @@
     var bells = document.querySelectorAll('[data-push-toggle]');
     if (!bells.length) return;
     Array.prototype.forEach.call(bells, function (bell) {
-      bell.hidden = false; // bell stays even when unsupported — panel explains why
+      bell.hidden = false; // bell stays even when unsupported - panel explains why
       bell.addEventListener('click', function () {
         if (pushPanel) { closePushPanel(true); return; }
         if (!pushSupported()) { pushState = PUSH_NOSUP; renderPushPanel(); return; }
@@ -514,7 +514,7 @@
         renderPushPanel();
       });
     });
-    // prove real state quietly — no panel, bell just reflects next tap
+    // prove real state quietly - no panel, bell just reflects next tap
     if (pushSupported() && pushConfigured()) {
       pushReg().then(function (reg) {
         return reg.pushManager.getSubscription();
