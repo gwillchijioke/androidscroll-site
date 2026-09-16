@@ -1,3 +1,4 @@
+## v0.6.38 — 2026-09-16 — A3 astro 5.18.2→7.3.2: clean build first try, zero breakage, gate OK
 # Changelog
 
 ## [0.6.37] — 2026-09-16

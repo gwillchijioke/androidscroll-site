@@ -84,7 +84,7 @@
       "root_id": 180,
       "words": 2226,
       "read_min": 11,
-      "comments": 4
+      "comments": 6
     },
     {
       "id": 9874,
@@ -628,7 +628,7 @@
   "totals": {
     "posts": 13,
     "categories": 19,
-    "comments": 52,
+    "comments": 54,
     "empty_categories": 12
   },
   "stale": false

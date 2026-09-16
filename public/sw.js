@@ -5,12 +5,12 @@
  * with a cached copy (then the offline shell) as fallback; content-hashed
  * /_astro/ chunks are immutable and served cache-first; everything else static
  * uses stale-while-revalidate. /api and Worker calls are NEVER intercepted.
- * 0.6.34-38bdc4c is stamped at prebuild (scripts/stamp-pwa.mjs) so every deploy
+ * 0.6.37-a4c7058 is stamped at prebuild (scripts/stamp-pwa.mjs) so every deploy
  * ships fresh cache namespaces and activate purges the old ones.
  */
 
 /* eslint-disable no-restricted-globals */
-const VERSION = `andscroll-0.6.34-38bdc4c`;
+const VERSION = `andscroll-0.6.37-a4c7058`;
 const SHELL = new URL('./', self.location).href; // site root in ANY base (apex or /androidscroll-site/)
 const ASSET_CACHE = `as-assets-${VERSION}`;
 const PAGE_CACHE = `as-pages-${VERSION}`;
@@ -40,13 +40,20 @@ self.addEventListener('install', event => {
 });
 
 // ── 2. activate: purge stale cache namespaces (version-busted above) ───────
+// AUDIT-02 B2 (v0.6.36): caches.delete() is ORIGIN-wide, and GH Pages serves a
+// whole user site (godschi10.github.io) from one origin — other apps/projects
+// there may own their own caches. Purge ONLY caches carrying OUR prefixes;
+// never touch anything else. Fetch-handler behavior untouched.
 self.addEventListener('activate', event => {
+  const isOurs = k => k.startsWith('as-assets-') || k.startsWith('as-pages-');
   event.waitUntil(
     caches
       .keys()
       .then(keys =>
         Promise.all(
-          keys.filter(k => k !== ASSET_CACHE && k !== PAGE_CACHE).map(k => caches.delete(k))
+          keys
+            .filter(k => isOurs(k) && k !== ASSET_CACHE && k !== PAGE_CACHE)
+            .map(k => caches.delete(k))
         )
       )
       .then(() => self.clients.claim())

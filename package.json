@@ -1,6 +1,6 @@
 {
   "name": "androidscroll-proto",
-  "version": "0.6.37",
+  "version": "0.6.38",
   "private": true,
   "type": "module",
   "scripts": {
@@ -11,7 +11,7 @@
     "preview": "astro preview"
   },
   "dependencies": {
-    "astro": "5.18.2"
+    "astro": "^7.3.2"
   },
   "allowScripts": {
     "esbuild@0.27.7": true,
