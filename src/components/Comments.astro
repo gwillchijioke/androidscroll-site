@@ -286,7 +286,7 @@ const REACT_SVG: Record<string, string> = {
   // fire 17x20 ink175/178): laugh 21x15 ink171 both themes; @16 16x12 ink104/106.
   // Brand monochrome — currentColor only, never emoji yellow/blue. No dark-mode colour
   // change (King: idle icons read great in dark as-is).
-  laugh: `<path fill="currentColor" stroke="none" fill-rule="evenodd" d="M4.1 12a7.9 7.9 0 1 0 15.8 0a7.9 7.9 0 1 0 -15.8 0Z M7.935 7.411L6.314 9.965L10.264 9.965L8.644 7.411A0.419 0.419 0 0 0 7.935 7.411Z M15.356 7.411L13.736 9.965L17.686 9.965L16.065 7.411A0.419 0.419 0 0 0 15.356 7.411Z M6.614 11.88H17.386a5.386 6.344 0 0 1 -10.773 0Z"/><path d="M3.073 8.75L2.765 10.849A1.36 1.36 0 1 1 1.037 9.347Z" fill="currentColor" stroke="none"/><path d="M20.927 8.75L22.963 9.347A1.36 1.36 0 1 1 21.235 10.849Z" fill="currentColor" stroke="none"/>`,
+  laugh: `<path fill="currentColor" stroke="none" fill-rule="evenodd" d="M4.1 12a7.9 7.9 0 1 0 15.8 0a7.9 7.9 0 1 0 -15.8 0Z M6.314 9.965Q8.289 6.7 10.264 9.965Q8.289 8.9 6.314 9.965Z M13.736 9.965Q15.711 6.7 17.686 9.965Q15.711 8.9 13.736 9.965Z M6.614 11.88H17.386a5.386 6.344 0 0 1 -10.773 0Z"/><path d="M3.073 8.75L2.765 10.849A1.36 1.36 0 1 1 1.037 9.347Z" fill="currentColor" stroke="none"/><path d="M20.927 8.75L22.963 9.347A1.36 1.36 0 1 1 21.235 10.849Z" fill="currentColor" stroke="none"/>`,
 };
 const reactIcon = (k: string) =>
   '<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' + (REACT_SVG[k] || '') + '</svg>';
