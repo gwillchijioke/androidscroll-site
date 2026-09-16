@@ -1398,6 +1398,10 @@ function pushKpi(host: HTMLElement | null, val: string, label: string): void {
 async function loadPush(): Promise<void> {
   const lock = $('push-lock') as HTMLFormElement | null;
   const body = $('push-body');
+  // v0.6.50: re-adopt the desk session on open — load-time storage can hiccup.
+  if (!pushToken) {
+    try { pushToken = sessionStorage.getItem(PUSH_TOK_KEY) || sessionStorage.getItem(TOK_KEY) || ''; } catch { /* private mode */ }
+  }
   const hasTok = pushToken.length > 0;
   show(lock, !hasTok);
   show(body, hasTok);
