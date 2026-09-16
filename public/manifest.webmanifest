@@ -8,7 +8,7 @@
   "background_color": "#EDF6F3",
   "theme_color": "#071512",
   "categories": ["utilities", "news", "productivity"],
-  "build_id": "0.6.41-fb36b8e",
+  "build_id": "0.6.41-fd743b5",
   "icons": [
     { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
     { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
