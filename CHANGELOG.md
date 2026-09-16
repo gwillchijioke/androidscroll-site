@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.6.37] — 2026-09-16
+### Security — audit-02 leftovers: B4 storage key, N2 npm audit CI
+- **B4 (LOW, PARTIAL):** inspected the file's only recorded introduction commit
+  (`f40dce4`) with one targeted `git show`; the storage key was already redacted
+  as `***` in that commit, so the true literal remains indeterminable and was not
+  invented.
+- **N2 (LOW, FIXED):** added `.github/workflows/audit.yml` to audit production
+  dependencies with `npm audit --omit=dev` and fail on high or critical findings.
+
 ## [0.6.36] — 2026-09-16
 ### Security — audit-02 leftovers: A1 mod clickjacking, B6 SEO hygiene, B2 SW purge scoping
 - **A1 (MEDIUM, fix-order-2):** the moderation desk could be framed — it is
