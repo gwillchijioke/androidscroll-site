@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.6.32] — 2026-09-16
+### Added — P17a PWA install: offline SW + beforeinstallprompt card + iOS guide
+- Prebuild stamp (`scripts/stamp-pwa.mjs` in the `prebuild` hook): BUILD_ID =
+  package version + git short SHA; stamps `public/sw.js` (cache namespaces per
+  deploy, activate purges old ones) and `public/manifest.webmanifest` (fresh
+  install-metadata URL) from `sw.src.js`/`manifest.src.json` sources. Stamped
+  outputs keep relative `./` start_url/scope/icon paths so apex `/` and staging
+  `/androidscroll-site/` serve from the same tree.
+- Install surfaces: `beforeinstallprompt` bottom-sheet card (teal primary /
+  ghost secondary, both themes, reduced-motion safe) plus footer `Install app`
+  and dashed iOS `Add to Home Screen` buttons — both hidden until JS proves
+  support, `appinstalled` hides them again. Manifest gains categories +
+  build_id; manifest/script URLs carry `?v=BUILD_ID` cache-busters.
+- Proven: stamp exit 0, build exit 0, dist/ carries the relative manifest,
+  BUILD_ID, and as-install buttons.
+
 ## [0.6.31] — 2026-09-16
 ### Fixed — P24 COMMENTS-REGRESSION: restore avHash dropped by AUDIT-01 M5
 - Root cause: v0.6.29 (f649487) deleted the Gravatar block for initials-only

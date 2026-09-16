@@ -27,6 +27,15 @@ const footPillars = PILLARS
         </a>
         <p>{SITE.tagline} Built as a static publication: Astro on the edge, no trackers without your consent.</p>
         <p class="foot-alerts"><a href="/contact/">Get launch alerts — tell us where to reach you →</a></p>
+        <!-- P17a: install buttons (finance .ffollow port). Both hidden until JS
+             proves support: beforeinstallprompt reveals Install; iOS UA reveals
+             the dashed Share-sheet guide. appinstalled hides both. -->
+        <p class="foot-install">
+          <button type="button" class="as-install" data-install-app hidden
+            data-label-alt="Install not available">Install app</button>
+          <button type="button" class="as-install as-install--ios" data-install-ios hidden
+            aria-expanded="false" aria-label="Add Android Scroll to your iPhone Home Screen">Add to Home Screen</button>
+        </p>
         <!-- v0.6.10: nine brand accounts, inline icons, optical-law scaled -->
         <div class="foot-social">
           <span class="soc-kicker">Follow AndroidScroll</span>

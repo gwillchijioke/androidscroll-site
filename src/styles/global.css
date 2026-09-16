@@ -987,3 +987,38 @@ html[data-theme=dark] .nf-search:hover{background:var(--mint);color:var(--verdic
 .nf-home:hover{background:var(--band);text-decoration:none}
 html[data-theme=dark] .nf-home{border-color:var(--teal);color:var(--teal)}
 .nf-doors{margin-top:30px;border-top:1px solid var(--line-2);padding-top:4px}
+
+/* ══ P17a — PWA install surfaces (bottom-sheet card + footer buttons) ══
+   Finance gwill-pwa/pwa-install port, re-skinned to the field-manual: paper
+   card, mono kicker, teal primary, ghost secondary. Both themes below. */
+.as-pwa{position:fixed;left:0;right:0;bottom:0;z-index:80;display:none;justify-content:center;padding:0 10px calc(12px + env(safe-area-inset-bottom,0px));pointer-events:none}
+body.as-pwa-visible .as-pwa{display:flex}
+.as-pwa-card{pointer-events:auto;position:relative;width:100%;max-width:460px;display:flex;align-items:center;gap:12px;background:var(--paper);border:1px solid var(--line-2);border-top:3px solid var(--deep);border-radius:4px;box-shadow:var(--float);padding:14px 16px;animation:as-pwa-in .26s ease-out}
+html[data-theme=dark] .as-pwa-card{border-top-color:var(--teal)}
+@keyframes as-pwa-in{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
+@media (prefers-reduced-motion: reduce){.as-pwa-card{animation:none}}
+.as-pwa-mark{flex:none;width:38px;height:38px;display:inline-flex;align-items:center;justify-content:center;border-radius:2px;background:var(--deep);color:var(--on-deep)}
+html[data-theme=dark] .as-pwa-mark{background:var(--teal);color:var(--verdict)}
+.as-pwa-body{flex:1 1 auto;min-width:0}
+.as-pwa-kicker{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;color:var(--muted);margin:0}
+.as-pwa-title{font-family:var(--display);font-size:14px;font-weight:800;letter-spacing:-.01em;color:var(--ink);margin:2px 0 3px}
+.as-pwa-copy{font-size:12px;line-height:1.5;color:var(--ink-2);margin:0}
+.as-pwa-acts{flex:0 0 auto;display:flex;gap:8px}
+.as-pwa-install{background:var(--deep);color:var(--on-deep);border:0;border-radius:2px;padding:10px 14px;font-family:var(--sans);font-size:12.5px;font-weight:800;cursor:pointer;white-space:nowrap}
+.as-pwa-install:hover{background:var(--deeper)}
+html[data-theme=dark] .as-pwa-install{background:var(--teal);color:var(--verdict)}
+html[data-theme=dark] .as-pwa-install:hover{background:var(--mint);color:var(--verdict)}
+.as-pwa-later{background:transparent;color:var(--muted);border:1px solid var(--line-2);border-radius:2px;padding:10px 12px;font-family:var(--sans);font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap}
+.as-pwa-later:hover{border-color:var(--deep);color:var(--ink)}
+html[data-theme=dark] .as-pwa-later:hover{border-color:var(--teal)}
+.as-pwa-install:focus-visible,.as-pwa-later:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+@media (max-width:767px){.as-pwa-card{flex-wrap:wrap;gap:10px 12px}.as-pwa-body{flex-basis:calc(100% - 50px)}.as-pwa-acts{flex-basis:100%}.as-pwa-install,.as-pwa-later{flex:1;text-align:center}}
+/* footer buttons (finance .finall → .as-install): hidden until JS proves support */
+.as-install{font:inherit;font-size:13px;font-weight:700;line-height:1;padding:10px 16px;border-radius:2px;cursor:pointer;border:1px solid var(--deep);background:transparent;color:var(--deep);display:inline-flex;align-items:center;gap:8px;-webkit-tap-highlight-color:transparent}
+.as-install:hover{background:var(--band);text-decoration:none}
+.as-install[hidden]{display:none}
+html[data-theme=dark] .as-install{border-color:var(--teal);color:var(--teal)}
+html[data-theme=dark] .as-install:hover{background:var(--band)}
+.as-install--ios{border-style:dashed}
+.as-install-note{display:block;width:100%;max-width:46ch;margin:8px 0 0;font-size:11.5px;line-height:1.55;font-weight:500;color:var(--ink-2);background:var(--band);border:1px solid var(--line);border-radius:2px;padding:8px 10px}
+html[data-theme=dark] .as-install-note{background:var(--band-2);border-color:var(--line-2)}

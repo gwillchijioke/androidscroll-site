@@ -1,11 +1,11 @@
 {
   "name": "androidscroll-proto",
-  "version": "0.6.31",
+  "version": "0.6.32",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "prebuild": "node scripts/gen-content.mjs",
+    "prebuild": "node scripts/gen-content.mjs && node scripts/stamp-pwa.mjs",
     "build": "astro build && node scripts/relativize.mjs",
     "gate": "node scripts/security-gate.mjs",
     "preview": "astro preview"
