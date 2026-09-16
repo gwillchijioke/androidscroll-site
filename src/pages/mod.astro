@@ -60,7 +60,7 @@ for (const p of POSTS) postMap[p.id] = { u: p.url, t: p.title };
         <div class="mod-act-row">
           <button class="btn-deep" type="submit">Unlock</button>
         </div>
-        <p class="mod-meta" id="mod-lock-ver">desk v0.6.55</p>
+        <p class="mod-meta" id="mod-lock-ver">desk v0.6.56</p>
       </form>
 
       <p id="mod-toast" class="mod-toast" role="status" aria-live="polite"></p>
@@ -1536,6 +1536,7 @@ async function loadPush(): Promise<void> {
       camps.appendChild(box);
     }
   }
+  setLocked(false); // v0.6.56 (King's PUSH-tab lockout): every other loader lifts
   setToast('Push deck live — ' + n(subs.total) + ' subscribers.');
 }
 function pushComposePayload(): Record<string, string> | null {
