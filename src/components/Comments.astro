@@ -108,6 +108,9 @@ const hasCount = typeof initialCount === 'number' && initialCount > 0;
 const section = document.getElementById('comments-section') as HTMLElement;
 const postId  = section?.dataset.postId || '';
 const API     = (section?.dataset.api || '') + '/api/comments';
+// v0.6.33 P17c2: same Worker origin, one constant to roll back. Proxy route is
+// GET /avatar/<64-hex> → 200 image/* (7 d cached) | 404 no photo | 400 malformed.
+const AVATAR  = (section?.dataset.api || '') + '/avatar/';
 
 const ALLOWED_COMMENT_TAGS = new Set([
   'a','b','strong','i','em','u','s','p','br','ul','ol','li',
@@ -188,7 +191,12 @@ const $ = (id: string) => document.getElementById(id);
 const show = (el: HTMLElement | null, on = true) => { if (el) el.hidden = !on; };
 const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-// Commenter faces are initials-only (AUDIT-01 M5): zero third-party requests.
+// Commenter faces (v0.6.33 P17c2): photos come from OUR Worker proxy, never the
+// third-party avatar host — AUDIT-01 M5's privacy finding stays closed. The
+// Worker returns
+// 200 image/* for a hash that has a photo and 404 otherwise; the img sits on top
+// of the monogram, so the 404 onerror just removes it and the initials show
+// through. Monogram stays the default/fallback either way, zero CLS.
 // The desk-author star badge (is_author) is display-only and stays below.
 const AV_BG = ['var(--deep)', 'var(--teal)', 'var(--deeper)', 'var(--verdict)'];
 // P24 hotfix (v0.6.31): AUDIT-01 M5 removed the Gravatar block but avHash was
@@ -209,6 +217,14 @@ function initials(name: string): string {
   if (!parts.length) return 'A';
   if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+// v0.6.33 P17c2: the ONLY string allowed to reach the avatar URL is a bare
+// 64-hex-lowercase email_hash (measured: all API rows carry one). Anything else
+// — null, short, uppercase, path/query injection — renders the monogram only.
+// No name special-casing, no hardcoded hash.
+function photoHashFor(c: any): string {
+  const h = String(c?.email_hash || '').trim();
+  return /^[0-9a-f]{64}$/.test(h) ? h : '';
 }
 
 // ── relative time (brief D1 / §3a P2 — vanilla, no time lib) ──
@@ -627,8 +643,11 @@ function renderThread(comments: any[]): string {
       <div class="c-item${replyToName ? ' c-reply' : ''}${c.is_author ? ' c-by-author' : ''}" id="comment-${id}">
         ${replyMark}
         <div class="c-meta">
-          <!-- AUDIT-01 M5: initials-only monogram, no third-party photo request. -->
-          <span class="c-av-wrap"><span class="c-avatar" aria-hidden="true" style="background:${avatarBg(c)}">${esc(initials(c.name || 'Anonymous'))}</span></span>
+          <!-- v0.6.33 P17c2: monogram default, Worker-proxied photo layered over
+               it. d=404 miss (no photo) fires onerror -> img removed, initials
+               show through. alt="" + aria-hidden: the name is already announced
+               by .c-name right next to it — no duplicate SR reading. -->
+          <span class="c-av-wrap"><span class="c-avatar" aria-hidden="true" style="background:${avatarBg(c)}">${esc(initials(c.name || 'Anonymous'))}</span>${photoHashFor(c) ? `<img class="c-photo" src="${esc(AVATAR + photoHashFor(c))}" alt="" aria-hidden="true" loading="lazy" decoding="async" width="36" height="36" referrerpolicy="no-referrer" onerror="this.remove()">` : ''}</span>
           <span class="c-headline">
             <span class="c-name-wrap">${linkOpen}<span class="c-name">${safeName}</span>${linkClose}</span>
             <span class="c-sub">

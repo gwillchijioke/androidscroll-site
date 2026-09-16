@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.6.33] — 2026-09-16
+### Added — P17c2 comment avatars via the Worker proxy (photos, zero gravatar)
+- Commenter photos are back, served by our own Worker: `GET /avatar/<64-hex>`
+  (`androidscroll-comments.gwill.workers.dev`) → 200 `image/*` cached 7 d when
+  the hash has a photo, 404 when it has none, 400 on a malformed hash. Reader
+  browsers never contact gravatar.com — AUDIT-01 M5's privacy finding stays
+  closed and no third-party image host is reintroduced.
+- `photoHashFor()` in `Comments.astro` is the gate: only a bare 64-hex-lowercase
+  `email_hash` may reach the URL (null/short/uppercase/injection → monogram).
+  The img is layered over the existing deterministic monogram in `.c-av-wrap`, so
+  the 404 `onerror="this.remove()"` simply reveals the initials — monogram stays
+  the default and fallback, zero CLS. The author's own comments use the same
+  path with his API hash (no special-casing, no hardcoded hash).
+- CSP `img-src` gains only `https://androidscroll-comments.gwill.workers.dev`
+  (same Worker origin already allowed for `connect-src`); gravatar.com appears
+  in no src file and no CSP list.
+
 ## [0.6.32] — 2026-09-16
 ### Added — P17a PWA install: offline SW + beforeinstallprompt card + iOS guide
 - Prebuild stamp (`scripts/stamp-pwa.mjs` in the `prebuild` hook): BUILD_ID =
