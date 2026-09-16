@@ -33,7 +33,7 @@ for (const p of POSTS) postMap[p.id] = { u: p.url, t: p.title };
     <section class="mod-band">
       <div class="wrap mod-band-in">
         <a class="mod-mark" href="/" aria-label="AndroidScroll - home"><Wordmark /></a>
-        <p class="mod-kicker">Moderation Desk</p>
+        <h1 class="mod-kicker">Moderation Desk</h1>
         <div class="mod-band-actions">
           <button id="mod-refresh" class="btn-ghost" type="button" hidden>Refresh</button>
           <button id="mod-signout" class="btn-ghost" type="button" hidden>Sign out</button>
@@ -41,12 +41,12 @@ for (const p of POSTS) postMap[p.id] = { u: p.url, t: p.title };
       </div>
       <div class="wrap">
         <!-- v0.6.16: Overview FIRST + DEFAULT (King 10:24) -->
-        <nav class="mod-tabs" id="mod-tabs" aria-label="Console sections" hidden>
-          <button type="button" class="mod-tab" data-tab="overview">Overview</button>
-          <button type="button" class="mod-tab" data-tab="queue">Queue</button>
-          <button type="button" class="mod-tab" data-tab="all">All comments</button>
-          <button type="button" class="mod-tab" data-tab="reports">Reports</button>
-          <button type="button" class="mod-tab" data-tab="push">Push</button>
+        <nav class="mod-tabs" id="mod-tabs" role="tablist" aria-label="Console sections" hidden>
+          <button type="button" role="tab" id="tab-overview" aria-controls="mod-view-overview" class="mod-tab" data-tab="overview">Overview</button>
+          <button type="button" role="tab" id="tab-queue" aria-controls="mod-view-queue" class="mod-tab" data-tab="queue">Queue</button>
+          <button type="button" role="tab" id="tab-all" aria-controls="mod-view-all" class="mod-tab" data-tab="all">All comments</button>
+          <button type="button" role="tab" id="tab-reports" aria-controls="mod-view-reports" class="mod-tab" data-tab="reports">Reports</button>
+          <button type="button" role="tab" id="tab-push" aria-controls="mod-view-push" class="mod-tab" data-tab="push">Push</button>
         </nav>
       </div>
     </section>
@@ -60,21 +60,23 @@ for (const p of POSTS) postMap[p.id] = { u: p.url, t: p.title };
         <div class="mod-act-row">
           <button class="btn-deep" type="submit">Unlock</button>
         </div>
-        <p class="mod-meta" id="mod-lock-ver">desk v0.6.67</p>
+        <p class="mod-meta" id="mod-lock-ver">desk v0.6.68</p>
       </form>
 
       <p id="mod-toast" class="mod-toast" role="status" aria-live="polite"></p>
 
       <section id="mod-panel" hidden aria-label="Console panel">
         <!-- QUEUE -->
-        <div id="mod-view-queue" class="mod-view" hidden>
+        <div id="mod-view-queue" class="mod-view" role="tabpanel" aria-labelledby="tab-queue" hidden>
+          <h2 class="mod-view-h">Queue</h2>
           <label class="mod-selall" id="mod-queue-selall-wrap"><input type="checkbox" id="mod-queue-selall" class="mod-cbx" aria-label="Select all in queue"><span class="mod-cbx-box" aria-hidden="true"></span><span>Select all</span></label>
           <div id="mod-queue-list" class="mod-rows"></div>
           <p id="mod-queue-empty" class="mod-empty" hidden>Nothing waiting.</p>
         </div>
 
         <!-- ALL COMMENTS -->
-        <div id="mod-view-all" class="mod-view" hidden>
+        <div id="mod-view-all" class="mod-view" role="tabpanel" aria-labelledby="tab-all" hidden>
+          <h2 class="mod-view-h">All comments</h2>
           <div class="mod-filterbar">
             <div class="mod-seg" id="mod-seg" role="group" aria-label="Status filter">
               <button type="button" data-status="pending">Pending</button>
@@ -101,7 +103,8 @@ for (const p of POSTS) postMap[p.id] = { u: p.url, t: p.title };
           </div>
         </div>
         <!-- REPORTS (no checkboxes - Dismiss/resolve is its own lifecycle) -->
-        <div id="mod-view-reports" class="mod-view" hidden>
+        <div id="mod-view-reports" class="mod-view" role="tabpanel" aria-labelledby="tab-reports" hidden>
+          <h2 class="mod-view-h">Reports</h2>
           <div id="mod-rep-list" class="mod-rows"></div>
           <p id="mod-rep-empty" class="mod-empty" hidden>No open reports.</p>
         </div>
@@ -110,7 +113,8 @@ for (const p of POSTS) postMap[p.id] = { u: p.url, t: p.title };
              v0.6.60 (AUDIT-1 key split): the desk key READS (stats, drill-down);
              sounding needs the commander key, asked inline at the compose form.
              No session: one calm line. Server enforces the split. -->
-        <div id="mod-view-push" class="mod-view" hidden>
+        <div id="mod-view-push" class="mod-view" role="tabpanel" aria-labelledby="tab-push" hidden>
+          <h2 class="mod-view-h">Push</h2>
           <div id="push-lock" class="mod-card" hidden>
             <p id="push-lock-msg" class="mod-result" role="status" aria-live="polite">Sign in to the desk first - the bell answers the desk key.</p>
           </div>
@@ -160,7 +164,8 @@ for (const p of POSTS) postMap[p.id] = { u: p.url, t: p.title };
         <div id="mod-bulkbar" class="mod-selbar" hidden></div>
 
         <!-- OVERVIEW (v0.6.16: first + default tab, expanded real-data-only) -->
-        <div id="mod-view-overview" class="mod-view" hidden>
+        <div id="mod-view-overview" class="mod-view" role="tabpanel" aria-labelledby="tab-overview" hidden>
+          <h2 class="mod-view-h">Overview</h2>
           <div id="mod-cards" class="mod-cards"></div>
           <div id="mod-actionreq" class="mod-actionreq"></div>
           <p class="mod-label mod-top-head">Top guides</p>
@@ -193,6 +198,8 @@ for (const p of POSTS) postMap[p.id] = { u: p.url, t: p.title };
 .mod-scoped .mod-band-in{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding-bottom:14px}
 .mod-scoped .mod-mark{display:inline-flex;align-items:center;min-height:44px;color:var(--ink)}
 .mod-scoped .mod-kicker{margin:0;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--deep)}
+/* A11Y-1: view titles - same voice as the kicker, one step down in presence */
+.mod-scoped .mod-view-h{margin:18px 0 4px;font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2)}
 .mod-scoped .mod-band-actions{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap}
 .mod-scoped .mod-band-actions .btn-ghost{white-space:nowrap}
 .mod-scoped .mod-main{padding-top:14px;padding-bottom:var(--sp-e)}
@@ -571,7 +578,10 @@ function setTab(tab: string) {
 function paintTabs() {
   if (!tabs) return;
   for (const b of Array.from(tabs.querySelectorAll('.mod-tab'))) {
-    (b as HTMLElement).classList.toggle('is-on', b.getAttribute('data-tab') === state.tab);
+    const on = b.getAttribute('data-tab') === state.tab;
+    (b as HTMLElement).classList.toggle('is-on', on);
+    /* A11Y-1: the selected state must speak, not just paint */
+    b.setAttribute('aria-selected', on ? 'true' : 'false');
   }
 }
 

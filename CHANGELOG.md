@@ -22,6 +22,11 @@
 ## v0.6.38 - 2026-09-16 - A3 astro 5.18.2→7.3.2: clean build first try, zero breakage, gate OK
 # Changelog
 
+## v0.6.68 - A11Y-1 fixes (Sep 16)
+- Desk speaks: h1 + view h2s, tablist semantics with live aria-selected.
+- Comment errors own their field (aria-invalid + appended describedby, focus, heals on input).
+- Live counts announce politely.
+
 ## v0.6.67 - MOBILE-1 fixes (Sep 16)
 - Sub-360 header compaction: 320px no longer clips the theme toggle.
 - 16px comment + desk fields: iOS zoom-on-focus ends (padding trimmed to hold rhythm).

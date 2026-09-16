@@ -809,8 +809,29 @@ function setMsg(text: string, ok = false, field?: HTMLElement | null) {
     msg.textContent = text;
     msg.className = ok ? 'c-msg-ok' : 'c-err'; // term strip vs mono-deep error
   }
-  if (field) field.focus();
+  /* A11Y-1: the error must own its field - AT hears which control failed */
+  document.querySelectorAll('.comments #comment-form [aria-invalid="true"]').forEach(el => {
+    el.removeAttribute('aria-invalid'); el.removeAttribute('aria-describedby');
+  });
+  if (field && !ok) {
+    field.setAttribute('aria-invalid', 'true');
+    /* keep any existing describedby (e.g. the textarea's counter) - append */
+    const prior = (field.getAttribute('aria-describedby') || '').split(/\s+/).filter(Boolean);
+    if (!prior.includes('form-msg')) prior.push('form-msg');
+    field.setAttribute('aria-describedby', prior.join(' '));
+    field.focus();
+  } else if (field) field.focus();
 }
+/* A11Y-1: typing heals - a corrected field drops its error ownership at once */
+document.getElementById('comment-form')?.addEventListener('input', (e) => {
+  const t = e.target;
+  if (t instanceof HTMLElement && t.hasAttribute('aria-invalid')) {
+    t.removeAttribute('aria-invalid');
+    const rest = (t.getAttribute('aria-describedby') || '').split(/\s+/).filter(x => x && x !== 'form-msg');
+    if (rest.length) t.setAttribute('aria-describedby', rest.join(' '));
+    else t.removeAttribute('aria-describedby');
+  }
+});
 
 function countdown(btn: HTMLButtonElement, secs: number) {
   btn.disabled = true;
