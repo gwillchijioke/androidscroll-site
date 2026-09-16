@@ -232,6 +232,16 @@
   var pushPanel = null;
   var pushBusy = false;
   var pushTopics = ['posts'];
+  var pushLastError = ''; // browser's own failure words, shown in the error panel
+  function pushNoteError(e) {
+    try {
+      pushLastError = e ? ((e.name ? e.name + ': ' : '') + (e.message || 'no details')) : 'unknown failure';
+    } catch (_) { pushLastError = 'unknown failure'; }
+    try { console.warn('[push] failure', e); } catch (_) {}
+  }
+  function escHtml(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
 
   function pushSupported() {
     return ('Notification' in window) && ('serviceWorker' in navigator) &&
@@ -321,6 +331,7 @@
       inner = '<p class="as-push-kicker mono">NOTIFICATIONS</p>' +
         '<p class="as-push-title">Something snagged</p>' +
         '<p class="as-push-copy">The bell rope slipped. Try again — nothing changed on your side.</p>' +
+        (pushLastError ? '<p class="as-push-err mono">Your browser says: ' + escHtml(pushLastError) + '</p>' : '') +
         '<div class="as-push-acts"><button type="button" class="as-push-on" data-as-push="on">Try again</button></div>';
     } else {
       inner = '<p class="as-push-kicker mono">NOTIFICATIONS</p>' +
@@ -386,7 +397,7 @@
       }
       renderPushPanel();
     }).catch(function (e) {
-      try { console.warn('[push] refresh failed', e); } catch (_) {}
+      pushNoteError(e);
       pushState = PUSH_ERR;
       renderPushPanel();
     });
@@ -418,7 +429,7 @@
         renderPushPanel();
       });
     }).catch(function (e) {
-      try { console.warn('[push] enable failed', e); } catch (_) {}
+      pushNoteError(e);
       pushState = (e && e.name === 'NotAllowedError') ? PUSH_BLOCKED : PUSH_ERR;
       renderPushPanel();
     }).then(function () { pushBusy = false; });
@@ -438,7 +449,7 @@
       pushState = PUSH_UNSET;
       renderPushPanel();
     }).catch(function (e) {
-      try { console.warn('[push] disable failed', e); } catch (_) {}
+      pushNoteError(e);
       pushState = PUSH_ERR;
       renderPushPanel();
     }).then(function () { pushBusy = false; });
