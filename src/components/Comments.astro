@@ -191,6 +191,16 @@ const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)');
 // Commenter faces are initials-only (AUDIT-01 M5): zero third-party requests.
 // The desk-author star badge (is_author) is display-only and stays below.
 const AV_BG = ['var(--deep)', 'var(--teal)', 'var(--deeper)', 'var(--verdict)'];
+// P24 hotfix (v0.6.31): AUDIT-01 M5 removed the Gravatar block but avHash was
+// ALSO the deterministic monogram-bg picker — avatarBg() + the pending ghost
+// row still call it, so every loadComments() render died on
+// ReferenceError: avHash is not defined → generic "Couldn't load comments".
+// Restore the helper (same FNV-style 31 hash as before, unchanged output).
+function avHash(s: string): number {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+  return h;
+}
 function avatarBg(c: any): string {
   return c.is_author ? AV_BG[0] : AV_BG[avHash(String(c.name || '')) % AV_BG.length];
 }

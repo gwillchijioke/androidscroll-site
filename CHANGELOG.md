@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.6.31] — 2026-09-16
+### Fixed — P24 COMMENTS-REGRESSION: restore avHash dropped by AUDIT-01 M5
+- Root cause: v0.6.29 (f649487) deleted the Gravatar block for initials-only
+  monograms but avHash() — the deterministic monogram-bg picker — went with it
+  while avatarBg() and the pending ghost row still called it. Every
+  loadComments() render threw ReferenceError: avHash is not defined inside
+  renderThread(); the catch-all then showed "Couldn't load comments" on every
+  article. Worker API was healthy throughout — a page-JS dead reference, not
+  a network fault.
+- Fix: re-add the helper verbatim (same 31-multiply FNV hash → identical bg
+  picks, zero behavior change beyond un-breaking the render).
+
 ## [0.6.30] — 2026-09-15
 ### Removed — P22 ADS-OUT: ad-slots system out, zero slots site-wide
 - LAW 8 settings UI gone: Browse-sheet `Slots`/`Placeholders` toggles + `off =
