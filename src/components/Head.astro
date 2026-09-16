@@ -34,7 +34,16 @@ const CSP = `default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 's
 <meta property="og:description" content={props.desc || SITE.tagline} />
 <meta property="og:type" content={props.ogType || 'website'} />
 <meta property="og:url" content={canonical} />
-<meta name="twitter:card" content="summary" />
+<!-- SEO-1 (v0.6.69): shares were naked text. Brand OG card (1200x630 PNG -
+     scrapers reject SVG, so articles share this card until per-article
+     rasters exist); image prop lets any page override. Absolute apex URL
+     per house canonical policy. -->
+<meta property="og:image" content={SITE.url + (props.image || '/img/og-cover.png')} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={props.title ? `${props.title} - ${SITE.name}` : `${SITE.name} - ${SITE.tagline}`} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content={SITE.url + (props.image || '/img/og-cover.png')} />
 <!-- v2.0 hybrid (meta2 audit, see /tmp/meta2-freebuff/REPORT.md): three metas at
      boot. The two media-pair metas serve no-JS/OS-dark sessions (v1.3's one known
      regression); any JS deletes them FIRST, so WHATWG first-match never sees them -

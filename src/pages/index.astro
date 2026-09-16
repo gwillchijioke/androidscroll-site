@@ -10,6 +10,23 @@ import Footer from '../components/Footer.astro';
 import Head from '../components/Head.astro';
 import '../styles/global.css';
 import { SITE, POSTS, CATS, PILLARS, TOTALS, postsIn, fmtDate } from '../data/site';
+import { SOCIAL_BRAND } from '../data/socials';
+/* SEO-1 (v0.6.69): the homepage carried no site entity while every article
+   speaks BlogPosting - the knowledge graph gets its root node here. */
+const siteLD = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: SITE.name,
+  url: SITE.url + '/',
+  description: SITE.tagline,
+  publisher: {
+    '@type': 'Organization',
+    name: SITE.name,
+    url: SITE.url + '/',
+    logo: { '@type': 'ImageObject', url: SITE.url + '/img/og-cover.png' },
+    sameAs: SOCIAL_BRAND.map(s => s.href),
+  },
+};
 
 /* TOP FIXES: the five most-substantive fix guides, ordered for a reader in trouble */
 const fixSlugs = [
@@ -27,6 +44,7 @@ const shorts = POSTS.filter(p => p.read_min <= 10).length;
 const words = POSTS.reduce((n, p) => n + (p.words || 0), 0);
 ---
 <Base>
+  <script type="application/ld+json" set:html={JSON.stringify(siteLD)} />
   <!-- hero strip: masthead voice in three lines, then the ticker (traits 1-4) -->
   <section class="hero wrap" aria-labelledby="hero-h1">
     <div class="hero-main">
