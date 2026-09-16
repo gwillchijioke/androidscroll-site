@@ -40,13 +40,20 @@ self.addEventListener('install', event => {
 });
 
 // ── 2. activate: purge stale cache namespaces (version-busted above) ───────
+// AUDIT-02 B2 (v0.6.36): caches.delete() is ORIGIN-wide, and GH Pages serves a
+// whole user site (godschi10.github.io) from one origin — other apps/projects
+// there may own their own caches. Purge ONLY caches carrying OUR prefixes;
+// never touch anything else. Fetch-handler behavior untouched.
 self.addEventListener('activate', event => {
+  const isOurs = k => k.startsWith('as-assets-') || k.startsWith('as-pages-');
   event.waitUntil(
     caches
       .keys()
       .then(keys =>
         Promise.all(
-          keys.filter(k => k !== ASSET_CACHE && k !== PAGE_CACHE).map(k => caches.delete(k))
+          keys
+            .filter(k => isOurs(k) && k !== ASSET_CACHE && k !== PAGE_CACHE)
+            .map(k => caches.delete(k))
         )
       )
       .then(() => self.clients.claim())

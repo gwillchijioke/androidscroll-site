@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.6.36] — 2026-09-16
+### Security — audit-02 leftovers: A1 mod clickjacking, B6 SEO hygiene, B2 SW purge scoping
+- **A1 (MEDIUM, fix-order-2):** the moderation desk could be framed — it is
+  public, guessable, and carries one-click Approve/Spam/Trash. `mod.astro` now
+  extends its CSP meta with `frame-ancestors 'none'` via a new page-level
+  `cspExtra` prop (Base → Head); no second meta tag. Every other page renders
+  its CSP byte-for-byte as before. Out of scope (per audit, not touched): Worker
+  `X-Frame-Options` on API responses — GET-only JSON, no session cookies.
+- **B6 (LOW):** added `public/robots.txt` (allow all + `Sitemap:` line) and
+  `public/sitemap.xml` (30 indexable routes of 46 built — the 15 pages carrying
+  robots noindex metas, including the unlisted `/mod/` desk, and the `/latest/`
+  redirect stub are excluded). Hand-written rather than `@astrojs/sitemap`:
+  no new deps without instruction. Staging canonical in the URLs; apex
+  (androidscroll.com) swap is an open item for the King on media-crew cutover.
+- **B2 (LOW):** SW `activate` purged every cache on the origin that wasn't the
+  current namespace — and GH Pages serves the whole user site from one origin.
+  The purge is now prefix-scoped to `as-assets-`/`as-pages-` (our namespaces
+  only); fetch-handler behavior untouched. Effective change is one filter line.
+- `security-gate.mjs` unchanged (46-page sweep + P28 stray-root assertion apply
+  as-is; the gate greps CSP directives generically, so the mod page's extended
+  set passes without a new rule).
+
 ## [0.6.35] — 2026-09-16
 ### Removed — P28 the stale second copy of the site (audit-02 fix-order-1)
 - The repo root still tracked a full build output from v0.4.12 (commit

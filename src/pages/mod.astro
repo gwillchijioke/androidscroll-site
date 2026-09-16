@@ -25,7 +25,10 @@ import { POSTS } from '../data/site';
 const postMap: Record<number, { u: string; t: string }> = {};
 for (const p of POSTS) postMap[p.id] = { u: p.url, t: p.title };
 ---
-<Base title="Moderation desk" desc="Private moderation console — queue, all comments, reports, overview." robots="noindex, nofollow">
+<!-- AUDIT-02 A1 (v0.6.36): the desk is public, guessable and carries one-click
+     Approve/Spam/Trash — it must never be framable. Meta CSP can carry
+     frame-ancestors when a page opts in; apex host headers stay primary. -->
+<Base title="Moderation desk" desc="Private moderation console — queue, all comments, reports, overview." robots="noindex, nofollow" cspExtra="frame-ancestors 'none'">
   <div class="mod-scoped" id="mod-desk" data-post-map={JSON.stringify(postMap)}>
     <section class="mod-band">
       <div class="wrap mod-band-in">
