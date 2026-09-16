@@ -231,6 +231,7 @@
   var pushState = PUSH_UNSET;
   var pushPanel = null;
   var pushBusy = false;
+  var pushBusyAction = null; // 'on' while subscribing, 'off' while turning off
   var pushTopics = ['posts'];
   var pushLastError = ''; // browser's own failure words, shown in the error panel
   function pushNoteError(e, step) {
@@ -341,6 +342,13 @@
         '<div class="as-push-acts"><button type="button" class="as-push-on" data-as-push="on">Enable alerts</button></div>';
     }
     panel.innerHTML = '<div class="as-push-card"><button type="button" class="as-push-x" data-as-push="x" aria-label="Close">×</button>' + inner + '</div>';
+    if (pushBusy) {
+      // v0.6.47: the working state — buttons rest, a spinner speaks.
+      var busyLabel = pushBusyAction === 'off' ? 'Turning off…' : 'Ringing…';
+      var acts = panel.querySelector('.as-push-acts');
+      if (acts) acts.innerHTML = '<button type="button" class="as-push-on" disabled aria-busy="true"><span class="as-push-spin" aria-hidden="true"></span>' + busyLabel + '</button>';
+      panel.querySelector('.as-push-card').setAttribute('aria-busy', 'true');
+    }
     // after the footer paragraph, never inside it (a div in a <p> is invalid)
     var anchor = bell && bell.closest('.foot-install');
     if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(panel, anchor.nextSibling);
@@ -413,6 +421,8 @@
   function pushEnable() {
     if (pushBusy) return;
     pushBusy = true;
+    pushBusyAction = 'on';
+    renderPushPanel();
     pushTopics = pushReadTopics();
     var chain = Promise.resolve();
     if (window.Notification && Notification.permission === 'default') {
@@ -433,6 +443,7 @@
         if (e && e.message && e.message.indexOf('bell server') === 0) throw e;
         pushNoteError(e, 'asking Google for a bell (subscribe)');
         pushState = PUSH_ERR;
+        pushBusy = false; pushBusyAction = null;
         renderPushPanel();
         return null;
       }).then(function (sub) {
@@ -440,21 +451,25 @@
         return pushPost('/subscribe', subJson(sub, pushTopics)).then(function () { return true; }, function (e) {
           pushNoteError(e, 'telling the bell server (save)');
           pushState = PUSH_ERR;
+          pushBusy = false; pushBusyAction = null;
           renderPushPanel();
           return null;
         });
       }).then(function (ok) {
-        if (ok) { pushState = PUSH_SUB; renderPushPanel(); }
+        if (ok) { pushState = PUSH_SUB; pushBusy = false; pushBusyAction = null; renderPushPanel(); }
       });
     }).catch(function (e) {
       pushNoteError(e);
       pushState = (e && e.name === 'NotAllowedError') ? PUSH_BLOCKED : PUSH_ERR;
+      pushBusy = false; pushBusyAction = null;
       renderPushPanel();
-    }).then(function () { pushBusy = false; });
+    }).then(function () { pushBusy = false; pushBusyAction = null; });
   }
   function pushDisable() {
     if (pushBusy) return;
     pushBusy = true;
+    pushBusyAction = 'off';
+    renderPushPanel();
     pushReg().then(function (reg) {
       return reg.pushManager.getSubscription();
     }).then(function (sub) {
@@ -465,12 +480,14 @@
       });
     }).then(function () {
       pushState = PUSH_UNSET;
+      pushBusy = false; pushBusyAction = null;
       renderPushPanel();
     }).catch(function (e) {
       pushNoteError(e);
       pushState = PUSH_ERR;
+      pushBusy = false; pushBusyAction = null;
       renderPushPanel();
-    }).then(function () { pushBusy = false; });
+    }).then(function () { pushBusy = false; pushBusyAction = null; });
   }
   function pushRetopics() {
     pushTopics = pushReadTopics();
