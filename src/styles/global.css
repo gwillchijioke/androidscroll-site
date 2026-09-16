@@ -1031,6 +1031,11 @@ html[data-theme=dark] .as-install-note{background:var(--band-2);border-color:var
 .as-push-copy{font-size:13px;line-height:1.6;margin:0;color:var(--ink-2)}
 /* P17b v0.6.43: the browser's own failure words, so a snag names itself. */
 .as-push-err{font-size:11px;line-height:1.55;margin:0;color:var(--muted);overflow-wrap:anywhere}
+/* P17b v0.6.47: the working state — teal ring, rests when motion is unwelcome. */
+.as-push-acts .as-push-on:disabled{opacity:.75;cursor:wait}
+.as-push-spin{display:inline-block;width:12px;height:12px;margin-right:8px;border:2px solid currentColor;border-top-color:transparent;border-radius:50%;vertical-align:-2px;animation:as-spin .7s linear infinite}
+@keyframes as-spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.as-push-spin{animation:none;border-top-color:currentColor}}
 .as-push-x{position:absolute;top:6px;right:8px;border:0;background:transparent;color:var(--muted);font-size:20px;line-height:1;cursor:pointer;padding:4px}
 .as-push-x:hover{color:var(--ink)}
 .as-push-acts{display:flex;gap:10px;margin-top:6px}

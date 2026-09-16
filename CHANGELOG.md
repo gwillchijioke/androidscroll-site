@@ -1,3 +1,4 @@
+## v0.6.47 — 2026-09-16 — bell speaks while working: Ringing…/Turning off… spinner, buttons rest, motion-safe, gate OK.
 ## v0.6.46 — 2026-09-16 — THE SNAG: page CSP connect-src barred the push worker (address-bar worked, in-page fetch died — King proved the split). Push origin allowlisted, gate OK.
 ## v0.6.45 — 2026-09-16 — bell diagnoses its own route: /health pre-check names dead server route (VPN/ad-blocker/carrier), subscribe vs save legs each name their failure, gate OK.
 ## v0.6.44 — 2026-09-16 — footer buttons unglued: .foot-install is flex+gap+center (Install/Alerts fused borders + stepped baselines, King phone shot), bell svg locked, gate OK.
