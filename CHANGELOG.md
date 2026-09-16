@@ -1,3 +1,4 @@
+## v0.6.58 — 2026-09-16 — cage campaign text inside cards (King phone bleed): flex children min-width:0, title wrap, funnel line wraps.
 ## v0.6.57 — 2026-09-16 — flock geography INTEL-LEG1: worker v1.3.2 stamps country/region/city/timezone from request.cf at every (re)subscribe; /stats byCountry/byCity; deck Land/Town rows. Cage PASS (NG/Lagos). Report /tmp/bell-intel/INTEL-REPORT.md.
 ## v0.6.56 — 2026-09-16 — PUSH-tab lockout (King, the true catch): loadPush() was the only loader that never called setLocked(false) — unlocking while on PUSH (the King's home tab) fetched the deck fine but never lifted the lock form. One line; lock stamp v0.6.56.
 ## v0.6.55 — 2026-09-16 — leave-and-return lockout (King): restored phone tabs wake with dead sessions and no reload — pageshow/visibility rehydrate re-reads the jars and walks straight in; lock card carries a visible desk version stamp so the King can read which bundle his phone runs.
