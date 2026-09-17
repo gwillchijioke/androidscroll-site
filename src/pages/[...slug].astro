@@ -122,10 +122,12 @@ const breadcrumbLD = {
 
     <div class="art-layout col">
       <div class="art-main">
-        {/* QUICK-ANSWER: verdict first, King's voice, excerpt-honest until bodies land */}
+        {/* QUICK-ANSWER: verdict first, King's voice. verdict = the approved
+            Quick Answer text (snapshot `verdict`); excerpt is the standfirst
+            under H1 - never the same string (t_1c09483c, no QA echo). */}
         <aside class="qa-box" aria-label="Quick answer">
           <p class="qa-kicker mono">Quick answer</p>
-          <p class="qa-verdict"><strong>FIX:</strong> {p.excerpt}</p>
+          <p class="qa-verdict"><strong>FIX:</strong> {(p as any).verdict ?? p.excerpt}</p>
           <p class="qa-meta mono">⏱ ~{p.read_min} min · Applies to: {p.cat_name}</p>
           <a class="qa-jump" href="#keep-reading">Jump to the guide ↓</a>
         </aside>
