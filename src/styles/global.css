@@ -636,6 +636,19 @@ img.t-mono-av{object-fit:cover;border-radius:2px} /* v0.6.11 #4: byline monogram
 .prose h3{font-size:18px;letter-spacing:-.01em;margin-top:26px;margin-bottom:8px}
 .prose h4,.prose h5,.prose h6{font-size:14px;letter-spacing:.02em;margin-top:20px;margin-bottom:6px}
 .prose p{margin-top:0;margin-bottom:1.2em}
+/* t_b364b315 King: editorial text links always identifiable - persistent
+   underline, never color-alone. Scope is prose + static page-body text only:
+   cards, logo, buttons, nav, headings, TOC, tags, share and prev/next are
+   outside this selector and keep their existing treatment. Brand teal stays
+   via --deep (light #006E5E on canvas 5.9:1, dark #00A88F on canvas 6.2:1,
+   both >= 4.5). Thickness 1px / 2px hover, offset 3px matches house hover
+   rhythm. Focus rides the global :focus-visible outline, re-pinned here so
+   keyboard users keep a 2px ring plus the underline. Buttons inside prose
+   (.btn/.btn-ghost/facade play) and heading links are explicitly excluded. */
+.prose p a,.prose li a,.prose td a,.prose th a,.prose blockquote a,.prose figcaption a,.prose .callout a,.prose sup a,.prose ol.footnotes a,.page-body p a,.page-body li a,.page-body td a,.page-body th a,.page-body blockquote a,.qa-jump{color:var(--deep);text-decoration:underline;text-decoration-color:currentColor;text-decoration-thickness:1px;text-underline-offset:3px}
+.prose p a:hover,.prose li a:hover,.prose td a:hover,.prose th a:hover,.prose blockquote a:hover,.prose figcaption a:hover,.prose .callout a:hover,.prose sup a:hover,.prose ol.footnotes a:hover,.page-body p a:hover,.page-body li a:hover,.page-body td a:hover,.page-body th a:hover,.page-body blockquote a:hover,.qa-jump:hover{text-decoration-thickness:2px}
+.prose p a:focus-visible,.prose li a:focus-visible,.prose td a:focus-visible,.prose th a:focus-visible,.prose blockquote a:focus-visible,.prose figcaption a:focus-visible,.prose .callout a:focus-visible,.page-body p a:focus-visible,.page-body li a:focus-visible,.qa-jump:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.prose h2 a,.prose h3 a,.prose h4 a,.prose h5 a,.prose h6 a,.prose .btn,.prose .btn-ghost,.prose .facade-card a,.prose .facade a{text-decoration:none}
 .prose ul,.prose ol{margin-top:0;margin-bottom:1.2em;padding-left:36px;padding-right:0}
 .prose ul{list-style:none;padding-left:36px}
 .prose ul>li{position:relative;margin-bottom:.45em}
