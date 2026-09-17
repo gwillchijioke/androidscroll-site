@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-16",
+  "generated": "2026-09-17",
   "source": "computed at build from snapshot + comments API (https://androidscroll-comments.gwill.workers.dev, public per-post counts)",
   "posts": [
     {
@@ -281,6 +281,72 @@
       "words": 732,
       "read_min": 4,
       "comments": 1
+    },
+    {
+      "id": 12498,
+      "slug": "how-to-test-used-phone",
+      "url": "/how-to-test-used-phone/",
+      "title": "How to Test Used Phone: 9 Checks in 5 Minutes (2026)",
+      "excerpt": "Learn how to test a used phone before you pay: IMEI, screen, battery plus 3 money rules for Jiji and Konga meetups. 9-step checklist.",
+      "date": "2026-09-16",
+      "modified": "2026-09-17",
+      "cats": [
+        "basics-setup",
+        "guides-how-tos"
+      ],
+      "cat_id": 175,
+      "cat_name": "Basics & Setup",
+      "cat_path": "/category/guides-how-tos/basics-setup/",
+      "root_name": "Guides & How-tos",
+      "root_slug": "guides-how-tos",
+      "root_id": 6,
+      "words": 1462,
+      "read_min": 7,
+      "comments": 0
+    },
+    {
+      "id": 12500,
+      "slug": "samsung-secret-codes-test-phone",
+      "url": "/samsung-secret-codes-test-phone/",
+      "title": "Samsung Secret Codes: 9 Safe Tests for Galaxy (2026)",
+      "excerpt": "Test your Galaxy with 9 safe Samsung secret codes: *#0*# hardware menu, IMEI, battery, plus Auto Blocker fix and Members fallback.",
+      "date": "2026-09-16",
+      "modified": "2026-09-16",
+      "cats": [
+        "basics-setup",
+        "guides-how-tos"
+      ],
+      "cat_id": 175,
+      "cat_name": "Basics & Setup",
+      "cat_path": "/category/guides-how-tos/basics-setup/",
+      "root_name": "Guides & How-tos",
+      "root_slug": "guides-how-tos",
+      "root_id": 6,
+      "words": 1792,
+      "read_min": 9,
+      "comments": 0
+    },
+    {
+      "id": 12503,
+      "slug": "test-phone-battery-health",
+      "url": "/test-phone-battery-health/",
+      "title": "Check Battery Health Android: 5 Tests That Work (2026)",
+      "excerpt": "Check battery health Android phones: Pixel and Galaxy screens, Samsung *#9900#, Xiaomi 6485, AccuBattery method. True percent.",
+      "date": "2026-09-17",
+      "modified": "2026-09-17",
+      "cats": [
+        "basics-setup",
+        "guides-how-tos"
+      ],
+      "cat_id": 175,
+      "cat_name": "Basics & Setup",
+      "cat_path": "/category/guides-how-tos/basics-setup/",
+      "root_name": "Guides & How-tos",
+      "root_slug": "guides-how-tos",
+      "root_id": 6,
+      "words": 1809,
+      "read_min": 9,
+      "comments": 0
     }
   ],
   "categories": [
@@ -416,7 +482,7 @@
       "id": 6,
       "name": "Guides & How-tos",
       "slug": "guides-how-tos",
-      "count": 3,
+      "count": 6,
       "parent": 0,
       "parent_name": null,
       "parent_slug": null,
@@ -427,7 +493,7 @@
         {
           "name": "Basics & Setup",
           "slug": "basics-setup",
-          "count": 2,
+          "count": 5,
           "path": "/category/guides-how-tos/basics-setup/"
         },
         {
@@ -454,7 +520,7 @@
       "id": 175,
       "name": "Basics & Setup",
       "slug": "basics-setup",
-      "count": 2,
+      "count": 5,
       "parent": 6,
       "parent_name": "Guides & How-tos",
       "parent_slug": "guides-how-tos",
@@ -626,7 +692,7 @@
     }
   ],
   "totals": {
-    "posts": 13,
+    "posts": 16,
     "categories": 19,
     "comments": 54,
     "empty_categories": 12

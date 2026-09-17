@@ -2,8 +2,9 @@
 <!-- AndroidScroll sitemap (AUDIT-02 B6, v0.6.36). Staging canonical:
      https://godschi10.github.io/androidscroll-site/ - re-point every <loc>
      to the apex canonical on media-crew cutover (OPEN ITEM FOR THE KING).
-     30 indexable routes of 46 built: excludes the 15 pages carrying
-     robots noindex metas (incl. the unlisted /mod/ desk) and the /latest/
+     33 indexable routes of 49 built: excludes the pages carrying
+     robots noindex metas (incl. the unlisted /mod/ desk, the
+     /about-androidscroll/ redirect stub) and the /latest/
      redirect stub. Hand-written: @astrojs/sitemap intentionally not added
      (no new deps without instruction). Regenerate on route changes.
 -->
@@ -31,11 +32,14 @@
 <url><loc>https://godschi10.github.io/androidscroll-site/how-to-save-your-phone-from-water-damage/</loc></url>
 <url><loc>https://godschi10.github.io/androidscroll-site/how-to-stop-malware-from-destroying-your-phone/</loc></url>
 <url><loc>https://godschi10.github.io/androidscroll-site/how-to-test-android/</loc></url>
+<url><loc>https://godschi10.github.io/androidscroll-site/how-to-test-used-phone/</loc></url>
 <url><loc>https://godschi10.github.io/androidscroll-site/how-we-test/</loc></url>
 <url><loc>https://godschi10.github.io/androidscroll-site/increase-storage-space-on-android/</loc></url>
 <url><loc>https://godschi10.github.io/androidscroll-site/privacy-policy/</loc></url>
 <url><loc>https://godschi10.github.io/androidscroll-site/read-deleted-whatsapp-messages/</loc></url>
+<url><loc>https://godschi10.github.io/androidscroll-site/samsung-secret-codes-test-phone/</loc></url>
 <url><loc>https://godschi10.github.io/androidscroll-site/search/</loc></url>
 <url><loc>https://godschi10.github.io/androidscroll-site/start-here/</loc></url>
+<url><loc>https://godschi10.github.io/androidscroll-site/test-phone-battery-health/</loc></url>
 <url><loc>https://godschi10.github.io/androidscroll-site/what-damages-phone-battery/</loc></url>
 </urlset>
