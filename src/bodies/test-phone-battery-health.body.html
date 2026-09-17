@@ -1,0 +1,83 @@
+<p class="wp-block-paragraph">My Spark 40 held 71 percent at bedtime after a full day on mobile data, and that single number told me more than any spec sheet. A phone that ends the day near empty is not always faulty. Sometimes the apps drain it, and sometimes the cell itself is worn out. This guide shows you how to tell the difference: the Settings screen that answers in seconds, the free app that measures true capacity over two weeks, the dialer codes that read the raw chip data, and the red flags that save you from a bad used phone deal.</p>
+<div class="wp-block-group quick_summary is-vertical is-layout-flex">
+<p class="wp-block-paragraph"><strong>Battery health cheat sheet</strong></p>
+<ul class="wp-block-list">
+<li>Pixel 8a and newer: Settings &gt; Battery &gt; Battery health shows a capacity percent and status</li>
+<li>Recent Galaxy phones: Settings &gt; Battery &gt; Battery information shows health percent and cycles where enabled</li>
+<li>Every other phone: install AccuBattery, charge normally for one to two weeks, read the Health tab</li>
+<li>Samsung without the Settings page: dial *#9900#, run dumpstate, search the log for mSavedBatteryAsoc</li>
+<li>Xiaomi, Redmi, and Poco: dial *#*#6485#*#* and read MB_06 plus MF_02</li>
+<li>Below 80 percent of design capacity means a worn cell</li>
+</ul>
+<p class="wp-block-paragraph">Health is capacity that remains, not charge that remains.</p>
+</div>
+<div class="android-scroll-toc toc-collapsed" id="as-toc">
+<div class="toc-header" id="toc-header"><span class="toc-title">📋 Table of Contents</span><span class="toc-toggle" id="toc-toggle"></span></div>
+<ul class="toc-list" id="toc-list">
+<li><a href="#h2-0" rel="noopener noreferrer">Check Settings First: the 30 Second Screen</a></li>
+<li><a href="#h2-1" rel="noopener noreferrer">AccuBattery: the Two Week Method That Works on Any Phone</a></li>
+<li><a href="#h2-2" rel="noopener noreferrer">Dialer Codes That Tell the Truth: Samsung and Xiaomi</a></li>
+<li><a href="#h2-3" rel="noopener noreferrer">Why Every Battery Fades: Charge Cycles in Plain Words</a></li>
+<li><a href="#h2-4" rel="noopener noreferrer">Seller Red Flags: Reading Battery Health Before You Pay</a></li>
+<li><a href="#h2-5" rel="noopener noreferrer">Verdict</a></li>
+</ul>
+</div>
+<h2 id="h2-0" class="wp-block-heading">Check Settings First: the 30 Second Screen</h2>
+<p class="wp-block-paragraph"><strong>Pixel 8a and newer.</strong> Open Settings, tap Battery, tap Battery health. <a href="https://support.google.com/pixelphone/answer/15738128?hl=en" target="_blank" rel="noopener">Google documents this page for the Pixel 8a and later only</a>. The status reads Normal, Reduced, or Unavailable. Reduced means capacity has dropped below 80 percent, and Google at that point suggests a replacement. Tap Battery capacity on the same page for the estimated percent against a new cell.</p>
+<p class="wp-block-paragraph"><strong>Samsung Galaxy.</strong> Open Settings, tap Battery, tap Battery information. On Galaxy phones running One UI 6.1.1 or later where Samsung switched the page on, you get the health percent, the cycle count, the manufacture date, and the first use date in one place. The rollout is uneven by model, region, and carrier, so a missing page faults your firmware, not your battery. When the page is absent, open the Samsung Members app, go to Support, Diagnostics, Phone diagnostics, and run the Battery status test. The verdict reads Normal, Weak, or Bad. <a href="https://articles.brick.tech/samsung-battery-health-cycle-count/" target="_blank" rel="noopener">Brick.tech confirms Normal covers roughly 80 percent capacity and above</a>, so a Normal verdict plus short runtime still means a tired cell.</p>
+<p class="wp-block-paragraph"><strong>Tecno, Infinix, itel, and most mid range phones.</strong> My Spark 40 runs HiOS on Android 15, and its Settings screen stops at usage: Settings &gt; Battery shows which apps drank power, with no capacity percent anywhere. That is normal for this price band. When Settings gives you usage but no health, use the AccuBattery method below. It works on any phone with no root and no dialer tricks.</p>
+<h2 id="h2-1" class="wp-block-heading">AccuBattery: the Two Week Method That Works on Any Phone</h2>
+<p class="wp-block-paragraph">AccuBattery measures how much charge truly flows into the cell across real charging sessions and compares that against the factory design capacity. <a href="https://www.androidauthority.com/check-battery-health-on-android-3337030/" target="_blank" rel="noopener">Android Authority calls it the easiest route on phones with no factory screen</a>, with one condition: you must give it time.</p>
+<p class="wp-block-paragraph"><strong>Set it up in five minutes.</strong></p>
+<p class="wp-block-paragraph">1. Install AccuBattery from the Play Store and run the short tutorial.<br />2. Confirm the design capacity it detects for your model, or correct it from the maker spec.<br />3. Set the charge alarm slider to 80 percent so it nudges you to unplug early.<br />4. Charge the phone normally for the next week or two, including a few longer sessions.<br />5. Open the Health tab and read the bar: estimated capacity in mAh beside the same figure as a percent of design capacity.</p>
+<p class="wp-block-paragraph">Below the bar, a chart shows how each session shaped the estimate, plus a wear total per day. <a href="https://accubattery.zendesk.com/hc/en-us/articles/209507189-Tab-3-battery-health-screen" target="_blank" rel="noopener">Health is averaged over the last 5 sessions of decent length</a>, because short top ups measure poorly. So the first reading is rough by design. Trust the two week trend, not any single day.</p>
+<p class="wp-block-paragraph">Two habits make the app pay off. Keep the 80 percent alarm on for daily charging: the developers cite research showing a 0 to 80 routine can roughly double cell lifespan against constant full cycles. And run one full charge from below 15 percent about once a month to keep the fuel gauge calibrated. Shallow daily charges, one deep charge per month: that is the whole game.</p>
+<h2 id="h2-2" class="wp-block-heading">Dialer Codes That Tell the Truth: Samsung and Xiaomi</h2>
+<p class="wp-block-paragraph">Some makers bury the raw chip data behind dialer codes. These are unofficial menus, so any code can die after an update or on carrier firmware, and a dead code proves nothing about your battery. When they open, though, they read the same internal values the factory screens use.</p>
+<figure class="wp-block-table">
+<table class="has-fixed-layout">
+<thead>
+<tr>
+<th>Code</th>
+<th>Phones</th>
+<th>What it shows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>*#9900#</td>
+<td>Samsung Galaxy, unlocked builds</td>
+<td>SysDump menu: log search for the true capacity percent</td>
+</tr>
+<tr>
+<td>*#0228#</td>
+<td>Samsung Galaxy</td>
+<td>Battery status: live voltage and raw figures only</td>
+</tr>
+<tr>
+<td>*#*#6485#*#*</td>
+<td>Xiaomi, Redmi, Poco on MIUI or HyperOS</td>
+<td>Battery info: MB_06 health state, MF_02 cycle count, MF_05 current capacity, MF_06 design capacity</td>
+</tr>
+<tr>
+<td>*#*#4636#*#*</td>
+<td>Many builds, shrinking list</td>
+<td>Testing menu with level, temperature, and voltage only: not a health check</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<p class="wp-block-paragraph"><strong>Samsung *#9900#, step by step.</strong> Turn off Auto Blocker first under Settings &gt; Security and privacy, or the menu may refuse to open. Dial *#9900# in the stock Phone app to open SysDump, tap Run dumpstate/logcat, and let it finish: it takes a few minutes. Tap Copy to sdcard, then open My Files, Internal storage, log, and open the newest dumpstate_ file (unzip it first if it landed as a .zip). Search inside for mSavedBatteryAsoc: the number beside it is your remaining capacity percent. On recent firmware you may also see mSavedBatteryBsoh in the same file. <a href="https://articles.brick.tech/samsung-battery-health-cycle-count/" target="_blank" rel="noopener">Brick.tech notes BSOH is the figure Samsung tools prefer when the two differ</a>, so read that one first. The same file carries cycle data under mSavedBatteryUsage: divide the raw figure by 100 for true cycles. On carrier branded units the menu is often stripped, so fall back to AccuBattery instead of fighting the dialer.</p>
+<p class="wp-block-paragraph"><strong>Xiaomi *#*#6485#*#*, step by step.</strong> Dial the code in the stock dialer and the battery info page opens at once. Read MB_06 first: Good means acceptable capacity, while Normal, Poor, or Replace signal rising wear. Read MF_02 for the cycle count since first use. Then divide MF_05 by MF_06 and multiply by 100 for the health percent.</p>
+<p class="wp-block-paragraph"><strong>The 4636 myth, retired.</strong> Old guides promise battery health inside *#*#4636#*#*. On modern phones that menu shows charge level, temperature, and voltage at best. It answers what charge the phone holds right now, never how much capacity the cell has lost. Use the Settings screen or AccuBattery instead.</p>
+<h2 id="h2-3" class="wp-block-heading">Why Every Battery Fades: Charge Cycles in Plain Words</h2>
+<p class="wp-block-paragraph">A charge cycle is one full discharge plus recharge added up in parts. Drain from 100 to 50 percent twice with a recharge between, and that counts as one cycle, not two. <a href="https://support.google.com/pixelphone/answer/15738128?hl=en" target="_blank" rel="noopener">Google explains this fractional counting on its Pixel support page</a>. Heavy users can burn a full cycle a day while light users stretch one across three days.</p>
+<p class="wp-block-paragraph">Every lithium cell loses capacity with cycles plus time plus heat: that trio is the whole science. <a href="https://www.batteryuniversity.com/article/bu-802-what-causes-capacity-loss/" target="_blank" rel="noopener">Battery University places typical phone cells at 300 to 500 full cycles before capacity slips below 80 percent</a>. Its storage tests sharpen the picture: a cell held full at room temperature kept only 80 percent after a year, while one stored near 40 percent kept 96 percent. Heat speeds all of it up, which is why a phone that games on a hot dashboard ages faster than the same phone on a desk.</p>
+<p class="wp-block-paragraph">Makers rate their cells against the same 80 percent line. Pixel 3 through Pixel 8 Pro plus the Fold are rated around 800 cycles to 80 percent, while the Pixel 8a and later are rated around 1000 cycles, per Google support. That is a lab promise under kind conditions, not a warranty on your habits. Favour partial charges between roughly 20 and 80 percent, keep the phone cool while it charges, and switch on the maker charging protection that caps overnight charging where your phone offers it. Below 80 percent health with shorter days to show for it, the cell owes you nothing more: fit a new battery for a keeper, or replace the phone.</p>
+<h2 id="h2-4" class="wp-block-heading">Seller Red Flags: Reading Battery Health Before You Pay</h2>
+<p class="wp-block-paragraph"><strong>Ask for the health figure before you meet.</strong> A genuine seller with a Pixel, a recent Galaxy, or a Xiaomi can screenshot the health screen or the 6485 page in seconds. Refusal, or a photo of only the charge percent, is your first flag. On phones with no factory screen, ask the seller to install AccuBattery a week ahead and send the Health tab.</p>
+<p class="wp-block-paragraph"><strong>Watch it charge on your own cable.</strong> Plug in at the meetup and confirm the percent climbs steadily while you run the other checks. A phone that charges only at one cable angle, or drops percent while plugged in, hides a port or cell problem no discount fixes. Feel the back after five minutes: warm from work is normal, hot while nearly idle points at a struggling cell or board.</p>
+<p class="wp-block-paragraph"><strong>Three walk away signs.</strong> First, the phone dies or reboots with charge still showing, often in the 15 to 30 percent zone: that gap between reported and real capacity is the classic worn cell signature. Second, the frame separates, the screen glows unevenly at the edges, or the phone rocks on a flat table: a swelling cell is a safety fault, not a bargain. Third, the price sits far below identical listings for the same model: sellers discount faults they hope you will not test. Any one of these ends the deal on the spot.</p>
+<h2 id="h2-5" class="wp-block-heading">Verdict</h2>
+<p class="wp-block-paragraph">One number runs this whole post: 80 percent of design capacity. Above it, the phone serves. Below it, replace the cell or replace the phone. Pixel 8a and newer owners read it in Settings in seconds. Recent Galaxy owners check Battery information first and pull the *#9900# log where the page is missing. Xiaomi owners dial the 6485 code and divide MF_05 by MF_06. Everyone else, including my fellow Tecno owners, runs AccuBattery for two honest weeks and trusts the trend over any single reading.</p>
+<p class="wp-block-paragraph">Battery health is one check inside a full exam. Run the <a href="https://androidscroll.com/how-to-test-android/">full new phone checklist</a> next for screen, ports, heat, and sensors, and if days still end too early after the cell passes, read <a href="https://androidscroll.com/android-battery-draining-fast/">why Android batteries drain fast</a> to hunt the app behind it. Tell us in the comments which phone you tested and the percent you found. Real figures teach the next reader what normal looks like.</p>

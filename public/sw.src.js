@@ -15,8 +15,8 @@ const SHELL = new URL('./', self.location).href; // site root in ANY base (apex 
 const ASSET_CACHE = `as-assets-${VERSION}`;
 const PAGE_CACHE = `as-pages-${VERSION}`;
 
-// Never intercept these (finance /wp-admin|/wp-json exclusions, static translation:
-// the comments Worker + any same-origin /api surface - push/submits stay live).
+// Never intercept these (P47: the comments Worker + any same-origin /api
+// surface - push/submits stay live; no WP paths exist anymore).
 const EXCLUDE = [
   /\/api\//,
   /workers\.dev\//,

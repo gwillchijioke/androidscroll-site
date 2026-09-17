@@ -1,16 +1,11 @@
 # AndroidScroll redirect net (v0.6.70, t_35aec4da).
 # Ported from the old-design Pages project on apex cutover watch (t_a2979ec1):
 # every indexed apex URL keeps resolving - no 404s on flip day.
-# Honored by Cloudflare Pages on apex. GitHub Pages staging ignores this
-# file, so /about-androidscroll/ also ships as a meta-refresh stub route
-# (src/pages/about-androidscroll.astro) - same target, both hosts covered.
+# Honored by Cloudflare Pages on apex. GitHub Pages staging ignores this file.
 /sitemap-index.xml  /sitemap.xml  301
 /sitemap-0.xml      /sitemap.xml  301
 /google-assistant-commands-to-make-your-mornings-easier/  /gemini-commands-to-make-your-mornings-easier/  301
 /google-assistant-commands-to-make-your-mornings-easier  /gemini-commands-to-make-your-mornings-easier/  301
 /what-damages-battery/  /what-damages-phone-battery/  301
 /what-damages-battery  /what-damages-phone-battery/  301
-# REVERSED vs old design (old: /about/ -> /about-androidscroll/):
-# v0.6.70 canonical about page is /about/ - the indexed legacy URL follows it.
-/about-androidscroll/  /about/  301
-/about-androidscroll  /about/  301
+# P47: /about-androidscroll/ is a full indexable page (self canonical) - no redirect.
