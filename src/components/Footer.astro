@@ -6,7 +6,7 @@
 import Wordmark from './Wordmark.astro';
 import SocialRow from './SocialRow.astro';
 import { SOCIAL_BRAND } from '../data/socials';
-import { SITE, PILLARS, POSTS, TOTALS, postsIn, postsDirect } from '../data/site';
+import { SITE, PILLARS, POSTS, TOTALS, NEWSLETTER_ENABLED, postsIn, postsDirect } from '../data/site';
 const latest3 = POSTS.slice(0, 3);
 const year = 2026;
 const started = POSTS.reduce((min, p) => p.date < min ? p.date : min, POSTS[0].date).slice(0, 4);
@@ -26,7 +26,9 @@ const footPillars = PILLARS
           <Wordmark />
         </a>
         <p>{SITE.tagline} Built as a static publication: Astro on the edge, no trackers without your consent.</p>
+        {NEWSLETTER_ENABLED ? (
         <p class="foot-alerts"><a href="/contact/">Get launch alerts - tell us where to reach you →</a></p>
+        ) : null}
         <!-- P17a: install buttons (finance .ffollow port). Both hidden until JS
              proves support: beforeinstallprompt reveals Install; iOS UA reveals
              the dashed Share-sheet guide. appinstalled hides both. -->

@@ -9,7 +9,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Head from '../components/Head.astro';
 import '../styles/global.css';
-import { SITE, POSTS, CATS, PILLARS, TOTALS, postsIn, fmtDate } from '../data/site';
+import { SITE, POSTS, CATS, PILLARS, TOTALS, NEWSLETTER_ENABLED, postsIn, fmtDate } from '../data/site';
 import { SOCIAL_BRAND } from '../data/socials';
 /* SEO-1 (v0.6.69): the homepage carried no site entity while every article
    speaks BlogPosting - the knowledge graph gets its root node here. */
@@ -227,7 +227,9 @@ const words = POSTS.reduce((n, p) => n + (p.words || 0), 0);
     </div>
   </section>
 
-  <!-- newsletter / notify -->
+  <!-- newsletter / notify: gated by NEWSLETTER_ENABLED (src/data/site.ts).
+       Ternary (not &&) - bare-identifier && multiline gates fail the Astro 7.3.2 parser. -->
+  {NEWSLETTER_ENABLED ? (
   <section class="wrap notify" aria-labelledby="s-notify">
     <div class="notify-in">
       <div>
@@ -241,4 +243,5 @@ const words = POSTS.reduce((n, p) => n + (p.words || 0), 0);
       </form>
     </div>
   </section>
+  ) : null}
 </Base>

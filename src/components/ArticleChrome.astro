@@ -4,7 +4,7 @@
    Props: title, url (absolute), tags (string[]). */
 import SocialRow from './SocialRow.astro';
 import { SOCIAL_PERSONAL } from '../data/socials';
-import { SITE } from '../data/site';
+import { SITE, NEWSLETTER_ENABLED } from '../data/site';
 const { title, url, tags = [] } = Astro.props;
 const enc = encodeURIComponent;
 const shareX = `https://twitter.com/intent/tweet?text=${enc(title)}&url=${enc(url)}`;
@@ -85,7 +85,7 @@ const shareTg = `https://t.me/share/url?url=${enc(url)}&text=${enc(title)}`;
        alt="G-will Chijioke" itemprop="image" loading="lazy" decoding="async" width="48" height="48" />
   <div class="a-body">
     <h4 itemprop="name">G-will Chijioke</h4>
-    <p><span itemprop="description">Founder of AndroidScroll. Fixes Android on cheap data and cheaper phones - everything tested on real Tecno/Infinix hardware.</span> Corrections and tips: <a href="mailto:desk@androidscroll.com">desk@androidscroll.com</a> · <a href="/how-we-test/">How we test</a></p>
+    <p><span itemprop="description">Founder of AndroidScroll. Fixes Android on cheap data and cheaper phones - everything tested on real Tecno/Infinix hardware.</span> Corrections and tips: <a href="mailto:contact@androidscroll.com">contact@androidscroll.com</a> · <a href="/how-we-test/">How we test</a></p>
     <!-- v0.6.10 personal accounts (King-verified slugs; IG has NO underscore) -->
     <div class="a-socials">
       <SocialRow items={SOCIAL_PERSONAL} label="G-will Chijioke on social media" variant="paper" />
@@ -93,7 +93,9 @@ const shareTg = `https://t.me/share/url?url=${enc(url)}&text=${enc(title)}`;
   </div>
 </div>
 
-<!-- ONE in-article newsletter slot -->
+<!-- ONE in-article newsletter slot: gated by NEWSLETTER_ENABLED (src/data/site.ts).
+     Ternary (not &&) - bare-identifier && multiline gates fail the Astro 7.3.2 parser. -->
+{NEWSLETTER_ENABLED ? (
 <section class="notify notify-art" aria-label="Launch alerts">
   <div class="notify-in">
     <div>
@@ -108,6 +110,7 @@ const shareTg = `https://t.me/share/url?url=${enc(url)}&text=${enc(title)}`;
     </form>
   </div>
 </section>
+) : null}
 
 <script>
 /* Article islands - vanilla, article routes only. One IIFE per concern. */

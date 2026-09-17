@@ -6,8 +6,15 @@ export const SITE = {
   tagline: 'Practical Android guides - written for the phone in your hand.',
   dateline: 'Wednesday, 10 September 2026',
   benchline: 'Android 16 on the bench',
-  email: 'desk@androidscroll.com',
+  email: 'contact@androidscroll.com',
 };
+
+/* KING ORDER (t_ad3012b6, re-do t_b92acf0d): newsletter forms hidden
+   site-wide until he says bring them back. ONE switch - flip to true to
+   reactivate everywhere (homepage, post bottom, empty-shelf pages).
+   Default off = zero newsletter HTML served. Backend/subscribe
+   endpoints untouched. */
+export const NEWSLETTER_ENABLED = false;
 
 export const POSTS = data.posts;
 export const CATS = data.categories;

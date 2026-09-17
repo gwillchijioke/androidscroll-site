@@ -3,7 +3,7 @@
    State B empty (designed noindex page: honest zero, what's coming,
    bridge guides, notify capture, exit to parent). */
 import Base from '../../layouts/Base.astro';
-import { CATS, bySlug, postsIn, childrenOf, rootOf, PILLARS, fmtDate, TOTALS } from '../../data/site';
+import { CATS, bySlug, postsIn, childrenOf, rootOf, PILLARS, fmtDate, TOTALS, NEWSLETTER_ENABLED } from '../../data/site';
 
 export function getStaticPaths() {
   return CATS.map(c => ({ params: { path: c.path.replace(/^\/category\//, '').replace(/\/$/, '') }, props: { c } }));
@@ -65,10 +65,13 @@ const planned = {
             </article>
           ))}
         </div>
+        {/* empty-shelf notify capture: gated by NEWSLETTER_ENABLED (src/data/site.ts) */}
+        {NEWSLETTER_ENABLED ? (
         <form data-stub style="display:flex;gap:10px;flex-wrap:wrap;margin-top:34px;max-width:560px">
           <input type="email" placeholder="Notify me when this shelf opens" aria-label="Email for launch alerts" required style="flex:1;min-width:220px;border:1px solid var(--line-2);border-bottom-width:2px;background:var(--paper);padding:12px 14px;border-radius:2px;font-size:15px" />
           <button class="btn-deep">Notify me</button>
         </form>
+        ) : null}
         <p class="p-foot mono" style="margin-top:22px;font-size:11px;color:var(--muted)">
           This page is <b>noindex</b> until the shelf holds 3+ real guides - the parent keeps the link equity. <a href={c.parent ? bySlug[c.parent_slug].path : (root.slug === c.slug ? '/' : root.path)}>← Back to {c.parent ? c.parent_name : 'the hub'}</a>
         </p>
