@@ -5,11 +5,11 @@
 import Base from './Base.astro';
 import { sanitizeBody } from '../lib/sanitize-body';
 import { rewriteBodyUrls } from '../lib/body-urls';
-const { title, desc, kicker, bodyFile, robots, hideStub } = Astro.props;
+const { title, fullTitle, desc, kicker, bodyFile, robots, hideStub } = Astro.props;
 const __pageBodies = import.meta.glob('../bodies/pages/*.body.html', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
 const pageBody = bodyFile ? sanitizeBody(rewriteBodyUrls((__pageBodies[`../bodies/pages/${bodyFile}.body.html`] as unknown as string) || '')) : '';
 ---
-<Base title={title} desc={desc} robots={robots}>
+<Base title={title} fullTitle={fullTitle} desc={desc} robots={robots}>
   <div class="col" style="padding-bottom:64px">
     <nav class="crumb" aria-label="Breadcrumb" style="padding-top:26px"><a href="/">Home</a> <span>›</span> <span>{title}</span></nav>
     <header class="art-head">

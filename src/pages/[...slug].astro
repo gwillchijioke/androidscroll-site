@@ -88,7 +88,7 @@ const breadcrumbLD = {
   ],
 };
 ---
-<Base title={p.title} desc={p.excerpt} ogType="article">
+<Base title={p.title} fullTitle={p.full_title} desc={p.excerpt} ogType="article">
   <script type="application/ld+json" set:html={JSON.stringify(blogPosting).replace(/</g, String.fromCharCode(92, 117, 48, 48, 51, 99))} />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD).replace(/</g, String.fromCharCode(92, 117, 48, 48, 51, 99))} />
 
