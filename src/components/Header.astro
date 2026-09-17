@@ -288,11 +288,19 @@ const shortCount = (name: string) => navLabel(name).toLowerCase();
   const searchStatus = document.getElementById('search-status');
   let activeIdx = -1;
   let currentHits = [];
+  /* Gboard IME contract (King): the overlay closes ONLY on X / trigger toggle /
+     Escape / backdrop tap / browser back. Blur alone never closes it, and
+     mid-composition input events never reset or close anything. */
+  let composing = false;
+  let searchPushed = false;
   const openSearch = () => {
     if (!searchLayer.hidden) return;
     lockPage();
     searchLayer.hidden = false;
     searchLayer.classList.add('is-open');
+    /* Back-button contract: the open overlay owns one history entry, so the
+       Android back gesture closes the overlay instead of leaving the page. */
+    try { history.pushState({ asSearch: true }, ''); searchPushed = true; } catch (e) { searchPushed = false; }
     searchInput.setAttribute('aria-expanded', 'true');
     /* v0.6.9 King: the search icon TOGGLES - mirror of the v0.6.8 hamburger:
        trigger carries aria-expanded + a label flip so AT says "Close search". */
@@ -309,7 +317,7 @@ const shortCount = (name: string) => navLabel(name).toLowerCase();
       }, 30);
     });
   };
-  const closeSearch = () => {
+  const closeSearchNow = () => {
     if (searchLayer.hidden) return;
     searchLayer.classList.remove('is-open'); searchLayer.hidden = true;
     unlockPage();
@@ -320,6 +328,16 @@ const shortCount = (name: string) => navLabel(name).toLowerCase();
     activeIdx = -1;
     searchTrigger.focus({ preventScroll: true });
   };
+  /* All explicit closes unwind the history entry openSearch pushed (the
+     resulting popstate is a no-op: the layer is already hidden). */
+  const closeSearch = () => {
+    if (searchLayer.hidden) return;
+    const pop = searchPushed; searchPushed = false;
+    closeSearchNow();
+    if (pop) { try { history.back(); } catch (e) {} }
+  };
+  /* Browser back closes the overlay: it pops the entry openSearch pushed. */
+  addEventListener('popstate', () => { if (!searchLayer.hidden) { searchPushed = false; closeSearchNow(); } });
   /* v0.6.9 King: search icon toggles (was open-only): tap while open closes.
      openSearch/closeSearch are idempotent-guarded, so the flip tests
      searchLayer.hidden directly - same shape as the v0.6.8 hamburger. */
@@ -440,7 +458,21 @@ const shortCount = (name: string) => navLabel(name).toLowerCase();
     empty.hidden = !fallback;
     searchClear.hidden = !searchInput.value;
   }
-  searchInput.addEventListener('input', () => render(searchInput.value));
+  /* Gboard autocomplete (King fix): a suggestion tap commits via
+     compositionstart → compositionupdate* → input → compositionend, and may
+     briefly blur the field. Mid-composition input events are deferred to
+     compositionend so the in-flight word is never reset; blur alone has no
+     listener and can never close the overlay. */
+  searchInput.addEventListener('compositionstart', () => { composing = true; });
+  searchInput.addEventListener('compositionupdate', () => { composing = true; });
+  searchInput.addEventListener('compositionend', () => {
+    composing = false;
+    render(searchInput.value);
+  });
+  searchInput.addEventListener('input', e => {
+    if (composing || (e && e.isComposing)) return;
+    render(searchInput.value);
+  });
   compBox.addEventListener('click', e => {
     const btn = e.target instanceof Element && e.target.closest('button[data-s]');
     if (!btn) return;

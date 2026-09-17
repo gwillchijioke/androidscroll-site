@@ -11,8 +11,8 @@ export const SITE = {
 
 /* KING ORDER (t_ad3012b6, re-do t_b92acf0d): newsletter forms hidden
    site-wide until he says bring them back. ONE switch - flip to true to
-   reactivate everywhere (homepage, post bottom, empty-shelf pages).
-   Default off = zero newsletter HTML served. Backend/subscribe
+   reactivate everywhere (homepage, post bottom, empty-shelf pages, footer
+   link). Default off = zero newsletter HTML served. Backend/subscribe
    endpoints untouched. */
 export const NEWSLETTER_ENABLED = false;
 

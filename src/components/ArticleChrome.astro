@@ -94,7 +94,7 @@ const shareTg = `https://t.me/share/url?url=${enc(url)}&text=${enc(title)}`;
 </div>
 
 <!-- ONE in-article newsletter slot: gated by NEWSLETTER_ENABLED (src/data/site.ts).
-     Ternary (not &&) - bare-identifier && multiline gates fail the Astro 7.3.2 parser. -->
+     Ternary (not &&) - the && form rendered live despite false, so it is banned here. -->
 {NEWSLETTER_ENABLED ? (
 <section class="notify notify-art" aria-label="Launch alerts">
   <div class="notify-in">
@@ -174,7 +174,7 @@ const shareTg = `https://t.me/share/url?url=${enc(url)}&text=${enc(title)}`;
     }
     if (tocM) { tocM.innerHTML = listHTML('toc-list'); tocM.closest('details').hidden = false; }
     if (tocD) { tocD.innerHTML = '<p class="toc-k">&gt;_ On this page</p>' + listHTML('toc-list'); tocD.hidden = false; }
-    /* label it like a real TOC: "In this guide (N)" */
+    /* label it like a real TOC: "Table of Contents (N)" */
     var cnt = document.querySelector('.toc-mobile .toc-count');
     if (cnt) cnt.textContent = '(' + items.length + ')';
   }

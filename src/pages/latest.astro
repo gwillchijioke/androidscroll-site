@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import { POSTS, TOTALS, fmtDate } from '../data/site';
+import { coverFor } from '../data/covers';
 ---
 <Base title={`Latest - all ${TOTALS.posts} guides`} desc="Every AndroidScroll guide, newest first.">
   <div class="wrap" style="padding-bottom:56px">
@@ -9,6 +10,7 @@ import { POSTS, TOTALS, fmtDate } from '../data/site';
     <div class="cat-list">
       {POSTS.map(p => (
         <article>
+          <a href={p.url} tabindex="-1" aria-hidden="true"><img class="cov-thumb cat-thumb" src={coverFor(p.slug).thumb} width="480" height="253" alt="" loading="lazy" decoding="async" /></a>
           <div>
             <h3><a href={p.url}>{p.title}</a></h3>
             <p class="x">{p.excerpt}</p>

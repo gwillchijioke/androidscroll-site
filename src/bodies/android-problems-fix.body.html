@@ -1,0 +1,259 @@
+<p>My Tecno Spark 40 now lasts a full day on one charge because I hunted its battery hogs one by one in Settings. Your phone deserves the same treatment. This guide fixes the 16 most common Android problems with the fastest working fix first, exact settings paths for Pixel, Galaxy, and Xiaomi, and a 60-second triage that tells you which section you even need. Start with the triage. It saves most readers the other 2,000 words.</p>
+<h2 id="triage">The 60-Second Triage: Do This Before Anything Else</h2>
+<p>Run these five checks in order. Most Android problems surrender before step five.</p>
+<ol>
+<li><strong>Restart the right way.</strong> Hold Power, tap Restart (not Power off). If the screen is frozen, hold Power + Volume Down for 10 to 20 seconds until it reboots. A full restart clears RAM, kills stuck processes, and fixes more faults than any other single step.</li>
+<li><strong>Test on a second network.</strong> If Wi-Fi misbehaves, switch to mobile data. If mobile data misbehaves, join a different Wi-Fi network. A fault that follows you across networks lives in your phone. One that stays behind lives in the router or carrier.</li>
+<li><strong>Check free storage.</strong> Open Settings and search &#8220;Storage&#8221;. Google advises against letting storage fill to the last stretch: phones slow down and Play installs stall when free space runs low, so treat 10% free as your floor (support.google.com, Speed up a slow device). If you sit below it, jump to problem 3 first.</li>
+<li><strong>Check battery hogs.</strong> Open Settings and search &#8220;Battery Usage&#8221;. Any app burning power with the screen off is your prime suspect. Jump to problem 2 with its name in mind.</li>
+<li><strong>Ask when it started.</strong> If trouble began right after a system update, give the phone 24 to 72 hours. Android rebuilds its runtime cache after major updates, and lag, drain, and warmth during that window usually clear on their own.</li>
+</ol>
+<p>Brand note that applies to this whole guide: menu names differ by skin. Pixel paths are stated first. On Galaxy, Battery lives under Battery and device care and Apps may read Apps. On Xiaomi (MIUI/HyperOS), open Settings, use the search bar at the top, and type the setting name. When in doubt on any brand, search Settings instead of tapping through menus.</p>
+<h2 id="quick-table">All 16 Problems at a Glance: Time and Difficulty</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Problem</th>
+<th>Likely cause</th>
+<th>Time</th>
+<th>Difficulty</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Overheating</td>
+<td>Background app burning CPU</td>
+<td>5 min</td>
+<td>Easy</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Battery draining fast</td>
+<td>Off-screen app usage</td>
+<td>10 min</td>
+<td>Easy</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Storage full after deleting</td>
+<td>Hidden cache and media</td>
+<td>15 min</td>
+<td>Easy</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Lagging after update</td>
+<td>Runtime cache rebuild</td>
+<td>3 days wait</td>
+<td>None</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Wi-Fi keeps disconnecting</td>
+<td>Auto-switch to mobile data</td>
+<td>5 min</td>
+<td>Easy</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Apps crashing</td>
+<td>Corrupt cache or WebView conflict</td>
+<td>10 min</td>
+<td>Easy</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Mobile data draining fast</td>
+<td>Unrestricted background data</td>
+<td>10 min</td>
+<td>Easy</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Phone slow overall</td>
+<td>Full storage or animation load</td>
+<td>15 min</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Bluetooth not connecting</td>
+<td>Corrupt Bluetooth cache</td>
+<td>10 min</td>
+<td>Easy</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Touchscreen not responding</td>
+<td>Frozen UI or sensitivity toggle</td>
+<td>5 min</td>
+<td>Easy</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Stuck in boot loop / locked out</td>
+<td>Corrupt update or bad app</td>
+<td>30 min</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>12</td>
+<td>GPS inaccurate</td>
+<td>Location accuracy off</td>
+<td>5 min</td>
+<td>Easy</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Hotspot not working</td>
+<td>Carrier block or APN fault</td>
+<td>15 min</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Microphone not working</td>
+<td>Denied permission</td>
+<td>5 min</td>
+<td>Easy</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Speaker crackling or silent</td>
+<td>Phantom Bluetooth handoff</td>
+<td>5 min</td>
+<td>Easy</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Notifications not showing</td>
+<td>Battery optimizer blocking app</td>
+<td>10 min</td>
+<td>Easy</td>
+</tr>
+</tbody>
+</table>
+<h2 id="problem-1">1. Android Phone Overheating</h2>
+<p><strong>Direct answer:</strong> A background app is burning CPU while your screen is off. Check Settings and search &#8220;Battery Usage&#8221; first. The app at the top with high background minutes is your heater.</p>
+<p>Force stop it, then remove the case and move the phone off soft surfaces like beds and couches, which trap heat. Skip heavy games and 4K recording until it cools. On Galaxy, the same stats sit under Battery and device care. On Xiaomi, search &#8220;Battery usage&#8221; in Settings.</p>
+<p><strong>Safety callout:</strong> If the back bulges, the screen lifts, or you smell chemicals, stop using and charging the phone at once and take it to a service center. A swollen battery is a fire risk, not a DIY fix. And never cool a hot phone in a fridge or freezer. Fast chilling cracks solder and traps condensation inside.</p>
+<p><a href="https://androidscroll.com/android-phone-overheating/">Full guide: cooling and charging rules that stop repeat heat</a></p>
+<h2 id="problem-2">2. Battery Draining Fast</h2>
+<p><strong>Direct answer:</strong> One app is draining power off-screen. Open Settings, search &#8220;Battery Usage&#8221;, and look for any app with more background time than screen time. Restrict it.</p>
+<p>Tap the culprit, open Battery or App battery usage, and set it to Restricted (Pixel), Deep sleeping apps (Galaxy: Battery and device care), or Restrict background activity (Xiaomi). Next, turn off <a href="https://androidscroll.com/what-damages-phone-battery/">Always On Display</a> if you use it, since a lit screen all day costs real charge. Then check sync: email set to push every 15 minutes and cloud backup on mobile data both drain silently.</p>
+<p>I ran exactly this hunt on my Tecno Spark 40 and found a news app syncing all night. Restricting it bought back hours by the next evening.</p>
+<p><a href="https://androidscroll.com/android-battery-draining-fast/">Full guide: step-by-step battery hog hunt</a></p>
+<h2 id="problem-3">3. Storage Full Even After Deleting Files</h2>
+<p><strong>Direct answer:</strong> The files you deleted were never the problem. App cache, WhatsApp hidden media, ghost folders from uninstalled apps, and unemptied trash bins hold the space.</p>
+<p>App cache works like a glovebox: it gathers quick-access junk until you empty it. Clear it per app under Settings, search the app name, then Storage and cache, then Clear cache. Then open WhatsApp, go to Settings, Storage and Data, Manage Storage, and delete forwarded videos first. Then empty the trash in Google Photos and your gallery app, since deleted files still count against storage until the bin empties. Finally, open <a href="https://androidscroll.com/increase-storage-space-on-android/">Files by Google</a>, tap Clean, and review Junk files before deleting.</p>
+<p>Keep Google&#8217;s guidance in mind: performance suffers and installs fail as free space runs out, so hold at least 10% free (support.google.com, Speed up a slow device).</p>
+<p><a href="https://androidscroll.com/android-storage-full-after-deleting-files/">Full guide: ghost files and WhatsApp media cleanup</a></p>
+<h2 id="problem-4">4. Phone Lagging After an Update</h2>
+<p><strong>Direct answer:</strong> This is normal for 24 to 72 hours. After a major update, Android rebuilds its runtime cache in the background, and everything feels slower until it finishes.</p>
+<p>Do nothing drastic. Do not factory reset inside the first 72 hours. Keep the phone charged, stay on Wi-Fi, and update your apps from the Play Store, since developers ship compatibility patches in the first days. If lag persists past day three, wipe the cache partition (steps vary by brand, and on many Pixels the option lives in recovery mode) and confirm you still hold 10% free storage.</p>
+<h2 id="problem-5">5. Wi-Fi Keeps Disconnecting</h2>
+<p><strong>Direct answer:</strong> Your phone is abandoning weak Wi-Fi for mobile data on its own. Turn off the auto-switch first, then test.</p>
+<ol>
+<li>Search Settings for &#8220;Adaptive Connectivity&#8221; (Pixel) and turn it off. On Galaxy, search &#8220;Switch to mobile data&#8221; under Wi-Fi settings and turn it off. On Xiaomi, search &#8220;Wi-Fi Assistant&#8221; and disable automatic switching.</li>
+<li>Forget the network and rejoin it fresh: Settings, search &#8220;Wi-Fi&#8221;, long press the network, Forget, then reconnect.</li>
+<li>If pages stall while Wi-Fi shows connected, set a fixed DNS. Search Settings for &#8220;Private DNS&#8221;, choose Private DNS provider hostname, and enter dns.google (8.8.8.8 family) or one.one.one.one (1.1.1.1 family). This bypasses broken router DNS, a cause most guides skip.</li>
+<li>On routers that merge bands, try the 2.4 GHz band for range or 5 GHz for speed, not both at once.</li>
+</ol>
+<h2 id="problem-6">6. Apps Crashing Again and Again</h2>
+<p><strong>Direct answer:</strong> First decide which crash you own: one app crashing, or every app crashing. One app means corrupt app cache. Every app means a system component, usually Android System WebView, needs updating.</p>
+<p>For one crashing app: search Settings for the app name, open Storage and cache, tap Clear cache, and reopen. If it still crashes, uninstall and reinstall it. For system-wide crashes: open the Play Store, search &#8220;Android System WebView&#8221; and &#8220;Google Chrome&#8221;, and update both, since WebView renders login screens and feeds inside other apps and a stale copy crashes them all. Then check Settings, search &#8220;Date and time&#8221;, and enable automatic time, since a wrong clock breaks secure logins. If crashes persist, reboot into Safe Mode (hold Power, long press Power off, tap Safe mode). A phone that behaves in Safe Mode is being crashed by a third-party app you installed, so uninstall the most recent ones first.</p>
+<p><strong>Play Store stuck on &#8220;Download Pending&#8221;:</strong> this deserves its own fix because readers hit it weekly. Cancel stuck queue items first (Play Store, profile icon, Manage apps and device, cancel pending updates). Then clear the Play Store cache (Settings, search &#8220;Google Play Store&#8221;, Storage and cache, Clear cache). Confirm automatic date and time is on. Confirm at least 1 GB free, since installs stall near a full partition. If it still hangs, remove and re-add your Google account under Settings, search &#8220;Accounts&#8221;. These steps mirror Google&#8217;s own Play troubleshooting order: cache first, clock second, space third.</p>
+<p><strong>Warning:</strong> Clear cache is safe and deletes only temp files. Clear storage (sometimes labeled Clear data) wipes logins and local app data. Google states this plainly on its help pages, and so do I: back up inside the app before touching Clear storage.</p>
+<h2 id="problem-7">7. Mobile Data Draining Too Fast</h2>
+<p><strong>Direct answer:</strong> Background data is the leak. Social, news, and cloud backup apps sync on mobile data without asking.</p>
+<ol>
+<li>Search Settings for &#8220;Data usage&#8221; and check which apps consumed mobile data this month.</li>
+<li>Tap each heavy app, open Mobile data, and turn off &#8220;Allow background data&#8221;. On Galaxy the toggle sits under Connections, Data usage. On Xiaomi, search &#8220;Data usage&#8221; then Restrict data usage.</li>
+<li>Turn on Data Saver (search Settings for &#8220;Data Saver&#8221;) and add only messaging apps as exceptions.</li>
+<li>Move cloud photo backup to Wi-Fi only inside Google Photos settings, and cap Play Store auto-updates to Wi-Fi only.</li>
+</ol>
+<h2 id="problem-8">8. Phone Slow Overall</h2>
+<p><strong>Direct answer:</strong> Full storage plus heavy animations plus a corrupt system cache cause most general slowness. Attack in that order.</p>
+<ol>
+<li>Free storage to at least 10% (see problem 3).</li>
+<li>Lighten animations: enable Developer Options (Settings, search &#8220;Build number&#8221;, tap it seven times), then set Window animation, Transition animation, and Animator duration scales to 0.5x.</li>
+<li>Wipe the cache partition from recovery mode. This deletes temp system files and keeps personal data. The button path varies by brand, so search your model plus &#8220;wipe cache partition&#8221; and follow the maker steps.</li>
+<li>Uninstall or disable preinstalled apps you never open. Each one you remove is one less background process.</li>
+</ol>
+<h2 id="problem-9">9. Bluetooth Not Connecting</h2>
+<p><strong>Direct answer:</strong> The Bluetooth cache is corrupt or an old pairing conflicts. Clear and re-pair before blaming hardware.</p>
+<ol>
+<li>Search Settings for &#8220;Bluetooth&#8221;, unpair the failing device, and pair fresh.</li>
+<li>Search Settings for &#8220;Bluetooth&#8221; system app (show system apps first), open Storage and cache, tap Clear cache, then reboot.</li>
+<li>On Galaxy, a full network settings reset (search &#8220;Reset network settings&#8221;) often fixes stubborn pairing faster than cache clears alone. Note it erases saved Wi-Fi passwords too.</li>
+<li>For choppy audio, open Developer Options, search &#8220;Bluetooth Audio Codec&#8221;, and force SBC as a baseline test. If SBC plays clean, the fault is codec negotiation, not the speaker.</li>
+</ol>
+<h2 id="problem-10">10. Touchscreen Not Responding</h2>
+<p><strong>Direct answer:</strong> Decide fast: dead everywhere usually means frozen software; dead in one zone usually means damaged hardware.</p>
+<p>For full unresponsiveness, force reboot (Power + Volume Down, 10 to 20 seconds). Then check the sensitivity toggle: search Settings for &#8220;Touch sensitivity&#8221; (Galaxy) or &#8220;Glove mode&#8221; (Xiaomi and some others), since it sometimes flips on by accident and makes normal taps register wrong. Remove thick screen protectors as a test. For partial dead zones that work everywhere else, that pattern points at digitizer damage, and no settings change repairs it. Book a screen replacement.</p>
+<h2 id="problem-11">11. Stuck in a Boot Loop or Locked Out</h2>
+<p><strong>Direct answer:</strong> A corrupt update or a bad app is interrupting startup. Strip it back to a clean boot.</p>
+<ol>
+<li>Force reboot first (Power + Volume Down, 10 to 20 seconds).</li>
+<li>Boot into Safe Mode and uninstall the most recently installed or updated app, then reboot normally.</li>
+<li>If loops persist after an update, wipe the cache partition from recovery. Factory reset from recovery is the last resort, and only after confirming photos and chats back up to the cloud.</li>
+</ol>
+<p><strong>Locked out reality check:</strong> there is no supported way past a forgotten PIN, pattern, or password on modern Android. Anyone selling a bypass is selling a scam or a wipe. The real path is erasing via Google Find Hub and restoring from backup, or factory reset from recovery and signing back in. Note that changing your Google password triggers about a 24-hour wait before the reset phone accepts the account again, so plan around it.</p>
+<h2 id="problem-12">12. GPS Inaccurate or Slow</h2>
+<p><strong>Direct answer:</strong> Location accuracy is off. Your phone is using GPS satellites alone instead of GPS plus Wi-Fi plus mobile networks.</p>
+<ol>
+<li>Search Settings for &#8220;Location accuracy&#8221; (Pixel) or &#8220;Improve accuracy&#8221; (Galaxy) and turn on Wi-Fi scanning and Bluetooth scanning.</li>
+<li>Step outside with a clear sky view for the first lock, since buildings block the first fix.</li>
+<li>Calibrate the compass: open Google Maps, tap the blue dot, tap Calibrate, and tilt the phone in a figure eight.</li>
+<li>Grant the navigation app &#8220;Precise&#8221; location permission under its App info page.</li>
+</ol>
+<h2 id="problem-13">13. Hotspot Not Working</h2>
+<p><strong>Direct answer:</strong> Check the carrier before the phone. Many plans block tethering or cap it through provisioning, and no setting overrides a billing block.</p>
+<ol>
+<li>Confirm your plan includes hotspot, then reboot both phones.</li>
+<li>Reset mobile network names to default: search Settings for &#8220;Access Point Names&#8221;, open the menu (three dots), tap Reset to default. On Galaxy the path runs through Connections, Mobile networks. On Xiaomi, search &#8220;APN&#8221; directly.</li>
+<li>If the hotspot dies on 5G, force the host phone to 4G/LTE first (search &#8220;Preferred network type&#8221;). Some Android builds refuse to broadcast while camped on 5G.</li>
+<li>Change the hotspot band to 2.4 GHz for older laptops, and check the allowed-devices or data-limit toggles on the hotspot screen.</li>
+</ol>
+<h2 id="problem-14">14. Microphone Not Working</h2>
+<p><strong>Direct answer:</strong> Run the 60-second multi-app test. If the mic works anywhere, the hardware is fine and some app lost permission.</p>
+<p>Record in the Phone dialer (speakerphone call), Voice Recorder, and WhatsApp voice note. If any one records clearly, open Settings, search the failing app, open Permissions, and grant Microphone. If all three fail, inspect the mic hole for lint and clear it gently with a dry soft brush, then test in Safe Mode to rule out a third-party call recorder grabbing the mic.</p>
+<h2 id="problem-15">15. Speaker Crackling or No Sound</h2>
+<p><strong>Direct answer:</strong> Turn Bluetooth off first. A phantom handoff to earbuds or a car stereo silences the speaker in seconds, and the toggle fixes it.</p>
+<p>If sound stays broken, check volume per stream (media vs ring vs alarm all differ), then reboot into Safe Mode. Clean sound in Safe Mode means a third-party equalizer or audio app is distorting output, so uninstall it. Shine a light into the grille and brush out dust. One honest baseline: crackling only above 80 percent volume is normal small-speaker distortion. Crackling at mid volume signals a real software or hardware fault.</p>
+<h2 id="problem-16">16. Notifications Not Showing</h2>
+<p><strong>Direct answer:</strong> The battery optimizer is killing the app before it can notify you. Exempt it.</p>
+<ol>
+<li>Search Settings for the silent app, open Battery or App battery usage, and set it to Unrestricted (Pixel), Never sleeping (Galaxy: Battery and device care, Background usage limits), or No restrictions (Xiaomi: Battery saver, App battery saver).</li>
+<li>Check Do Not Disturb schedules, including bedtime mode, which silently swallow evening alerts.</li>
+<li>Open the app&#8217;s App info, tap Notifications, and inspect channels one by one. A single disabled channel (promotions off, messages on) looks exactly like &#8220;no notifications&#8221;.</li>
+<li>Lock the app in Recents (tap the app icon in the task switcher, Lock) on Xiaomi and OPPO skins, which clear tasks aggressively.</li>
+</ol>
+<h2 id="reddit-culprits">Reddit-Reported Culprits Worth Knowing (September 2026)</h2>
+<p>The following come from user reports on r/Android and r/AndroidQuestions during September 2026, not from lab tests. Treat them as leads to check on your own phone, in your own Battery Usage screen.</p>
+<ul>
+<li><strong>NFC service wakelock:</strong> users report the NFC system process holding the phone awake. If you never tap to pay, turn NFC off and watch standby drain overnight.</li>
+<li><strong>Always On Display plus live wallpaper heat:</strong> multiple users measured 38C idle climbing toward 45C with both enabled. Disable one, retest for a day, and keep the winner.</li>
+<li><strong>WhatsApp encrypted backup loop on Galaxy S24 and S25 after the One UI 8.5 era updates:</strong> users describe backup retrying for hours and draining the battery. Force stop WhatsApp, run one manual backup on Wi-Fi while charging, and confirm it completes.</li>
+<li><strong>5G to LTE switch as an Android Auto heat fix:</strong> drivers report the phone cooling down after forcing LTE during long drives with navigation.</li>
+<li><strong>Good Lock Game Booster CPU and GPU clamp (Galaxy):</strong> users report capping game performance through the module instead of letting boost modes run hot.</li>
+</ul>
+<h2 id="hardware-software">Hardware or Software: The Two Tests That Tell You</h2>
+<p>Safe Mode is the first test. It disables every third-party app. If your fault vanishes in Safe Mode, an app you installed causes it, and uninstalling recent apps fixes it without touching your data. Factory reset is the final test. It wipes all software back to stock. If the fault survives a clean reset with no apps restored, it is hardware. Back up photos, chats, and authenticator codes before either step, and never reset within 72 hours of a system update.</p>
+<h2 id="faq">Questions Readers Ask Most</h2>
+<h3>Why does Wi-Fi show connected but nothing loads?</h3>
+<p>The router itself lost internet while your phone holds the Wi-Fi link. Confirm with a second device: if it also stalls, reboot the router (power off 30 seconds) and toggle Airplane mode on your phone for 10 seconds. If only your phone stalls, set Private DNS to dns.google or one.one.one.one and retest. That separates a dead router from broken phone DNS in one minute.</p>
+<h3>Will clearing app cache delete my photos or log me out?</h3>
+<p>No. Clear cache removes temp files only, and Google documents exactly this split: Clear cache deletes temporary data, while Clear storage permanently deletes all app data including logins (support.google.com, Free up space). You stay signed in after a cache clear. Touch Clear storage only after backing up inside the app, since it signs you out and wipes local data.</p>
+<h3>Why is my phone hot only while charging?</h3>
+<p>Charging plus load equals heat. Take the case off, stop gaming or video calls while plugged in, use a certified cable and brick, and keep the phone on a hard surface, not a pillow. Slow charging overnight runs cooler than fast top-ups at noon. Stop using the phone at once if the body bulges or smells chemical: that is the swollen battery warning from section 1, not normal charge warmth.</p>
+<h3>Why is my Android slow after an update?</h3>
+<p>The system rebuilds its runtime cache for a few days while apps ship compatibility patches. Wait 72 hours on charger and Wi-Fi, update all apps, and keep 10% storage free. Past day three, wipe the cache partition and recheck Battery Usage for one app misbehaving on the new version. Factory reset is the last step, never the first.</p>
+<h3>How do I fix Google Play stuck on &#8220;Download Pending&#8221;?</h3>
+<p>Clear the queue, then the cache, then check clock and space. Cancel pending updates under Play Store, profile icon, Manage apps and device. Clear the Play Store cache under Settings. Enable automatic date and time. Confirm 1 GB free, since installs stall near a full partition. Re-add the Google account only if all four fail. This order matches Google&#8217;s own Play troubleshooting sequence.</p>
+<h3>Can I bypass a forgotten PIN without losing data?</h3>
+<p>No. Modern Android has no supported bypass: encryption ties your data to the lock you forgot. The real recovery is erasing through Google Find Hub or recovery mode, signing back in, and restoring from backup. Budget for the roughly 24-hour wait Google enforces after a password change before the wiped phone accepts the account.</p>
+<h2 id="bottom-line">Bottom Line: Fix in This Order</h2>
+<p>Restart properly, test a second network, free storage past 10%, and hunt the Battery Usage chart. Those four moves close most of the sixteen problems above. For the stubborn ones, Safe Mode names the guilty app and the brand paths in each section take you to the exact toggle. Bookmark this page, fix one problem today, and link the deep guides for battery, heat, and storage when you want the full walkthrough.</p>

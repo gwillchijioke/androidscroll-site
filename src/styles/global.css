@@ -463,7 +463,8 @@ h1.hero-h1 .dot{color:var(--deep)}
 
 /* ---------- §03 latest: chronologic mono list (spec-sheet rows) ---------- */
 .lat-list{border-bottom:1px solid var(--line)}
-.lat-row{display:grid;grid-template-columns:86px minmax(0,1fr) auto;gap:0 16px;align-items:baseline;padding:12px 0;border-top:1px solid var(--line)}
+.lat-row{display:grid;grid-template-columns:86px minmax(0,1fr) auto;gap:0 16px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.lat-row>a{align-self:center}
 .lat-row .d{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.03em;white-space:nowrap;font-variant-numeric:tabular-nums}
 .lat-row h3{font-family:var(--display);font-weight:800;font-size:clamp(16px,2.2vw,19px);letter-spacing:-.018em;line-height:1.15;margin:0}
 .lat-row h3 a{color:var(--ink)}
@@ -621,7 +622,17 @@ img.t-mono-av{object-fit:cover;border-radius:2px} /* v0.6.11 #4: byline monogram
 .prose{font-size:16.5px;line-height:1.75;color:var(--ink);max-width:68ch;min-width:0;overflow-wrap:break-word;margin-top:22px}
 .prose> :first-child{margin-top:0}
 .prose h2,.prose h3,.prose h4,.prose h5,.prose h6{scroll-margin-top:76px;overflow-wrap:break-word}
-.prose h2{font-size:24px;letter-spacing:-.02em;line-height:1.15;margin-top:34px;margin-bottom:10px;padding-top:12px;border-top:1px solid var(--line-2)}
+/* anchor-offset fix (sticky header covers jump targets on mobile): the h-rule
+   above only serves headings, but native fragment jumps can also land on the
+   guide container itself (#keep-reading = "Jump to the guide" div), the
+   #comments-section block (its own .comments rule gave only 66px, no
+   safe-area - this ID rule wins), footnote
+   li/sup pairs, the about-page #author h2, and skip-link #main/main#main - all of
+   which landed flush under the 54/60px sticky bar. Token math tracks
+   --header-h per breakpoint (+ safe-area for installed PWA) with 22px
+   breathing room = 76px mobile, matching the heading rule exactly. */
+#keep-reading,#comments-section,#main,#author,main#main,.prose div[id],.prose section[id],.prose figure[id],.prose table[id],.prose li[id],.prose sup[id],.prose p[id]{scroll-margin-top:calc(var(--header-h,54px) + env(safe-area-inset-top,0px) + 22px)}
+.prose h2{font-size:24px;letter-spacing:-.02em;line-height:1.15;margin-top:34px;margin-bottom:10px}
 .prose h3{font-size:18px;letter-spacing:-.01em;margin-top:26px;margin-bottom:8px}
 .prose h4,.prose h5,.prose h6{font-size:14px;letter-spacing:.02em;margin-top:20px;margin-bottom:6px}
 .prose p{margin-top:0;margin-bottom:1.2em}
@@ -878,7 +889,7 @@ html[data-theme=dark] .site-footer .wordmark-lockup{--deep:#006E5E}
 .foot-bar a{color:rgba(217,242,232,.9)}
 .foot-bar a:hover{color:#FFFFFF}
 .foot-bar .sep{opacity:.4}
-.matomo-note{max-width:62ch}
+.analytics-note{max-width:62ch}
 /* v2.4 D3: legal dots live in the bottom bar (digest trait 4) */
 .foot-legal{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap}
 .foot-legal .sep{opacity:.4}
@@ -1031,6 +1042,14 @@ html[data-theme=dark] .as-pwa-later:hover{border-color:var(--teal)}
 .as-install[hidden]{display:none}
 html[data-theme=dark] .as-install{border-color:var(--teal);color:var(--teal)}
 html[data-theme=dark] .as-install:hover{background:var(--band)}
+/* t_3086fc0c: the footer sits on the dark verdict band in BOTH modes, so the
+   light-mode --deep (#006E5E) outline button washes out (dark-on-dark). Pin
+   ALL footer outline buttons (Install / iOS / Alerts share .as-install) to
+   the bright --teal - the same pairing dark mode uses. Footer hover stays on
+   the dark band instead of flashing the near-white light --band. Dark mode
+   untouched: html[data-theme=dark] rules above win on specificity. */
+.site-footer .as-install{border-color:var(--teal);color:var(--teal)}
+.site-footer .as-install:hover{background:rgba(0,168,143,.14)}
 .as-install--ios{border-style:dashed}
 .as-install-note{display:block;width:100%;max-width:46ch;margin:8px 0 0;font-size:11.5px;line-height:1.55;font-weight:500;color:var(--ink-2);background:var(--band);border:1px solid var(--line);border-radius:2px;padding:8px 10px}
 html[data-theme=dark] .as-install-note{background:var(--band-2);border-color:var(--line-2)}
@@ -1065,3 +1084,24 @@ html[data-theme=dark] .as-push-on{background:var(--teal);color:var(--verdict)}
 html[data-theme=dark] .as-push-on:hover{background:var(--mint)}
 html[data-theme=dark] .as-push-off{border-color:var(--teal);color:var(--teal)}
 html[data-theme=dark] .as-push-topics input{accent-color:var(--teal)}
+
+/* COVERS v1 (feat-img-swap 2026-09-17): King-approved per-post art on rows + cards.
+   Thumbs are link-wrapped duplicates of the adjacent heading link (aria-hidden,
+   tabindex -1) so they add no tab stops. Source ratio is 1424x752 - exact, no crop. */
+.cov-thumb{width:100%;height:auto;aspect-ratio:1424/752;object-fit:cover;border-radius:4px;border:1px solid var(--line-2);background:var(--paper);display:block}
+.sr-thumb{width:72px}
+.lat-thumb{width:72px}
+.cat-thumb{width:72px}
+.spec-row{grid-template-columns:30px 72px minmax(0,1fr) auto}
+.lat-row{grid-template-columns:86px 72px minmax(0,1fr) auto}
+.cat-list article{grid-template-columns:72px minmax(0,1fr);column-gap:16px;align-items:start}
+@media (min-width:760px){.cat-list article{grid-template-columns:72px minmax(0,1fr);column-gap:18px;align-items:start}}
+@media (max-width:639px){
+.spec-row{grid-template-columns:30px 56px minmax(0,1fr) auto;gap:0 12px}
+.sr-thumb{width:56px}
+.lat-row{grid-template-columns:64px minmax(0,1fr) auto}
+.lat-row .d{grid-column:1/-1;margin-bottom:2px}
+.lat-thumb{width:64px}
+.cat-list article{grid-template-columns:64px minmax(0,1fr)}
+.cat-thumb{width:64px}
+}

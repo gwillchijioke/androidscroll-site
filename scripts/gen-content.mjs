@@ -29,9 +29,10 @@ const CONTENT = join(ROOT, 'src', 'data', 'content.json');
 const API = process.env.COMMENTS_API_BASE || 'https://androidscroll-comments.gwill.workers.dev';
 const TIMEOUT_MS = 5000;
 const TRIES = 3;
-// DATA-1 snapshot freshness: WP truth for the newest-post check. Read-only,
-// one tiny request; any failure only silences the freshness line, never build.
-const WP_API = process.env.WP_API_BASE || 'https://androidscroll.com/wp-json/wp/v2';
+// P47 WP EXIT: zero WordPress in this pipeline. The content snapshot
+// (src/data/content.json) is the source of truth; per-post comment counts
+// bake from the Cloudflare worker (not WP). Freshness = content.json
+// `generated` stamp. No wp-json fetch at build, no WP-first publish step.
 
 function fetchCount(postId) {
   const url = `${API}/api/comments/count?post=${postId}`;
@@ -115,26 +116,10 @@ if (MANY) {
   for (const p of data.posts) await bakeCounts(p);
 }
 
-// DATA-1 snapshot freshness check: compare WP newest against the snapshot's
-// newest modified. Visibility ONLY - never fails, never auto-publishes; the
-// King approves what ships. One read, 8s leash.
-let fresh = 'unknown';
-try {
-  const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), 8000);
-  const r = await fetch(`${WP_API}/posts?per_page=1&_fields=date,modified,slug`, { signal: ctrl.signal });
-  clearTimeout(timer);
-  if (r.ok) {
-    const [wp] = await r.json();
-    const snapNewest = data.posts.map((p) => String(p.modified || p.date || '')).sort().pop() || '';
-    const wpDay = String((wp && wp.modified) || (wp && wp.date) || '').slice(0, 10);
-    if (!wpDay) fresh = 'wp-unreadable';
-    else if (snapNewest.slice(0, 10) >= wpDay) fresh = `current (wp newest ${wp.slug} ${wpDay})`;
-    else fresh = `BEHIND: wp newest "${wp.slug}" ${wpDay} > snapshot ${snapNewest.slice(0, 10)} - refresh the snapshot`;
-  } else fresh = `wp-http-${r.status}`;
-} catch (err) {
-  fresh = String(err && err.message || err).slice(0, 60);
-}
+// P47: snapshot freshness is the `generated` stamp below - the snapshot IS
+// the truth now that WordPress is out of the pipeline. Nothing to compare
+// against, nothing to fetch.
+let fresh = 'snapshot-is-truth (WP exit v0.6.71)';
 
 const directCount = (slug) => data.posts.filter((p) => (p.cats || []).includes(slug)).length;
 

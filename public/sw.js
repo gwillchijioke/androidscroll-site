@@ -5,18 +5,18 @@
  * with a cached copy (then the offline shell) as fallback; content-hashed
  * /_astro/ chunks are immutable and served cache-first; everything else static
  * uses stale-while-revalidate. /api and Worker calls are NEVER intercepted.
- * 0.6.69-f8d2649 is stamped at prebuild (scripts/stamp-pwa.mjs) so every deploy
+ * 0.6.71-f617698 is stamped at prebuild (scripts/stamp-pwa.mjs) so every deploy
  * ships fresh cache namespaces and activate purges the old ones.
  */
 
 /* eslint-disable no-restricted-globals */
-const VERSION = `andscroll-0.6.69-f8d2649`;
+const VERSION = `andscroll-0.6.71-f617698`;
 const SHELL = new URL('./', self.location).href; // site root in ANY base (apex or /androidscroll-site/)
 const ASSET_CACHE = `as-assets-${VERSION}`;
 const PAGE_CACHE = `as-pages-${VERSION}`;
 
-// Never intercept these (finance /wp-admin|/wp-json exclusions, static translation:
-// the comments Worker + any same-origin /api surface - push/submits stay live).
+// Never intercept these (P47: the comments Worker + any same-origin /api
+// surface - push/submits stay live; no WP paths exist anymore).
 const EXCLUDE = [
   /\/api\//,
   /workers\.dev\//,

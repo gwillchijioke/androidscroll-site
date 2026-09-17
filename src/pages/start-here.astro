@@ -5,7 +5,7 @@ import { POSTS, PILLARS, postsIn } from '../data/site';
 const three = ['android-problems-fix', 'android-battery-draining-fast', 'how-to-test-android']
   .map(s => POSTS.find(p => p.slug === s));
 ---
-<StaticPage title="Start here" desc="Three guides fix 80% of the things people search for. Honesty included." kicker="The on-ramp">
+<StaticPage title="🎓 Start Here" fullTitle="🎓 Start Here - Androidscroll" desc="Three guides fix 80% of the things people search for. Honesty included." kicker="The on-ramp" bodyFile="start-here">
   <div class="kicker-h">The three doors · read in order</div>
   <ol class="fix-list" style="max-width:64ch">
     {three.map(t => <li><a href={t.url} style="color:var(--ink);font-weight:700">{t.title}</a> - {t.excerpt.match(/[^.]+\./)?.[0]}</li>)}

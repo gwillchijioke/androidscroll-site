@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-16",
+  "generated": "2026-09-17",
   "source": "computed at build from snapshot + comments API (https://androidscroll-comments.gwill.workers.dev, public per-post counts)",
   "posts": [
     {
@@ -7,7 +7,8 @@
       "slug": "android-storage-full-after-deleting-files",
       "url": "/android-storage-full-after-deleting-files/",
       "title": "Android Storage Full After Deleting Files? Here’s What’s Actually Hiding",
-      "excerpt": "Deleted files but storage is still full? App cache, WhatsApp media, and ghost files are hiding 5 to 15GB. Here is how to find and clear all of it.",
+      "excerpt": "Walk with me through the hidden folders that hold your space, and free gigabytes in one sitting.",
+      "verdict": "Deleted files but storage is still full? App cache, WhatsApp media, and ghost files are hiding 5 to 15GB. Here is how to find and clear all of it.",
       "date": "2026-04-27",
       "modified": "2026-05-05",
       "cats": [
@@ -21,14 +22,16 @@
       "root_id": 180,
       "words": 2136,
       "read_min": 11,
-      "comments": 0
+      "comments": 0,
+      "full_title": "Android Storage Full After Deleting Files? Here&#039;s What&#039;s Actually Hiding - Androidscroll"
     },
     {
       "id": 12251,
       "slug": "android-problems-fix",
       "url": "/android-problems-fix/",
-      "title": "Android Problems: The Complete Fix Guide (2026)",
-      "excerpt": "Your Android phone acting up? This guide covers every common Android problem including overheating, battery drain, storage full, apps crashing, and Wi-Fi dropping, with direct links to full step-by-step fixes.",
+      "title": "Android Problems: 16 Fixes That Work (2026 Guide)",
+      "excerpt": "Run my 60 second triage first, then jump straight to the fix your phone needs.",
+      "verdict": "Your Android phone acting up? This guide covers every common Android problem including overheating, battery drain, storage full, apps crashing, and Wi-Fi dropping, with direct links to full step-by-step fixes.",
       "date": "2026-04-13",
       "modified": "2026-09-10",
       "cats": [
@@ -42,14 +45,16 @@
       "root_id": 180,
       "words": 4792,
       "read_min": 24,
-      "comments": 3
+      "comments": 3,
+      "full_title": "Android Problems: 16 Fixes That Work (2026 Guide)"
     },
     {
       "id": 11978,
       "slug": "android-phone-overheating",
       "url": "/android-phone-overheating/",
       "title": "Android Phone Overheating? Causes and Fixes (2026)",
-      "excerpt": "Android phone overheating? A background app is the most common cause. Check Settings → Battery → Battery Usage, then work through these ranked software and hardware fixes.",
+      "excerpt": "Feel the heat early, find the stuck app fast, and cool your phone with steps ranked by what works.",
+      "verdict": "Android phone overheating? A background app is the most common cause. Check Settings → Battery → Battery Usage, then work through these ranked software and hardware fixes.",
       "date": "2026-04-04",
       "modified": "2026-09-10",
       "cats": [
@@ -63,14 +68,16 @@
       "root_id": 180,
       "words": 2249,
       "read_min": 11,
-      "comments": 0
+      "comments": 0,
+      "full_title": "Android Phone Overheating? Causes and Fixes (2026) - Androidscroll"
     },
     {
       "id": 10630,
       "slug": "android-battery-draining-fast",
       "url": "/android-battery-draining-fast/",
-      "title": "Android Battery Draining Fast: Real Solutions That Actually Work (2026)",
-      "excerpt": "Android battery draining fast? This guide explains the real causes and proven fixes to stop Android battery drain and improve battery life in 2026.",
+      "title": "Android Battery Draining Fast? 7 Fixes That Work (2026)",
+      "excerpt": "Follow the exact Battery usage checks I use each evening, and stop the overnight drain today.",
+      "verdict": "Android battery draining fast? This guide explains the real causes and proven fixes to stop Android battery drain and improve battery life in 2026.",
       "date": "2026-02-10",
       "modified": "2026-05-31",
       "cats": [
@@ -84,14 +91,16 @@
       "root_id": 180,
       "words": 2226,
       "read_min": 11,
-      "comments": 6
+      "comments": 6,
+      "full_title": "Android Battery Draining Fast? 7 Fixes That Work (2026)"
     },
     {
       "id": 9874,
       "slug": "gemini-commands-to-make-your-mornings-easier",
       "url": "/gemini-commands-to-make-your-mornings-easier/",
       "title": "19 Gemini commands to make your mornings easier (2026)",
-      "excerpt": "19 tested Gemini voice commands for Android mornings: alarms, calendar, day briefs, smart home. Replaces the old Assistant list, updated for 2026.",
+      "excerpt": "Set up alarms, briefs and home controls by voice, using the routine I moved over from Assistant.",
+      "verdict": "19 tested Gemini voice commands for Android mornings: alarms, calendar, day briefs, smart home. Replaces the old Assistant list, updated for 2026.",
       "date": "2023-10-30",
       "modified": "2026-09-10",
       "cats": [
@@ -106,14 +115,16 @@
       "root_id": 156,
       "words": 1979,
       "read_min": 10,
-      "comments": 0
+      "comments": 0,
+      "full_title": "19 Gemini commands to make your mornings easier (2026) - Androidscroll"
     },
     {
       "id": 9838,
       "slug": "increase-storage-space-on-android",
       "url": "/increase-storage-space-on-android/",
       "title": "How to Increase Storage Space on Android (9 Easy Ways to Free Up Memory)",
-      "excerpt": "The good news is that you don’t need to buy a new phone to fix this. With a few simple steps, you can free up space on Android, clear unnecessary files, and get rid of the “Android storage full” problem in minutes.",
+      "excerpt": "Nine small cleanups that give your photos, apps and updates room to breathe again.",
+      "verdict": "The good news is that you don’t need to buy a new phone to fix this. With a few simple steps, you can free up space on Android, clear unnecessary files, and get rid of the “Android storage full” problem in minutes.",
       "date": "2023-10-20",
       "modified": "2026-09-10",
       "cats": [
@@ -128,14 +139,16 @@
       "root_id": 6,
       "words": 2727,
       "read_min": 14,
-      "comments": 0
+      "comments": 0,
+      "full_title": "How to Increase Storage Space on Android (9 Easy Ways to Free Up Memory) - Androidscroll"
     },
     {
       "id": 8994,
       "slug": "how-to-stop-malware-from-destroying-your-phone",
       "url": "/how-to-stop-malware-from-destroying-your-phone/",
       "title": "Android Malware: 5 Warning Signs and a Safe Step-by-Step Removal Guide",
-      "excerpt": "In this guide, you’ll learn how to tell if your phone has malware, what to do right away, and how to clean it safely, step by step.",
+      "excerpt": "Spot the five warning signs early, then finish the cleanup safely without losing files.",
+      "verdict": "In this guide, you’ll learn how to tell if your phone has malware, what to do right away, and how to clean it safely, step by step.",
       "date": "2023-10-18",
       "modified": "2026-04-13",
       "cats": [
@@ -150,14 +163,16 @@
       "root_id": 6,
       "words": 1664,
       "read_min": 8,
-      "comments": 4
+      "comments": 4,
+      "full_title": "Android Malware: 5 Warning Signs and a Safe Step-by-Step Removal Guide - Androidscroll"
     },
     {
       "id": 208,
       "slug": "how-to-test-android",
       "url": "/how-to-test-android/",
-      "title": "How to Test a New Android Phone: The Complete Step-by-Step Checklist",
-      "excerpt": "Just got a new Android phone? Use this checklist to test the screen, cameras, SIM, speakers, and battery before your return window closes.",
+      "title": "How to Test Android Phone: 12 Checks in 10 Minutes (2026)",
+      "excerpt": "Run my 12 point pass in about 10 minutes, and know your new phone is in good shape before you settle in.",
+      "verdict": "Just got a new Android phone? Use this checklist to test the screen, cameras, SIM, speakers, and battery before your return window closes.",
       "date": "2023-08-17",
       "modified": "2026-09-10",
       "cats": [
@@ -172,14 +187,16 @@
       "root_id": 6,
       "words": 4596,
       "read_min": 23,
-      "comments": 4
+      "comments": 4,
+      "full_title": "How to Test Android Phone: 12 Checks in 10 Minutes (2026)"
     },
     {
       "id": 8945,
       "slug": "what-damages-phone-battery",
       "url": "/what-damages-phone-battery/",
       "title": "What damages phone battery? Top 5 reasons and how to avoid them",
-      "excerpt": "What damages phone battery? Here are the top 5 things that damage your phone battery and how to avoid them.",
+      "excerpt": "Heat, full charges and cheap chargers wear the cell down, and small habits keep it strong.",
+      "verdict": "What damages phone battery? Here are the top 5 things that damage your phone battery and how to avoid them.",
       "date": "2023-07-15",
       "modified": "2026-04-13",
       "cats": [
@@ -193,14 +210,16 @@
       "root_id": 180,
       "words": 2545,
       "read_min": 13,
-      "comments": 2
+      "comments": 2,
+      "full_title": "What damages phone battery? Top 5 reasons and how to avoid them - Androidscroll"
     },
     {
       "id": 8720,
       "slug": "how-to-improve-battery-life-on-android-devices",
       "url": "/how-to-improve-battery-life-on-android-devices/",
       "title": "15 Unexpected Ways to Improve Battery Life on Android Devices",
-      "excerpt": "Tired of your Android phone running out of battery life too quickly? Here are 15 unexpected tips to help you extend your battery life.",
+      "excerpt": "Small settings changes that took my Tecno Spark 40 from 6pm shutdown to bedtime with power left.",
+      "verdict": "Tired of your Android phone running out of battery life too quickly? Here are 15 unexpected tips to help you extend your battery life.",
       "date": "2023-04-13",
       "modified": "2026-09-10",
       "cats": [
@@ -215,14 +234,16 @@
       "root_id": 156,
       "words": 4019,
       "read_min": 20,
-      "comments": 0
+      "comments": 0,
+      "full_title": "15 Unexpected Ways to Improve Battery Life on Android Devices - Androidscroll"
     },
     {
       "id": 56,
       "slug": "6-charging-mistakes-that-damage-your-phone-battery",
       "url": "/6-charging-mistakes-that-damage-your-phone-battery/",
       "title": "7 Charging mistakes that are damaging your phone battery",
-      "excerpt": "Are you unknowingly damaging your phone battery? Read on to learn about the 7 charging mistakes that may be hurting your phone’s performance and longevity.",
+      "excerpt": "I ran each charging habit on my Tecno Spark 40, and show you the simple fix that keeps the cell strong.",
+      "verdict": "Are you unknowingly damaging your phone battery? Read on to learn about the 7 charging mistakes that may be hurting your phone’s performance and longevity.",
       "date": "2022-03-14",
       "modified": "2026-04-13",
       "cats": [
@@ -237,14 +258,16 @@
       "root_id": 156,
       "words": 1127,
       "read_min": 6,
-      "comments": 18
+      "comments": 18,
+      "full_title": "7 Charging mistakes that are damaging your phone battery - Androidscroll"
     },
     {
       "id": 578,
       "slug": "read-deleted-whatsapp-messages",
       "url": "/read-deleted-whatsapp-messages/",
       "title": "How to Read Deleted WhatsApp Messages (Even After They’re Gone)",
-      "excerpt": "Deleted WhatsApp message? Three methods still work in 2026: notification history, quoted replies, and chat backup restore. Tested steps, honest limits.",
+      "excerpt": "See what can still be recovered after a delete, and skip the tools that waste your time.",
+      "verdict": "Deleted WhatsApp message? Three methods still work in 2026: notification history, quoted replies, and chat backup restore. Tested steps, honest limits.",
       "date": "2019-07-12",
       "modified": "2026-09-10",
       "cats": [
@@ -259,14 +282,16 @@
       "root_id": 156,
       "words": 1841,
       "read_min": 9,
-      "comments": 16
+      "comments": 16,
+      "full_title": "How to Read Deleted WhatsApp Messages (Even After They’re Gone) - Androidscroll"
     },
     {
       "id": 184,
       "slug": "how-to-save-your-phone-from-water-damage",
       "url": "/how-to-save-your-phone-from-water-damage/",
       "title": "Dropped Your Phone in Water? Do This Immediately to Save It",
-      "excerpt": "In this post, I’ll tell you why your phones get affected by water, what you shouldn’t do to worsen the case, and how you can save your phone from “death by water”.",
+      "excerpt": "What to do in the first minutes after a soak, plus the mistakes that kill a wet phone.",
+      "verdict": "In this post, I’ll tell you why your phones get affected by water, what you shouldn’t do to worsen the case, and how you can save your phone from “death by water”.",
       "date": "2019-05-19",
       "modified": "2026-09-10",
       "cats": [
@@ -280,7 +305,80 @@
       "root_id": 180,
       "words": 732,
       "read_min": 4,
-      "comments": 1
+      "comments": 1,
+      "full_title": "Dropped Your Phone in Water? Do This Immediately to Save It - Androidscroll"
+    },
+    {
+      "id": 12498,
+      "slug": "how-to-test-used-phone",
+      "url": "/how-to-test-used-phone/",
+      "title": "How to Test Used Phone: 9 Checks in 5 Minutes (2026)",
+      "excerpt": "Meet the seller with a short plan in hand, and walk away from a bad deal with confidence.",
+      "verdict": "Learn how to test a used phone before you pay: IMEI, screen, battery plus 3 money rules for Jiji and Konga meetups. 9-step checklist.",
+      "date": "2026-09-16",
+      "modified": "2026-09-17",
+      "cats": [
+        "basics-setup",
+        "guides-how-tos"
+      ],
+      "cat_id": 175,
+      "cat_name": "Basics & Setup",
+      "cat_path": "/category/guides-how-tos/basics-setup/",
+      "root_name": "Guides & How-tos",
+      "root_slug": "guides-how-tos",
+      "root_id": 6,
+      "words": 1462,
+      "read_min": 7,
+      "comments": 0,
+      "full_title": "How to Test Used Phone: 9 Checks in 5 Minutes (2026)"
+    },
+    {
+      "id": 12500,
+      "slug": "samsung-secret-codes-test-phone",
+      "url": "/samsung-secret-codes-test-phone/",
+      "title": "Samsung Secret Codes: 9 Safe Tests for Galaxy (2026)",
+      "excerpt": "Open the hidden test screen in seconds, check each part, and get past the setting that stops codes.",
+      "verdict": "Test your Galaxy with 9 safe Samsung secret codes: *#0*# hardware menu, IMEI, battery, plus Auto Blocker fix and Members fallback.",
+      "date": "2026-09-16",
+      "modified": "2026-09-16",
+      "cats": [
+        "basics-setup",
+        "guides-how-tos"
+      ],
+      "cat_id": 175,
+      "cat_name": "Basics & Setup",
+      "cat_path": "/category/guides-how-tos/basics-setup/",
+      "root_name": "Guides & How-tos",
+      "root_slug": "guides-how-tos",
+      "root_id": 6,
+      "words": 1792,
+      "read_min": 9,
+      "comments": 0,
+      "full_title": "Samsung Secret Codes: 9 Safe Tests for Galaxy (2026)"
+    },
+    {
+      "id": 12503,
+      "slug": "test-phone-battery-health",
+      "url": "/test-phone-battery-health/",
+      "title": "Check Battery Health Android: 5 Tests That Work (2026)",
+      "excerpt": "Learn the quick Settings check, the two week app test, and the dialer codes that read the cell.",
+      "verdict": "Check battery health Android phones: Pixel and Galaxy screens, Samsung *#9900#, Xiaomi 6485, AccuBattery method. True percent.",
+      "date": "2026-09-17",
+      "modified": "2026-09-17",
+      "cats": [
+        "basics-setup",
+        "guides-how-tos"
+      ],
+      "cat_id": 175,
+      "cat_name": "Basics & Setup",
+      "cat_path": "/category/guides-how-tos/basics-setup/",
+      "root_name": "Guides & How-tos",
+      "root_slug": "guides-how-tos",
+      "root_id": 6,
+      "words": 1809,
+      "read_min": 9,
+      "comments": 0,
+      "full_title": "Check Battery Health Android: 5 Tests That Work (2026)"
     }
   ],
   "categories": [
@@ -416,7 +514,7 @@
       "id": 6,
       "name": "Guides & How-tos",
       "slug": "guides-how-tos",
-      "count": 3,
+      "count": 6,
       "parent": 0,
       "parent_name": null,
       "parent_slug": null,
@@ -427,7 +525,7 @@
         {
           "name": "Basics & Setup",
           "slug": "basics-setup",
-          "count": 2,
+          "count": 5,
           "path": "/category/guides-how-tos/basics-setup/"
         },
         {
@@ -454,7 +552,7 @@
       "id": 175,
       "name": "Basics & Setup",
       "slug": "basics-setup",
-      "count": 2,
+      "count": 5,
       "parent": 6,
       "parent_name": "Guides & How-tos",
       "parent_slug": "guides-how-tos",
@@ -626,7 +724,7 @@
     }
   ],
   "totals": {
-    "posts": 13,
+    "posts": 16,
     "categories": 19,
     "comments": 54,
     "empty_categories": 12

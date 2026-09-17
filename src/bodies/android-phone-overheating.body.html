@@ -1,0 +1,124 @@
+<p><!-- Replacement article for LIVE post https://androidscroll.com/android-phone-overheating/ (WP post 11978). Voice + repair pass 2026-09-15. Fact-check t_10ec4365 corrections applied; author-measured figures labelled as such. --></p>
+<p class="wp-block-paragraph">An Android phone does not go hot without a reason. In most cases I see, one app is stuck in a loop in the background, and Settings &gt; Battery &gt; Battery Usage, switched to View by apps, shows you which one. Check that screen before you change any setting. Above 45°C I treat the heat as urgent, because sustained warmth wears the battery faster.</p>
+<p class="wp-block-paragraph">I tested every fix below on a Tecno Camon 15 Air (Android 10) and a Tecno Spark 40 (Android 15), measuring surface temperature during gaming, charging, and idle use.</p>
+
+<h2 id="h2-0" class="wp-block-heading">Quick Summary</h2>
+<ul class="wp-block-list">
+<li>Open Settings &gt; Battery &gt; Battery Usage and read background usage per app</li>
+<li>Restrict or delete the app misbehaving there</li>
+<li>Take the case off. It traps heat against the back panel</li>
+<li>Weak 5G makes the modem work hard. Drop to LTE where coverage is patchy</li>
+<li>Above 45°C, act fast. Sustained heat wears cells faster</li>
+<li>Battery health under 80% means the battery itself is generating the heat</li>
+<li>Hot at idle with nothing running, or a swollen back panel? That is repair-shop work</li>
+</ul>
+<h2 id="h2-1" class="wp-block-heading">Is Your Phone Actually Overheating?</h2>
+<p class="wp-block-paragraph">Some warmth is normal, and Google publishes no temperature chart. The bands below are my own reference from testing. Pixel 6 and later carry Google&#8217;s own gauge at Settings &gt; Battery &gt; Battery diagnostics, which reads Cold, Normal, Warm, or Elevated. If yours says Warm or Elevated, treat it as a real signal.</p>
+<ul class="wp-block-list">
+<li>25 to 35°C Normal. Calls, browsing, light use. Nothing to do.</li>
+<li>36 to 42°C Warm. Gaming or heavy load. Expected under that kind of work.</li>
+<li>43 to 45°C Elevated. Stop, remove the case, move somewhere cooler.</li>
+<li>Above 45°C Danger. This is where I act immediately, because sustained heat at this level wears cells faster.</li>
+<li>Around 50°C and up Critical. The phone throttles harder the hotter it runs, all the way to shutting down.</li>
+</ul>
+<p class="wp-block-paragraph">For live readings I use CPU-Z or AIDA64 from Google Play. On Tecno, dial *#*#4636#*#* and tap Battery Information for the temperature readout. That menu is author-tested on my Tecno units, not a documented Google screen.</p>
+<p class="wp-block-paragraph">September 2026 note: the September security patch started rolling out September 1. The Android 17 QPR1 Pixel Drop was expected later in September and had not shipped as of September 11. If your phone turned hot right after an update, give it 24 to 72 hours before blaming hardware. That window is my guidance from past updates, not a Google figure.</p>
+<h2 id="h2-2" class="wp-block-heading">Part 1: Software Causes (Fix These First)</h2>
+<h3 class="wp-block-heading">Fix 1: Find and Stop the Background App</h3>
+<p class="wp-block-paragraph">An app stuck looping a job it cannot finish is the most common cause I see. People miss it because they look at total battery usage instead of background usage.</p>
+<ul class="wp-block-list">
+<li>Go to Settings &gt; Battery &gt; Battery Usage and switch to View by apps. That is Google&#8217;s own label, with View by systems beside it</li>
+<li>Judge by the background numbers per app, not the totals</li>
+<li>Pixel path: Settings &gt; Apps &gt; the app &gt; App battery usage &gt; Allow background usage. Samsung-style builds: Settings &gt; Apps &gt; the app &gt; Battery &gt; Restricted</li>
+<li>Restrict only apps you barely use. Restricting can delay that app&#8217;s notifications and uploads, which is why Google keeps Optimized as the default. If you barely use the app, delete it</li>
+</ul>
+<p class="wp-block-paragraph">Since March 2026, Google Play shows a warning badge on listings for apps that cross its excessive partial wake locks line: more than 2 cumulative hours of non-exempt wake locks in a 24 hour period, flagged once that happens across more than 5% of sessions over 28 days. Audio playback and user-started transfers never count, and one bad day does not earn the badge. If a suspect app carries it, you found your culprit.</p>
+<h3 class="wp-block-heading">Fix 2: Restart the Phone</h3>
+<ul class="wp-block-list">
+<li>Hold Power and tap Restart. A restart clears every running process, including anything stuck hammering the CPU; locking the screen leaves those processes running. Samsung gives the same restart advice for heat caused by app conflicts</li>
+<li>Leave the phone alone for 5 minutes afterwards. If it cools down, a stuck process was the problem</li>
+</ul>
+<h3 class="wp-block-heading">Fix 3: Take the Phone Case Off</h3>
+<p class="wp-block-paragraph">Cases stop heat escaping through the back panel. Google&#8217;s guidance is blunt: use only cases made for your specific phone, and keep the phone out of enclosed or poorly ventilated areas. Silicone and leather trap the most heat in my experience. On our Tecno test phones, gaming or charging with the case on added roughly 5 to 10°C. That figure is my measurement, not a maker spec.</p>
+<ul class="wp-block-list">
+<li>Take the case off, set the phone on a hard flat surface, and wait 10 minutes. If it cools down, the case was a major part of the problem</li>
+</ul>
+<h3 class="wp-block-heading">Fix 4: Drop to LTE When Your 5G Signal Is Weak</h3>
+<p class="wp-block-paragraph">A phone that cannot hold 5G works its modem hard hunting for towers, even with the screen off. Samsung lists weak-signal areas as a heat cause and advises reverting from 5G to 4G in them. Try this if your signal sits at one bar or keeps jumping between 4G and 5G.</p>
+<ul class="wp-block-list">
+<li>Stock Android and Tecno: Settings &gt; Network and Internet &gt; SIMs &gt; Preferred network type, then pick an LTE option</li>
+<li>Samsung: Settings &gt; Connections &gt; Mobile networks &gt; Network mode, then pick an LTE combo. Samsung labels the screen Network mode, so look for the LTE entry rather than a literal LTE-only button</li>
+<li>Wait 30 minutes. If it cools down, weak-signal scanning was driving the heat. Switch back to 5G where coverage is solid</li>
+</ul>
+<h3 class="wp-block-heading">Fix 5: Turn Off Always-On Display and Drop to 60Hz</h3>
+<p class="wp-block-paragraph">Always-On Display keeps the screen lit while the phone idles, and 120Hz stacks continuous load on top. Samsung&#8217;s overheating page says higher refresh rates use more power and advises Standard mode, which is 60Hz. On our Tecno test phones, switching both off cut surface temperature by roughly 3 to 5°C in long idle sessions. My measurement.</p>
+<ul class="wp-block-list">
+<li>Samsung: Settings &gt; Lock screen and AOD &gt; Always On Display &gt; Off (or Tap to show)</li>
+<li>Tecno: Settings &gt; Lock Screen &gt; Always On Display &gt; Off. Author-tested on my Spark 40, since Tecno publishes no public doc for this path</li>
+<li>Refresh rate, Samsung: Settings &gt; Display &gt; Motion smoothness &gt; Standard. Tecno: Settings &gt; Display &gt; Screen Refresh Rate &gt; 60Hz (author-tested)</li>
+</ul>
+<h3 class="wp-block-heading">Fix 6: Update Apps and System Software</h3>
+<p class="wp-block-paragraph">A run-away app is often a buggy one, and updates are how the developer stops it.</p>
+<ul class="wp-block-list">
+<li>Play Store: profile icon &gt; Manage apps and device &gt; Update all. That matches Google&#8217;s documented steps</li>
+<li>Pixel and stock: Settings &gt; System &gt; Software update. Samsung: Settings &gt; Software update &gt; Download and install</li>
+</ul>
+<h2 id="h2-3" class="wp-block-heading">Part 2: Hardware Causes (If the Phone Is Still Hot)</h2>
+<h3 class="wp-block-heading">Fix 7: Manage Heat During Gaming</h3>
+<p class="wp-block-paragraph">Gaming loads the CPU and GPU together for long stretches. Google names games and video playback as warming causes; Samsung names extended use of high-power apps. Nothing else in normal use sustains that much heat.</p>
+<ul class="wp-block-list">
+<li>Pause every 30 minutes for a 10-minute rest. Cut resolution, frame rate, and shadows first</li>
+<li>Take the case off before you play. For long sessions, a clip-on fan on the back panel helps measurably</li>
+<li>Tecno Game Mode: Settings &gt; Special Features &gt; Game Mode, performance optimization on. Author-tested path: games held frame rates steadier with it on in my sessions. Tecno documents no mechanism, so I claim nothing about throttling cycles</li>
+</ul>
+<h3 class="wp-block-heading">Fix 8: Change How You Charge</h3>
+<p class="wp-block-paragraph">Phone use plus charging loads the battery and processor together. Google lists using the phone while charging as a warming cause and says to disconnect from power when it gets too hot. Samsung adds that wireless and fast charging feel warmer, and links uncertified third-party chargers to abnormal overheating.</p>
+<ul class="wp-block-list">
+<li>Put the phone down while it charges. Gaming or streaming plugged in is the worst combination</li>
+<li>Case off, on a desk or table, never a bed, sofa, or pillow</li>
+<li>Wired runs cooler than wireless on my test phones, matching Samsung&#8217;s guidance. Hot on a charging pad? Switch to cable</li>
+<li>Use the maker&#8217;s charger or a certified equivalent</li>
+</ul>
+<p class="wp-block-paragraph">Charging habits cause more long-term damage than most people realise. The details are in <a href="https://androidscroll.com/6-charging-mistakes-that-damage-your-phone-battery/">7 Charging Mistakes That Are Damaging Your Phone Battery</a>.</p>
+<h3 class="wp-block-heading">Fix 9: Check the Battery Health</h3>
+<p class="wp-block-paragraph">A battery approaching 800 charge cycles with health under 80% makes extra heat because internal resistance rises as the cells age. Google sets the replacement bar at under 80% capacity, with 800 cycles for Pixel 3 through 8 Pro and 1,000 for Pixel 8a and later. Battery researchers call 800 cycles and up the requirement for modern smartphones. The old 500-cycle figure understates current hardware, so I use 800.</p>
+<ul class="wp-block-list">
+<li>Check native screens first. Pixel 8a and later: Settings &gt; About phone &gt; Battery information for cycle count, and Settings &gt; Battery &gt; Battery health for capacity status. Samsung One UI 7 shows Battery information on supported models</li>
+<li>Tecno has no native health screen, so I use AccuBattery (free, Health tab after a couple of charge cycles) or *#*#4636#*#* &gt; Battery Information. Both author-tested</li>
+<li>Under 80% means replace. In our market that job typically runs from a few thousand to the low tens of thousands of naira depending on model and shop, my pricing note, not a published rate</li>
+</ul>
+<p class="wp-block-paragraph">Degraded batteries drain fast and run hot at the same time. Seeing both? Read <a href="https://androidscroll.com/android-battery-draining-fast/">Android Battery Draining Fast: Real Solutions That Actually Work</a>. New phone running hot already? Run the checks in <a href="https://androidscroll.com/how-to-test-android/">How to Test a New Android Phone</a> while you can still return it.</p>
+<h2 id="h2-4" class="wp-block-heading">What Not to Do When Your Phone Overheats</h2>
+<ul class="wp-block-list">
+<li>Do not fridge or freeze the phone. Cold forms moisture inside that corrodes the board. Google&#8217;s instruction is to move it to a cooler place, meaning room temperature, never a freezer</li>
+<li>Do not install cooling apps. None cut hardware temperature in my testing. Most add a background process and more heat</li>
+<li>Do not charge on a bed, sofa, or pillow. Soft surfaces trap heat. Google and Samsung both say keep the phone out of enclosed, poorly ventilated spots</li>
+</ul>
+<p class="wp-block-paragraph">Heat plus storage-full warnings? Clear the storage clog first: <a href="https://androidscroll.com/android-storage-full-after-deleting-files/">Android Storage Full After Deleting Files</a>. As a rule of thumb from my experience, Android starts to drag below 10 to 15 percent free. Google publishes no percentage, so treat that band as my working rule.</p>
+<h2 id="h2-5" class="wp-block-heading">When to Take It to a Repair Shop</h2>
+<ul class="wp-block-list">
+<li>Hot while fully idle. Screen off, nothing open, Wi-Fi and data off. Something inside is failing</li>
+<li>Swollen battery. Raised back panel or screen pushing outward. Stop using the phone immediately; it is a fire risk</li>
+<li>Burning smell from the phone itself, not the charger. Power off immediately</li>
+<li>Reset done, every fix above tried, still hot in normal use</li>
+</ul>
+<p class="wp-block-paragraph">Official endpoints: <a href="https://support.google.com/pixelphone/answer/16444391" target="_blank" rel="noopener">Google&#8217;s Pixel repair page</a> and <a href="https://www.samsung.com/us/support/service/" target="_blank" rel="noopener">Samsung&#8217;s service locator</a>. Google&#8217;s own guidance for a phone that keeps turning off: let it cool down, restart it, and contact Pixel support if it keeps happening.</p>
+<h2 id="h2-6" class="wp-block-heading">FAQ</h2>
+<h3 class="wp-block-heading">Why is my Android phone overheating for no reason?</h3>
+<p class="wp-block-paragraph">There is always a cause. Most often it is a background app stuck in a loop. Open Settings &gt; Battery &gt; Battery Usage, switch to View by apps, and look at the background numbers per app. Restrict the worst one and watch the temperature for 30 minutes.</p>
+<h3 class="wp-block-heading">Is it normal for an Android phone to get hot?</h3>
+<p class="wp-block-paragraph">Some warmth is fine. My bands: 25 to 42°C is normal to warm under load, 43 to 45°C is worth watching, and above 45°C is where I act, because sustained heat wears the battery faster. Too hot to hold, or hot when nobody touched it, needs fixing.</p>
+<h3 class="wp-block-heading">Why does my Android phone overheat while charging?</h3>
+<p class="wp-block-paragraph">Charging plus use loads the battery and processor together. Put the phone down, case off, maker&#8217;s or certified charger, hard flat surface. Wired runs cooler than wireless on my test phones.</p>
+<h3 class="wp-block-heading">Can a phone case cause overheating?</h3>
+<p class="wp-block-paragraph">A case rarely starts the heat, but it traps it. Silicone and leather are the worst in my experience. On our Tecno test phones, cased gaming or charging added roughly 5 to 10°C. Taking the case off is the quickest free fix.</p>
+<h3 class="wp-block-heading">Why does my phone overheat when I use the camera?</h3>
+<p class="wp-block-paragraph">4K recording pushes the image processor hard, and Google lists high-definition recording as a warming cause. My test phones settle within about 5 minutes of closing the camera, my measured figure. Still hot after that? Force-stop the camera app and restart. Lingering camera heat on an old phone usually points at the battery.</p>
+<h3 class="wp-block-heading">Does overheating permanently damage my Android battery?</h3>
+<p class="wp-block-paragraph">Yes. Sustained heat wears lithium-ion cells faster. One hot day will not kill a battery, but running hot daily shortens its life. Phone over two years old or approaching 800 cycles? Check health in AccuBattery or the native Battery health screen.</p>
+<h3 class="wp-block-heading">How do I cool down my Android phone quickly?</h3>
+<p class="wp-block-paragraph">Close everything, stop charging, take the case off, and put the phone on a hard surface in a cooler room. I switch on Airplane Mode to stop the radios scanning. Never the fridge. My test phones settle within about 10 to 15 minutes left alone.</p>
+<h2 id="h2-7" class="wp-block-heading">Final Word</h2>
+<p class="wp-block-paragraph">Most overheating traces back to one background app that will not stop running, at least in the cases I see. Battery Usage names it within a minute. Restrict it and the phone usually cools on its own.</p>
+<p class="wp-block-paragraph">When the software fixes do not end it, check the battery. Health under 80% after two-plus years means the phone is generating heat it should not be generating.</p>
+<p class="wp-block-paragraph">Tell me in the comments which app turned out to be the culprit on your phone. The full 16-problem index lives at <a href="https://androidscroll.com/android-problems-fix/">Android Problems: The Complete Fix Guide (2026)</a>.</p>

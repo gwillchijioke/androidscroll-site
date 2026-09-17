@@ -1,9 +1,15 @@
 ---
-/* One shell for all thin stub pages (ruling: designed, not filler). */
+/* One shell for all thin stub pages (ruling: designed, not filler).
+   P47 WP EXIT: optional bodyHtml renders the full ported copy in place of the
+   prototype stub-note; optional robots passes through (e.g. subscribe=noindex). */
 import Base from './Base.astro';
-const { title, desc, kicker } = Astro.props;
+import { sanitizeBody } from '../lib/sanitize-body';
+import { rewriteBodyUrls } from '../lib/body-urls';
+const { title, fullTitle, desc, kicker, bodyFile, robots, hideStub } = Astro.props;
+const __pageBodies = import.meta.glob('../bodies/pages/*.body.html', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
+const pageBody = bodyFile ? sanitizeBody(rewriteBodyUrls((__pageBodies[`../bodies/pages/${bodyFile}.body.html`] as unknown as string) || '')) : '';
 ---
-<Base title={title} desc={desc}>
+<Base title={title} fullTitle={fullTitle} desc={desc} robots={robots}>
   <div class="col" style="padding-bottom:64px">
     <nav class="crumb" aria-label="Breadcrumb" style="padding-top:26px"><a href="/">Home</a> <span>›</span> <span>{title}</span></nav>
     <header class="art-head">
@@ -11,7 +17,7 @@ const { title, desc, kicker } = Astro.props;
       <h1 class="art-h1" style="max-width:18ch">{title}</h1>
     </header>
     <div class="art-body">
-      <div class="stub-note"><b>Prototype stub</b> This page exists so every header and footer link resolves. Full copy ports from androidscroll.com next - the chrome around it is final.</div>
+      {pageBody !== '' ? <div class="page-body" set:html={pageBody} /> : (!hideStub && <div class="stub-note"><b>Prototype stub</b> This page exists so every header and footer link resolves. Full copy ports from androidscroll.com next - the chrome around it is final.</div>)}
       <slot />
     </div>
   </div>

@@ -4,6 +4,7 @@
    bridge guides, notify capture, exit to parent). */
 import Base from '../../layouts/Base.astro';
 import { CATS, bySlug, postsIn, childrenOf, rootOf, PILLARS, fmtDate, TOTALS, NEWSLETTER_ENABLED } from '../../data/site';
+import { coverFor } from '../../data/covers';
 
 export function getStaticPaths() {
   return CATS.map(c => ({ params: { path: c.path.replace(/^\/category\//, '').replace(/\/$/, '') }, props: { c } }));
@@ -60,12 +61,14 @@ const planned = {
         <div class="rel-grid" style="border-top:2px solid var(--ink)">
           {bridges.map(b => (
             <article style="padding:16px 0;border-bottom:1px solid var(--line)">
+              <img class="cov-thumb" src={coverFor(b.slug).thumb} width="480" height="253" alt="" loading="lazy" decoding="async" style="width:72px;margin-bottom:8px" />
               <h3 style="font-family:var(--display);font-size:18px;letter-spacing:-.025em;font-weight:800;line-height:1.15"><a href={b.url}>{b.title}</a></h3>
               <div class="byline" style="margin-top:6px"><span>{b.root_name}</span><span><b>{b.read_min} min</b></span></div>
             </article>
           ))}
         </div>
-        {/* empty-shelf notify capture: gated by NEWSLETTER_ENABLED (src/data/site.ts) */}
+        {/* empty-shelf notify capture: gated by NEWSLETTER_ENABLED (src/data/site.ts).
+            Ternary (not &&) - the && form rendered live despite false, so it is banned here. */}
         {NEWSLETTER_ENABLED ? (
         <form data-stub style="display:flex;gap:10px;flex-wrap:wrap;margin-top:34px;max-width:560px">
           <input type="email" placeholder="Notify me when this shelf opens" aria-label="Email for launch alerts" required style="flex:1;min-width:220px;border:1px solid var(--line-2);border-bottom-width:2px;background:var(--paper);padding:12px 14px;border-radius:2px;font-size:15px" />
@@ -82,6 +85,7 @@ const planned = {
         <div class="cat-list">
           {live.map(p => (
             <article>
+              <a href={p.url} tabindex="-1" aria-hidden="true"><img class="cov-thumb cat-thumb" src={coverFor(p.slug).thumb} width="480" height="253" alt="" loading="lazy" decoding="async" /></a>
               <div>
                 <h3><a href={p.url}>{p.title}</a></h3>
                 <p class="x">{p.excerpt}</p>

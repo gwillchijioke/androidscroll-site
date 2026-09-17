@@ -20,8 +20,9 @@ Direction A2 "editorial green" (approved), self-hosted fonts, zero external requ
 
 ## Content & data
 
-- `src/data/content.json` — generated from WP REST (source of truth for counts/dates); regenerate via `scripts/gen-content.mjs`.
-- Env (all optional, defaults are the live rails): `COMMENTS_API_BASE`, `WP_API_BASE` (default apex wp-json), `PUBLIC_COMMENTS_API` / `PUBLIC_PUSH_API` (baked rails in `src/data/endpoints.ts` — moving hosts = set these, no code edits).
+- `src/data/content.json` — repo snapshot, the source of truth for counts/dates (P47: no WP); comment counts re-bake from the Cloudflare worker at prebuild via `scripts/gen-content.mjs`.
+- Env (all optional, defaults are the live rails): `COMMENTS_API_BASE`, `PUBLIC_COMMENTS_API` / `PUBLIC_PUSH_API` (baked rails in `src/data/endpoints.ts` — moving hosts = set these, no code edits). No WordPress anywhere (P47 v0.6.71): content snapshot is `src/data/content.json`, bodies are `src/bodies/*.body.html` + `src/bodies/pages/*.body.html` in git.
+- Publish without WP: `node scripts/publish.mjs --slug=... --title=... --desc=... --cats=root,leaf [--id=...] [--body=file.html]`, paste approved HTML, set words/read_min, `npm run build`, verify, commit both branches.
 - 13 articles (C-FULL: quick-answer, dual TOC + spy, prose, lightbox, share, author, related, prev/next, progress, BlogPosting + BreadcrumbList JSON-LD), 19 category shelves (thin ones self-noindex until 3+ guides), homepage carries WebSite + Organization entity, brand OG card `/img/og-cover.png` on every shareable route.
 - `style-test-article` = unlisted lab fixture (noindex). `/mod/` desk = noindex. `/latest/` = redirect stub.
 
