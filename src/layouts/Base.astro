@@ -21,8 +21,6 @@ const props = Astro.props;
   <!-- P17a: classic (non-module) script so document.currentScript resolves the SW
        URL relative to its own shipped path - base-aware on apex and subpath. -->
   <script is:inline src={`/pwa-install.js?v=${BUILD_ID}`}></script>
-  <!-- Cloudflare Web Analytics: cookieless visit counts, site-wide, exactly once per page. -->
-  <script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ec860c7311154fdfaeff2f2661003d9f"}'></script>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>
 </html>

@@ -889,7 +889,7 @@ html[data-theme=dark] .site-footer .wordmark-lockup{--deep:#006E5E}
 .foot-bar a{color:rgba(217,242,232,.9)}
 .foot-bar a:hover{color:#FFFFFF}
 .foot-bar .sep{opacity:.4}
-.analytics-note{max-width:62ch}
+.matomo-note{max-width:62ch}
 /* v2.4 D3: legal dots live in the bottom bar (digest trait 4) */
 .foot-legal{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap}
 .foot-legal .sep{opacity:.4}
