@@ -293,6 +293,25 @@ const shortCount = (name: string) => navLabel(name).toLowerCase();
      mid-composition input events never reset or close anything. */
   let composing = false;
   let searchPushed = false;
+  /* Mobile reflow race, 2nd Tecno report (King): finger touches a chip inside
+     .search-box -> input blurs -> Gboard dismisses -> viewport expands ->
+     content shifts under the finger -> the up/click lands on the scrim ->
+     the layer guard below closes the overlay. Two-part root fix:
+     (1) chips activate on pointerdown/touchstart with preventDefault, so
+     focus never leaves, the keyboard never dismisses, zero reflow;
+     (2) belt-and-braces: a control tap inside .search-box suppresses the
+     layer-background close path for 400ms. Click stays as fallback. */
+  let suppressCloseUntil = 0;
+  const markControlTap = () => { suppressCloseUntil = Date.now() + 400; };
+  const closeSuppressed = () => Date.now() < suppressCloseUntil;
+  /* One tap, one activation: pointerdown/touchstart fire before click for the
+     same touch, so the first handler claims the key and the followers skip. */
+  let lastChipAt = 0; let lastChipKey = '';
+  const chipClaim = key => {
+    const now = Date.now();
+    if (key === lastChipKey && now - lastChipAt < 700) return false;
+    lastChipKey = key; lastChipAt = now; return true;
+  };
   const openSearch = () => {
     if (!searchLayer.hidden) return;
     lockPage();
@@ -345,11 +364,29 @@ const shortCount = (name: string) => navLabel(name).toLowerCase();
   /* v0.6.5: the 'Esc to close' hint is now a REAL button - same close path as tap-outside */
   const searchCloseBtn = document.getElementById('search-close');
   searchCloseBtn.addEventListener('click', closeSearch);
-  /* tap the overlay background (anywhere outside the search box) to close */
+  /* tap the overlay background (anywhere outside the search box) to close.
+     Reflow-race guard: a control tap inside .search-box arms ~400ms of
+     suppression, so a click that slid onto the scrim after a Gboard
+     dismiss-shift can never kill the overlay mid-tap. */
   searchLayer.addEventListener('click', e => {
+    if (closeSuppressed()) return;
     if (!e.target.closest('.search-box') && !e.target.closest('#search-trigger')) closeSearch();
   });
-  document.getElementById('search-scrim').addEventListener('click', closeSearch);
+  document.getElementById('search-scrim').addEventListener('click', () => {
+    if (closeSuppressed()) return;
+    closeSearch();
+  });
+  /* Any press on a control inside the box arms the guard: pointerdown +
+     touchstart carry touch taps (preventDefault lives in the chip handlers
+     below, so these markers stay passive), click covers mouse/keyboard. */
+  const searchBox = searchLayer.querySelector('.search-box');
+  ['pointerdown', 'touchstart'].forEach(t =>
+    searchBox.addEventListener(t, e => {
+      if (e.target instanceof Element && e.target.closest('button, a')) markControlTap();
+    }, { capture: true, passive: true }));
+  searchBox.addEventListener('click', e => {
+    if (e.target instanceof Element && e.target.closest('button, a')) markControlTap();
+  }, { capture: true });
   addEventListener('keydown', e => {
     if (e.key === 'Escape') { if (!searchLayer.hidden) closeSearch(); else closeSheet(); return; }
     if (e.key !== '/') return;
@@ -415,15 +452,37 @@ const shortCount = (name: string) => navLabel(name).toLowerCase();
     paintRecent();
   };
   paintRecent();
+  recentBox.addEventListener('pointerdown', e => {
+    const btn = e.target instanceof Element && e.target.closest('button[data-q]');
+    if (!btn) return;
+    /* preventDefault keeps focus on the input: Gboard never dismisses, the
+       viewport never expands, the chip never slides out from under the finger. */
+    e.preventDefault();
+    const isX = e.target instanceof Element && !!e.target.closest('i');
+    if (chipClaim((isX ? 'qx:' : 'q:') + btn.dataset.q)) recentActivate(btn, isX);
+  });
+  recentBox.addEventListener('touchstart', e => {
+    const btn = e.target instanceof Element && e.target.closest('button[data-q]');
+    if (!btn) return;
+    try { e.preventDefault(); } catch (err) {}
+    const isX = e.target instanceof Element && !!e.target.closest('i');
+    if (chipClaim((isX ? 'qx:' : 'q:') + btn.dataset.q)) recentActivate(btn, isX);
+  }, { passive: false });
   recentBox.addEventListener('click', e => {
     const btn = e.target instanceof Element && e.target.closest('button[data-q]');
     if (!btn) return;
-    if (e.target instanceof Element && e.target.closest('i')) {
+    const isX = e.target instanceof Element && !!e.target.closest('i');
+    if (chipClaim((isX ? 'qx:' : 'q:') + btn.dataset.q)) recentActivate(btn, isX);
+  });
+  function recentActivate(btn, isX) {
+    markControlTap();
+    if (isX) {
       try { localStorage.setItem(REC_KEY, JSON.stringify(getRecent().filter(x => x !== btn.dataset.q))); } catch (err) {}
       paintRecent(); return;
     }
-    searchInput.value = btn.dataset.q; render(searchInput.value); searchInput.focus({ preventScroll: true });
-  });
+    searchInput.value = btn.dataset.q; render(searchInput.value);
+    try { searchInput.focus({ preventScroll: true }); } catch (e) {}
+  }
   function render(q) {
     const A = api();
     const terms = A.norm(q).split(' ').filter(Boolean);
@@ -473,13 +532,35 @@ const shortCount = (name: string) => navLabel(name).toLowerCase();
     if (composing || (e && e.isComposing)) return;
     render(searchInput.value);
   });
-  compBox.addEventListener('click', e => {
-    const btn = e.target instanceof Element && e.target.closest('button[data-s]');
-    if (!btn) return;
+  const compFromEvent = e => (e.target instanceof Element && e.target.closest('button[data-s]')) || null;
+  const compActivate = btn => {
+    markControlTap();
     const bits = searchInput.value.trim().split(/\s+/);
     bits[bits.length - 1] = btn.dataset.s;
     searchInput.value = bits.join(' ') + ' ';
-    render(searchInput.value); searchInput.focus({ preventScroll: true });
+    render(searchInput.value);
+    try { searchInput.focus({ preventScroll: true }); } catch (e) {}
+  };
+  /* Suggestion chips (safe/samsung/save): activate on pointerdown/touchstart
+     with preventDefault - focus never leaves the input, so Gboard never
+     dismisses and the viewport never reflows mid-tap. Click stays for
+     mouse/keyboard, claimed once per tap via chipClaim. */
+  compBox.addEventListener('pointerdown', e => {
+    const btn = compFromEvent(e);
+    if (!btn) return;
+    e.preventDefault();
+    if (chipClaim('s:' + btn.dataset.s)) compActivate(btn);
+  });
+  compBox.addEventListener('touchstart', e => {
+    const btn = compFromEvent(e);
+    if (!btn) return;
+    try { e.preventDefault(); } catch (err) {}
+    if (chipClaim('s:' + btn.dataset.s)) compActivate(btn);
+  }, { passive: false });
+  compBox.addEventListener('click', e => {
+    const btn = compFromEvent(e);
+    if (!btn) return;
+    if (chipClaim('s:' + btn.dataset.s)) compActivate(btn);
   });
   results.addEventListener('click', e => {
     if (e.target instanceof Element && e.target.closest('a')) saveRecent(searchInput.value);
@@ -500,7 +581,16 @@ const shortCount = (name: string) => navLabel(name).toLowerCase();
     paint();
     results.children[activeIdx]?.scrollIntoView({ block: 'nearest' });
   });
-  searchClear.addEventListener('click', () => { searchInput.value = ''; render(''); searchInput.focus({ preventScroll: true }); });
+  const doClear = () => {
+    markControlTap();
+    searchInput.value = ''; render('');
+    try { searchInput.focus({ preventScroll: true }); } catch (e) {}
+  };
+  /* Clear is a control inside .search-box too: same early-activation so a
+     keyboard-dismiss shift can never turn the tap into a backdrop close. */
+  searchClear.addEventListener('pointerdown', e => { e.preventDefault(); if (chipClaim('clear')) doClear(); });
+  searchClear.addEventListener('touchstart', e => { try { e.preventDefault(); } catch (err) {} if (chipClaim('clear')) doClear(); }, { passive: false });
+  searchClear.addEventListener('click', () => { if (chipClaim('clear')) doClear(); });
 
 </script>
 
