@@ -632,7 +632,7 @@ img.t-mono-av{object-fit:cover;border-radius:2px} /* v0.6.11 #4: byline monogram
    --header-h per breakpoint (+ safe-area for installed PWA) with 22px
    breathing room = 76px mobile, matching the heading rule exactly. */
 #keep-reading,#comments-section,#main,#author,main#main,.prose div[id],.prose section[id],.prose figure[id],.prose table[id],.prose li[id],.prose sup[id],.prose p[id]{scroll-margin-top:calc(var(--header-h,54px) + env(safe-area-inset-top,0px) + 22px)}
-.prose h2{font-size:24px;letter-spacing:-.02em;line-height:1.15;margin-top:34px;margin-bottom:10px;padding-top:12px;border-top:1px solid var(--line-2)}
+.prose h2{font-size:24px;letter-spacing:-.02em;line-height:1.15;margin-top:34px;margin-bottom:10px}
 .prose h3{font-size:18px;letter-spacing:-.01em;margin-top:26px;margin-bottom:8px}
 .prose h4,.prose h5,.prose h6{font-size:14px;letter-spacing:.02em;margin-top:20px;margin-bottom:6px}
 .prose p{margin-top:0;margin-bottom:1.2em}
