@@ -22,6 +22,12 @@
 ## v0.6.38 - 2026-09-16 - A3 astro 5.18.2→7.3.2: clean build first try, zero breakage, gate OK
 # Changelog
 
+## v0.6.71 - full WordPress exit (Sep 17, P47)
+- 16 full article bodies ship (bundle byte-takes via sanitize+URL-map, zero WP at build or runtime).
+- Trust pages carry full copy; /about-androidscroll/ is a real indexable page (self canonical); /subscribe/ noindex with rescued hero image.
+- gen-content WP freshness check deleted; sw/RSS copy de-WP'd; publish.mjs stages future articles without WP.
+- Bodies prove zero leftover origin refs; offline build exits 0 with honest stale flag.
+
 ## v0.6.70 - dead-font purge (Sep 16)
 - Fraunces woff2 (67KB) shipped unreferenced since the Archivo switch - deleted from source + public. Live set: Archivo, Manrope, Plex Mono x3.
 

@@ -1,25 +1,8 @@
 ---
-/* Legacy about URL (t_35aec4da): /about-androidscroll/ is indexed on apex.
-   v0.6.70 canonical about page is /about/ - this stub keeps the old URL
-   resolving everywhere. Cloudflare Pages serves the 301 in public/_redirects;
-   GitHub Pages staging ignores that file, so the meta refresh below covers it.
-   Noindex + canonical to /about/ so only /about/ is indexed. Sitemap lists
-   /about/ only. */
+/* P47 WP EXIT: /about-androidscroll/ is the live indexed apex URL - a full
+   indexable page with self canonical, title byte-equal to apex
+   ("About Androidscroll"). NOT a redirect (the PR1 stub was wrong). */
+import StaticPage from '../layouts/StaticPage.astro';
 ---
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>About AndroidScroll - moved</title>
-  <meta name="robots" content="noindex" />
-  <link rel="canonical" href="https://androidscroll.com/about/" />
-  <meta http-equiv="refresh" content="0; url=/about/" />
-</head>
-<body>
-  <main style="font-family:system-ui,sans-serif;max-width:40rem;margin:4rem auto;padding:0 1rem">
-    <h1>About AndroidScroll has moved</h1>
-    <p>This page now lives at <a href="/about/">/about/</a>. You are being redirected.</p>
-  </main>
-</body>
-</html>
+<StaticPage title="About Androidscroll" desc="AndroidScroll is an Android help site written in plain English - guides, tips and fixes tested on real phones." kicker="The paper" bodyFile="about-androidscroll">
+</StaticPage>

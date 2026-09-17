@@ -1,0 +1,93 @@
+<p class="wp-block-paragraph">A phone that dies before dinner almost always has one app eating power while the screen is off. You find that app in under a minute: open <strong>Settings &gt; Battery &gt; Battery usage</strong> and look at background activity. Fix that app first, and the drain usually stops the same day.</p>
+<p class="wp-block-paragraph">I tested every fix below on two phones I own: a Tecno Camon 15 Air (Android 10) and a Tecno Spark 40 (Android 15), side by side for two weeks, with AccuBattery logging idle drain, screen-on time, and overnight loss. Restricting one bad background app gave the biggest gain on both. Any number I call a rule of thumb comes from that log, not from a manufacturer, so confirm it on your own unit.</p>
+<h2 class="wp-block-heading" id="quick-summary">Quick summary</h2>
+<ul class="wp-block-list">
+<li>My rule of thumb: overnight loss under 5% is normal, 5 to 10% needs attention, over 10% points to an app or weak signal that stayed active all night.</li>
+<li>The biggest fix is restricting the background app, not wiping the phone.</li>
+<li>Weak signal drains battery faster than most people expect. I confirmed it on both test phones.</li>
+<li>My rule of thumb: AccuBattery health below 80% meant a worn battery. Battery University uses 70% as its lab end-of-life reference, so my 80% is early warning, not a lab spec.</li>
+</ul>
+<h2 class="wp-block-heading" id="find-what-is-draining-your-battery-first">Find what is draining your battery first</h2>
+<p class="wp-block-paragraph">Before you change any setting, read what Android already recorded. Open <strong>Settings &gt; Battery &gt; Battery usage</strong>, tap anything suspicious, and compare its foreground and background figures. When background use tops foreground use, that app is your first fix. This is exactly what Google tells you to do: restrict the apps with high battery use.</p>
+<p class="wp-block-paragraph">The menu names differ by brand:</p>
+<figure class="wp-block-table">
+<table class="has-fixed-layout">
+<tbody>
+<tr>
+<td><strong>Brand</strong></td>
+<td><strong>Battery usage path</strong></td>
+</tr>
+<tr>
+<td>Stock Android / Pixel</td>
+<td>Settings &gt; Battery &gt; Battery usage (tap View by apps, tap an app name)</td>
+</tr>
+<tr>
+<td>Samsung One UI (current)</td>
+<td>Settings &gt; Battery &gt; View details (app usage, screen on/off time)</td>
+</tr>
+<tr>
+<td>Tecno HiOS (my test units)</td>
+<td>Settings &gt; Battery and Power Saving &gt; Battery usage (older HiOS may show Power consumption ranking or Battery Lab; naming varies)</td>
+</tr>
+<tr>
+<td>Xiaomi HyperOS</td>
+<td>Settings &gt; Battery &gt; Battery usage (device-specific)</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<p class="wp-block-paragraph">Older guides send Samsung owners through Settings &gt; Battery and device care &gt; Battery &gt; Usage since last full charge. That wording is from older One UI. Samsung&#8217;s current support page (ANS10002534) shows <strong>Settings &gt; Battery &gt; View details</strong>, and screens vary by version. One UI 7 dropped some battery sub-features, so a missing toggle usually means you are following an outdated guide.</p>
+<h2 class="wp-block-heading" id="what-normal-battery-usage-looks-like">What normal battery usage looks like</h2>
+<p class="wp-block-paragraph">Not every big percentage is a problem. The Battery usage list shows shares of the energy already consumed, not slices of your full battery, so the rows never add up neatly. Google says this itself: rounding can keep the listed amounts from reaching 100%. The screen is almost always the largest consumer, so a high screen percentage alone is not a warning sign.</p>
+<p class="wp-block-paragraph">My rules of thumb, from two weeks of AccuBattery logs. No manufacturer publishes bands like these:</p>
+<ul class="wp-block-list">
+<li>Screen 30 to 50%: normal on most phones I have used.</li>
+<li>Android System 10 to 15%: normal background system activity.</li>
+<li>Google Play Services 5 to 10%: normal sync and notifications.</li>
+<li>One app over 5% in the background: worth checking.</li>
+<li>Idle drain under 1% per hour: healthy on my units.</li>
+<li>Idle drain above 3% per hour: something is actively running.</li>
+</ul>
+<h2 class="wp-block-heading" id="run-a-simple-overnight-battery-test">Run a simple overnight battery test</h2>
+<p class="wp-block-paragraph">Charge to 100%, leave data and Wi-Fi as normal, and do not plug in overnight. Check the level in the morning. Against my own log: under 5% lost overnight is healthy, 5 to 10% is moderate background activity, over 10% needs fixing. Battery usage usually names the cause by morning.</p>
+<h2 class="wp-block-heading" id="fix-1-restrict-the-background-app-causing-the-drain">Fix 1: Restrict the background app causing the drain</h2>
+<p class="wp-block-paragraph">On Pixel and stock Android the path is <strong>Settings &gt; Apps &gt; See all apps &gt; pick the app &gt; App battery usage</strong>. Google&#8217;s default recommendation is to keep every app on <strong>Optimized</strong> and restrict only the problem apps, so that is what I do. The Restricted bucket (Android 12 and up) applies the heaviest background limits. Treat it as a targeted tool, never a global switch. On my Tecno units the path is device-specific: <strong>Settings &gt; App management &gt; App list &gt; pick the app &gt; Battery &gt; App battery Usage</strong>. If you rarely use the app, uninstalling beats restricting it.</p>
+<p class="wp-block-paragraph">In my observation, social apps offend most often: they keep syncing media, notifications, and locations. On my phones the names were Facebook, TikTok, Instagram, and Snapchat, plus media-heavy messaging apps. No manufacturer names apps, so read this as my experience.</p>
+<h2 class="wp-block-heading" id="fix-2-weak-signal-drains-battery-faster-than-most-people-expect">Fix 2: Weak signal drains battery faster than most people expect</h2>
+<p class="wp-block-paragraph">A phone on poor signal spends extra power hunting for a stronger tower: weak indoor coverage, unstable 4G or 5G, or a device flipping between bands. Google advises avoiding a constant strained connection, and Samsung notes 5G service can drain the battery faster than usual. To test it on Tecno: <strong>Settings &gt; SIM and network</strong>, then drop the preferred network to LTE or 3G only for one day (a Tecno/HiOS-only path; your brand will name it differently). If the battery improves, weak signal was likely the cause.</p>
+<h2 class="wp-block-heading" id="fix-3-turn-on-adaptive-battery">Fix 3: Turn on Adaptive Battery</h2>
+<p class="wp-block-paragraph">Adaptive Battery cuts background activity for apps you rarely open. On current Pixel software the path nests one level deeper than old guides show: <strong>Settings &gt; Battery &gt; Battery Saver &gt; Adaptive Battery &gt; Use Adaptive Battery</strong>. On my Tecno units it sits under <strong>Settings &gt; Battery and Power Saving &gt; Power Saving</strong> (some HiOS versions still show Battery Lab; naming varies).</p>
+<p class="wp-block-paragraph">Give it time before you judge it. Google says the phone learns how you use your apps over time, and full effect can take up to a few weeks after setup or a reset, because the apps you use less often will run less. Do not expect a difference in two days.</p>
+<h2 class="wp-block-heading" id="fix-4-high-refresh-rate-uses-more-power">Fix 4: High refresh rate uses more power</h2>
+<p class="wp-block-paragraph">120Hz looks smoother and costs power when you scroll and game. To test: open <strong>Settings &gt; Display</strong> and drop to <strong>60Hz</strong> for one full day. On Tecno: <strong>Settings &gt; Display and Brightness &gt; Screen Refresh Rate</strong>. Samsung&#8217;s docs say the same thing qualitatively: higher performance, brightness, and resolution use more battery. Nobody publishes 120Hz against 60Hz numbers, so keep this a feel test, not a math test. Always-On Display adds constant screen activity too, so I turn it off when battery matters more than convenience.</p>
+<h2 class="wp-block-heading" id="fix-5-hidden-scanning-features-drain-battery-quietly">Fix 5: Hidden scanning features drain battery quietly</h2>
+<p class="wp-block-paragraph">Even with Wi-Fi or Bluetooth looking off, Android may keep scanning in the background. Google&#8217;s documented steps for Android 12 and up: open <strong>Settings &gt; Location &gt; Location Services</strong>, then turn <strong>Wi-Fi scanning</strong> and <strong>Bluetooth scanning</strong> off. This helps most on phones that sit idle for long stretches.</p>
+<p class="wp-block-paragraph">Battery drain and heat often arrive together. If your phone also feels hot, read <a href="https://androidscroll.com/android-phone-overheating/">Android Phone Overheating? Causes and Fixes</a>.</p>
+<h2 class="wp-block-heading" id="fix-6-check-battery-health-before-blaming-software">Fix 6: Check battery health before blaming software</h2>
+<p class="wp-block-paragraph">A worn battery behaves differently from a software problem. I installed AccuBattery, a third-party app, and watched its <a href="https://androidscroll.com/test-phone-battery-health/">health figure</a> across several charge cycles (old HiOS shows no true health reading of its own). My rule of thumb: 90 to 100% is healthy, 80 to 89% is reduced but usable, and below 80% is clear decline, because no tweak brought back what my units lost. Battery University&#8217;s BU-808 uses 70% capacity as its lab end-of-life reference, so read my 80% as early warning and 70% as the point a cell is genuinely worn.</p>
+<h2 class="wp-block-heading" id="charging-habits-that-help-long-term-battery-life">Charging habits that help long-term battery life</h2>
+<p class="wp-block-paragraph">Battery University&#8217;s BU-808 shows shallow discharges live far longer: around 300 cycles at a full 100% depth of discharge against roughly 6,000 cycles at 10%, and its advice is to avoid full discharges. Heat plus a high charge level <a href="https://androidscroll.com/what-damages-phone-battery/">ages cells faster</a>. Google agrees in plain words: charge as much or as little as needed, and keep the phone cool. My habits: 20% to 80% most days, no frequent runs to 0%, and no heat while charging.</p>
+<p class="wp-block-paragraph">Modern phones do manage charging, but do not treat overnight charging as risk-free. Samsung&#8217;s support page (ANS10001953) says to disconnect the phone once it is fully charged and not to leave it connected for long periods or overnight. Heat is the real enemy, so I charge before bed and unplug at full.</p>
+<h2 class="wp-block-heading" id="does-closing-apps-save-battery">Does closing apps save battery?</h2>
+<p class="wp-block-paragraph">No, not as a habit. Swiping apps away forces a full reload, which can cost more than leaving them cached. No Google page states this in so many words; it follows from how Android caches background processes, so read it as informed synthesis. I force-close an app only when it is frozen, crashing, or running away. The real fix is the background restriction from Fix 1.</p>
+<h2 class="wp-block-heading" id="what-usually-does-not-help">What usually does not help</h2>
+<ul class="wp-block-list">
+<li>RAM cleaner apps: in my experience they add extra background load. No primary source backs this, so take it as my observation.</li>
+<li>Battery saver apps: they usually duplicate features Android already has, and do it worse.</li>
+<li>Factory reset: Google lists it as the last-resort step, so I treat it as unnecessary unless real corruption is present. Android already manages memory hard by design.</li>
+</ul>
+<h2 class="wp-block-heading" id="when-battery-drain-means-hardware-trouble">When battery drain means hardware trouble</h2>
+<p class="wp-block-paragraph">Watch for sudden drops with no heavy use, shutdown before the battery reaches 0%, heat while idle, or a back panel that is lifting. A swollen battery means stop now: switch the phone off, do not charge it, and take it to an authorised service centre. That is Samsung&#8217;s own moderator guidance, and it is safety advice worth taking seriously.</p>
+<h2 class="wp-block-heading" id="faq">FAQ</h2>
+<h3 class="wp-block-heading">Why is my Android battery draining suddenly?</h3>
+<p class="wp-block-paragraph">An app updated recently, background sync increased, or signal conditions changed. Open Battery usage first and compare foreground with background use.</p>
+<h3 class="wp-block-heading">Why does battery drain when I am not using the phone?</h3>
+<p class="wp-block-paragraph">Idle drain usually comes from sync, network searching, background scanning, or one runaway app. The overnight test above catches it in a single night.</p>
+<h3 class="wp-block-heading">Is overnight charging harmful?</h3>
+<p class="wp-block-paragraph">Phones manage charging, but heat is the real enemy, and Samsung advises disconnecting once full instead of leaving the phone plugged in all night. I charge before bed and unplug at full.</p>
+<h3 class="wp-block-heading">Should I drain the battery to zero sometimes?</h3>
+<p class="wp-block-paragraph">No. Lithium cells last longer with partial charging. Battery University is explicit: avoid full discharges.</p>
+<h3 class="wp-block-heading">Why is Android System using so much battery?</h3>
+<p class="wp-block-paragraph">After an update the Android System line can sit high while the phone settles. Google says higher drain for a few days after an update or setup is normal, so act only if it continues beyond a few days.</p>
+<h2 class="wp-block-heading" id="bottom-line">Bottom line</h2>
+<p class="wp-block-paragraph">Most of the drain I have measured came from one background process, not the battery itself, and Battery usage showed it within one minute on both test phones. Open that screen now. If one app&#8217;s background figure beats its foreground figure, you have found your cause: restrict it today, then run the overnight test before you believe anything else. For more fixes, read <a href="https://androidscroll.com/android-problems-fix/">Android Problems: The Complete Fix Guide</a>.</p>

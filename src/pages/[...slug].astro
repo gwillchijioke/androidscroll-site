@@ -8,11 +8,22 @@ import Base from '../layouts/Base.astro';
 import ArticleChrome from '../components/ArticleChrome.astro';
 import Comments from '../components/Comments.astro';
 import { SITE, POSTS, byPath, bySlug, postsIn, fmtDate } from '../data/site';
+/* P47 WP EXIT: full WP-exported bodies, staged at src/bodies/<slug>.body.html
+   (byte-takes from the migration bundle, never edited). Rendered server-side
+   through sanitizeBody + rewriteBodyUrls - zero WP at runtime or build. */
+import { sanitizeBody } from '../lib/sanitize-body';
+import { rewriteBodyUrls } from '../lib/body-urls';
+const __bodies = import.meta.glob('../bodies/*.body.html', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
+function bodyFor(slug: string): string {
+  const raw = (__bodies[`../bodies/${slug}.body.html`] as unknown as string) || '';
+  return sanitizeBody(rewriteBodyUrls(raw));
+}
 
 export function getStaticPaths() {
   return POSTS.map(p => ({ params: { slug: p.slug }, props: { p } }));
 }
 const { p } = Astro.props;
+const bodyHtml = bodyFor(p.slug);
 const cat = byPath[p.cat_path] || null;
 
 /* related: same-category first, recent-posts fallback (never empty). */
@@ -123,7 +134,7 @@ const breadcrumbLD = {
         <aside class="qa-box" aria-label="Quick answer">
           <p class="qa-kicker mono">Quick answer</p>
           <p class="qa-verdict"><strong>FIX:</strong> {p.excerpt}</p>
-          <p class="qa-meta mono">⏱ ~{p.read_min} min · Applies to: {p.cat_name} · Full steps land with the body port</p>
+          <p class="qa-meta mono">⏱ ~{p.read_min} min · Applies to: {p.cat_name}</p>
           <a class="qa-jump" href="#keep-reading">Jump to the guide ↓</a>
         </aside>
 
@@ -133,12 +144,13 @@ const breadcrumbLD = {
           <nav data-toc-mobile aria-label="Table of contents"></nav>
         </details>
 
-        <div class="prose" id="keep-reading" itemprop="articleBody">
+        <div class="prose" id="keep-reading" itemprop="articleBody" set:html={bodyHtml} />
+        {bodyHtml === '' && (
           <div class="stub-note">
-            <b>Prototype - body port pending</b>
-            The full {p.words ? p.words.toLocaleString('en-US') + '-word' : ''} body from androidscroll.com ports into this reading template next (H2 every 300–400 words, numbered steps, FAQ accordion, verdict box). Everything around it - header, furniture, meta, related - is live and final.
+            <b>Body missing for this slug</b>
+            No staged body at src/bodies/{p.slug}.body.html - fix the bundle staging, never fabricate copy.
           </div>
-        </div>
+        )}
 
         <ArticleChrome title={p.title} url={absUrl} tags={[]} />
 
