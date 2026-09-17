@@ -127,7 +127,7 @@ const breadcrumbLD = {
             under H1 - never the same string (t_1c09483c, no QA echo). */}
         <aside class="qa-box" aria-label="Quick answer">
           <p class="qa-kicker mono">Quick answer</p>
-          <p class="qa-verdict"><strong>FIX:</strong> {(p as any).verdict ?? p.excerpt}</p>
+          <p class="qa-verdict">{(p as any).verdict ?? p.excerpt}</p>
           <p class="qa-meta mono">⏱ ~{p.read_min} min · Applies to: {p.cat_name}</p>
           <a class="qa-jump" href="#keep-reading">Jump to the guide ↓</a>
         </aside>

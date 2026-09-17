@@ -49,7 +49,7 @@ const tags = ['sideload', 'adb', 'apk', 'play-protect'];
       <div class="art-main">
         <aside class="qa-box" aria-label="Quick answer">
           <p class="qa-kicker mono">Quick answer</p>
-          <p class="qa-verdict"><strong>FIX:</strong> "App not installed" on sideloaded APKs is almost always a stale signature conflict - uninstall the old copy (keep data via ADB), then reinstall.</p>
+          <p class="qa-verdict">"App not installed" on sideloaded APKs is almost always a stale signature conflict - uninstall the old copy (keep data via ADB), then reinstall.</p>
           <ol class="qa-steps">
             <li>Uninstall the old app: <code>adb uninstall -k com.example.app</code> (keeps data) - or long-press → Uninstall if you don't need data.</li>
             <li>Confirm arch + Android version match the APK (arm64-v8a, minSdk ≤ your version).</li>
