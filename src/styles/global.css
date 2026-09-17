@@ -1042,6 +1042,14 @@ html[data-theme=dark] .as-pwa-later:hover{border-color:var(--teal)}
 .as-install[hidden]{display:none}
 html[data-theme=dark] .as-install{border-color:var(--teal);color:var(--teal)}
 html[data-theme=dark] .as-install:hover{background:var(--band)}
+/* t_3086fc0c: the footer sits on the dark verdict band in BOTH modes, so the
+   light-mode --deep (#006E5E) outline button washes out (dark-on-dark). Pin
+   ALL footer outline buttons (Install / iOS / Alerts share .as-install) to
+   the bright --teal - the same pairing dark mode uses. Footer hover stays on
+   the dark band instead of flashing the near-white light --band. Dark mode
+   untouched: html[data-theme=dark] rules above win on specificity. */
+.site-footer .as-install{border-color:var(--teal);color:var(--teal)}
+.site-footer .as-install:hover{background:rgba(0,168,143,.14)}
 .as-install--ios{border-style:dashed}
 .as-install-note{display:block;width:100%;max-width:46ch;margin:8px 0 0;font-size:11.5px;line-height:1.55;font-weight:500;color:var(--ink-2);background:var(--band);border:1px solid var(--line);border-radius:2px;padding:8px 10px}
 html[data-theme=dark] .as-install-note{background:var(--band-2);border-color:var(--line-2)}
