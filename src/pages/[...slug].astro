@@ -8,6 +8,7 @@ import Base from '../layouts/Base.astro';
 import ArticleChrome from '../components/ArticleChrome.astro';
 import Comments from '../components/Comments.astro';
 import { SITE, POSTS, byPath, bySlug, postsIn, fmtDate } from '../data/site';
+import { coverFor } from '../data/covers';
 /* P47 WP EXIT: full WP-exported bodies, staged at src/bodies/<slug>.body.html
    (byte-takes from the migration bundle, never edited). Rendered server-side
    through sanitizeBody + rewriteBodyUrls - zero WP at runtime or build. */
@@ -41,17 +42,9 @@ const absUrl = SITE.url + p.url;
 const crumbTitle = p.title.split(' ').slice(0, 6).join(' ') + (p.title.split(' ').length > 6 ? '…' : '');
 const iso = (d: string) => d + 'T00:00:00+01:00';
 
-/* hero cover: field-manual SVG illustrations per topic (v0.4.6 King: the placeholder
-   band read as a dead CTA - real art now; device shots replace these with the body port). */
-const COVERS: Array<[RegExp, string, string]> = [
-  [/stor|space/, '/img/kb-storage.svg', 'Phone storage screen: free double the APK, cache is the thief'],
-  [/install|malware|unknown|security/, '/img/kb-unknown.svg', 'Unknown-sources prompt: allow only your file manager'],
-  [/toast|water|overheat/, '/img/kb-toast.svg', 'Phone alert toast mock'],
-  [/success|test|fix|problem/, '/img/kb-success.svg', 'Fix-confirmed check mock'],
-  [/batter|charg|drain|gemini|morning|whatsapp|excellence/, '/img/kb-hero.svg', 'Terminal showing the fix log'],
-];
-const coverHit = COVERS.find(([re]) => re.test(p.slug)) || COVERS[4];
-const coverSrc = coverHit[1]; const coverAlt = coverHit[2];
+/* hero cover: King-approved per-post art (16 covers, public/img/covers/, built by
+   scripts/gen-covers.mjs) - responsive srcset plus an exact 1200x630 OG cover. */
+const cover = coverFor(p.slug);
 
 const blogPosting = {
   '@context': 'https://schema.org',
@@ -63,6 +56,7 @@ const blogPosting = {
   author: { '@type': 'Person', name: 'G-will Chijioke', url: SITE.url + '/about/#author' },
   publisher: { '@type': 'Organization', name: SITE.name, url: SITE.url },
   mainEntityOfPage: absUrl,
+  image: SITE.url + cover.og,
   wordCount: p.words,
   timeRequired: `PT${p.read_min}M`,
 };
@@ -88,7 +82,7 @@ const breadcrumbLD = {
   ],
 };
 ---
-<Base title={p.title} fullTitle={p.full_title} desc={p.excerpt} ogType="article">
+<Base title={p.title} fullTitle={p.full_title} desc={p.excerpt} ogType="article" image={cover.og}>
   <script type="application/ld+json" set:html={JSON.stringify(blogPosting).replace(/</g, String.fromCharCode(92, 117, 48, 48, 51, 99))} />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD).replace(/</g, String.fromCharCode(92, 117, 48, 48, 51, 99))} />
 
@@ -121,10 +115,9 @@ const breadcrumbLD = {
         {p.read_min && <span>{p.read_min} min<span class="f-lbl"> read</span></span>}
         <a class="lc lc-link" id="lc-count" href="#comments-section" data-live-count={p.id} aria-live="polite"><span class="lc-n">{p.comments}</span> <span class="lc-l">{p.comments === 1 ? 'comment' : 'comments'}</span></a></span>
       </div>
-      {/* no body image in WP payload yet: category-tint hero band reserves the slot */}
       <figure class="art-hero">
-        <img src={coverSrc} width="800" height="450" alt={coverAlt} loading="eager" fetchpriority="high" decoding="async" itemprop="image" />
-        <figcaption>Field illustration.</figcaption>
+        <img src={cover.hero} srcset={cover.srcset} sizes="(max-width: 639px) 100vw, 800px" width="800" height="422" alt={cover.alt} loading="eager" fetchpriority="high" decoding="async" itemprop="image" />
+        <figcaption>Cover illustration for this guide.</figcaption>
       </figure>
     </header>
 
@@ -140,7 +133,7 @@ const breadcrumbLD = {
 
         {/* mobile TOC: native details, zero JS required */}
         <details class="toc-mobile" hidden>
-          <summary>In this guide <span class="toc-count"></span></summary>
+          <summary>Table of Contents <span class="toc-count"></span></summary>
           <nav data-toc-mobile aria-label="Table of contents"></nav>
         </details>
 
