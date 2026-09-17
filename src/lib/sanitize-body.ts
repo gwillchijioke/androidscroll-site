@@ -79,5 +79,8 @@ export function sanitizeBody(dirty: string): string {
     }
     out += cleanTag(part);
   }
+  // P47 mobile: body tables carry min-width:560px - wrap each in the site's
+  // .tbl-wrap horizontal scroller so 390px phones scroll, never clip.
+  out = out.replace(/<table[\s\S]*?<\/table\s*>/gi, (m) => `<div class="tbl-wrap">${m}</div>`);
   return out;
 }
