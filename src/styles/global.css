@@ -463,7 +463,8 @@ h1.hero-h1 .dot{color:var(--deep)}
 
 /* ---------- §03 latest: chronologic mono list (spec-sheet rows) ---------- */
 .lat-list{border-bottom:1px solid var(--line)}
-.lat-row{display:grid;grid-template-columns:86px minmax(0,1fr) auto;gap:0 16px;align-items:baseline;padding:12px 0;border-top:1px solid var(--line)}
+.lat-row{display:grid;grid-template-columns:86px minmax(0,1fr) auto;gap:0 16px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.lat-row>a{align-self:center}
 .lat-row .d{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.03em;white-space:nowrap;font-variant-numeric:tabular-nums}
 .lat-row h3{font-family:var(--display);font-weight:800;font-size:clamp(16px,2.2vw,19px);letter-spacing:-.018em;line-height:1.15;margin:0}
 .lat-row h3 a{color:var(--ink)}
