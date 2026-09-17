@@ -22,6 +22,11 @@
 ## v0.6.38 - 2026-09-16 - A3 astro 5.18.2→7.3.2: clean build first try, zero breakage, gate OK
 # Changelog
 
+## v0.6.72 - mod desk moves to mod.androidscroll.com (Sep 17, t_a8cadcaf)
+- New functions/_middleware.js host router on the SAME Pages project: mod host / serves dist/mod/ bytes (rewrite, desk file untouched), mod host /mod* -> 301 sub root, mod host pages -> 301 apex same-path (desk-only, no mirror), apex /mod* -> 301 sub root (?tab= + #fragment survive).
+- Desk bytes identical: same token gate, same worker rails, noindex + frame-ancestors 'none' unchanged; lock stamp stays v0.6.71 (honest - the desk did not change).
+- Live only after Lead attaches the subdomain (DNS spec in task report); fails open to old behaviour until then.
+
 ## v0.6.71 - full WordPress exit (Sep 17, P47)
 - 16 full article bodies ship (bundle byte-takes via sanitize+URL-map, zero WP at build or runtime).
 - Trust pages carry full copy; /about-androidscroll/ is a real indexable page (self canonical); /subscribe/ noindex with rescued hero image.
