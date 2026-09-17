@@ -4,7 +4,7 @@
    Props: title, url (absolute), tags (string[]). */
 import SocialRow from './SocialRow.astro';
 import { SOCIAL_PERSONAL } from '../data/socials';
-import { SITE } from '../data/site';
+import { SITE, NEWSLETTER_ENABLED } from '../data/site';
 const { title, url, tags = [] } = Astro.props;
 const enc = encodeURIComponent;
 const shareX = `https://twitter.com/intent/tweet?text=${enc(title)}&url=${enc(url)}`;
@@ -93,8 +93,7 @@ const shareTg = `https://t.me/share/url?url=${enc(url)}&text=${enc(title)}`;
   </div>
 </div>
 
-<!-- ONE in-article newsletter slot -->
-<section class="notify notify-art" aria-label="Launch alerts">
+{NEWSLETTER_ENABLED && <section class="notify notify-art" aria-label="Launch alerts">
   <div class="notify-in">
     <div>
       <h2>One fix a week. No noise.</h2>
@@ -107,7 +106,7 @@ const shareTg = `https://t.me/share/url?url=${enc(url)}&text=${enc(title)}`;
       <span class="n-note">Static site - submit opens the contact desk. No trackers.</span>
     </form>
   </div>
-</section>
+</section>}
 
 <script>
 /* Article islands - vanilla, article routes only. One IIFE per concern. */

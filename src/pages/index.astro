@@ -9,7 +9,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Head from '../components/Head.astro';
 import '../styles/global.css';
-import { SITE, POSTS, CATS, PILLARS, TOTALS, postsIn, fmtDate } from '../data/site';
+import { SITE, POSTS, CATS, PILLARS, TOTALS, NEWSLETTER_ENABLED, postsIn, fmtDate } from '../data/site';
 import { coverFor } from '../data/covers';
 import { SOCIAL_BRAND } from '../data/socials';
 /* SEO-1 (v0.6.69): the homepage carried no site entity while every article
@@ -230,8 +230,8 @@ const words = POSTS.reduce((n, p) => n + (p.words || 0), 0);
     </div>
   </section>
 
-  <!-- newsletter / notify -->
-  <section class="wrap notify" aria-labelledby="s-notify">
+  <!-- newsletter / notify: gated by NEWSLETTER_ENABLED (src/data/site.ts) -->
+  {NEWSLETTER_ENABLED && <section class="wrap notify" aria-labelledby="s-notify">
     <div class="notify-in">
       <div>
         <h2 id="s-notify">Get the launch alerts</h2>
@@ -243,5 +243,6 @@ const words = POSTS.reduce((n, p) => n + (p.words || 0), 0);
         <span class="n-note">Prototype stub - this form confirms on-device, nothing is sent.</span>
       </form>
     </div>
-  </section>
+  </section>}
+
 </Base>

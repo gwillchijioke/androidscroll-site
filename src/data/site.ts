@@ -9,6 +9,12 @@ export const SITE = {
   email: 'desk@androidscroll.com',
 };
 
+/* KING ORDER (t_ad3012b6): newsletter forms hidden site-wide until he says
+   bring them back. ONE switch - flip to true to reactivate everywhere
+   (homepage, post bottom, empty-shelf pages). Default off = zero newsletter
+   HTML/JS served. Backend/subscribe endpoints untouched. */
+export const NEWSLETTER_ENABLED = false;
+
 export const POSTS = data.posts;
 export const CATS = data.categories;
 export const TOTALS = data.totals;
