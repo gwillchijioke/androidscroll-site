@@ -13,7 +13,9 @@ const title = props.fullTitle ? props.fullTitle : (props.title ? `${props.title}
 /* T_76AD7A34: Matomo tracker host joins script-src (matomo.js) + connect-src
    (matomo.php hits). Matomo-only - zero Cloudflare/custom beacons. */
 const MATOMO = 'https://analytics.androidscroll.com';
-const CSP = `default-src 'self'; script-src 'self' 'unsafe-inline' ${MATOMO}; style-src 'self' 'unsafe-inline'; img-src 'self' data: ${COMMENTS_API}; font-src 'self' data:; connect-src 'self' ${COMMENTS_API} ${PUSH_API} ${MATOMO}; frame-src youtube.com *.youtube.com www.youtube-nocookie.com youtu.be vimeo.com player.vimeo.com tiktok.com *.tiktok.com open.spotify.com *.apple.com embed.music.apple.com audiomack.com platform.twitter.com; object-src 'none'; base-uri 'self'${props.cspExtra ? `; ${props.cspExtra}` : ''}`;
+/* King 09-18: post images live on his own R2 bucket - first-party host, joins img-src. */
+const IMGS = 'https://images.androidscroll.com';
+const CSP = `default-src 'self'; script-src 'self' 'unsafe-inline' ${MATOMO}; style-src 'self' 'unsafe-inline'; img-src 'self' data: ${COMMENTS_API} ${IMGS}; font-src 'self' data:; connect-src 'self' ${COMMENTS_API} ${PUSH_API} ${MATOMO}; frame-src youtube.com *.youtube.com www.youtube-nocookie.com youtu.be vimeo.com player.vimeo.com tiktok.com *.tiktok.com open.spotify.com *.apple.com embed.music.apple.com audiomack.com platform.twitter.com; object-src 'none'; base-uri 'self'${props.cspExtra ? `; ${props.cspExtra}` : ''}`;
 ---
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
