@@ -56,7 +56,7 @@ const footPillars = PILLARS
       <!-- v2.7: The paper lifted OUT of the brand block - it's a grid sibling now,
            so mobile gets a true 2x2 (paper + pillars beside each other). King's call. -->
       <nav class="foot-col foot-paper" aria-label="The paper">
-        <h4>The paper</h4>
+        <p class="foot-h">The paper</p>
         <ul>
           <li><a href="/start-here/"><span>Start here</span></a></li>
           <li><a href="/about/"><span>About AndroidScroll</span></a></li>
@@ -68,7 +68,7 @@ const footPillars = PILLARS
 
       {footPillars.map(p => (
         <nav class="foot-col" aria-label={p.name}>
-          <h4>{p.name}</h4>
+          <p class="foot-h">{p.name}</p>
           <ul>
             <li><a href={p.path}><span>All {p.name.toLowerCase()}</span></a></li>
             {p.children.slice(0, 6).map(k => (

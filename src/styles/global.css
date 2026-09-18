@@ -86,15 +86,11 @@ p{margin:0 0 1em}
 .batt i+i{margin-left:2px}
 .batt::after{content:"";display:block;width:2px;height:4px;background:var(--line-2);margin-left:2px}
 html:not(.js) .batt[data-lvl="1"] i:nth-child(1),
-html.js .batt.batt-on[data-lvl="1"] i:nth-child(1),
 html:not(.js) .batt[data-lvl="2"] i:nth-child(-n+2),
-html.js .batt.batt-on[data-lvl="2"] i:nth-child(-n+2),
 html:not(.js) .batt[data-lvl="3"] i:nth-child(-n+3),
-html.js .batt.batt-on[data-lvl="3"] i:nth-child(-n+3),
 html:not(.js) .batt[data-lvl="4"] i:nth-child(-n+4),
-html.js .batt.batt-on[data-lvl="4"] i:nth-child(-n+4),
-html:not(.js) .batt[data-lvl="5"] i:nth-child(-n+5),
-html.js .batt.batt-on[data-lvl="5"] i:nth-child(-n+5){background:var(--deep)}
+html:not(.js) .batt[data-lvl="5"] i:nth-child(-n+5){background:var(--deep)}
+/* v0.6.73 PSI: html.js .batt.batt-on[...] heirs pruned - nothing ever adds .batt-on (zero usage site-wide) */
 html.js .batt i{transition:background-color .3s ease}
 
 /* ---------- header v0.3: ONE bar (header-patterns.md) ---------- */
@@ -142,9 +138,7 @@ html[data-theme=dark] .wordmark-lockup{--deep:#006E5E}
 .wordmark-lockup .eye{animation:as-blink 5.4s ease-in-out infinite}
 @keyframes as-blink{0%,91%,100%{opacity:1}94.5%{opacity:0}}
 @media (prefers-reduced-motion:reduce){.wordmark-lockup .eye{animation:none}}
-.wordmark .mark{width:20px;height:20px;flex:none;transition:width .18s ease-out,height .18s ease-out}
-.wordmark .word-text{font-family:var(--display);font-weight:800;font-size:24px;letter-spacing:-.03em;line-height:1;white-space:nowrap}
-.wordmark .word-text em{font-style:normal;color:var(--deep)}
+/* v0.6.73 PSI: .wordmark .mark/.word-text pruned - C1 lockup is pure SVG, zero usage site-wide */
 /* desktop ≥900px: up to 4 inline category links, mono 12px (Cloudflare labeled links) */
 .head-cats{display:none;align-items:center;gap:18px;margin-left:6px;min-width:0}
 .head-cats a{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.03em;color:var(--muted);white-space:nowrap}
@@ -180,9 +174,7 @@ html[data-theme=dark] .theme-menu{box-shadow:0 24px 70px rgba(0,0,0,.75)}
 @media (min-width:900px){
   .header-in{height:60px}
   .head-cats{display:inline-flex}
-  .wordmark .mark{width:24px;height:24px}
   .wordmark-lockup{height:30px}
-  .wordmark .word-text{font-size:28px}
 }
 
 /* ---------- browse sheet + search overlay ---------- */
@@ -331,7 +323,7 @@ html[data-theme=dark] .sq-chips button[aria-pressed="true"]{background:rgba(94,2
 .sq-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
 .sq-actions a,.sq-actions button{font-family:var(--mono);font-size:12px;border:1px solid var(--line-2);border-radius:999px;padding:7px 14px;color:var(--ink-2);background:var(--paper);cursor:pointer}
 .sq-actions a:hover,.sq-actions button:hover{border-color:var(--deep);color:var(--deep);text-decoration:none}
-.sq-sub{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:26px 0 0}
+/* v0.6.73 PSI: .sq-sub pruned - zero usage site-wide */
 .close-x{width:38px;height:38px;border:1px solid var(--line-2);border-radius:2px;color:var(--muted);display:inline-flex;align-items:center;justify-content:center;flex:none}
 .close-x:hover{border-color:var(--deep);color:var(--deep)}
 .close-x svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:square}
@@ -363,8 +355,7 @@ h1.hero-h1 .dot{color:var(--deep)}
   .hero-kicker{margin-bottom:6px}
   .hero-stand{margin-top:8px;line-height:1.5}
 }
-.hero-grid{display:grid;grid-template-columns:1fr;gap:clamp(20px,4vw,36px)}
-@media (min-width:900px){.hero-grid{grid-template-columns:minmax(0,2fr) minmax(280px,1fr)}}
+/* v0.6.73 PSI: .hero-grid pruned - zero usage site-wide */
 .hero-kicker{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;color:var(--deep);margin-bottom:10px;font-weight:500}
 .hero-kicker::before{content:"";width:8px;height:8px;background:var(--deep);flex:none}
 /* v3: H1/stand rules moved up with the FRONT PAGE strip (old clamp(40,10vw,84) killed) */
@@ -557,13 +548,13 @@ img.t-mono-av{object-fit:cover;border-radius:2px} /* v0.6.11 #4: byline monogram
 .stub-note b{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--deep);display:block;margin-bottom:4px}
 .kicker-h{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--deep);font-weight:600;margin:26px 0 10px}
 .kicker-h::before{content:"";width:8px;height:8px;background:var(--deep);flex:none}
-.art-facts{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
-.art-facts li{display:flex;justify-content:space-between;gap:14px;padding-top:10px;padding-bottom:10px;border-bottom:1px solid var(--line);font-size:14.5px}
-.art-facts .fk{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.05em;flex:none;padding-top:2px}
+/* v0.6.73 PSI: .art-facts/.fk pruned - zero usage site-wide */
 .author-box{border:1px solid var(--line-2);border-left:4px solid var(--verdict);background:var(--paper);padding:18px 20px;display:flex;gap:16px;align-items:flex-start;margin:30px 0 0}
 .author-box .t-mono-av{width:48px;height:48px;font-size:18px}
-.author-box h4{font-size:16px;font-weight:800;letter-spacing:-.01em;margin:0}
+.author-box .a-name{font-size:16px;font-weight:800;letter-spacing:-.01em;margin:0;font-family:var(--display);color:var(--ink);line-height:1.2} /* v0.6.73 PSI heading-order: name is p.a-name, same paint as the old h4 */
 .author-box p{font-size:13.5px;color:var(--muted);margin:4px 0 0;line-height:1.55}
+/* v0.6.73 PSI contrast: bio links carry a persistent underline, never color alone */
+.author-box p a{text-decoration:underline;text-underline-offset:2px}
 .rel-grid{display:grid;grid-template-columns:1fr;gap:0;border-top:1px solid var(--line-2);margin-top:14px}
 @media (min-width:760px){.rel-grid{grid-template-columns:repeat(3,1fr);column-gap:28px}}
 .rel-grid article{padding-top:14px;padding-bottom:14px;border-bottom:1px solid var(--line)}
@@ -572,8 +563,7 @@ img.t-mono-av{object-fit:cover;border-radius:2px} /* v0.6.11 #4: byline monogram
 .rel-grid h3 a:hover{color:var(--deep);text-decoration:none}
 .byline{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;color:var(--muted);display:flex;gap:12px;flex-wrap:wrap;font-variant-numeric:tabular-nums}
 .byline b{color:var(--deep);font-weight:500}
-.f-byline{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:16px;font-family:var(--mono);font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;letter-spacing:.03em}
-.f-byline b{color:var(--deep);font-weight:500}
+/* v0.6.73 PSI: .f-byline pruned - zero usage site-wide (.byline above is the live one) */
 
 /* ---------- C-FULL article reading surface (article-patterns.md §6 MUST-HAVE + §3 traits) ----------
    RULE: longhand padding ONLY in this block - any shorthand with 0 sides
@@ -582,12 +572,7 @@ img.t-mono-av{object-fit:cover;border-radius:2px} /* v0.6.11 #4: byline monogram
 .art-hero{margin:22px 0 0;min-width:0}
 .art-hero img{width:100%;height:auto;border-radius:4px;border:1px solid var(--line-2)}
 .art-hero figcaption{font-size:12.5px;color:var(--muted);line-height:1.55;margin-top:8px}
-.art-hero-ph{border:1px dashed var(--line-2);background:transparent;border-radius:4px;min-height:120px;display:flex;flex-direction:column;gap:6px;align-items:flex-start;justify-content:center;padding-top:28px;padding-bottom:28px;padding-left:22px;padding-right:20px;position:relative} /* v0.4.6 King: placeholder read as a dead CTA button - viewfinder frame now, nothing centered */
-.art-hero-ph::before,.art-hero-ph::after{content:"";position:absolute;width:16px;height:16px;pointer-events:none}
-.art-hero-ph::before{top:8px;left:8px;border-top:2px solid var(--deep);border-left:2px solid var(--deep)}
-.art-hero-ph::after{bottom:8px;right:8px;border-bottom:2px solid var(--deep);border-right:2px solid var(--deep)}
-.art-hero-sig{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-.art-hero-soon{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--muted);opacity:.75}
+/* v0.6.73 PSI: .art-hero-ph/.art-hero-sig/.art-hero-soon pruned - zero usage site-wide */
 .art-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:0;min-width:0}
 .art-main{min-width:0}
 @media (min-width:1024px){.art-layout{grid-template-columns:minmax(0,1fr) 250px;column-gap:44px;align-items:start}.toc-side{position:sticky;top:72px;max-height:calc(100dvh - 96px);overflow:auto;display:block}}
@@ -725,11 +710,7 @@ img.t-mono-av{object-fit:cover;border-radius:2px} /* v0.6.11 #4: byline monogram
 .prose .cover{position:relative;overflow:hidden;border-radius:4px;background-size:cover;background-position:center;min-height:260px;display:flex;align-items:center;justify-content:center;text-align:center;margin-top:0;margin-bottom:1.2em;padding-top:32px;padding-bottom:32px;padding-left:24px;padding-right:24px}
 .prose .cover p{position:relative;z-index:1;color:#FFFFFF;font-family:var(--display);font-weight:800;font-size:clamp(19px,3vw,26px);letter-spacing:-.02em;margin:0;max-width:30ch}
 .prose .cover .cover-dim{position:absolute;inset:0;background:rgba(7,21,18,.55)}
-.prose .facade{position:relative;aspect-ratio:16/9;max-width:100%;background:var(--verdict);border-radius:4px;overflow:hidden;margin-top:0;margin-bottom:1.2em;display:flex;align-items:center;justify-content:center}
-.prose .facade button{display:inline-flex;align-items:center;gap:10px;min-height:48px;color:#FFFFFF;font-weight:700;font-size:15px;border:1px solid var(--teal);border-radius:4px;padding-top:12px;padding-bottom:12px;padding-left:20px;padding-right:20px;background:rgba(7,21,18,.5)}
-.prose .facade button:hover{background:var(--teal);color:var(--verdict)}
-.prose .facade iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.prose .facade-note{font-family:var(--mono);font-size:11px;color:var(--mint);opacity:.85;margin-top:8px}
+/* v0.6.73 PSI: legacy .prose .facade block pruned - markup ships .facade-card only, zero usage site-wide */
 /* v0.4.17 King: media embeds - styled facade cards (poster art + provider badge + real play button) */
 .facade-card{position:relative;min-height:200px;background:var(--verdict);border-radius:6px;overflow:hidden;margin-top:0;margin-bottom:1.2em;border:1px solid var(--line-2);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-top:28px;padding-bottom:28px} /* v0.4.18 King right-bleed: aspect-ratio+min-height FORCES width 356px and phone engines IGNORE max-width against it (proven: inline 288px also ignored). Ratio dropped - min-height carries the frame, poster is cover so nothing distorts; width always = container */
 .facade-card.square{min-height:400px;max-width:min(320px,100%);margin-left:auto;margin-right:auto}
@@ -835,7 +816,7 @@ html[data-theme=dark] .sh-btn{border-color:#3E7264}
 .gl-next{right:8px}
 .gl-counter,.gl-caption{color:#FFFFFF;font-family:var(--mono);font-size:12px;letter-spacing:.04em;margin-top:10px;text-align:center;max-width:60ch}
 @media (prefers-reduced-motion:reduce){.gl-overlay{transition:none}}
-@media (max-width:639px){.art-hero-ph{min-height:96px}.pn-empty{display:none}.gl-nav{width:44px;height:56px}}
+@media (max-width:639px){.pn-empty{display:none}.gl-nav{width:44px;height:56px}}
 
 /* ---------- category pages ---------- */
 .cat-hero{padding-top:clamp(24px,5vh,42px)} /* v3.4: longhand - shorthand killed wrap gutters (the "0" sat at x=0) */
@@ -894,7 +875,7 @@ html[data-theme=dark] .site-footer{border-top-color:var(--deep)}
 html[data-theme=dark] .site-footer .wordmark-lockup{--deep:#006E5E}
 /* v2.6 King: the footer wordmark blinks too - pin removed, same 5.4s wink as the header */
 .foot-brand .nameplate{display:inline-flex;align-items:center;color:var(--ink);min-width:0;padding:8px 0}
-.foot-col h4{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#FFFFFF;margin:0 0 12px;font-weight:600}
+.foot-col .foot-h{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#FFFFFF;margin:0 0 12px;font-weight:600} /* v0.6.73 PSI heading-order: nav labels are p.foot-h, same paint as the old h4 */
 .foot-col ul{list-style:none;margin:0;padding:0}
 .foot-col li+li{margin-top:7px}
 /* v2.6 mobile/tab friendly: link hit rows >=40px on touch, list rows breathe */
@@ -908,6 +889,8 @@ html[data-theme=dark] .site-footer .wordmark-lockup{--deep:#006E5E}
 .foot-alerts{margin-top:14px;max-width:none}
 .foot-alerts a{font-family:var(--mono);font-size:11.5px;letter-spacing:.02em;color:var(--teal);display:inline-block;padding:6px 0}
 .foot-alerts a:hover{color:#FFFFFF}
+/* v0.6.73 PSI contrast: footer brand text-links carry a persistent underline, never color alone */
+.foot-brand p a,.foot-alerts a{text-decoration:underline;text-underline-offset:2px}
 .foot-paper{margin-top:0}
 .foot-bar{border-top:1px solid rgba(217,242,232,.25);margin-top:clamp(24px,4vh,38px);padding-top:16px;display:flex;flex-wrap:wrap;gap:10px 26px;align-items:center;font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;color:rgba(217,242,232,.75)}
 .foot-bar a{color:rgba(217,242,232,.9)}
