@@ -1,10 +1,5 @@
-# AndroidScroll - robots.txt (AUDIT-02 B6, v0.6.36)
-# Staging publishes under /androidscroll-site/ on GitHub Pages; the apex
-# canonical (androidscroll.com) swaps in on media-crew cutover.
-# OPEN ITEM FOR THE KING: confirm the apex canonical domain before cutover -
-# the Sitemap: line below must be re-pointed to it then.
+# AndroidScroll - robots.txt. Production canonical: https://androidscroll.com
 User-agent: *
 Allow: /
 
-# NOTE: staging canonical; apex swap happens on media-crew cutover (see head comment).
-Sitemap: https://godschi10.github.io/androidscroll-site/sitemap.xml
+Sitemap: https://androidscroll.com/sitemap.xml

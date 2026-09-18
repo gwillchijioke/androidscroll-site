@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- AndroidScroll sitemap (AUDIT-02 B6, v0.6.36). Staging canonical:
-     https://godschi10.github.io/androidscroll-site/ - re-point every <loc>
-     to the apex canonical on media-crew cutover (OPEN ITEM FOR THE KING).
+<!-- AndroidScroll sitemap. Production canonical: https://androidscroll.com/
      33 indexable routes of 49 built: excludes the pages carrying
      robots noindex metas (incl. the unlisted /mod/ desk, the
      /about-androidscroll/ redirect stub) and the /latest/
@@ -9,37 +7,37 @@
      (no new deps without instruction). Regenerate on route changes.
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://godschi10.github.io/androidscroll-site/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/6-charging-mistakes-that-damage-your-phone-battery/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/about/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/android-battery-draining-fast/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/android-phone-overheating/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/android-problems-fix/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/android-storage-full-after-deleting-files/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/category/guides-how-tos/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/category/guides-how-tos/basics-setup/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/category/guides-how-tos/privacy-security/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/category/tips-hidden-features/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/category/tips-hidden-features/battery-life-hacks/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/category/tips-hidden-features/productivity/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/category/troubleshooting-fixes/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/comments-policy/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/contact/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/cookie-policy/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/disclaimer/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/gemini-commands-to-make-your-mornings-easier/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/how-to-improve-battery-life-on-android-devices/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/how-to-save-your-phone-from-water-damage/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/how-to-stop-malware-from-destroying-your-phone/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/how-to-test-android/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/how-to-test-used-phone/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/how-we-test/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/increase-storage-space-on-android/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/privacy-policy/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/read-deleted-whatsapp-messages/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/samsung-secret-codes-test-phone/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/search/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/start-here/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/test-phone-battery-health/</loc></url>
-<url><loc>https://godschi10.github.io/androidscroll-site/what-damages-phone-battery/</loc></url>
+<url><loc>https://androidscroll.com/</loc></url>
+<url><loc>https://androidscroll.com/6-charging-mistakes-that-damage-your-phone-battery/</loc></url>
+<url><loc>https://androidscroll.com/about/</loc></url>
+<url><loc>https://androidscroll.com/android-battery-draining-fast/</loc></url>
+<url><loc>https://androidscroll.com/android-phone-overheating/</loc></url>
+<url><loc>https://androidscroll.com/android-problems-fix/</loc></url>
+<url><loc>https://androidscroll.com/android-storage-full-after-deleting-files/</loc></url>
+<url><loc>https://androidscroll.com/category/guides-how-tos/</loc></url>
+<url><loc>https://androidscroll.com/category/guides-how-tos/basics-setup/</loc></url>
+<url><loc>https://androidscroll.com/category/guides-how-tos/privacy-security/</loc></url>
+<url><loc>https://androidscroll.com/category/tips-hidden-features/</loc></url>
+<url><loc>https://androidscroll.com/category/tips-hidden-features/battery-life-hacks/</loc></url>
+<url><loc>https://androidscroll.com/category/tips-hidden-features/productivity/</loc></url>
+<url><loc>https://androidscroll.com/category/troubleshooting-fixes/</loc></url>
+<url><loc>https://androidscroll.com/comments-policy/</loc></url>
+<url><loc>https://androidscroll.com/contact/</loc></url>
+<url><loc>https://androidscroll.com/cookie-policy/</loc></url>
+<url><loc>https://androidscroll.com/disclaimer/</loc></url>
+<url><loc>https://androidscroll.com/gemini-commands-to-make-your-mornings-easier/</loc></url>
+<url><loc>https://androidscroll.com/how-to-improve-battery-life-on-android-devices/</loc></url>
+<url><loc>https://androidscroll.com/how-to-save-your-phone-from-water-damage/</loc></url>
+<url><loc>https://androidscroll.com/how-to-stop-malware-from-destroying-your-phone/</loc></url>
+<url><loc>https://androidscroll.com/how-to-test-android/</loc></url>
+<url><loc>https://androidscroll.com/how-to-test-used-phone/</loc></url>
+<url><loc>https://androidscroll.com/how-we-test/</loc></url>
+<url><loc>https://androidscroll.com/increase-storage-space-on-android/</loc></url>
+<url><loc>https://androidscroll.com/privacy-policy/</loc></url>
+<url><loc>https://androidscroll.com/read-deleted-whatsapp-messages/</loc></url>
+<url><loc>https://androidscroll.com/samsung-secret-codes-test-phone/</loc></url>
+<url><loc>https://androidscroll.com/search/</loc></url>
+<url><loc>https://androidscroll.com/start-here/</loc></url>
+<url><loc>https://androidscroll.com/test-phone-battery-health/</loc></url>
+<url><loc>https://androidscroll.com/what-damages-phone-battery/</loc></url>
 </urlset>
