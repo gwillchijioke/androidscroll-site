@@ -243,10 +243,15 @@ const shortCount = (name: string) => navLabel(name).toLowerCase();
     }), { rootMargin: '0px 0px -8% 0px' });
     stag.forEach(el => io.observe(el));
     /* MOBILE-1 renderer fallback: anything sitting in the viewport that IO has
-       not marked within 2.5s (bots, stalled frames) joins in - no voids */
-    setTimeout(() => stag.forEach(el => {
-      if (!el.classList.contains('in') && el.getBoundingClientRect().top < innerHeight)
-        el.classList.add('in');
+       not marked within 2.5s (bots, stalled frames) joins in - no voids.
+       t_e8e06311 PSI (10): reads batched BEFORE writes (was interleaved
+       getBoundingClientRect + classList.add per row = forced reflow each step,
+       ~73ms). Collect tops first, then mutate - a single layout, no thrash. */
+    setTimeout(() => requestAnimationFrame(() => {
+      const pending = [];
+      stag.forEach(el => { if (!el.classList.contains('in')) pending.push([el, el.getBoundingClientRect().top]); });
+      const vh = innerHeight;
+      pending.forEach(([el, top]) => { if (top < vh) el.classList.add('in'); });
     }), 2500);
   } else {
     stag.forEach(el => el.classList.add('in'));

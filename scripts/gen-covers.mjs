@@ -7,6 +7,7 @@
      <slug>.jpg            original bytes, byte-identical copy (reference)
      <slug>-800.jpg        800w article-hero default
      <slug>-480.jpg        480w small-screen srcset rung
+     <slug>-160.jpg        160w row-thumb default (t_e8e06311 PSI)
      <slug>-1200x630.jpg   exact 1200x630 cover-crop for og:image/twitter (scrapers
                            demand 1200x630; source is 1424x752 ~1.89:1 so the
                            center crop loses almost nothing)
@@ -53,10 +54,13 @@ for (const slug of SLUGS) {
     .toFile(join(OUT_DIR, `${slug}-800.jpg`));
   await sharp(src).resize({ width: 480 }).jpeg({ quality: 82, progressive: true })
     .toFile(join(OUT_DIR, `${slug}-480.jpg`));
+  /* t_e8e06311 PSI (7): 160w row-thumb rung (spec/lat/cat rows show 56-72px) */
+  await sharp(src).resize({ width: 160 }).jpeg({ quality: 70 })
+    .toFile(join(OUT_DIR, `${slug}-160.jpg`));
   await sharp(src).resize({ width: 1200, height: 630, fit: 'cover', position: 'center' })
     .jpeg({ quality: 82, progressive: true })
     .toFile(join(OUT_DIR, `${slug}-1200x630.jpg`));
   done += 1;
-  console.log(`[gen-covers] ${slug}: 4 variants`);
+  console.log(`[gen-covers] ${slug}: 5 variants`);
 }
-console.log(`[gen-covers] OK ${done}/16 slugs x 4 variants = ${done * 4} files`);
+console.log(`[gen-covers] OK ${done}/16 slugs x 5 variants = ${done * 5} files`);

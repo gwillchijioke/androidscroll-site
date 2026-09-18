@@ -104,7 +104,7 @@ const planned = {
         <div class="rel-grid" style="border-top:2px solid var(--ink)">
           {bridges.map(b => (
             <article style="padding:16px 0;border-bottom:1px solid var(--line)">
-              <img class="cov-thumb" src={coverFor(b.slug).thumb} width="480" height="253" alt="" loading="lazy" decoding="async" style="width:72px;margin-bottom:8px" />
+              <span class="cov-wrap" aria-hidden="true" style="width:72px;margin-bottom:8px"><img class="cov-thumb" src={coverFor(b.slug).thumb} srcset={coverFor(b.slug).thumbSrcset} sizes="72px" width="160" height="85" alt="" loading="lazy" decoding="async" /></span>
               <h3 style="font-family:var(--display);font-size:18px;letter-spacing:-.025em;font-weight:800;line-height:1.15"><a href={b.url}>{b.title}</a></h3>
               <div class="byline" style="margin-top:6px"><span>{b.root_name}</span><span><b>{b.read_min} min</b></span></div>
             </article>
@@ -128,7 +128,7 @@ const planned = {
         <div class="cat-list">
           {live.map(p => (
             <article>
-              <a href={p.url} tabindex="-1" aria-hidden="true"><img class="cov-thumb cat-thumb" src={coverFor(p.slug).thumb} width="480" height="253" alt="" loading="lazy" decoding="async" /></a>
+              <a class="cov-wrap" href={p.url} tabindex="-1" aria-hidden="true"><img class="cov-thumb cat-thumb" src={coverFor(p.slug).thumb} srcset={coverFor(p.slug).thumbSrcset} sizes="(max-width:639px) 64px, 72px" width="160" height="85" alt="" loading="lazy" decoding="async" /></a>
               <div>
                 <h3><a href={p.url}>{p.title}</a></h3>
                 <p class="x">{p.excerpt}</p>

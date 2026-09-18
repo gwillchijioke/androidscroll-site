@@ -103,7 +103,7 @@ const words = POSTS.reduce((n, p) => n + (p.words || 0), 0);
       {topFixes.map((p, i) => (
         <article class="spec-row stag">
           <span class="idx mono" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-          <a href={p.url} tabindex="-1" aria-hidden="true"><img class="cov-thumb sr-thumb" src={coverFor(p.slug).thumb} width="480" height="253" alt="" loading="lazy" decoding="async" /></a>
+          <a class="cov-wrap" href={p.url} tabindex="-1" aria-hidden="true"><img class="cov-thumb sr-thumb" src={coverFor(p.slug).thumb} srcset={coverFor(p.slug).thumbSrcset} sizes="(max-width:639px) 56px, 72px" width="160" height="85" alt="" loading="lazy" decoding="async" /></a>
           <div class="sr-main">
             <h3><a href={p.url}>{p.title}</a></h3>
             <span class="sr-meta mono"><b>FIX {String(i + 1).padStart(2, '0')}</b> · {p.read_min} min · {p.cat_name}{p.comments > 0 && <> · {p.comments} comments</>}<span class="hide-s"> · {p.words.toLocaleString('en-US')} words</span></span>
@@ -122,7 +122,7 @@ const words = POSTS.reduce((n, p) => n + (p.words || 0), 0);
       {latest.map(r => (
         <article class="lat-row stag">
           <span class="d mono">{fmtDate(r.date)}</span>
-          <a href={r.url} tabindex="-1" aria-hidden="true"><img class="cov-thumb lat-thumb" src={coverFor(r.slug).thumb} width="480" height="253" alt="" loading="lazy" decoding="async" /></a>
+          <a class="cov-wrap" href={r.url} tabindex="-1" aria-hidden="true"><img class="cov-thumb lat-thumb" src={coverFor(r.slug).thumb} srcset={coverFor(r.slug).thumbSrcset} sizes="(max-width:639px) 64px, 72px" width="160" height="85" alt="" loading="lazy" decoding="async" /></a>
           <div>
             <h3><a href={r.url}>{r.title}</a></h3>
             <div class="m mono"><b>{r.root_name}</b> · {r.read_min} min · {r.comments} comments</div>
@@ -147,7 +147,7 @@ const words = POSTS.reduce((n, p) => n + (p.words || 0), 0);
         <li><span class="k">shelves_stocking</span><span class="dots"></span><span class="v zero">{TOTALS.empty_categories}</span></li>
         <li><span class="k">library_target</span><span class="dots"></span><span class="v">200 · dec 2026</span></li>
         <li class="st-batt"><span class="k">stock_level</span>
-          <span class="batt" data-lvl={Math.round((TOTALS.posts / 200) * 5)} aria-label={`${TOTALS.posts} of 200 guides live`}><i></i><i></i><i></i><i></i><i></i></span>
+          <span class="batt" data-lvl={Math.round((TOTALS.posts / 200) * 5)} role="img" aria-label={`${TOTALS.posts} of 200 guides live`}><i></i><i></i><i></i><i></i><i></i></span>
           <span class="v">{TOTALS.posts}/200</span>
         </li>
       </ul>
@@ -166,7 +166,7 @@ const words = POSTS.reduce((n, p) => n + (p.words || 0), 0);
           <div class:list={['tile stag', { 'is-empty': empty }]}>
             <div class="tile-top">
               <h3><a href={p.path}>{p.name}</a></h3>
-              <span class="batt" data-lvl={Math.min(5, live.length)} aria-label={`${live.length} live guides`}><i></i><i></i><i></i><i></i><i></i></span>
+              <span class="batt" data-lvl={Math.min(5, live.length)} role="img" aria-label={`${live.length} live guides`}><i></i><i></i><i></i><i></i><i></i></span>
             </div>
             <div class="t-meta mono"><b>{live.length} live</b> · {live.reduce((n, x) => n + (x.words || 0), 0).toLocaleString('en-US')} words</div>
             <ul class="mono">
@@ -180,7 +180,7 @@ const words = POSTS.reduce((n, p) => n + (p.words || 0), 0);
             </ul>
             <div class="t-foot">{empty
               ? <>opens as the 200-post library lands · <a href={p.path}>see the plan →</a></>
-              : <><a href={p.path}>Enter shelf →</a></>}</div>
+              : <><a href={p.path} aria-label={`Enter the ${p.name} shelf`}>Enter shelf →</a></>}</div>
           </div>
         );
       })}
@@ -196,7 +196,7 @@ const words = POSTS.reduce((n, p) => n + (p.words || 0), 0);
           <span class="of">buyer’s guides<br />published - today</span>
         </div>
         <div class="vb-batt mono" style="margin-top:14px">
-          <span class="batt" data-lvl="0" aria-label="Zero of five buying shelves stocked"><i></i><i></i><i></i><i></i><i></i></span>
+          <span class="batt" data-lvl="0" role="img" aria-label="Zero of five buying shelves stocked"><i></i><i></i><i></i><i></i><i></i></span>
           0/5 shelves stocked
         </div>
       </div>

@@ -4,6 +4,7 @@
      <slug>.jpg            1424w original (reference, byte-identical to source)
      <slug>-800.jpg        800w article-hero default
      <slug>-480.jpg        480w card/thumb + small-screen srcset rung
++    <slug>-160.jpg        160w row-thumb default (spec/lat/cat rows show 56-72px)
      <slug>-1200x630.jpg   exact 1200x630 center-crop for og:image/twitter
    (scrapers demand 1200x630; source is 1424x752 so the crop loses ~nothing). */
 
@@ -48,6 +49,7 @@ export interface Cover {
   srcset: string;
   og: string;
   thumb: string;
+  thumbSrcset: string;
 }
 
 const FALLBACK_ALT = 'AndroidScroll guide cover illustration';
@@ -61,6 +63,7 @@ export function coverFor(slug: string): Cover {
       srcset: '/img/og-cover.png',
       og: '/img/og-cover.png',
       thumb: '/img/og-cover.png',
+      thumbSrcset: '/img/og-cover.png',
     };
   }
   return {
@@ -68,6 +71,7 @@ export function coverFor(slug: string): Cover {
     hero: `/img/covers/${slug}-800.jpg`,
     srcset: `/img/covers/${slug}-480.jpg 480w, /img/covers/${slug}-800.jpg 800w, /img/covers/${slug}.jpg 1424w`,
     og: `/img/covers/${slug}-1200x630.jpg`,
-    thumb: `/img/covers/${slug}-480.jpg`,
+    thumb: `/img/covers/${slug}-160.jpg`,
+    thumbSrcset: `/img/covers/${slug}-160.jpg 160w, /img/covers/${slug}-480.jpg 480w`,
   };
 }

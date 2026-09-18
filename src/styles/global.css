@@ -478,6 +478,8 @@ h1.hero-h1 .dot{color:var(--deep)}
 .t-cell .t-k{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--deep);font-weight:600}
 .t-cell h3{font-family:var(--display);font-size:19px;letter-spacing:-.02em;margin:8px 0 4px;font-weight:800}
 .t-cell p{font-size:13.5px;color:var(--muted);line-height:1.55;margin:6px 0 0}
+/* t_e8e06311 PSI contrast: trust-cell text links carry a persistent underline, never color alone (house rule, mirrors .author-box) */
+.t-cell p a{text-decoration:underline;text-underline-offset:2px}
 .t-person{display:flex;align-items:center;gap:12px;margin-top:10px}
 .t-mono-av{width:40px;height:40px;flex:none;background:var(--deep);color:var(--on-deep);font-family:var(--display);font-weight:800;font-size:16px;display:flex;align-items:center;justify-content:center;border-radius:2px;letter-spacing:-.02em}
 .t-person b{display:block;font-size:14.5px;color:var(--ink)}
@@ -706,18 +708,13 @@ img.t-mono-av{object-fit:cover;border-radius:2px} /* v0.6.11 #4: byline monogram
 .prose td.tbl-best{background:var(--band);font-weight:700;box-shadow:inset 3px 0 0 var(--deep)}
 .prose figure{margin-top:0;margin-bottom:1.4em;margin-left:0;margin-right:0;min-width:0}
 .prose figure img{width:100%;height:auto;border-radius:4px;border:1px solid var(--line-2);cursor:zoom-in}
-/* King 09-18 branded image-loading state: R2 body photos arrive late on slow networks and the
-   reserved box sat blank. Soft teal-tint wash + shimmer sweep + small pulsing Terminal G mark, painted
-   as the img's OWN background layers (inline SVG data-URI, zero new requests) so the loaded photo
-   covers them exactly. Space stays reserved by width/height attrs + height:auto (native
-   aspect-ratio) = zero layout shift. Post body images + card thumbs only - site logo, author
-   photos and embed posters untouched. Static tint remains under prefers-reduced-motion. */
-.prose figure:not(.wp-block-table) img{background-color:var(--mint);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath d='M28,8 H92 A20,20 0 0 1 112,28 V92 A20,20 0 0 1 92,112 H28 A20,20 0 0 1 8,92 V28 A20,20 0 0 1 28,8 Z' fill='%23006E5E'/%3E%3Cpolygon points='41.485,35.558 34.115,41.742 19.845,24.736 27.215,18.552' fill='%23F7FAF9'/%3E%3Cpolygon points='85.885,41.742 78.515,35.558 92.785,18.552 100.155,24.736' fill='%23F7FAF9'/%3E%3Cpath d='M23,96 V59 A37,37 0 0 1 97,59 V96 Z' fill='%23F7FAF9'/%3E%3Ccircle cx='43.72' cy='42.35' r='6.29' fill='%23006E5E'/%3E%3Ccircle cx='76.28' cy='42.35' r='6.29' fill='%23006E5E'/%3E%3Crect x='45.94' y='73.06' width='28.12' height='23.44' fill='%23006E5E'/%3E%3C/svg%3E"),linear-gradient(100deg,transparent 25%,rgba(0,168,143,.20) 50%,transparent 75%);background-repeat:no-repeat,no-repeat;background-size:40px 40px,220% 100%;background-position:center,120% 0;animation:img-shimmer 1.8s linear infinite,logo-pulse 1.8s ease-in-out infinite}
-@keyframes img-shimmer{from{background-position:center,-120% 0}to{background-position:center,220% 0}}
-@keyframes logo-pulse{0%,100%{background-size:40px 40px,220% 100%}50%{background-size:48px 48px,220% 100%}}
-@keyframes logo-pulse-sm{0%,100%{background-size:28px 28px,220% 100%}50%{background-size:34px 34px,220% 100%}}
-html[data-theme=dark] .prose figure:not(.wp-block-table) img{background-color:var(--band);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath d='M28,8 H92 A20,20 0 0 1 112,28 V92 A20,20 0 0 1 92,112 H28 A20,20 0 0 1 8,92 V28 A20,20 0 0 1 28,8 Z' fill='%2300C896'/%3E%3Cpolygon points='41.485,35.558 34.115,41.742 19.845,24.736 27.215,18.552' fill='%230B241D'/%3E%3Cpolygon points='85.885,41.742 78.515,35.558 92.785,18.552 100.155,24.736' fill='%230B241D'/%3E%3Cpath d='M23,96 V59 A37,37 0 0 1 97,59 V96 Z' fill='%230B241D'/%3E%3Ccircle cx='43.72' cy='42.35' r='6.29' fill='%2300C896'/%3E%3Ccircle cx='76.28' cy='42.35' r='6.29' fill='%2300C896'/%3E%3Crect x='45.94' y='73.06' width='28.12' height='23.44' fill='%2300C896'/%3E%3C/svg%3E"),linear-gradient(100deg,transparent 25%,rgba(0,200,150,.28) 50%,transparent 75%)}
-@media (prefers-reduced-motion:reduce){.prose figure:not(.wp-block-table) img,img.cov-thumb{animation:none}}
+/* t_e8e06311 PSI: no background animations anywhere - background-position-x /
+   background-size loops are paint-per-frame (the 13-thumb CLS risk on home).
+   Article body figures keep the static tint + mark (no motion); row thumbs get
+   the sweep via .cov-wrap::after (translateX, compositor-only). */
+.prose figure:not(.wp-block-table) img{background-color:var(--mint);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath d='M28,8 H92 A20,20 0 0 1 112,28 V92 A20,20 0 0 1 92,112 H28 A20,20 0 0 1 8,92 V28 A20,20 0 0 1 28,8 Z' fill='%23006E5E'/%3E%3Cpolygon points='41.485,35.558 34.115,41.742 19.845,24.736 27.215,18.552' fill='%23F7FAF9'/%3E%3Cpolygon points='85.885,41.742 78.515,35.558 92.785,18.552 100.155,24.736' fill='%23F7FAF9'/%3E%3Cpath d='M23,96 V59 A37,37 0 0 1 97,59 V96 Z' fill='%23F7FAF9'/%3E%3Ccircle cx='43.72' cy='42.35' r='6.29' fill='%23006E5E'/%3E%3Ccircle cx='76.28' cy='42.35' r='6.29' fill='%23006E5E'/%3E%3Crect x='45.94' y='73.06' width='28.12' height='23.44' fill='%23006E5E'/%3E%3C/svg%3E");background-repeat:no-repeat;background-size:40px 40px;background-position:center}
+html[data-theme=dark] .prose figure:not(.wp-block-table) img{background-color:var(--band);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath d='M28,8 H92 A20,20 0 0 1 112,28 V92 A20,20 0 0 1 92,112 H28 A20,20 0 0 1 8,92 V28 A20,20 0 0 1 28,8 Z' fill='%2300C896'/%3E%3Cpolygon points='41.485,35.558 34.115,41.742 19.845,24.736 27.215,18.552' fill='%230B241D'/%3E%3Cpolygon points='85.885,41.742 78.515,35.558 92.785,18.552 100.155,24.736' fill='%230B241D'/%3E%3Cpath d='M23,96 V59 A37,37 0 0 1 97,59 V96 Z' fill='%230B241D'/%3E%3Ccircle cx='43.72' cy='42.35' r='6.29' fill='%2300C896'/%3E%3Ccircle cx='76.28' cy='42.35' r='6.29' fill='%2300C896'/%3E%3Crect x='45.94' y='73.06' width='28.12' height='23.44' fill='%2300C896'/%3E%3C/svg%3E")}
+@media (prefers-reduced-motion:reduce){.cov-wrap::after{animation:none}}
 .prose figcaption{font-size:12.5px;color:var(--muted);line-height:1.55;margin-top:8px}
 .prose .gallery{display:grid;grid-template-columns:1fr;gap:14px;margin-top:0;margin-bottom:1.4em}
 @media (min-width:768px) and (max-width:1023px){.prose .gallery{grid-template-columns:repeat(2,1fr)}}
@@ -948,7 +945,7 @@ html.js .stag.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}html.js .stag{opacity:1;transform:none}}
 
 /* ---------- utilities ---------- */
-.hairline{border-top:1px solid var(--line-2);margin:var(--sp-e) 0 0}
+/* t_e8e06311 PSI audit: .hairline utility deleted - zero usage site-wide (no markup references it). */
 .no-js-hide{display:none}
 html.js .no-js-hide{display:block}
 
@@ -1121,10 +1118,21 @@ html[data-theme=dark] .as-push-topics input{accent-color:var(--teal)}
    Thumbs are link-wrapped duplicates of the adjacent heading link (aria-hidden,
    tabindex -1) so they add no tab stops. Source ratio is 1424x752 - exact, no crop. */
 .cov-thumb{width:100%;height:auto;aspect-ratio:1424/752;object-fit:cover;border-radius:4px;border:1px solid var(--line-2);background:var(--paper);display:block}
+/* t_e8e06311 PSI (1): the shimmer sweep lives on the .cov-wrap parent as a
+   ::after layer sliding via translateX (compositor-only, zero paint per frame).
+   The img itself carries only the static tint + Terminal G mark and paints
+   ABOVE the sweep (position:relative + z-index:1), so the loaded photo covers
+   the sweep exactly while the transparent loading box lets it show through.
+   img elements cannot host ::before/::after (replaced elements), hence the
+   parent carries the motion. Rounded Terminal G look unchanged. */
+a.cov-wrap,span.cov-wrap{position:relative;display:block;overflow:hidden;border-radius:4px}
+.cov-wrap::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 25%,rgba(0,168,143,.20) 50%,transparent 75%);transform:translateX(-120%);animation:cov-sweep 1.8s linear infinite;pointer-events:none}
+html[data-theme=dark] .cov-wrap::after{background:linear-gradient(100deg,transparent 25%,rgba(0,200,150,.28) 50%,transparent 75%)}
+@keyframes cov-sweep{from{transform:translateX(-120%)}to{transform:translateX(220%)}}
 /* King 09-18: card thumbs share the branded loading state (same teal wash + sweep + Terminal G mark,
    smaller mark for the 56-72px thumbs). Layers sit under the photo once it paints. */
-img.cov-thumb{background-color:var(--mint);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath d='M28,8 H92 A20,20 0 0 1 112,28 V92 A20,20 0 0 1 92,112 H28 A20,20 0 0 1 8,92 V28 A20,20 0 0 1 28,8 Z' fill='%23006E5E'/%3E%3Cpolygon points='41.485,35.558 34.115,41.742 19.845,24.736 27.215,18.552' fill='%23F7FAF9'/%3E%3Cpolygon points='85.885,41.742 78.515,35.558 92.785,18.552 100.155,24.736' fill='%23F7FAF9'/%3E%3Cpath d='M23,96 V59 A37,37 0 0 1 97,59 V96 Z' fill='%23F7FAF9'/%3E%3Ccircle cx='43.72' cy='42.35' r='6.29' fill='%23006E5E'/%3E%3Ccircle cx='76.28' cy='42.35' r='6.29' fill='%23006E5E'/%3E%3Crect x='45.94' y='73.06' width='28.12' height='23.44' fill='%23006E5E'/%3E%3C/svg%3E"),linear-gradient(100deg,transparent 25%,rgba(0,168,143,.20) 50%,transparent 75%);background-repeat:no-repeat,no-repeat;background-size:28px 28px,220% 100%;background-position:center,120% 0;animation:img-shimmer 1.8s linear infinite,logo-pulse-sm 1.8s ease-in-out infinite}
-html[data-theme=dark] img.cov-thumb{background-color:var(--band);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath d='M28,8 H92 A20,20 0 0 1 112,28 V92 A20,20 0 0 1 92,112 H28 A20,20 0 0 1 8,92 V28 A20,20 0 0 1 28,8 Z' fill='%2300C896'/%3E%3Cpolygon points='41.485,35.558 34.115,41.742 19.845,24.736 27.215,18.552' fill='%230B241D'/%3E%3Cpolygon points='85.885,41.742 78.515,35.558 92.785,18.552 100.155,24.736' fill='%230B241D'/%3E%3Cpath d='M23,96 V59 A37,37 0 0 1 97,59 V96 Z' fill='%230B241D'/%3E%3Ccircle cx='43.72' cy='42.35' r='6.29' fill='%2300C896'/%3E%3Ccircle cx='76.28' cy='42.35' r='6.29' fill='%2300C896'/%3E%3Crect x='45.94' y='73.06' width='28.12' height='23.44' fill='%2300C896'/%3E%3C/svg%3E"),linear-gradient(100deg,transparent 25%,rgba(0,200,150,.28) 50%,transparent 75%)}
+img.cov-thumb{background-color:var(--mint);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath d='M28,8 H92 A20,20 0 0 1 112,28 V92 A20,20 0 0 1 92,112 H28 A20,20 0 0 1 8,92 V28 A20,20 0 0 1 28,8 Z' fill='%23006E5E'/%3E%3Cpolygon points='41.485,35.558 34.115,41.742 19.845,24.736 27.215,18.552' fill='%23F7FAF9'/%3E%3Cpolygon points='85.885,41.742 78.515,35.558 92.785,18.552 100.155,24.736' fill='%23F7FAF9'/%3E%3Cpath d='M23,96 V59 A37,37 0 0 1 97,59 V96 Z' fill='%23F7FAF9'/%3E%3Ccircle cx='43.72' cy='42.35' r='6.29' fill='%23006E5E'/%3E%3Ccircle cx='76.28' cy='42.35' r='6.29' fill='%23006E5E'/%3E%3Crect x='45.94' y='73.06' width='28.12' height='23.44' fill='%23006E5E'/%3E%3C/svg%3E");background-repeat:no-repeat;background-size:28px 28px;background-position:center;position:relative;z-index:1}
+html[data-theme=dark] img.cov-thumb{background-color:var(--band);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath d='M28,8 H92 A20,20 0 0 1 112,28 V92 A20,20 0 0 1 92,112 H28 A20,20 0 0 1 8,92 V28 A20,20 0 0 1 28,8 Z' fill='%2300C896'/%3E%3Cpolygon points='41.485,35.558 34.115,41.742 19.845,24.736 27.215,18.552' fill='%230B241D'/%3E%3Cpolygon points='85.885,41.742 78.515,35.558 92.785,18.552 100.155,24.736' fill='%230B241D'/%3E%3Cpath d='M23,96 V59 A37,37 0 0 1 97,59 V96 Z' fill='%230B241D'/%3E%3Ccircle cx='43.72' cy='42.35' r='6.29' fill='%2300C896'/%3E%3Ccircle cx='76.28' cy='42.35' r='6.29' fill='%2300C896'/%3E%3Crect x='45.94' y='73.06' width='28.12' height='23.44' fill='%2300C896'/%3E%3C/svg%3E")}
 .sr-thumb{width:72px}
 .lat-thumb{width:72px}
 .cat-thumb{width:72px}

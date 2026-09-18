@@ -21,8 +21,11 @@ const props = Astro.props;
   <Footer />
   <Matomo />
   <!-- P17a: classic (non-module) script so document.currentScript resolves the SW
-       URL relative to its own shipped path - base-aware on apex and subpath. -->
-  <script is:inline src={`/pwa-install.js?v=${BUILD_ID}`}></script>
+       URL relative to its own shipped path - base-aware on apex and subpath.
+       t_e8e06311 PSI (9): defer keeps it off the parser (was ~450ms render-
+       blocking at end of body); document.currentScript still resolves during
+       deferred classic execution, so SW registration is unchanged. -->
+  <script is:inline defer src={`/pwa-install.js?v=${BUILD_ID}`}></script>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>
 </html>

@@ -69,6 +69,10 @@ const CSP = `default-src 'self'; script-src 'self' 'unsafe-inline' ${MATOMO}; st
 <link rel="apple-touch-icon" href="/favicon-180.png" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/archivo-var-latin.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/manrope-var-latin.woff2" />
+<!-- t_e8e06311 PSI (8): Matomo loads async after first paint, but the handshake
+     still costs ~300ms on slow mobiles - preconnect starts it during the head
+     parse. Single preconnect (self-hosted fonts/images need none). -->
+<link rel="preconnect" href="https://analytics.androidscroll.com" crossorigin />
 <script is:inline>
   (function () {
     try {
