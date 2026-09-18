@@ -8,4 +8,6 @@
 /google-assistant-commands-to-make-your-mornings-easier  /gemini-commands-to-make-your-mornings-easier/  301
 /what-damages-battery/  /what-damages-phone-battery/  301
 /what-damages-battery  /what-damages-phone-battery/  301
-# P47: /about-androidscroll/ is a full indexable page (self canonical) - no redirect.
+# T_4E18D190 (King 09-18): old /about-androidscroll/ 301s to canonical /about/ - keeps equity, no chain, no 404.
+/about-androidscroll/  /about/  301
+/about-androidscroll  /about/  301

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- AndroidScroll sitemap. Production canonical: https://androidscroll.com/
-     33 indexable routes of 49 built: excludes the pages carrying
-     robots noindex metas (incl. the unlisted /mod/ desk, the
-     /about-androidscroll/ redirect stub) and the /latest/
-     redirect stub. Hand-written: @astrojs/sitemap intentionally not added
+     34 indexable routes: excludes the pages carrying robots noindex
+     metas (incl. the unlisted /mod/ desk). /about-androidscroll/ is
+     gone - 301 to /about/ (t_4e18d190), never a sitemap entry.
+     /latest/ hub listed (hub only, never paginated variants).
+     Hand-written: @astrojs/sitemap intentionally not added
      (no new deps without instruction). Regenerate on route changes.
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -33,6 +34,7 @@
 <url><loc>https://androidscroll.com/how-to-test-used-phone/</loc></url>
 <url><loc>https://androidscroll.com/how-we-test/</loc></url>
 <url><loc>https://androidscroll.com/increase-storage-space-on-android/</loc></url>
+<url><loc>https://androidscroll.com/latest/</loc></url>
 <url><loc>https://androidscroll.com/privacy-policy/</loc></url>
 <url><loc>https://androidscroll.com/read-deleted-whatsapp-messages/</loc></url>
 <url><loc>https://androidscroll.com/samsung-secret-codes-test-phone/</loc></url>
