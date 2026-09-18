@@ -596,13 +596,13 @@ img.t-mono-av{object-fit:cover;border-radius:2px} /* v0.6.11 #4: byline monogram
 .toc-mobile nav{padding:2px 16px 14px}
 .toc-mobile[hidden],.toc-side[hidden]{display:none}
 .toc-side{font-size:13.5px;min-width:0;display:none} /* v0.4.7 King: widget TOC is a DESKTOP-only thing - hard-hidden below 1024, JS can't leak it onto mobile */
-/* v0.6.26 King: body column centers under the wide hero on desktop.
-   Rail live: widen the shell so the body track stays readable (640 body +
-   44 gap + 250 rail + col gutters); rail hidden (short posts / no-JS):
-   drop the dead track and center the body. Hero (.art-head.col) untouched
-   at 760, mobile single-column untouched, longhands only. */
+/* v0.6.28 King: rail never paints (base display:none, one-TOC law) so the
+   desktop grid is single-column in BOTH branches - long posts (rail
+   unhidden by JS) and short posts (rail hidden) both true-center the 640
+   body under the 760 hero. Hero (.art-head.col) untouched at 760, mobile
+   single-column untouched, longhands only. */
 @media (min-width:1024px){
-.art-layout.col:has(.toc-side:not([hidden])){max-width:1030px}
+.art-layout.col:has(.toc-side:not([hidden])){max-width:1030px;grid-template-columns:minmax(0,1fr)}
 .art-layout.col:has(.toc-side:not([hidden])) .art-main{width:100%;max-width:640px;margin-left:auto;margin-right:auto}
 .art-layout.col:has(.toc-side[hidden]){grid-template-columns:minmax(0,1fr)}
 .art-layout.col:has(.toc-side[hidden]) .art-main{width:100%;max-width:640px;margin-left:auto;margin-right:auto}
