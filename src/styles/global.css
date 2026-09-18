@@ -611,12 +611,6 @@ img.t-mono-av{object-fit:cover;border-radius:2px} /* v0.6.11 #4: byline monogram
 .toc-mobile nav{padding:2px 16px 14px}
 .toc-mobile[hidden],.toc-side[hidden]{display:none}
 .toc-side{font-size:13.5px;min-width:0;display:none} /* v0.4.7 King: widget TOC is a DESKTOP-only thing - hard-hidden below 1024, JS can't leak it onto mobile */
-/* v0.6.26 King: desktop rail must paint when JS unhides it. The base
-   display:none above sits LATER than the 1024 show rule (line ~593) and won
-   at every width, so the rail never painted and its dead 250px track pinned
-   the body to 418px. Later + more specific: wins only on desktop when the
-   >2-H2 gate unhides the rail; mobile and short posts stay hidden. */
-@media (min-width:1024px){.toc-side:not([hidden]){display:block}}
 /* v0.6.26 King: body column centers under the wide hero on desktop.
    Rail live: widen the shell so the body track stays readable (640 body +
    44 gap + 250 rail + col gutters); rail hidden (short posts / no-JS):
