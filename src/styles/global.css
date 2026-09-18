@@ -684,8 +684,11 @@ img.t-mono-av{object-fit:cover;border-radius:2px} /* v0.6.11 #4: byline monogram
 .copy-btn:hover{background:var(--mint);color:var(--verdict);border-color:var(--mint)}
 .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line-2);border-radius:4px;margin-top:0;margin-bottom:1.2em;max-width:100%}
 /* King 09-18: WP figure-wrapped tables (cookie/privacy policy) crushed on phones - same scroll treatment, no squeeze.
-   Static pages render in .page-body, NOT .prose - so every table rule needs its .page-body twin or policy tables get zero styling. */
-.prose figure.wp-block-table,.page-body figure.wp-block-table{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line-2);border-radius:4px;margin-left:0;margin-right:0;max-width:100%}
+   Static pages render in .page-body, NOT .prose - so every table rule needs its .page-body twin or policy tables get zero styling.
+   King 09-18 fix: the figure is BORDERLESS - sanitize wraps every table in .tbl-wrap which already
+   carries the 1px outline, so the figure border stacked a second outline (double borders on cookie-policy).
+   Figure keeps radius + sideways scroll (clips inner corners); the single outline belongs to .tbl-wrap. */
+.prose figure.wp-block-table,.page-body figure.wp-block-table{overflow-x:auto;-webkit-overflow-scrolling:touch;border:0;border-radius:4px;margin-left:0;margin-right:0;max-width:100%}
 .prose table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px;line-height:1.55;margin:0}
 .prose th{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;text-align:left;color:var(--ink);background:var(--band);border-bottom:2px solid var(--line-2);padding-top:10px;padding-bottom:10px;padding-left:12px;padding-right:12px;white-space:nowrap}
 .prose td{border-top:1px solid var(--line);vertical-align:top;padding-top:10px;padding-bottom:10px;padding-left:12px;padding-right:12px}
@@ -703,6 +706,18 @@ img.t-mono-av{object-fit:cover;border-radius:2px} /* v0.6.11 #4: byline monogram
 .prose td.tbl-best{background:var(--band);font-weight:700;box-shadow:inset 3px 0 0 var(--deep)}
 .prose figure{margin-top:0;margin-bottom:1.4em;margin-left:0;margin-right:0;min-width:0}
 .prose figure img{width:100%;height:auto;border-radius:4px;border:1px solid var(--line-2);cursor:zoom-in}
+/* King 09-18 branded image-loading state: R2 body photos arrive late on slow networks and the
+   reserved box sat blank. Soft teal-tint wash + shimmer sweep + small pulsing house mark, painted
+   as the img's OWN background layers (inline SVG data-URI, zero new requests) so the loaded photo
+   covers them exactly. Space stays reserved by width/height attrs + height:auto (native
+   aspect-ratio) = zero layout shift. Post body images + card thumbs only - house logo, author
+   photos and embed posters untouched. Static tint remains under prefers-reduced-motion. */
+.prose figure:not(.wp-block-table) img{background-color:var(--mint);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect x='8' y='8' width='104' height='104' rx='24' fill='%23006E5E'/%3E%3Cpath d='M30 92V56a30 30 0 0 1 60 0v36z' fill='%23F7FAF9'/%3E%3Crect x='48' y='70' width='24' height='22' fill='%23006E5E'/%3E%3C/svg%3E"),linear-gradient(100deg,transparent 25%,rgba(0,168,143,.20) 50%,transparent 75%);background-repeat:no-repeat,no-repeat;background-size:40px 40px,220% 100%;background-position:center,120% 0;animation:img-shimmer 1.8s linear infinite,logo-pulse 1.8s ease-in-out infinite}
+@keyframes img-shimmer{from{background-position:center,-120% 0}to{background-position:center,220% 0}}
+@keyframes logo-pulse{0%,100%{background-size:40px 40px,220% 100%}50%{background-size:48px 48px,220% 100%}}
+@keyframes logo-pulse-sm{0%,100%{background-size:28px 28px,220% 100%}50%{background-size:34px 34px,220% 100%}}
+html[data-theme=dark] .prose figure:not(.wp-block-table) img{background-color:var(--band);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect x='8' y='8' width='104' height='104' rx='24' fill='%2300C896'/%3E%3Cpath d='M30 92V56a30 30 0 0 1 60 0v36z' fill='%230B241D'/%3E%3Crect x='48' y='70' width='24' height='22' fill='%2300C896'/%3E%3C/svg%3E"),linear-gradient(100deg,transparent 25%,rgba(0,200,150,.28) 50%,transparent 75%)}
+@media (prefers-reduced-motion:reduce){.prose figure:not(.wp-block-table) img,img.cov-thumb{animation:none}}
 .prose figcaption{font-size:12.5px;color:var(--muted);line-height:1.55;margin-top:8px}
 .prose .gallery{display:grid;grid-template-columns:1fr;gap:14px;margin-top:0;margin-bottom:1.4em}
 @media (min-width:768px) and (max-width:1023px){.prose .gallery{grid-template-columns:repeat(2,1fr)}}
@@ -1106,6 +1121,10 @@ html[data-theme=dark] .as-push-topics input{accent-color:var(--teal)}
    Thumbs are link-wrapped duplicates of the adjacent heading link (aria-hidden,
    tabindex -1) so they add no tab stops. Source ratio is 1424x752 - exact, no crop. */
 .cov-thumb{width:100%;height:auto;aspect-ratio:1424/752;object-fit:cover;border-radius:4px;border:1px solid var(--line-2);background:var(--paper);display:block}
+/* King 09-18: card thumbs share the branded loading state (same teal wash + sweep + house mark,
+   smaller mark for the 56-72px thumbs). Layers sit under the photo once it paints. */
+img.cov-thumb{background-color:var(--mint);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect x='8' y='8' width='104' height='104' rx='24' fill='%23006E5E'/%3E%3Cpath d='M30 92V56a30 30 0 0 1 60 0v36z' fill='%23F7FAF9'/%3E%3Crect x='48' y='70' width='24' height='22' fill='%23006E5E'/%3E%3C/svg%3E"),linear-gradient(100deg,transparent 25%,rgba(0,168,143,.20) 50%,transparent 75%);background-repeat:no-repeat,no-repeat;background-size:28px 28px,220% 100%;background-position:center,120% 0;animation:img-shimmer 1.8s linear infinite,logo-pulse-sm 1.8s ease-in-out infinite}
+html[data-theme=dark] img.cov-thumb{background-color:var(--band);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect x='8' y='8' width='104' height='104' rx='24' fill='%2300C896'/%3E%3Cpath d='M30 92V56a30 30 0 0 1 60 0v36z' fill='%230B241D'/%3E%3Crect x='48' y='70' width='24' height='22' fill='%2300C896'/%3E%3C/svg%3E"),linear-gradient(100deg,transparent 25%,rgba(0,200,150,.28) 50%,transparent 75%)}
 .sr-thumb{width:72px}
 .lat-thumb{width:72px}
 .cat-thumb{width:72px}
