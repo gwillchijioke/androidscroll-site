@@ -4,11 +4,11 @@ import { TOTALS } from '../data/site';
 import { breadcrumbLD, pageLD } from '../lib/schema';
 /* T_1C669C70: WebPage + BreadcrumbList. */
 const ld = [
-  pageLD('WebPage', 'Privacy Policy', '/privacy-policy/', 'Self-hosted Matomo, cookie-free, consent-gated. No third-party trackers.'),
+  pageLD('WebPage', 'Privacy Policy', '/privacy-policy/', 'Self-hosted Matomo, cookie-free, opt-out ready. No third-party trackers.'),
   breadcrumbLD([{ name: 'Home', href: '/' }, { name: 'Privacy Policy' }]),
 ];
 ---
-<StaticPage title="Privacy Policy" fullTitle="Privacy Policy - Androidscroll" desc="Self-hosted Matomo, cookie-free, consent-gated. No third-party trackers." kicker="Legal" bodyFile="privacy-policy" jsonld={ld}>
+<StaticPage title="Privacy Policy" fullTitle="Privacy Policy - Androidscroll" desc="Self-hosted Matomo, cookie-free, opt-out ready. No third-party trackers." kicker="Legal" bodyFile="privacy-policy" jsonld={ld}>
 <!-- T_76AD7A34: opt-out control repair (behavior only - legal copy untouched).
      Renders the WP-era check-box into the #matomo-opt-out stub. Single source
      of truth = localStorage matomo_optout (matches the policy copy), synced

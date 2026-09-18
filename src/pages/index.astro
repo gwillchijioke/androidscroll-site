@@ -11,12 +11,14 @@ import Head from '../components/Head.astro';
 import '../styles/global.css';
 import { SITE, POSTS, CATS, PILLARS, TOTALS, NEWSLETTER_ENABLED, postsIn, fmtDate } from '../data/site';
 import { coverFor } from '../data/covers';
-import { SOCIAL_BRAND } from '../data/socials';
+import { ORG_SAMEAS } from '../lib/schema';
 /* SEO-1 (v0.6.69): the homepage carried no site entity while every article
    speaks BlogPosting - the knowledge graph gets its root node here.
    T_1C669C70: SearchAction (?q= shape verified in src/pages/search.astro:
    `new URLSearchParams(location.search).get('q')`) + standalone
-   Organization twin of the inline publisher (same logo + brand sameAs). */
+   Organization twin of the inline publisher (same logo + brand sameAs).
+   T_BA38A71D: sameAs = the King's 3 handles, youtube cleaned (socials.ts
+   icon href keeps the research-leg trailing dot; schema never does). */
 const siteLD = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
@@ -33,7 +35,7 @@ const siteLD = {
     name: SITE.name,
     url: SITE.url + '/',
     logo: { '@type': 'ImageObject', url: SITE.url + '/img/og-cover.png' },
-    sameAs: SOCIAL_BRAND.map(s => s.href),
+    sameAs: ORG_SAMEAS,
   },
 };
 const orgLD = {
@@ -43,7 +45,7 @@ const orgLD = {
   url: SITE.url + '/',
   description: SITE.tagline,
   logo: { '@type': 'ImageObject', url: SITE.url + '/img/og-cover.png' },
-  sameAs: SOCIAL_BRAND.map(s => s.href),
+  sameAs: ORG_SAMEAS,
 };
 
 /* TOP FIXES: the five most-substantive fix guides, ordered for a reader in trouble */

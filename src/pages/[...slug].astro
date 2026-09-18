@@ -16,8 +16,10 @@ import { sanitizeBody } from '../lib/sanitize-body';
 import { rewriteBodyUrls } from '../lib/body-urls';
 /* T_1C669C70 schema wiring: approved comment threads baked at build by
    scripts/gen-content.mjs (src/data/comments.json) - never hardcoded here.
-   Author sameAs deliberately omitted until the King confirms handles. */
+   T_BA38A71D max-out: author Person carries the King's personal X sameAs,
+   publisher carries the 3-handle brand identity, speakable mirrors the DOM. */
 import THREADS from '../data/comments.json';
+import { authorLD, publisherLD, speakableLD } from '../lib/schema';
 const __bodies = import.meta.glob('../bodies/*.body.html', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
 function bodyFor(slug: string): string {
   const raw = (__bodies[`../bodies/${slug}.body.html`] as unknown as string) || '';
@@ -57,17 +59,13 @@ const blogPosting = {
   description: p.excerpt,
   datePublished: iso(p.date),
   dateModified: iso(p.modified),
-  author: { '@type': 'Person', name: 'G-will Chijioke', url: SITE.url + '/about/#author' },
-  publisher: {
-    '@type': 'Organization',
-    name: SITE.name,
-    url: SITE.url + '/',
-    logo: { '@type': 'ImageObject', url: SITE.url + '/img/og-cover.png' },
-  },
+  author: authorLD(),
+  publisher: publisherLD(),
   mainEntityOfPage: absUrl,
   image: SITE.url + cover.og,
   wordCount: p.words,
   timeRequired: `PT${p.read_min}M`,
+  speakable: speakableLD(),
   /* Build-time approved thread: commentCount = live baked count, comment =
      one node per approved comment (flat chronological; replies keep their
      parent id in the baked file for future nesting). Zero-comment posts

@@ -1,9 +1,10 @@
 ---
 import StaticPage from '../layouts/StaticPage.astro';
 import { SITE, TOTALS } from '../data/site';
-import { breadcrumbLD, pageLD } from '../lib/schema';
+import { breadcrumbLD, pageLD, AUTHOR_SAMEAS } from '../lib/schema';
 /* T_1C669C70: AboutPage + BreadcrumbList + trusted Person #author.
-   sameAs omitted until the King confirms handles (never brand accounts). */
+   T_BA38A71D max-out: Person carries the King's personal X sameAs (never
+   brand accounts, never the dev GitHub) + self-hosted photo + role. */
 const aboutLD = [
   pageLD('AboutPage', 'About AndroidScroll', '/about/', 'A small desk with one rule: guide the phone in your hand, not the spec sheet.'),
   {
@@ -12,13 +13,17 @@ const aboutLD = [
     '@id': SITE.url + '/about/#author',
     name: 'G-will Chijioke',
     url: SITE.url + '/about/#author',
+    image: SITE.url + '/img/author.png',
     jobTitle: 'Founder',
+    description: 'Founder of AndroidScroll. Android & security writing since 2019.',
     worksFor: { '@type': 'Organization', name: SITE.name, url: SITE.url + '/' },
+    sameAs: AUTHOR_SAMEAS,
   },
   breadcrumbLD([{ name: 'Home', href: '/' }, { name: 'About AndroidScroll' }]),
 ];
 ---
 <StaticPage title="About AndroidScroll" desc="A small desk with one rule: guide the phone in your hand, not the spec sheet." kicker="The paper" hideStub jsonld={aboutLD}>
-  <p style='font-size:17px;line-height:1.7;max-width:62ch'>AndroidScroll started in 2019 with one post about water damage and a stubborn belief: most Android advice is written for reviewers, not for people holding the phone. {TOTALS.posts} guides later, the rule hasn't changed - practical, honest, tested on mid-range hardware.</p>
-<h2 id='author' style='font-family:var(--display);letter-spacing:-.03em;font-size:24px;margin:30px 0 8px'>Who writes this</h2><div class='author-box' style='margin:0'><img class='t-mono-av' src='/img/author.png' alt='' aria-hidden='true' width='48' height='48' loading='lazy' decoding='async'><div><p class='a-name'>G-will Chijioke</p><p>Founder. Android &amp; security writing since 2019. Corrections, tips and privacy scoops: <a href='mailto:contact@androidscroll.com'>contact@androidscroll.com</a>.</p></div></div>
+  <p style='font-size:17px;line-height:1.7;max-width:62ch'>AndroidScroll started in 2019 with one guide about water damage and one rule: write for the person holding the phone, not for reviewers. {TOTALS.posts} guides later, the rule still stands. Every guide is practical, honest, and checked on everyday phones before it ships.</p>
+<h2 id='author' style='font-family:var(--display);letter-spacing:-.03em;font-size:24px;margin:30px 0 8px'>Who writes this</h2><div class='author-box' style='margin:0'><img class='t-mono-av' src='/img/author.png' alt='' aria-hidden='true' width='48' height='48' loading='lazy' decoding='async'><div><p class='a-name'>G-will Chijioke</p><p>Founder. Android &amp; security writing since 2019. I check steps on my Tecno Spark 40. Corrections, tips, and guide requests: <a href='mailto:contact@androidscroll.com'>contact@androidscroll.com</a>.</p></div></div>
+<h2 style='font-family:var(--display);letter-spacing:-.03em;font-size:24px;margin:30px 0 8px'>Three promises</h2><ol class='fix-list' style='max-width:60ch'><li>Tested before published. A step ships only after it worked on a real phone.</li><li>Fixed when wrong. Every guide carries the date it was last checked.</li><li>No paid verdicts. Shop fees never pick winners; <a href='/disclaimer/'>the disclaimer</a> says how the site pays for itself.</li></ol>
 </StaticPage>
