@@ -13,7 +13,10 @@ const ALLOWED_ATTR = new Set([
 ]);
 
 function escAttr(v: string): string {
-  return v.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+  // Bodies already carry valid entities (&quot; etc). Decode first so the
+  // re-escape below does not double-encode them into &amp;quot;.
+  const d = v.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+  return d.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 }
 
 function cleanTag(tag: string): string {
