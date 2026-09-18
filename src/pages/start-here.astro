@@ -7,11 +7,11 @@ const three = ['android-problems-fix', 'android-battery-draining-fast', 'how-to-
   .map(s => POSTS.find(p => p.slug === s));
 /* T_1C669C70: WebPage + BreadcrumbList. */
 const ld = [
-  pageLD('WebPage', 'Start Here', '/start-here/', 'Three guides fix 80% of the things people search for. Honesty included.'),
+  pageLD('WebPage', 'Start Here', '/start-here/', 'Three guides for the most-searched Android problems. Honesty included.'),
   breadcrumbLD([{ name: 'Home', href: '/' }, { name: 'Start Here' }]),
 ];
 ---
-<StaticPage title="🎓 Start Here" fullTitle="🎓 Start Here - Androidscroll" desc="Three guides fix 80% of the things people search for. Honesty included." kicker="The on-ramp" bodyFile="start-here" jsonld={ld}>
+<StaticPage title="🎓 Start Here" fullTitle="🎓 Start Here - Androidscroll" desc="Three guides for the most-searched Android problems. Honesty included." kicker="The on-ramp" bodyFile="start-here" jsonld={ld}>
   <div class="kicker-h">The three doors · read in order</div>
   <ol class="fix-list" style="max-width:64ch">
     {three.map(t => <li><a href={t.url} style="color:var(--ink);font-weight:700">{t.title}</a> - {t.excerpt.match(/[^.]+\./)?.[0]}</li>)}
