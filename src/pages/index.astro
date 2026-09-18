@@ -13,13 +13,21 @@ import { SITE, POSTS, CATS, PILLARS, TOTALS, NEWSLETTER_ENABLED, postsIn, fmtDat
 import { coverFor } from '../data/covers';
 import { SOCIAL_BRAND } from '../data/socials';
 /* SEO-1 (v0.6.69): the homepage carried no site entity while every article
-   speaks BlogPosting - the knowledge graph gets its root node here. */
+   speaks BlogPosting - the knowledge graph gets its root node here.
+   T_1C669C70: SearchAction (?q= shape verified in src/pages/search.astro:
+   `new URLSearchParams(location.search).get('q')`) + standalone
+   Organization twin of the inline publisher (same logo + brand sameAs). */
 const siteLD = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: SITE.name,
   url: SITE.url + '/',
   description: SITE.tagline,
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: { '@type': 'EntryPoint', urlTemplate: SITE.url + '/search/?q={search_term_string}' },
+    'query-input': 'required name=search_term_string',
+  },
   publisher: {
     '@type': 'Organization',
     name: SITE.name,
@@ -27,6 +35,15 @@ const siteLD = {
     logo: { '@type': 'ImageObject', url: SITE.url + '/img/og-cover.png' },
     sameAs: SOCIAL_BRAND.map(s => s.href),
   },
+};
+const orgLD = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE.name,
+  url: SITE.url + '/',
+  description: SITE.tagline,
+  logo: { '@type': 'ImageObject', url: SITE.url + '/img/og-cover.png' },
+  sameAs: SOCIAL_BRAND.map(s => s.href),
 };
 
 /* TOP FIXES: the five most-substantive fix guides, ordered for a reader in trouble */
@@ -46,6 +63,7 @@ const words = POSTS.reduce((n, p) => n + (p.words || 0), 0);
 ---
 <Base>
   <script type="application/ld+json" set:html={JSON.stringify(siteLD)} />
+  <script type="application/ld+json" set:html={JSON.stringify(orgLD)} />
   <!-- hero strip: masthead voice in three lines, then the ticker (traits 1-4) -->
   <section class="hero wrap" aria-labelledby="hero-h1">
     <div class="hero-main">

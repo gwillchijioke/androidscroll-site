@@ -7,13 +7,21 @@ import Base from '../layouts/Base.astro';
 import { POSTS, TOTALS, PILLARS, postsIn, fmtDate } from '../data/site';
 import { buildSynonyms } from '../lib/search-core.js';
 import searchCoreRaw from '../lib/search-core.js?raw';
+import { breadcrumbLD, pageLD } from '../lib/schema';
 const IDX = POSTS.map(p => ({ title: p.title, url: p.url, excerpt: p.excerpt, cat: p.cat_name,
   read_min: p.read_min, meta: `${p.date} · ${p.read_min} min · ${p.cat_name}` }));
 const SYNM = buildSynonyms(IDX);
 const NEWEST3 = POSTS.slice(0, 3);
 const shelfCats = PILLARS.map(p => ({ name: p.name, path: p.path, n: postsIn(p).length })).filter(c => c.n > 0);
+/* T_1C669C70: WebPage + BreadcrumbList only (wiring plan: keep light). */
+const searchLD = [
+  pageLD('WebPage', 'Search', '/search/', `Search all ${TOTALS.posts} AndroidScroll guides - ranked client-side, zero network per keystroke.`),
+  breadcrumbLD([{ name: 'Home', href: '/' }, { name: 'Search' }]),
+];
 ---
 <Base title="Search" desc={`Search all ${TOTALS.posts} AndroidScroll guides - ranked client-side, zero network per keystroke.`}>
+  <script type="application/ld+json" set:html={JSON.stringify(searchLD[0])} />
+  <script type="application/ld+json" set:html={JSON.stringify(searchLD[1])} />
   <div class="wrap" style="padding-bottom:56px">
     <nav class="crumb" aria-label="Breadcrumb" style="padding-top:26px"><a href="/">Home</a> <span>›</span> <span>Search</span></nav>
     <header style="padding-top:10px">

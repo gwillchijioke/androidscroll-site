@@ -1,0 +1,428 @@
+{
+  "56": {
+    "count": 18,
+    "fetched": "2026-09-18",
+    "comments": [
+      {
+        "id": 2,
+        "name": "Lavezzi",
+        "datePublished": "2019-05-22T09:32:02.000Z",
+        "text": "Great info… Thanks",
+        "parent": 0
+      },
+      {
+        "id": 3,
+        "name": "G-will Chijioke",
+        "datePublished": "2019-05-22T09:38:59.000Z",
+        "text": "Thanks bro",
+        "parent": 2
+      },
+      {
+        "id": 192,
+        "name": "Adetayo",
+        "datePublished": "2021-04-11T15:34:42.000Z",
+        "text": "Nice one thanks but do generator spoil or weaknen the battery",
+        "parent": 0
+      },
+      {
+        "id": 220,
+        "name": "G-will Chijioke",
+        "datePublished": "2021-04-24T21:09:37.000Z",
+        "text": "No, they don’t. The problem is the irregular flow of fluctuating current from bad generators.",
+        "parent": 192
+      },
+      {
+        "id": 723,
+        "name": "Anthony",
+        "datePublished": "2022-01-30T13:32:02.000Z",
+        "text": "Does power bank affect battery life",
+        "parent": 0
+      },
+      {
+        "id": 724,
+        "name": "G-will Chijioke",
+        "datePublished": "2022-01-30T22:57:04.000Z",
+        "text": "If its a quality Powerbank, No. If its a crappy & slow Powerbank, then Yes.",
+        "parent": 723
+      },
+      {
+        "id": 1339,
+        "name": "Winner",
+        "datePublished": "2022-08-17T01:17:16.000Z",
+        "text": "I always do no. 5 Thanks alot for bringing it to my attention",
+        "parent": 0
+      },
+      {
+        "id": 1342,
+        "name": "G-will Chijioke",
+        "datePublished": "2022-08-17T04:50:46.000Z",
+        "text": "You are welcome. Glad I could help",
+        "parent": 1339
+      },
+      {
+        "id": 1417,
+        "name": "Dilibe",
+        "datePublished": "2022-08-23T10:42:51.000Z",
+        "text": "What of playing music in the background while charging? Or using the hotspot while charging it?",
+        "parent": 1342
+      },
+      {
+        "id": 1418,
+        "name": "G-will Chijioke",
+        "datePublished": "2022-08-23T11:34:41.000Z",
+        "text": "Playing music in the background while charging your phone will not damage the battery. However, using the hotspot while charging your phone can put stress on the battery and shorten its lifespan. This is because the hotspot feature uses more power than other functions, and charging the phone at the same time can cause the battery to overheat. If you need to use the hotspot, it’s best to unplug your phone from the charger.",
+        "parent": 1417
+      },
+      {
+        "id": 4310,
+        "name": "Victoria",
+        "datePublished": "2023-02-03T17:50:49.000Z",
+        "text": "My phone battery does not.last longer anymore, what do I do to keep it last",
+        "parent": 0
+      },
+      {
+        "id": 4314,
+        "name": "G-will Chijioke",
+        "datePublished": "2023-02-03T20:29:37.000Z",
+        "text": "You replace it. Nothing else can be done.",
+        "parent": 4310
+      },
+      {
+        "id": 6543,
+        "name": "Ian ayebazibwe",
+        "datePublished": "2023-09-04T19:25:54.000Z",
+        "text": "Hlo sir Do games like dream league soccer destroy the battery",
+        "parent": 0
+      },
+      {
+        "id": 6544,
+        "name": "Ian ayebazibwe",
+        "datePublished": "2023-09-04T19:28:12.000Z",
+        "text": "Also do VPN apps weaken the battery sir",
+        "parent": 0
+      },
+      {
+        "id": 6548,
+        "name": "G-will Chijioke",
+        "datePublished": "2023-09-05T19:58:19.000Z",
+        "text": "Yes, playing games like Dream League Soccer can weaken your device’s battery over time. Here’s why: 1. Powerful Processing: Games use a lot of power-hungry components like the CPU and GPU, which strain the battery. 2. Bright Screens: Games require bright screens, which use more battery power. 3. Background Processes: Other tasks running in the background while gaming can drain the battery. 4. Heat: Gaming can make your device hot, and high temperatures can harm the battery. 5. Charging Cycles...",
+        "parent": 6543
+      },
+      {
+        "id": 6550,
+        "name": "G-will Chijioke",
+        "datePublished": "2023-09-05T20:02:13.000Z",
+        "text": "Yes, VPN apps can drain your device’s battery. They use extra processing power for encryption, maintain a constant connection in the background, and run additional processes that contribute to battery drain. To preserve battery life, choose a reliable VPN app and disable it when not in use.",
+        "parent": 6544
+      },
+      {
+        "id": 6584,
+        "name": "joshua dara",
+        "datePublished": "2023-09-11T11:21:00.000Z",
+        "text": "what if I’m still using my battery below 15% but I don’t allow it to drain completely?",
+        "parent": 0
+      },
+      {
+        "id": 6585,
+        "name": "G-will Chijioke",
+        "datePublished": "2023-09-11T15:36:06.000Z",
+        "text": "Keeping your battery charged between 15%-80% is the best practice to get a long-lasting battery, but not always possible. If you use your battery below 15%, try to avoid always letting it drain completely. This can stress the battery and shorten its lifespan.",
+        "parent": 6584
+      }
+    ]
+  },
+  "184": {
+    "count": 1,
+    "fetched": "2026-09-18",
+    "comments": [
+      {
+        "id": 6,
+        "name": "mayazoe",
+        "datePublished": "2019-12-13T10:31:00.000Z",
+        "text": "Nice",
+        "parent": 0
+      }
+    ]
+  },
+  "208": {
+    "count": 4,
+    "fetched": "2026-09-18",
+    "comments": [
+      {
+        "id": 7,
+        "name": "Sunday",
+        "datePublished": "2020-05-01T13:03:41.000Z",
+        "text": "How can I disconnect tracker from phone?",
+        "parent": 0
+      },
+      {
+        "id": 8,
+        "name": "G-will Chijioke",
+        "datePublished": "2020-05-03T01:04:11.000Z",
+        "text": "turn off your gps or better still, use a VPN.",
+        "parent": 7
+      },
+      {
+        "id": 7718,
+        "name": "Posts",
+        "datePublished": "2026-01-31T13:58:17.000Z",
+        "text": "Nice one, thanks for sharing 😊",
+        "parent": 0
+      },
+      {
+        "id": 7719,
+        "name": "G-will Chijioke",
+        "datePublished": "2026-01-31T14:04:08.000Z",
+        "text": "You are welcome 👍",
+        "parent": 7718
+      }
+    ]
+  },
+  "578": {
+    "count": 16,
+    "fetched": "2026-09-18",
+    "comments": [
+      {
+        "id": 12,
+        "name": "azaman",
+        "datePublished": "2019-07-12T09:41:30.000Z",
+        "text": "Nice was helpful gwill",
+        "parent": 0
+      },
+      {
+        "id": 13,
+        "name": "G-will Chijioke",
+        "datePublished": "2019-07-12T09:46:01.000Z",
+        "text": "Thanks Azaman, Glad you liked it",
+        "parent": 12
+      },
+      {
+        "id": 14,
+        "name": "Emerald",
+        "datePublished": "2019-07-21T07:52:45.000Z",
+        "text": "Wow",
+        "parent": 0
+      },
+      {
+        "id": 15,
+        "name": "G-will Chijioke",
+        "datePublished": "2019-07-21T08:12:02.000Z",
+        "text": "yes oo",
+        "parent": 14
+      },
+      {
+        "id": 16,
+        "name": "Jasmine",
+        "datePublished": "2019-07-23T14:13:18.000Z",
+        "text": "Very helpful",
+        "parent": 0
+      },
+      {
+        "id": 17,
+        "name": "G-will Chijioke",
+        "datePublished": "2019-08-08T10:55:14.000Z",
+        "text": "Thank you.",
+        "parent": 16
+      },
+      {
+        "id": 18,
+        "name": "BodaWale",
+        "datePublished": "2019-08-24T20:39:22.000Z",
+        "text": "Great content and overall great website",
+        "parent": 0
+      },
+      {
+        "id": 19,
+        "name": "G-will Chijioke",
+        "datePublished": "2019-08-24T20:42:06.000Z",
+        "text": "Thanks a lot Bro.",
+        "parent": 18
+      },
+      {
+        "id": 21,
+        "name": "G-will Chijioke",
+        "datePublished": "2020-01-27T17:56:50.000Z",
+        "text": "Sure, You do",
+        "parent": 20
+      },
+      {
+        "id": 20,
+        "name": "Gcinn",
+        "datePublished": "2020-01-27T18:41:19.000Z",
+        "text": "Do we get notified even if the number is not saved on my chats list especially on WhatsApp?",
+        "parent": 16
+      },
+      {
+        "id": 467,
+        "name": "Davina Astrid",
+        "datePublished": "2021-10-06T17:51:30.000Z",
+        "text": "It works very well for me. Thanks bro.",
+        "parent": 0
+      },
+      {
+        "id": 469,
+        "name": "G-will Chijioke",
+        "datePublished": "2021-10-08T05:00:28.000Z",
+        "text": "You are welcome, glad you liked it",
+        "parent": 467
+      },
+      {
+        "id": 6592,
+        "name": "SHEILA",
+        "datePublished": "2023-09-12T02:37:18.000Z",
+        "text": "Nice info, will try it out now.",
+        "parent": 0
+      },
+      {
+        "id": 6594,
+        "name": "G-will Chijioke",
+        "datePublished": "2023-09-12T04:23:15.000Z",
+        "text": "Thank you, glad it helped you.",
+        "parent": 6592
+      },
+      {
+        "id": 7741,
+        "name": "Groot",
+        "datePublished": "2026-04-12T19:43:46.000Z",
+        "text": "Nice one",
+        "parent": 0
+      },
+      {
+        "id": 7751,
+        "name": "G-will Chijioke",
+        "datePublished": "2026-04-13T12:47:48.000Z",
+        "text": "You are welcome",
+        "parent": 7741
+      }
+    ]
+  },
+  "8945": {
+    "count": 2,
+    "fetched": "2026-09-18",
+    "comments": [
+      {
+        "id": 7744,
+        "name": "Frank",
+        "datePublished": "2026-04-12T20:39:51.000Z",
+        "text": "Awesome, thanks",
+        "parent": 0
+      },
+      {
+        "id": 7749,
+        "name": "G-will Chijioke",
+        "datePublished": "2026-04-13T12:45:24.000Z",
+        "text": "You are welcome 👍",
+        "parent": 7744
+      }
+    ]
+  },
+  "8994": {
+    "count": 4,
+    "fetched": "2026-09-18",
+    "comments": [
+      {
+        "id": 7727,
+        "name": "Shi Sui",
+        "datePublished": "2026-03-15T15:01:13.000Z",
+        "text": "Nice one 👌",
+        "parent": 0
+      },
+      {
+        "id": 7728,
+        "name": "G-will Chijioke",
+        "datePublished": "2026-03-15T19:46:03.000Z",
+        "text": "U welcome",
+        "parent": 7727
+      },
+      {
+        "id": 7757,
+        "name": "Johnny Thorne",
+        "datePublished": "2026-04-15T15:36:43.000Z",
+        "text": "Nice one. Thanks for sharing.",
+        "parent": 0
+      },
+      {
+        "id": 7758,
+        "name": "G-will Chijioke",
+        "datePublished": "2026-04-15T15:38:33.000Z",
+        "text": "You are welcome",
+        "parent": 7757
+      }
+    ]
+  },
+  "10630": {
+    "count": 6,
+    "fetched": "2026-09-18",
+    "comments": [
+      {
+        "id": 7722,
+        "name": "Hell Boy",
+        "datePublished": "2026-02-16T19:41:29.000Z",
+        "text": "Well done. A really good post, and I’ll be back again.",
+        "parent": 0
+      },
+      {
+        "id": 7723,
+        "name": "G-will Chijioke",
+        "datePublished": "2026-02-22T05:39:49.000Z",
+        "text": "Thanks 👍",
+        "parent": 7722
+      },
+      {
+        "id": 7742,
+        "name": "Frank",
+        "datePublished": "2026-04-12T20:37:07.000Z",
+        "text": "Thanks Gwill",
+        "parent": 0
+      },
+      {
+        "id": 7750,
+        "name": "G-will Chijioke",
+        "datePublished": "2026-04-13T12:46:38.000Z",
+        "text": "You are welcome",
+        "parent": 7742
+      },
+      {
+        "id": 7784,
+        "name": "Posts Goofy",
+        "datePublished": "2026-09-16T09:57:53.230Z",
+        "text": "Thanks",
+        "parent": 0
+      },
+      {
+        "id": 7786,
+        "name": "G-will Chijioke",
+        "datePublished": "2026-09-16T14:47:35.100Z",
+        "text": "You are welcome",
+        "parent": 7784
+      }
+    ]
+  },
+  "12251": {
+    "count": 3,
+    "fetched": "2026-09-18",
+    "comments": [
+      {
+        "id": 7752,
+        "name": "Johnny Thorne",
+        "datePublished": "2026-04-13T12:53:24.000Z",
+        "text": "Very detailed lemme bookmark for later 📑",
+        "parent": 0
+      },
+      {
+        "id": 7753,
+        "name": "G-will Chijioke",
+        "datePublished": "2026-04-13T12:53:41.000Z",
+        "text": "Thank you 👍. Don’t forget to share 🌎",
+        "parent": 7752
+      },
+      {
+        "id": 7754,
+        "name": "Johnny Thorne",
+        "datePublished": "2026-04-13T12:54:16.000Z",
+        "text": "Alright 👍",
+        "parent": 7753
+      }
+    ]
+  }
+}

@@ -1,6 +1,12 @@
 ---
 import StaticPage from '../layouts/StaticPage.astro';
 import { TOTALS } from '../data/site';
+import { breadcrumbLD, pageLD } from '../lib/schema';
+/* T_1C669C70: WebPage + BreadcrumbList. */
+const ld = [
+  pageLD('WebPage', 'Cookie Policy', '/cookie-policy/', "Two localStorage keys. That's the whole cookie story today."),
+  breadcrumbLD([{ name: 'Home', href: '/' }, { name: 'Cookie Policy' }]),
+];
 ---
-<StaticPage title="Cookie Policy" fullTitle="Cookie Policy - Androidscroll" desc="Two localStorage keys. That's the whole cookie story today." kicker="Legal" bodyFile="cookie-policy">
+<StaticPage title="Cookie Policy" fullTitle="Cookie Policy - Androidscroll" desc="Two localStorage keys. That's the whole cookie story today." kicker="Legal" bodyFile="cookie-policy" jsonld={ld}>
 </StaticPage>

@@ -1,6 +1,12 @@
 ---
 import StaticPage from '../layouts/StaticPage.astro';
 import { TOTALS } from '../data/site';
+import { breadcrumbLD, pageLD } from '../lib/schema';
+/* T_1C669C70: WebPage + BreadcrumbList. */
+const ld = [
+  pageLD('WebPage', 'Privacy Policy', '/privacy-policy/', 'Self-hosted Matomo, cookie-free, consent-gated. No third-party trackers.'),
+  breadcrumbLD([{ name: 'Home', href: '/' }, { name: 'Privacy Policy' }]),
+];
 ---
-<StaticPage title="Privacy Policy" fullTitle="Privacy Policy - Androidscroll" desc="Self-hosted Matomo, cookie-free, consent-gated. No third-party trackers." kicker="Legal" bodyFile="privacy-policy">
+<StaticPage title="Privacy Policy" fullTitle="Privacy Policy - Androidscroll" desc="Self-hosted Matomo, cookie-free, consent-gated. No third-party trackers." kicker="Legal" bodyFile="privacy-policy" jsonld={ld}>
 </StaticPage>

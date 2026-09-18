@@ -14,6 +14,10 @@ import { coverFor } from '../data/covers';
    through sanitizeBody + rewriteBodyUrls - zero WP at runtime or build. */
 import { sanitizeBody } from '../lib/sanitize-body';
 import { rewriteBodyUrls } from '../lib/body-urls';
+/* T_1C669C70 schema wiring: approved comment threads baked at build by
+   scripts/gen-content.mjs (src/data/comments.json) - never hardcoded here.
+   Author sameAs deliberately omitted until the King confirms handles. */
+import THREADS from '../data/comments.json';
 const __bodies = import.meta.glob('../bodies/*.body.html', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
 function bodyFor(slug: string): string {
   const raw = (__bodies[`../bodies/${slug}.body.html`] as unknown as string) || '';
@@ -54,11 +58,32 @@ const blogPosting = {
   datePublished: iso(p.date),
   dateModified: iso(p.modified),
   author: { '@type': 'Person', name: 'G-will Chijioke', url: SITE.url + '/about/#author' },
-  publisher: { '@type': 'Organization', name: SITE.name, url: SITE.url },
+  publisher: {
+    '@type': 'Organization',
+    name: SITE.name,
+    url: SITE.url + '/',
+    logo: { '@type': 'ImageObject', url: SITE.url + '/img/og-cover.png' },
+  },
   mainEntityOfPage: absUrl,
   image: SITE.url + cover.og,
   wordCount: p.words,
   timeRequired: `PT${p.read_min}M`,
+  /* Build-time approved thread: commentCount = live baked count, comment =
+     one node per approved comment (flat chronological; replies keep their
+     parent id in the baked file for future nesting). Zero-comment posts
+     omit both - never emit 0. */
+  ...((THREADS as Record<string, any>)[String(p.id)]?.comments?.length
+    ? {
+        commentCount: (THREADS as Record<string, any>)[String(p.id)].count,
+        comment: (THREADS as Record<string, any>)[String(p.id)].comments.map((c: any) => ({
+          '@type': 'Comment',
+          '@id': `${absUrl}#comment-${c.id}`,
+          author: { '@type': 'Person', name: c.name },
+          datePublished: c.datePublished,
+          text: c.text,
+        })),
+      }
+    : {}),
 };
 /* breadcrumb trail - v0.6.2: sub-filed posts (cat_path = /category/root/sub/) show
    BOTH levels: Home › root › sub › title. Single-segment posts keep the 2-step trail.

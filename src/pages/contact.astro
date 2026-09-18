@@ -1,6 +1,12 @@
 ---
 import StaticPage from '../layouts/StaticPage.astro';
 import { TOTALS } from '../data/site';
+import { breadcrumbLD, pageLD } from '../lib/schema';
+/* T_1C669C70: ContactPage + BreadcrumbList. */
+const contactLD = [
+  pageLD('ContactPage', 'Contact', '/contact/', 'Corrections, tips, broken links, and what guide to write next.'),
+  breadcrumbLD([{ name: 'Home', href: '/' }, { name: 'Contact' }]),
+];
 ---
-<StaticPage title="Contact" fullTitle="Contact - Androidscroll" desc="Corrections, tips, broken links, and what guide to write next." kicker="The desk" bodyFile="contact">
+<StaticPage title="Contact" fullTitle="Contact - Androidscroll" desc="Corrections, tips, broken links, and what guide to write next." kicker="The desk" bodyFile="contact" jsonld={contactLD}>
 </StaticPage>

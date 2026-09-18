@@ -26,6 +26,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const CONTENT = join(ROOT, 'src', 'data', 'content.json');
+const THREADS = join(ROOT, 'src', 'data', 'comments.json');
 const API = process.env.COMMENTS_API_BASE || 'https://androidscroll-comments.gwill.workers.dev';
 const TIMEOUT_MS = 5000;
 const TRIES = 3;
@@ -141,10 +142,91 @@ data.source = `computed at build from snapshot + comments API (${API}, public pe
 data.stale = stale;
 
 writeFileSync(CONTENT, JSON.stringify(data, null, 2) + '\n');
+
+// T_1C669C70 schema wiring: bake full approved threads for schema.org
+// Comment nodes at build time (never hardcoded in templates). Only posts
+// with a live approved count > 0 are fetched. Each node keeps the PUBLIC
+// fields only (id, name, created_at, text) - email_hash / reactions /
+// is_author never leave the Worker. Text is tag-stripped, entity-decoded,
+// whitespace-collapsed and capped at 500 chars (wiring plan rule).
+function threadText(html) {
+  let t = String(html || '').replace(/<[^>]*>/g, ' ');
+  t = t.replace(/&#(\d+);/g, (_, n) => {
+    try { return String.fromCodePoint(Number(n)); } catch { return ''; }
+  });
+  t = t.replace(/&(amp|lt|gt|quot|nbsp);/g, (_, e) =>
+    ({ amp: '&', lt: '<', gt: '>', quot: '"', nbsp: ' ' })[e] || '');
+  t = t.replace(/\s+/g, ' ').trim();
+  return t.length > 500 ? t.slice(0, 497) + '...' : t;
+}
+function fetchThread(postId) {
+  const url = `${API}/api/comments?post=${postId}`;
+  return new Promise((resolve) => {
+    let attempt = 0;
+    const tryOnce = () => {
+      attempt += 1;
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
+      fetch(url, { signal: ctrl.signal })
+        .then((r) => {
+          if (!r.ok) throw new Error(`http ${r.status}`);
+          return r.json();
+        })
+        .then((j) => {
+          clearTimeout(timer);
+          const list = Array.isArray(j && j.comments) ? j.comments : null;
+          if (!list) throw new Error('bad shape');
+          resolve({ ok: true, body: j });
+        })
+        .catch((err) => {
+          clearTimeout(timer);
+          if (attempt < TRIES) tryOnce();
+          else resolve({ ok: false, error: String(err && err.message || err) });
+        });
+    };
+    tryOnce();
+  });
+}
+let threads = {};
+try {
+  threads = JSON.parse(readFileSync(THREADS, 'utf8'));
+  if (!threads || typeof threads !== 'object' || Array.isArray(threads)) threads = {};
+} catch { threads = {}; }
+const withComments = data.posts.filter((p) => (Number(p.comments) || 0) > 0);
+for (const p of withComments) {
+  const res = await fetchThread(p.id);
+  if (res.ok) {
+    const nodes = res.body.comments
+      .map((c) => ({
+        id: Number(c.id),
+        name: String(c.name || 'Anonymous'),
+        datePublished: c.created_at,
+        text: threadText(c.content),
+        parent: Number(c.parent) || 0,
+      }))
+      .filter((c) => Number.isInteger(c.id) && c.text && c.datePublished)
+      .sort((a, b) => (a.datePublished < b.datePublished ? -1 : 1));
+    threads[String(p.id)] = {
+      count: nodes.length,
+      fetched: new Date().toISOString().slice(0, 10),
+      comments: nodes,
+    };
+  } else {
+    stale = true;
+    failures.push(`thread:${p.id}`);
+    // keep previous threads[p.id] value (stale fallback)
+  }
+}
+// Drop threads for posts that now sit at zero (unapproved/deleted upstream).
+for (const k of Object.keys(threads)) {
+  if (!withComments.some((p) => String(p.id) === k)) delete threads[k];
+}
+writeFileSync(THREADS, JSON.stringify(threads, null, 2) + '\n');
+const threadNodes = Object.values(threads).reduce((s, t) => s + (t.comments || []).length, 0);
 console.log(
   `[gen-content] posts=${data.totals.posts} cats=${data.totals.categories} ` +
   `comments=${data.totals.comments} empty_cats=${data.totals.empty_categories} ` +
   `stale=${stale}${failures.length ? ` failed=[${failures.join(',')}]` : ''} ` +
-  `snapshot=${fresh}`,
+  `snapshot=${fresh} threads=${threadNodes}`,
 );
 process.exit(0);

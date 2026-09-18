@@ -1,6 +1,12 @@
 ---
 import StaticPage from '../layouts/StaticPage.astro';
 import { TOTALS } from '../data/site';
+import { breadcrumbLD, pageLD } from '../lib/schema';
+/* T_1C669C70: WebPage + BreadcrumbList. */
+const ld = [
+  pageLD('WebPage', 'Comments policy', '/comments-policy/', 'Held for review, honeypot-trapped, no spam - every reader shows as a monogram, never a Gravatar.'),
+  breadcrumbLD([{ name: 'Home', href: '/' }, { name: 'Comments policy' }]),
+];
 ---
-<StaticPage title="Comments policy" fullTitle="Comments policy - Androidscroll" desc="Held for review, honeypot-trapped, no spam - every reader shows as a monogram, never a Gravatar." kicker="Community" bodyFile="comments-policy">
+<StaticPage title="Comments policy" fullTitle="Comments policy - Androidscroll" desc="Held for review, honeypot-trapped, no spam - every reader shows as a monogram, never a Gravatar." kicker="Community" bodyFile="comments-policy" jsonld={ld}>
 </StaticPage>

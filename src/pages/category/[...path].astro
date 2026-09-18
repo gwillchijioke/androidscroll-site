@@ -3,7 +3,7 @@
    State B empty (designed noindex page: honest zero, what's coming,
    bridge guides, notify capture, exit to parent). */
 import Base from '../../layouts/Base.astro';
-import { CATS, bySlug, postsIn, childrenOf, rootOf, PILLARS, fmtDate, TOTALS, NEWSLETTER_ENABLED } from '../../data/site';
+import { CATS, SITE, bySlug, postsIn, childrenOf, rootOf, PILLARS, fmtDate, TOTALS, NEWSLETTER_ENABLED } from '../../data/site';
 import { coverFor } from '../../data/covers';
 
 export function getStaticPaths() {
@@ -19,6 +19,43 @@ const tilesHeading = kids.length > 0 ? 'Nearby sub-shelves' : 'Nearby shelves';
 const empty = live.length === 0;
 const root = rootOf(c);
 const bridges = empty ? PILLARS.filter(p => p.slug !== root.slug).flatMap(p => postsIn(p).slice(0, 1)) : [];
+/* T_1C669C70: CollectionPage + ItemList + BreadcrumbList on indexable
+   (non-empty) hubs only. Empty shelves are noindex by design - no schema
+   wanted there. ItemList follows the rendered cat-list order verbatim
+   (content.json order) - never re-sorted, so markup mirrors the DOM. */
+const crumbLDItems = c.parent
+  ? [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url + '/' },
+      { '@type': 'ListItem', position: 2, name: c.parent_name, item: SITE.url + bySlug[c.parent_slug].path },
+      { '@type': 'ListItem', position: 3, name: c.name },
+    ]
+  : [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url + '/' },
+      { '@type': 'ListItem', position: 2, name: c.name },
+    ];
+const collectionLD = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: c.name,
+  description: `${c.name} on AndroidScroll - ${live.length} tested guide${live.length === 1 ? '' : 's'}.`,
+  url: SITE.url + c.path,
+  isPartOf: { '@type': 'WebSite', name: SITE.name, url: SITE.url + '/' },
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: live.length,
+    itemListElement: live.map((p, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: SITE.url + p.url,
+      name: p.title,
+    })),
+  },
+};
+const catBreadcrumbLD = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: crumbLDItems,
+};
 const planned = {
   'buying-guides': 'Best apps, games, accessories, comparisons, reviews and phones - bought at retail, daily-driven two weeks, scored on a public rubric.',
   'best-apps': 'Hands-on app picks with receipts - no listicles rented from press releases.',
@@ -36,6 +73,12 @@ const planned = {
 ---
 <Base title={c.name} desc={`${c.name} on AndroidScroll - ${empty ? 'opens as the library grows' : live.length + ' tested guide' + (live.length === 1 ? '' : 's')}.`}
       robots={empty ? 'noindex,follow' : undefined}>
+  {!empty ? (
+    <>
+      <script type="application/ld+json" set:html={JSON.stringify(collectionLD)} />
+      <script type="application/ld+json" set:html={JSON.stringify(catBreadcrumbLD)} />
+    </>
+  ) : null}
   <div class="wrap" style="padding-bottom:56px">
     <nav class="crumb" aria-label="Breadcrumb" style="padding-top:26px">
       <a href="/">Home</a> <span>›</span>

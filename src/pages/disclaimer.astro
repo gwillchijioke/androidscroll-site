@@ -1,6 +1,12 @@
 ---
 import StaticPage from '../layouts/StaticPage.astro';
 import { TOTALS } from '../data/site';
+import { breadcrumbLD, pageLD } from '../lib/schema';
+/* T_1C669C70: WebPage + BreadcrumbList. */
+const ld = [
+  pageLD('WebPage', 'Disclaimer', '/disclaimer/', "We test before we recommend; when we're wrong, the page says so."),
+  breadcrumbLD([{ name: 'Home', href: '/' }, { name: 'Disclaimer' }]),
+];
 ---
-<StaticPage title="Disclaimer" fullTitle="Disclaimer - Androidscroll" desc="We test before we recommend; when we're wrong, the page says so." kicker="Legal" bodyFile="disclaimer">
+<StaticPage title="Disclaimer" fullTitle="Disclaimer - Androidscroll" desc="We test before we recommend; when we're wrong, the page says so." kicker="Legal" bodyFile="disclaimer" jsonld={ld}>
 </StaticPage>
