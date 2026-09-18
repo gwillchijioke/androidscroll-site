@@ -133,6 +133,48 @@ const shareTg = `https://t.me/share/url?url=${enc(url)}&text=${enc(title)}`;
   }, { passive: true });
   updatePb();
 
+  /* 1b. scroll-depth events (t_76ad7a34) - mirrors the WP-era Matomo goals
+     Engaged Reader (35%) / Deep Reader (75%) / Full Read (100%), whose
+     match patterns are event_action contains "Scroll 35% / 75% / 100%".
+     Same fraction base as the progress bar. Fires once per threshold per
+     pageview, on load (covers no-scroll pages honestly) + on scroll.
+     Hard-gated like the tracker: DNT or localStorage matomo_optout skips,
+     so an opted-out reader never creates a visit via an event hit. */
+  (function () {
+    var KEY = 'matomo_optout';
+    var dnt = false;
+    try {
+      dnt = navigator.doNotTrack === '1' || window.doNotTrack === '1' || navigator.msDoNotTrack === '1';
+    } catch (e) { /* ignore */ }
+    if (dnt) return;
+    var opted = false;
+    try { opted = localStorage.getItem(KEY) === '1'; } catch (e) { /* ignore */ }
+    if (opted) return;
+    var marks = [35, 75, 100];
+    var fired = {};
+    var dtick = false;
+    function depth() {
+      var mx = document.documentElement.scrollHeight - innerHeight;
+      if (mx <= 0) return 100;
+      return Math.min(100, Math.max(0, (scrollY / mx) * 100));
+    }
+    function check() {
+      var d = depth();
+      var paq = window._paq;
+      if (!paq || !paq.push) return;
+      marks.forEach(function (m) {
+        if (d >= m && !fired[m]) {
+          fired[m] = true;
+          try { paq.push(['trackEvent', 'Scroll', 'Scroll ' + m + '%', location.pathname]); } catch (e) { /* ignore */ }
+        }
+      });
+    }
+    addEventListener('scroll', function () {
+      if (!dtick) { dtick = true; requestAnimationFrame(function () { dtick = false; check(); }); }
+    }, { passive: true });
+    check();
+  })();
+
   /* 2. heading IDs (respect explicit id, dedupe -2/-3) + dual TOC build. */
   function slugify(s) {
     return s.toLowerCase().trim().replace(/[^a-z0-9\s-]/g, '').replace(/[\s_]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '') || 'section';

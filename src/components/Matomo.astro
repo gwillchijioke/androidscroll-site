@@ -1,0 +1,37 @@
+---
+/* Matomo tracker (t_76ad7a34) - consent-mode, cookieless, Matomo-only.
+   Mirrors the WP-era connection: site 1 (AndroidScroll),
+   https://analytics.androidscroll.com. Zero Cloudflare/custom beacons.
+   Gates (checked BEFORE any network): DNT => no load, no pageview;
+   localStorage matomo_optout=1 (WP-era V2 key, matches policy copy)
+   => no pageview + queued optUserOut so the tracker honours it on load.
+   disableCookies keeps the "no analytics cookies" promise. */
+---
+<script is:inline>
+  (function () {
+    'use strict';
+    var MATOMO_URL = 'https://analytics.androidscroll.com';
+    var MATOMO_SITE_ID = '1';
+    var KEY = 'matomo_optout';
+    var dnt = false;
+    try {
+      dnt = navigator.doNotTrack === '1' || window.doNotTrack === '1' || navigator.msDoNotTrack === '1';
+    } catch (e) { /* ignore */ }
+    var opted = false;
+    try { opted = localStorage.getItem(KEY) === '1'; } catch (e) { /* ignore */ }
+    var paq = (window._paq = window._paq || []);
+    if (dnt || opted) paq.push(['optUserOut']);
+    if (dnt) return; /* honour DNT: tracker never loads, nothing sent */
+    paq.push(['disableCookies']);
+    paq.push(['setTrackerUrl', MATOMO_URL + '/matomo.php']);
+    paq.push(['setSiteId', MATOMO_SITE_ID]);
+    paq.push(['enableLinkTracking']);
+    if (!opted) paq.push(['trackPageView']);
+    var s = document.createElement('script');
+    s.async = true;
+    s.defer = true;
+    s.src = MATOMO_URL + '/matomo.js';
+    var first = document.getElementsByTagName('script')[0];
+    (first.parentNode || document.head).insertBefore(s, first);
+  })();
+</script>

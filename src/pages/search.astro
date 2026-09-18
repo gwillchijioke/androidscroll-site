@@ -152,5 +152,22 @@ const searchLD = [
       }
     }
     paint(q);
+    /* T_76AD7A34: Search Used goal (match = event_category contains
+       "Search"). Once per q-view, no query text leaves the device.
+       Same DNT/opt-out gates as the tracker so an opted-out reader
+       never creates a visit via an event hit. */
+    (function () {
+      var qt = (q || '').trim();
+      if (!qt) return;
+      var dnt = false;
+      try {
+        dnt = navigator.doNotTrack === '1' || window.doNotTrack === '1' || navigator.msDoNotTrack === '1';
+      } catch (e) { /* ignore */ }
+      if (dnt) return;
+      var opted = false;
+      try { opted = localStorage.getItem('matomo_optout') === '1'; } catch (e) { /* ignore */ }
+      if (opted) return;
+      try { (window._paq = window._paq || []).push(['trackEvent', 'Search', 'Search Used']); } catch (e) { /* ignore */ }
+    })();
   </script>
 </Base>

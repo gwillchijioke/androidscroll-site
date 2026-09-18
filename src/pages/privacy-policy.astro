@@ -9,4 +9,81 @@ const ld = [
 ];
 ---
 <StaticPage title="Privacy Policy" fullTitle="Privacy Policy - Androidscroll" desc="Self-hosted Matomo, cookie-free, consent-gated. No third-party trackers." kicker="Legal" bodyFile="privacy-policy" jsonld={ld}>
+<!-- T_76AD7A34: opt-out control repair (behavior only - legal copy untouched).
+     Renders the WP-era check-box into the #matomo-opt-out stub. Single source
+     of truth = localStorage matomo_optout (matches the policy copy), synced
+     to the tracker via optUserOut/forgetUserOptOut (WP-era V2 pattern), so the
+     opt-out truly flips in Matomo. Trackerless-safe: UI works before/without
+     matomo.js. DNT readers see an explanatory note instead of the box. -->
+<script is:inline>
+  (function () {
+    'use strict';
+    var KEY = 'matomo_optout';
+    var box = document.getElementById('matomo-opt-out');
+    if (!box) return;
+    var dnt = false;
+    try {
+      dnt = navigator.doNotTrack === '1' || window.doNotTrack === '1' || navigator.msDoNotTrack === '1';
+    } catch (e) { /* ignore */ }
+    if (dnt) {
+      box.innerHTML = '<p class="mo-note">Do Not Track is on in your browser, so this site already excludes you from analytics - no opt-out needed.</p>';
+      return;
+    }
+    function isOut() {
+      try { return localStorage.getItem(KEY) === '1'; } catch (e) { return false; }
+    }
+    function setOut(out) {
+      try {
+        if (out) localStorage.setItem(KEY, '1');
+        else localStorage.removeItem(KEY);
+      } catch (e) { /* ignore */ }
+      try {
+        (window._paq = window._paq || []).push([out ? 'optUserOut' : 'forgetUserOptOut']);
+      } catch (e) { /* ignore */ }
+    }
+    function paint() {
+      var out = isOut();
+      var cb = document.getElementById('trackVisits');
+      var st = document.getElementById('mo-status');
+      if (cb) cb.checked = !out;
+      if (st) {
+        st.textContent = out
+          ? 'You are currently opted out. Your visits are not counted.'
+          : 'You are not opted out. Your visits are counted anonymously, without cookies.';
+      }
+    }
+    box.innerHTML =
+      '<p class="mo-status" id="mo-status" role="status" aria-live="polite"></p>' +
+      '<label class="mo-label" for="trackVisits">' +
+      '<input class="mo-check" id="trackVisits" type="checkbox" /> ' +
+      '<span>Uncheck this box to opt out of anonymous analytics.</span></label>';
+    var cb = document.getElementById('trackVisits');
+    cb.addEventListener('change', function () {
+      setOut(!cb.checked);
+      paint();
+    });
+    paint();
+    /* Reconcile with the tracker once it loads: if Matomo itself reports
+       opted-out (e.g. legacy opt-out cookie), adopt it so UI and tracker
+       can never disagree. */
+    try {
+      (window._paq = window._paq || []).push([function () {
+        try {
+          if (this.isUserOptedOut() && !isOut()) {
+            try { localStorage.setItem(KEY, '1'); } catch (e) { /* ignore */ }
+            paint();
+          }
+        } catch (e) { /* ignore */ }
+      }]);
+    } catch (e) { /* ignore */ }
+  })();
+</script>
+<style>
+  /* Opt-out control paint (privacy page only): quiet row, brand-green box. */
+  #matomo-opt-out { margin: 12px 0 4px; }
+  #matomo-opt-out .mo-status { margin: 0 0 10px; font-weight: 600; }
+  #matomo-opt-out .mo-label { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; line-height: 1.5; }
+  #matomo-opt-out .mo-check { width: 20px; height: 20px; margin-top: 2px; flex: none; accent-color: #00A88F; cursor: pointer; }
+  #matomo-opt-out .mo-note { margin: 0; }
+</style>
 </StaticPage>
