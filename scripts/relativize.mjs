@@ -19,7 +19,14 @@ const prefix = d => (d === 0 ? './' : '../'.repeat(d));
 
 let htmlCount = 0, cssCount = 0, hits = 0;
 
+/* The host serves dist/404.html at ANY unmatched URL (e.g. /how-to-download-youtube-videos/),
+   so page-relative refs on that one file resolve into the bad folder: every link loops back to
+   the 404 and the external JS chunk 404s (dead dark-mode toggle, dead buttons). Keep it
+   root-absolute - it has no canonical depth to be relative to. */
+const KEEP_ABSOLUTE = new Set([join(DIST, '404.html')]);
+
 for (const f of files) {
+  if (KEEP_ABSOLUTE.has(f)) continue;
   if (f.endsWith('.html')) {
     const d = depthOf(f);
     const pre = prefix(d);
@@ -46,6 +53,7 @@ console.log(`relativize: ${htmlCount} html files rewritten, ${cssCount} css file
 // sanity: no absolute in-file href/src="/ or url(/fonts left (external canonical/og/JSON-LD allowed)
 let leaks = 0;
 for (const f of files) {
+  if (KEEP_ABSOLUTE.has(f)) continue;
   if (!/\.(html|css)$/.test(f)) continue;
   const s = readFileSync(f, 'utf8');
   const m = s.match(/(?:href|src)="\/(?!\/)[^"]*"/g);
